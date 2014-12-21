@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>f2ca4e73-f9c4-4d1e-9f1d-cec177bc41a9</ProjectGuid>
+    <ProjectGuid>{FC619F88-1320-4CB8-9E25-B5FAC9DE0137}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RabbitOperations.Collector</RootNamespace>

@@ -41,7 +41,7 @@ _[Bb]ackup*/*
 _[Uu]pgrade*/*
 relre:/*.ReSharper
 *_tcabanski
-src/packages/*/*
+packages/*/*
 Ronaele.6.0.ReSharper
 tests/coverage.xml
 tests/coverage.xml.bkp

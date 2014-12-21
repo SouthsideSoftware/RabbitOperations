@@ -150,10 +150,10 @@ function Start-Raven {
   {
     #Find the correct version of RavenDB by looking at the referenced
     #package in the packages.config file of the solution
-    [xml]$packages = Get-Content ".\src\.nuget\Packages.config"
+    [xml]$packages = Get-Content ".\.nuget\Packages.config"
     $server = $packages.SelectSingleNode("//package[@id='RavenDB.Server']")
     $version = $server.GetAttribute("version")
-    [string] $path = ".\src\packages\RavenDB.Server.$version\tools\Raven.Server.exe"
+    [string] $path = ".\packages\RavenDB.Server.$version\tools\Raven.Server.exe"
 
 	  #Start it up
     Write-Host "Starting Raven at: " $path
