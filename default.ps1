@@ -6,9 +6,7 @@ properties {
   $platform = "Any CPU"
   $buildOutputDir = "./BuildOutput"
   $nugetOutputDir = Join-Path $buildOutputDir "nuget"
-  $testAssemblies = @("tests\Autobahn.Fulfillment.Tests.Integration/bin/$configuration/Autobahn.Fulfillment.Tests.Integration.dll",
-    "tests\Autobahn.Fulfillment.Tests.Unit/bin/$configuration/Autobahn.Fulfillment.Tests.Unit.dll",
-    "tests\Autobahn.Notification.Tests.Unit/bin/$configuration/Autobahn.Notification.Tests.Unit.dll")
+  $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll")
 }
 
 task default -depends Build
