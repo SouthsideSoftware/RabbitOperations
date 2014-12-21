@@ -26,7 +26,7 @@ namespace RabbitOperations.Tests.Unit
         [Test]
         public void ReadOne()
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory() { HostName = "localhost", };
             uint openingCount;
             using (var connection = factory.CreateConnection())
             {
