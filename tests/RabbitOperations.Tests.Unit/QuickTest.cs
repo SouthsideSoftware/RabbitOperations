@@ -15,15 +15,7 @@ namespace RabbitOperations.Tests.Unit
     public class QuickTest
     {
         [Test]
-        public void Test1()
-        {
-            int x = 1;
-            int y = 1;
-            int z = x + y;
-            z.Should().Be(2);
-        }
-
-        [Test]
+        [Ignore("Spike")]
         public void ReadOne()
         {
             var factory = new ConnectionFactory() { HostName = "localhost", };
@@ -68,6 +60,7 @@ namespace RabbitOperations.Tests.Unit
         }
 
         [Test]
+        [Ignore("Spike")]
         public void ReadOneAndNack()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
