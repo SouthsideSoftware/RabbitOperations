@@ -36,6 +36,25 @@ namespace RabbitOperations.Tests.Unit
             rawMessage.Headers.Count.Should().BeGreaterThan(1);
 
         }
+
+        [Test]
+        public void ReadError()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+
+            //act
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+
+            //assert
+            rawMessage.Headers.Count.Should().BeGreaterThan(1);
+
+        }
+
         [Test]
         [Ignore("Spike")]
         public void FactorySpike()

@@ -75,6 +75,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="TestData\Audit.json" />
+    <None Include="TestData\Error.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\app\RabbitOperations.Collector\RabbitOperations.Collector.csproj">
