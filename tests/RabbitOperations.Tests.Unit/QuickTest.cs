@@ -8,12 +8,24 @@ using NUnit.Framework;
 using FluentAssertions;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Utility.CastleWindsor;
 
 namespace RabbitOperations.Tests.Unit
 {
     [TestFixture]
     public class QuickTest
     {
+        [Test]
+        [Ignore("Spike")]
+        public void FactorySpike()
+        {
+            ServiceLocator.Container.Install(new RabbitOperations.Collector.CastleWindsor.Installer());
+            var factory = ServiceLocator.Container.Resolve<IQueuePollerFactory>();
+            var poller = factory.Create("Test");
+            poller.QueueName.Should().Be("Test");
+            factory.Destroy(poller);
+        }
         [Test]
         [Ignore("Spike")]
         public void ReadOne()

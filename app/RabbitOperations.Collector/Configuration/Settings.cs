@@ -9,12 +9,12 @@ namespace RabbitOperations.Collector.Configuration
     {
         public string AuditQueue
         {
-            get { throw new NotImplementedException(); }
+            get { return GetString("AuditQueue", throwExceptionIfNotFound:true); }
         }
 
         public string ErrorQueue
         {
-            get { throw new NotImplementedException(); }
+            get { return GetString("ErrorQueue", throwExceptionIfNotFound: true); }
         }
 
         public static bool GetBoolean(string key, bool defaultValue = false, bool throwExceptionIfNotFound = false)
