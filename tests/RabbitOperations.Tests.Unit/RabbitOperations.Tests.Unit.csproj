@@ -52,6 +52,10 @@
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\..\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll</HintPath>
     </Reference>
+    <Reference Include="SouthsideUtility.Core">
+      <HintPath>..\..\packages\SouthsideUtility.0.1.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -71,10 +75,6 @@
     <ProjectReference Include="..\..\app\RabbitOperations.Collector\RabbitOperations.Collector.csproj">
       <Project>{fc619f88-1320-4cb8-9e25-b5fac9de0137}</Project>
       <Name>RabbitOperations.Collector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\app\RabbitOperations.Utility\RabbitOperations.Utility.csproj">
-      <Project>{0556575c-fda5-426d-956c-039fe7da82aa}</Project>
-      <Name>RabbitOperations.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

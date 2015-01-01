@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RabbitOperations.Collector.Service.Interfaces;
-using RabbitOperations.Utility.DesignByContract;
+using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Service
 {

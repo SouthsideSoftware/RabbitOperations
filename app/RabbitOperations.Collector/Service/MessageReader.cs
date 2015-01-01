@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
-using RabbitOperations.Utility.DesignByContract;
-using RabbitOperations.Utility.TestableSystem.Interfaces;
+using SouthsideUtility.Core.DesignByContract;
+using SouthsideUtility.Core.TestableSystem.Interfaces;
 
 namespace RabbitOperations.Collector.Service
 {

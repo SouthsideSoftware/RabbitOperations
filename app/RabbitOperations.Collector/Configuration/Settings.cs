@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Utility.DesignByContract;
+using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Configuration
 {

@@ -9,7 +9,7 @@ using FluentAssertions;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.Service.Interfaces;
-using RabbitOperations.Utility.CastleWindsor;
+using SouthsideUtility.Core.CastleWindsor;
 
 namespace RabbitOperations.Tests.Unit
 {
