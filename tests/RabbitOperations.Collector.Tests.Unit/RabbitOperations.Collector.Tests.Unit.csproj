@@ -68,6 +68,7 @@
     <Compile Include="..\..\common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="MessageParser\NServiceBus\HeaderParserTests.cs" />
     <Compile Include="MessageParser\RawMessageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\..\app\RabbitOperations.Collector\RabbitOperations.Collector.csproj">
       <Project>{fc619f88-1320-4cb8-9e25-b5fac9de0137}</Project>
       <Name>RabbitOperations.Collector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\app\RabbitOperations.Domain\RabbitOperations.Domain.csproj">
+      <Project>{C578C1DA-F710-4E0F-83FC-04FB6905AE92}</Project>
+      <Name>RabbitOperations.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
