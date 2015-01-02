@@ -6,7 +6,8 @@ properties {
   $platform = "Any CPU"
   $buildOutputDir = "./BuildOutput"
   $nugetOutputDir = Join-Path $buildOutputDir "nuget"
-  $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll")
+  $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
+  "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
 
 task default -depends Build
@@ -108,7 +109,9 @@ function Version-Nuspec ([string]$project) {
   [string] $nuspecFilePath = Join-Path -Path ".\nuspec" -ChildPath ($project + ".nuspec") -Resolve
   Write-Host $nuspecFilePath
   [xml]$nuspecFile = Get-Content $nuspecFilePath
-  $versionNode = $nuspecFile.SelectSingleNode("//version")
+  $ns = New-Object System.Xml.XmlNamespaceManager($nuspecFile.NameTable)
+  $ns.AddNamespace("ns", "http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd")
+  $versionNode = $nuspecFile.SelectSingleNode("//ns:version", $ns)
   if ($versionNode -eq $null) {
     throw "Cannot find version node in nuspec package for $nuspecFile"
   }

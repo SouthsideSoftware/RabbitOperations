@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RabbitOperations.Collector.Service.Interfaces
+namespace RabbitOperations.Collector.MessageParser.Interfaces
 {
     public interface IRawMessage
     {

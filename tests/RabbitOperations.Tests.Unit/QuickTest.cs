@@ -10,6 +10,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 using SouthsideUtility.Core.CastleWindsor;
@@ -19,41 +20,7 @@ namespace RabbitOperations.Tests.Unit
     [TestFixture]
     public class QuickTest
     {   
-        [Test]
-        public void ReadAudit()
-        {
-            //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-
-            //act
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-
-            //assert
-            rawMessage.Headers.Count.Should().BeGreaterThan(1);
-
-        }
-
-        [Test]
-        public void ReadError()
-        {
-            //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-
-            //act
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-
-            //assert
-            rawMessage.Headers.Count.Should().BeGreaterThan(1);
-
-        }
+        
 
         [Test]
         [Ignore("Spike")]

@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
@@ -76,6 +78,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="CastleWindsor\Installer.cs" />
     <Compile Include="Configuration\Interfaces\ISettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
@@ -84,8 +89,8 @@
     <Compile Include="Service\Interfaces\IMessageReader.cs" />
     <Compile Include="Service\Interfaces\IQueuePoller.cs" />
     <Compile Include="Service\Interfaces\IQueuePollerFactory.cs" />
-    <Compile Include="Service\Interfaces\IRawMessage.cs" />
-    <Compile Include="Service\RawMessage.cs" />
+    <Compile Include="MessageParser\Interfaces\IRawMessage.cs" />
+    <Compile Include="MessageParser\RawMessage.cs" />
     <Compile Include="Service\MessageReader.cs" />
     <Compile Include="Service\QueuePoller.cs" />
   </ItemGroup>

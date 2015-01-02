@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
-using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Collector.MessageParser.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.Service
+namespace RabbitOperations.Collector.MessageParser
 {
     public class RawMessage : IRawMessage
     {

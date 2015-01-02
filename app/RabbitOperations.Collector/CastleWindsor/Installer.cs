@@ -7,6 +7,8 @@ using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using RabbitOperations.Collector.MessageParser;
+using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 
