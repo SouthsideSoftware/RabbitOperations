@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
@@ -18,6 +19,8 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         private const string TimeSentHeader = "TimeSent";
         private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss:ffffff Z";
         private const string ContentTypeHeader = "ContentType";
+        private const string ProcessingStartedHeader = "ProcessingStarted";
+        private const string ProcessingEndedHeader = "ProcessingEnded";
 
         public void AddHeaderInformation(IRawMessage rawMessage, MessageDocument document)
         {
@@ -29,7 +32,18 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             CaptureSagaInfo(document);
             CaptureTimeSent(document);
             CaptureContentType(document);
+            CaptureProcessingTime(document);
 
+        }
+
+        private static void CaptureProcessingTime(MessageDocument document)
+        {
+            if (document.Headers.ContainsKey(ProcessingStartedHeader) &&
+                document.Headers.ContainsKey(ProcessingEndedHeader))
+            {
+                document.ProcessingTime = ToUniversalDateTime(document.Headers[ProcessingEndedHeader]) -
+                                          ToUniversalDateTime(document.Headers[ProcessingStartedHeader]);
+            }
         }
 
         private static void CaptureContentType(MessageDocument document)
@@ -45,9 +59,14 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             if (document.Headers.ContainsKey(TimeSentHeader))
             {
                 document.TimeSent =
-                    DateTime.ParseExact(document.Headers[TimeSentHeader], DateTimeFormat, CultureInfo.InvariantCulture)
-                        .ToUniversalTime();
+                    ToUniversalDateTime(document.Headers[TimeSentHeader]);
             }
+        }
+
+        private static DateTime ToUniversalDateTime(string nServiceBusDateTime)
+        {
+            return DateTime.ParseExact(nServiceBusDateTime, DateTimeFormat, CultureInfo.InvariantCulture)
+                .ToUniversalTime();
         }
 
         private static void CaptureSagaInfo(MessageDocument document)

@@ -279,5 +279,41 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             //assert
             doc.ContentType.Should().Be(ApplicationJsonContentType);
         }
+
+        [Test]
+        public void HeaderParserGetsProperProcessingTimeFromAudit()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Audit");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            var processingStarted =
+                DateTime.ParseExact("2014-12-31T02:24:06:794413Z", DateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToUniversalTime();
+            var processingEnded =
+                DateTime.ParseExact("2014-12-31T02:24:07:074692Z", DateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToUniversalTime();
+            doc.ProcessingTime.Should().Be(processingEnded - processingStarted);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperProcessingTimeFromError()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Error");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.ProcessingTime.Should().Be(TimeSpan.Zero);
+        }
     }
 }
