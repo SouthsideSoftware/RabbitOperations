@@ -32,6 +32,22 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             CaptureContentType(document);
             CaptureProcessingTime(document);
             CaptureIsError(document);
+            if (document.IsError)
+            {
+                if (document.Headers.ContainsKey(TimeOfFailureHeader) && document.Headers.ContainsKey(TimeSentHeader))
+                {
+                    document.TotalTime = ToUniversalDateTime(document.Headers[TimeOfFailureHeader]) -
+                                         ToUniversalDateTime(document.Headers[TimeSentHeader]);
+                }
+            }
+            else
+            {
+                if (document.Headers.ContainsKey(ProcessingEndedHeader) && document.Headers.ContainsKey(TimeSentHeader))
+                {
+                    document.TotalTime = ToUniversalDateTime(document.Headers[ProcessingEndedHeader]) -
+                                         ToUniversalDateTime(document.Headers[TimeSentHeader]);
+                }
+            }
         }
 
         private static void CaptureIsError(MessageDocument document)

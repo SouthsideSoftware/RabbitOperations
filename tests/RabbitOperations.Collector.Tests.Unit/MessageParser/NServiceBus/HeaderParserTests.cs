@@ -345,5 +345,47 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             //assert
             doc.IsError.Should().BeTrue();
         }
+
+        [Test]
+        public void HeaderParserGetsProperTotalTimeFromAudit()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Audit");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            var timeSent =
+                DateTime.ParseExact("2014-12-31T02:24:06:300190Z", DateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToUniversalTime();
+            var processingEnded =
+                DateTime.ParseExact("2014-12-31T02:24:07:074692Z", DateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToUniversalTime();
+            doc.TotalTime.Should().Be(processingEnded - timeSent);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperTotalTimeFromError()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Error");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            var timeSent =
+                DateTime.ParseExact("2014-12-31T16:54:57:747221Z", DateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToUniversalTime();
+            var timeOfFailure =
+                DateTime.ParseExact("2014-12-31T16:56:02:891973Z", DateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToUniversalTime();
+            doc.TotalTime.Should().Be(timeOfFailure - timeSent);
+        }
     }
 }
