@@ -79,8 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="TestData\Audit.json" />
-    <None Include="TestData\Error.json" />
+    <None Include="..\RabbitOperations.Collector.Tests.Unit\TestData\Audit.json">
+      <Link>TestData\Audit.json</Link>
+    </None>
+    <None Include="..\RabbitOperations.Collector.Tests.Unit\TestData\Error.json">
+      <Link>TestData\Error.json</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\app\RabbitOperations.Collector\RabbitOperations.Collector.csproj">

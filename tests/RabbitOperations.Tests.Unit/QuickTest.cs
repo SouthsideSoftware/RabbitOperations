@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using FluentAssertions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.MessageParser;
@@ -19,9 +20,30 @@ namespace RabbitOperations.Tests.Unit
 {
     [TestFixture]
     public class QuickTest
-    {   
-        
+    {
 
+        [Ignore("Spike")]
+        [Test]
+        public void RawJson()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+
+            //act
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+
+            var j = JObject.Parse(rawMessage.Body);
+            var keys = j.Properties().Select(p => p.Name).ToList();
+            foreach (var k in keys)
+            {
+                Console.WriteLine("{0} = {1}", k ?? "null", j[k] ?? "Null");
+            }
+
+        }
         [Test]
         [Ignore("Spike")]
         public void FactorySpike()
@@ -46,7 +68,7 @@ namespace RabbitOperations.Tests.Unit
 
                     channel.BasicQos(0, 1, false);
                     var consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume("error", false, consumer);
+                    channel.BasicConsume("audit", false, consumer);
 
                     Console.WriteLine(" [*] Waiting for messages. " +
                                       "To exit press CTRL+C");
@@ -57,7 +79,7 @@ namespace RabbitOperations.Tests.Unit
                         var rawMessage = new RawMessage(ea);
                         var jsonData = JsonConvert.SerializeObject(rawMessage, Formatting.Indented);
                         Console.Write(jsonData);
-                        using (var outFile = new StreamWriter("out.json"))
+                        using (var outFile = new StreamWriter("out.json", false, Encoding.UTF8))
                         {
                             outFile.Write(jsonData);
                         }
@@ -104,7 +126,7 @@ namespace RabbitOperations.Tests.Unit
                             (BasicDeliverEventArgs)consumer.Queue.Dequeue();
 
                         var body = ea.Body;
-                        var message = Encoding.UTF8.GetString(body);
+                        var message = Encoding.Unicode.GetString(body);
                         Console.WriteLine(" [x] Received {0}", message);
 
                         channel.BasicNack(ea.DeliveryTag, false, true);

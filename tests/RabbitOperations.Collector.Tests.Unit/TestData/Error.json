@@ -1,4 +1,4 @@
-{
+﻿{
   "Headers": {
     "NServiceBus.MessageId": "695742b4-58d0-4e3a-83a9-a4120116c48d",
     "NServiceBus.CorrelationId": "695742b4-58d0-4e3a-83a9-a4120116c48d",
@@ -26,5 +26,5 @@
     "NServiceBus.Timeout.RouteExpiredTimeoutTo": "Autobahn.Configuration.Host@QA1-APP-02",
     "NServiceBus.Timeout.Expire": "2014-12-31 16:56:01:204458 Z"
   },
-  "Body": "﻿{\"Ids\":[\"afecc831-34d4-47ca-b43b-56eb90d4e3b6\"]}"
+  "Body": "{\"Ids\":[\"afecc831-34d4-47ca-b43b-56eb90d4e3b6\"]}"
 }

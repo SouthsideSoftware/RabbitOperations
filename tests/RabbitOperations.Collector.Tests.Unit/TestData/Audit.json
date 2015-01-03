@@ -1,4 +1,4 @@
-{
+﻿{
   "Headers": {
     "NServiceBus.MessageId": "33db72af-be36-4773-8c95-a41200279462",
     "NServiceBus.CorrelationId": "33db72af-be36-4773-8c95-a41200279462",
@@ -24,5 +24,5 @@
     "NServiceBus.ProcessingEndpoint": "Autobahn.Fulfillment.Host",
     "NServiceBus.OriginatingAddress": "Ronaele.UI.Web@QA-1-WEB-1"
   },
-  "Body": "﻿{\"CorrelationGuid\":\"f349702d-1be6-4c65-8f74-de8457ed4ccf\"}"
+  "Body": "{\"CorrelationGuid\":\"f349702d-1be6-4c65-8f74-de8457ed4ccf\"}"
 }
