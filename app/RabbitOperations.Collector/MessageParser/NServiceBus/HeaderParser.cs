@@ -17,6 +17,7 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         private const string SagaInfoHeader = "InvokedSagas";
         private const string TimeSentHeader = "TimeSent";
         private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss:ffffff Z";
+        private const string ContentTypeHeader = "ContentType";
 
         public void AddHeaderInformation(IRawMessage rawMessage, MessageDocument document)
         {
@@ -26,14 +27,27 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             CaptureHeaders(rawMessage, document);
             CaptureMessageTypes(document);
             CaptureSagaInfo(document);
+            CaptureTimeSent(document);
+            CaptureContentType(document);
 
+        }
+
+        private static void CaptureContentType(MessageDocument document)
+        {
+            if (document.Headers.ContainsKey(ContentTypeHeader))
+            {
+                document.ContentType = document.Headers[ContentTypeHeader];
+            }
+        }
+
+        private static void CaptureTimeSent(MessageDocument document)
+        {
             if (document.Headers.ContainsKey(TimeSentHeader))
             {
                 document.TimeSent =
                     DateTime.ParseExact(document.Headers[TimeSentHeader], DateTimeFormat, CultureInfo.InvariantCulture)
                         .ToUniversalTime();
             }
-
         }
 
         private static void CaptureSagaInfo(MessageDocument document)

@@ -15,6 +15,8 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
     public class HeaderParserTests
     {
         const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss:ffffffZ";
+        private const string ApplicationJsonContentType = "application/json";
+
         [Test]
         public void HeaderParserGetsProperNServiceBusHeadersFromAudit()
         {
@@ -246,6 +248,36 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
 
             //assert
             doc.TimeSent.Should().Be(DateTime.ParseExact("2014-12-31T16:54:57:747221Z", DateTimeFormat, CultureInfo.InvariantCulture).ToUniversalTime());
+        }
+
+        [Test]
+        public void HeaderParserGetsProperContentTypeAudit()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Audit");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.ContentType.Should().Be(ApplicationJsonContentType);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperContentTypeError()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Error");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.ContentType.Should().Be(ApplicationJsonContentType);
         }
     }
 }

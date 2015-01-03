@@ -16,7 +16,7 @@ namespace RabbitOperations.Domain
         }
         public int Id { get; set; }
         public IList<string> BusinessKeys { get; set; }
-
+        public string ContentType { get; set; }
         public string BusTechnology { get; set; }
 
         public DateTime TimeSent { get; set; }
