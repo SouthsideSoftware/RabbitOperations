@@ -315,5 +315,35 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             //assert
             doc.ProcessingTime.Should().Be(TimeSpan.Zero);
         }
+
+        [Test]
+        public void HeaderParserGetsProperIsErrorFromAudit()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Audit");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.IsError.Should().BeFalse();
+        }
+
+        [Test]
+        public void HeaderParserGetsProperIsErrorFromError()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Error");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.IsError.Should().BeTrue();
+        }
     }
 }

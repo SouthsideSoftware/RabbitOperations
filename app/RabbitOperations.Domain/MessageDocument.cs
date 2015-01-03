@@ -22,7 +22,7 @@ namespace RabbitOperations.Domain
 
         public DateTime TimeSent { get; set; }
 
-        public TimeSpan EnquedTime { get; set; }
+        public TimeSpan TotalTime { get; set; }
 
         public TimeSpan ProcessingTime { get; set; }
 

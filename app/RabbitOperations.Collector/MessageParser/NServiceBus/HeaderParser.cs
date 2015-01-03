@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
@@ -21,6 +17,8 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         private const string ContentTypeHeader = "ContentType";
         private const string ProcessingStartedHeader = "ProcessingStarted";
         private const string ProcessingEndedHeader = "ProcessingEnded";
+        private const string TimeOfFailureHeader = "TimeOfFailure";
+        private const string ExceptionTypeHeader = "ExceptionInfo.ExceptionType";
 
         public void AddHeaderInformation(IRawMessage rawMessage, MessageDocument document)
         {
@@ -33,7 +31,12 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             CaptureTimeSent(document);
             CaptureContentType(document);
             CaptureProcessingTime(document);
+            CaptureIsError(document);
+        }
 
+        private static void CaptureIsError(MessageDocument document)
+        {
+            document.IsError = document.Headers.ContainsKey(ExceptionTypeHeader);
         }
 
         private static void CaptureProcessingTime(MessageDocument document)
