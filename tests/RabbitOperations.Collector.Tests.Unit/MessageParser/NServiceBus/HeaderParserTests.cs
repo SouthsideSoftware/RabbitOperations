@@ -56,6 +56,48 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         }
 
         [Test]
+        public void HeaderParserGetsProperNServiceSagaInfoFromAudit()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var headerParser = new RabbitOperations.Collector.MessageParser.NServiceBus.HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.SagaInfo.Should().NotBeNull();
+            doc.SagaInfo.Class.Should().Be("Autobahn.Fulfillment.Tasks.Sagas.FulfillmentSaga");
+            doc.SagaInfo.Key.Should().Be("3b654483-a8ea-470b-8c78-a4110184fa8c");
+        }
+
+        [Test]
+        public void HeaderParserHasNullSagaOnMessageNotInvolvingSaga()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var headerParser = new RabbitOperations.Collector.MessageParser.NServiceBus.HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.SagaInfo.Should().BeNull();
+        }
+
+        [Test]
         public void HeaderParserGetsProperNServiceBusMessageTypesAudit()
         {
             //arrange
