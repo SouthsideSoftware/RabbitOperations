@@ -11,6 +11,9 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
 {
     public class HeaderParser : IHeaderParser
     {
+        private const string MessageType = "EnclosedMessageTypes";
+        private const string NservicebusHeaderPrefix = "NServiceBus";
+
         public void AddHeaderInformation(IRawMessage rawMessage, MessageDocument document)
         {
             Verify.RequireNotNull(rawMessage, "rawMessage");
@@ -18,10 +21,14 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
 
             foreach (var header in rawMessage.Headers)
             {
-                if (header.Key.StartsWith("NServiceBus"))
+                if (header.Key.StartsWith(NservicebusHeaderPrefix))
                 {
-                    document.Headers.Add(header.Key.Substring("NServiceBus".Length + 1), header.Value);
+                    document.Headers.Add(header.Key.Substring(NservicebusHeaderPrefix.Length + 1), header.Value);
                 }
+            }
+            if (document.Headers.ContainsKey(MessageType))
+            {
+                document.MessageTypes = document.Headers[MessageType].Split(';').Select(pt => pt.Trim()).ToList();
             }
         }
     }

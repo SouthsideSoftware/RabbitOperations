@@ -56,6 +56,54 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         }
 
         [Test]
+        public void HeaderParserGetsProperNServiceBusMessageTypesAudit()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var headerParser = new RabbitOperations.Collector.MessageParser.NServiceBus.HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.MessageTypes.ShouldBeEquivalentTo(new List<string>
+            {
+                "Autobahn.Fulfillment.Contracts.Ordering.NotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                "Autobahn.Fulfillment.Contracts.Ordering.INotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                "Veyron.Messages.Commands.ICommand, Veyron.Messages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"   
+            });
+        }
+
+        [Test]
+        public void HeaderParserGetsProperNServiceBusMessageTypesError()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var headerParser = new RabbitOperations.Collector.MessageParser.NServiceBus.HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.MessageTypes.ShouldBeEquivalentTo(new List<string>
+            {
+                "Autobahn.Configurations.Contracts.Commands.ValidateConfigurations, Autobahn.Configurations.Contracts, Version=1.1.12.0, Culture=neutral, PublicKeyToken=null"
+            });
+        }
+
+        [Test]
         public void HeaderParserGetsProperNServiceBusHeadersFromError()
         {
             //arrange

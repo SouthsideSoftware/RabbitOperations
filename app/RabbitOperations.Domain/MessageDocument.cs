@@ -11,6 +11,7 @@ namespace RabbitOperations.Domain
         public MessageDocument()
         {
             Headers = new Dictionary<string, string>();
+            MessageTypes = new List<string>();
             BusTechnology = "NServiceBus";
         }
         public int Id { get; set; }
@@ -20,11 +21,15 @@ namespace RabbitOperations.Domain
 
         public DateTime TimeSent { get; set; }
 
-        public DateTime ProcessingStarted { get; set; }
+        public TimeSpan EnquedTime { get; set; }
 
-        public DateTime ProcessingEnded { get; set; }
+        public TimeSpan ProcessingTime { get; set; }
 
-        public string ErrorInfo { get; set; }
+        public IList<string> MessageTypes { get; set; } 
+
+        public IList<string> Keywords { get; set; }
+
+        public SagaInfo SagaInfo { get; set; }
 
         public IDictionary<string, string> Headers { get; set; }
 
