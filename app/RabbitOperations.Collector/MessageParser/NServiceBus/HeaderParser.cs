@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         private const string MessageTypeHeader = "EnclosedMessageTypes";
         private const string NservicebusHeaderPrefix = "NServiceBus";
         private const string SagaInfoHeader = "InvokedSagas";
+        private const string TimeSentHeader = "TimeSent";
+        private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss:ffffff Z";
 
         public void AddHeaderInformation(IRawMessage rawMessage, MessageDocument document)
         {
@@ -23,6 +26,14 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             CaptureHeaders(rawMessage, document);
             CaptureMessageTypes(document);
             CaptureSagaInfo(document);
+
+            if (document.Headers.ContainsKey(TimeSentHeader))
+            {
+                document.TimeSent =
+                    DateTime.ParseExact(document.Headers[TimeSentHeader], DateTimeFormat, CultureInfo.InvariantCulture)
+                        .ToUniversalTime();
+            }
+
         }
 
         private static void CaptureSagaInfo(MessageDocument document)

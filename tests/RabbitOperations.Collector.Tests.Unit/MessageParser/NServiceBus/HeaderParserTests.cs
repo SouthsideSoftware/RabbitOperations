@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -12,6 +14,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
     [TestFixture]
     public class HeaderParserTests
     {
+        const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss:ffffffZ";
         [Test]
         public void HeaderParserGetsProperNServiceBusHeadersFromAudit()
         {
@@ -213,6 +216,36 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
 
             //assert
             doc.BusTechnology.Should().Be("NServiceBus");
+        }
+
+        [Test]
+        public void HeaderParserGetsProperTimeSentFromAudit()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Audit");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.TimeSent.Should().Be(DateTime.ParseExact("2014-12-31T02:24:06:300190Z", DateTimeFormat, CultureInfo.InvariantCulture).ToUniversalTime());
+        }
+
+        [Test]
+        public void HeaderParserGetsProperTimeSentFromError()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Error");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.TimeSent.Should().Be(DateTime.ParseExact("2014-12-31T16:54:57:747221Z", DateTimeFormat, CultureInfo.InvariantCulture).ToUniversalTime());
         }
     }
 }
