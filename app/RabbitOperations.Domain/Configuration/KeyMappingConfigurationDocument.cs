@@ -9,5 +9,6 @@ namespace RabbitOperations.Domain.Configuration
     public class KeyMappingConfigurationDocument
     {
         public int Id { get; set; }
+        public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
     }
 }
