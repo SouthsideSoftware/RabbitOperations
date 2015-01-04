@@ -74,6 +74,7 @@
     <Compile Include="..\..\common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Domain\Configuration\JsonPathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickTest.cs" />
   </ItemGroup>
@@ -86,6 +87,10 @@
     <ProjectReference Include="..\..\app\RabbitOperations.Collector\RabbitOperations.Collector.csproj">
       <Project>{fc619f88-1320-4cb8-9e25-b5fac9de0137}</Project>
       <Name>RabbitOperations.Collector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\app\RabbitOperations.Domain\RabbitOperations.Domain.csproj">
+      <Project>{c578c1da-f710-4e0f-83fc-04fb6905ae92}</Project>
+      <Name>RabbitOperations.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

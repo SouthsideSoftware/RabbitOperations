@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Domain.Configuration
@@ -11,9 +12,9 @@ namespace RabbitOperations.Domain.Configuration
         }
         public JsonPath(string path)
         {
-            Verify.RequireNotNull(path, "path");
+            Verify.RequireStringNotNullOrWhitespace(path, "path");
 
-            Parts = new List<string>(path.Split('.'));
+            Parts = new List<string>(path.Split('.').Select(x => x.Trim()).Where(x => x.Length > 0));
             
         }
         public IList<string> Parts { get; set; }
