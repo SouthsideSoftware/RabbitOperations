@@ -8,6 +8,7 @@ using FluentAssertions;
 using Moq;
 using Moq.AutoMock;
 using RabbitOperations.Collector.Configuration;
+using RabbitOperations.Domain.Configuration;
 using SouthsideUtility.RavenDB.Testing;
 
 namespace RabbitOperations.Collector.Tests.Unit.Configuration
@@ -16,16 +17,52 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
     public class SettingsTests : RavenDbTest
     {
         [Test]
-        public void QuickTest()
+        public void SettingsCanBeSavedAndLoaded()
         {
             //arrange
             var settings = new Settings(Store);
+            settings.AuditQueue = "xxx";
+            settings.Save();
 
             //act
-            var audit = settings.AuditQueue;
+            settings = new Settings(Store);
 
             //assert 
-            audit.Should().Be("audit");
+            settings.AuditQueue.Should().Be("xxx");
+        }
+
+        [Test]
+        public void CanGetMessageTypeHandlerForATypeWhenOneMatches()
+        {
+            //arrange
+            var settings = new Settings(Store);
+            settings.MessageHandlingInstructions = new List<MessageTypeHandling>
+            {
+                new MessageTypeHandling
+                {
+                    MessageTypes = new List<string>
+                    {
+                        "a",
+                        "b"
+                    },
+                    Keywords = new List<string>
+                    {
+                        "one"
+                    }
+                },
+                new MessageTypeHandling
+                {
+                    MessageTypes = new List<string>
+                    {
+                        "c",
+                        "d"
+                    },
+                    Keywords = new List<string>
+                    {
+                        "two"
+                    }
+                }
+            };
         }
     }
 }
