@@ -1,20 +1,74 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using RabbitOperations.Collector.Configuration.Interfaces;
+using RabbitOperations.Domain.Configuration;
+using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Configuration
 {
     public class Settings : ISettings
     {
+        private readonly IDocumentStore documentStore;
+        private ConfigurationDocument configurationDocument;
+
+        public Settings(IDocumentStore documentStore)
+        {
+            Verify.RequireNotNull(documentStore, "documentStore");
+            configurationDocument = new ConfigurationDocument();
+
+            this.documentStore = documentStore;
+            Load();
+        }
+
         public string AuditQueue
         {
-            get { return GetString("AuditQueue", throwExceptionIfNotFound:true); }
+            get { return configurationDocument.AuditQueue; }
+            set { configurationDocument.AuditQueue = value; }
+        }
+
+        public IList<MessageTypeHandling> MessageHandlingInstructions
+        {
+            get { return configurationDocument.MessageHandlingInstructions; }
+            set { configurationDocument.MessageHandlingInstructions = value; }
         }
 
         public string ErrorQueue
         {
-            get { return GetString("ErrorQueue", throwExceptionIfNotFound: true); }
+            get { return configurationDocument.ErrorQueue; }
+            set { configurationDocument.ErrorQueue = value; }
+        }
+
+        public MessageTypeHandling MessageTypeHandlingFor(string type)
+        {
+            Verify.RequireStringNotNullOrWhitespace(type, "type");
+
+            return MessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
+        }
+
+        public void Load()
+        {
+            using (var session = documentStore.OpenSession())
+            {
+                configurationDocument = session.Load<ConfigurationDocument>(1);
+                if (configurationDocument == null)
+                {
+                    configurationDocument = new ConfigurationDocument();
+                    session.Store(configurationDocument);
+                    session.SaveChanges();
+                }
+            }
+        }
+
+        public void Save()
+        {
+            using (var session = documentStore.OpenSession())
+            {
+                session.Store(configurationDocument);
+                session.SaveChanges();
+            }
         }
 
         public static bool GetBoolean(string key, bool defaultValue = false, bool throwExceptionIfNotFound = false)
