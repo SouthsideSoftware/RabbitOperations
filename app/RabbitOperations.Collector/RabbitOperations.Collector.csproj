@@ -84,6 +84,8 @@
     <Compile Include="CastleWindsor\Installer.cs" />
     <Compile Include="Configuration\Interfaces\ISettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="MessageParser\BodyParser.cs" />
+    <Compile Include="MessageParser\Interfaces\IBodyParser.cs" />
     <Compile Include="MessageParser\Interfaces\IHeaderParser.cs" />
     <Compile Include="MessageParser\NServiceBus\HeaderParser.cs" />
     <Compile Include="Program.cs" />
