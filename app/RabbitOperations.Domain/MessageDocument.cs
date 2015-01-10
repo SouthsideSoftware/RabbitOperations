@@ -13,9 +13,10 @@ namespace RabbitOperations.Domain
             Headers = new Dictionary<string, string>();
             MessageTypes = new List<string>();
             BusTechnology = "NServiceBus";
+            BusinessKeys = new Dictionary<string, string>();
         }
         public int Id { get; set; }
-        public IList<string> BusinessKeys { get; set; }
+        public IDictionary<string, string> BusinessKeys { get; set; }
         public string ContentType { get; set; }
         public string BusTechnology { get; set; }
         public bool IsError { get; set; }

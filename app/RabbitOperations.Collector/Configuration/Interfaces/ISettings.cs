@@ -12,5 +12,6 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
 
         void Load();
         void Save();
+        MessageTypeHandling MessageTypeHandlingFor(string type);
     }
 }

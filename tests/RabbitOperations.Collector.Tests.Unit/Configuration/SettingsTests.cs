@@ -63,6 +63,52 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
                     }
                 }
             };
+
+            //act
+            var handling = settings.MessageTypeHandlingFor("c");
+
+            //assert
+            handling.Keywords[0].Should().Be("two");
+        }
+
+        [Test]
+        public void ShouldReturnFirstHandlerThatHasMatchingTypeWhenMultiplesMatch()
+        {
+            //arrange
+            var settings = new Settings(Store);
+            settings.MessageHandlingInstructions = new List<MessageTypeHandling>
+            {
+                new MessageTypeHandling
+                {
+                    MessageTypes = new List<string>
+                    {
+                        "a",
+                        "c"
+                    },
+                    Keywords = new List<string>
+                    {
+                        "one"
+                    }
+                },
+                new MessageTypeHandling
+                {
+                    MessageTypes = new List<string>
+                    {
+                        "c",
+                        "d"
+                    },
+                    Keywords = new List<string>
+                    {
+                        "two"
+                    }
+                }
+            };
+
+            //act
+            var handling = settings.MessageTypeHandlingFor("c");
+
+            //assert
+            handling.Keywords[0].Should().Be("one");
         }
     }
 }

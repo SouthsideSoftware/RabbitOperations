@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using FluentAssertions;
+using Moq.AutoMock;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using RabbitOperations.Collector.MessageParser;
@@ -26,8 +27,9 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             {
                 data = reader.ReadToEnd();
             }
+            var mocker = new AutoMocker();
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-            var bodyParser = new BodyParser();
+            var bodyParser = mocker.CreateInstance<BodyParser>() ;
             var doc = new MessageDocument();
 
             //act
@@ -47,7 +49,8 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
                 data = reader.ReadToEnd();
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-            var bodyParser = new BodyParser();
+            var mocker = new AutoMocker();
+            var bodyParser = mocker.CreateInstance<BodyParser>();
             var doc = new MessageDocument();
 
             //act
