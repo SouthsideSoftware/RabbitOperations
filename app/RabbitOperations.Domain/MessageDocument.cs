@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace RabbitOperations.Domain
         public MessageDocument()
         {
             Headers = new Dictionary<string, string>();
-            MessageTypes = new List<string>();
+            MessageTypes = new List<AssemblyName>();
             BusTechnology = "NServiceBus";
             BusinessKeys = new Dictionary<string, string>();
         }
@@ -27,7 +28,7 @@ namespace RabbitOperations.Domain
 
         public TimeSpan ProcessingTime { get; set; }
 
-        public IList<string> MessageTypes { get; set; } 
+        public IList<AssemblyName> MessageTypes { get; set; } 
 
         public IList<string> Keywords { get; set; }
 
