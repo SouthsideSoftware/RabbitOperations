@@ -86,7 +86,7 @@ function StartApp($appPath, $appName) {
     {
         Write-Host $appPath
         if (test-path env:ConEmuDir) {
-            & ConEmu -reuse -cmd $appPath
+            & ConEmu -reuse -cmd "$appPath"
         } else {
             Start-Process -FilePath $path
         }
