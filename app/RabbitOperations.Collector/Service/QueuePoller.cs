@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using NLog;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
@@ -11,15 +13,16 @@ namespace RabbitOperations.Collector.Service
 {
     public class QueuePoller : IQueuePoller
     {
-        private readonly IRawMessage rawMessage;
+        private readonly CancellationToken cancellationToken;
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public QueuePoller(string queueName, IRawMessage rawMessage)
+        public QueuePoller(string queueName, CancellationToken cancellationToken)
         {
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
-            Verify.RequireNotNull(rawMessage, "rawMessage");
+            Verify.RequireNotNull(cancellationToken, "cancellationToken");
 
-            this.rawMessage = rawMessage;
             this.QueueName = queueName;
+            this.cancellationToken = cancellationToken;
 
         }
 
@@ -30,14 +33,14 @@ namespace RabbitOperations.Collector.Service
 
         public string QueueName { get; private set; }
 
-        public void Start()
+        public void Poll()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Stop()
-        {
-            throw new NotImplementedException();
+            logger.Info("Started queue poller for {0}", QueueName);
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                Thread.Sleep(500);
+            }
+            logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueName);
         }
 
         public void HandleMessage(IRawMessage message)

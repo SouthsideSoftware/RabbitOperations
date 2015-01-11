@@ -29,6 +29,11 @@ namespace RabbitOperations.Collector.Configuration
             set { configurationDocument.AuditQueue = value; }
         }
 
+        public string RabbitConnectionString
+        {
+            get { return ConfigurationManager.ConnectionStrings["Rabbit"].ToString(); }
+        }
+
         public IList<MessageTypeHandling> MessageHandlingInstructions
         {
             get { return configurationDocument.MessageHandlingInstructions; }

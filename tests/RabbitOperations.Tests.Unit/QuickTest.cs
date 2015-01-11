@@ -49,7 +49,7 @@ namespace RabbitOperations.Tests.Unit
         {
             ServiceLocator.Container.Install(new RabbitOperations.Collector.CastleWindsor.Installer());
             var factory = ServiceLocator.Container.Resolve<IQueuePollerFactory>();
-            var poller = factory.Create("Test");
+            var poller = factory.Create("Test", new CancellationToken());
             poller.QueueName.Should().Be("Test");
             factory.Destroy(poller);
         }

@@ -8,6 +8,8 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         string AuditQueue { get; set; }
         string ErrorQueue { get; set; }
 
+        string RabbitConnectionString { get; }
+
         IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
 
         void Load();

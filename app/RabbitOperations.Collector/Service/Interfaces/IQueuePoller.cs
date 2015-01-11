@@ -13,11 +13,7 @@ namespace RabbitOperations.Collector.Service.Interfaces
         /// <summary>
         /// Start polling the indicated queue
         /// </summary>
-        void Start();
-        /// <summary>
-        /// Stop polling the indicated queue
-        /// </summary>
-        void Stop();
+        void Poll();
         /// <summary>
         /// Handle a message
         /// </summary>

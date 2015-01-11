@@ -72,8 +72,27 @@ Task publish -Description "Publish artifacts" {
   Create-NugetPackage "Autobahn.Notification.Messages"
 }
 
+task startCollector -Description "Starts the collector host" {
+    StartApp "app/RabbitOperations.Collector/bin/debug/RabbitOperations.Collector.exe" "RabbitOperations.Collector"
+}
+
 task ? -Description "Helper to display task info" {
   WriteDocumentation
+}
+
+function StartApp($appPath, $appName) {
+    $processActive = Get-Process $appName -ErrorAction SilentlyContinue
+    if(!$processActive)
+    {
+        Write-Host $appPath
+        if (test-path env:ConEmuDir) {
+            & ConEmu -reuse -cmd $appPath
+        } else {
+            Start-Process -FilePath $path
+        }
+    } else {
+        Write-Host "$appName already running."
+    }
 }
 
 function Update-CommonAssemblyInfoFile ([string] $version, [string]$revision) {
