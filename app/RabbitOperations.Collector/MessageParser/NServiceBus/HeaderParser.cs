@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
@@ -108,7 +109,11 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         {
             if (document.Headers.ContainsKey(MessageTypeHeader))
             {
-                document.MessageTypes = document.Headers[MessageTypeHeader].Split(';').Select(pt => pt.Trim()).ToList();
+                document.MessageTypes = document.Headers[MessageTypeHeader].Split(';').Select(pt =>
+                {
+                    var name = new AssemblyName();
+                    name.FullName = pt;
+                }).ToList();
             }
         }
 
