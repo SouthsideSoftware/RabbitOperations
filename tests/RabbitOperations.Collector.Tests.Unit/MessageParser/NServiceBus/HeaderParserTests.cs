@@ -117,11 +117,11 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             headerParser.AddHeaderInformation(rawMessage, doc);
 
             //assert
-            doc.MessageTypes.ShouldBeEquivalentTo(new List<string>
+            doc.MessageTypes.ShouldBeEquivalentTo(new List<TypeName>
             {
-                "Autobahn.Fulfillment.Contracts.Ordering.NotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                "Autobahn.Fulfillment.Contracts.Ordering.INotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                "Veyron.Messages.Commands.ICommand, Veyron.Messages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                new TypeName("Autobahn.Fulfillment.Contracts.Ordering.NotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
+                 new TypeName("Autobahn.Fulfillment.Contracts.Ordering.INotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
+                 new TypeName("Veyron.Messages.Commands.ICommand, Veyron.Messages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
             });
         }
 
@@ -137,9 +137,9 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             headerParser.AddHeaderInformation(rawMessage, doc);
 
             //assert
-            doc.MessageTypes.ShouldBeEquivalentTo(new List<string>
+            doc.MessageTypes.ShouldBeEquivalentTo(new List<TypeName>
             {
-                "Autobahn.Configurations.Contracts.Commands.ValidateConfigurations, Autobahn.Configurations.Contracts, Version=1.1.12.0, Culture=neutral, PublicKeyToken=null"
+                 new TypeName("Autobahn.Configurations.Contracts.Commands.ValidateConfigurations, Autobahn.Configurations.Contracts, Version=1.1.12.0, Culture=neutral, PublicKeyToken=null")
             });
         }
 

@@ -111,8 +111,7 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             {
                 document.MessageTypes = document.Headers[MessageTypeHeader].Split(';').Select(pt =>
                 {
-                    var name = new AssemblyName();
-                    name.FullName = pt;
+                    return new TypeName(pt);
                 }).ToList();
             }
         }

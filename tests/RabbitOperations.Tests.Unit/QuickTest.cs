@@ -21,7 +21,6 @@ namespace RabbitOperations.Tests.Unit
     [TestFixture]
     public class QuickTest
     {
-
         [Ignore("Spike")]
         [Test]
         public void RawJson()

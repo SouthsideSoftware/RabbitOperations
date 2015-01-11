@@ -12,7 +12,7 @@ namespace RabbitOperations.Domain
         public MessageDocument()
         {
             Headers = new Dictionary<string, string>();
-            MessageTypes = new List<AssemblyName>();
+            MessageTypes = new List<TypeName>();
             BusTechnology = "NServiceBus";
             BusinessKeys = new Dictionary<string, string>();
         }
@@ -28,7 +28,7 @@ namespace RabbitOperations.Domain
 
         public TimeSpan ProcessingTime { get; set; }
 
-        public IList<AssemblyName> MessageTypes { get; set; } 
+        public IList<TypeName> MessageTypes { get; set; } 
 
         public IList<string> Keywords { get; set; }
 
