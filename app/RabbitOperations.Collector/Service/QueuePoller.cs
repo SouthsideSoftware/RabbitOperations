@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using NLog;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
@@ -24,21 +25,24 @@ namespace RabbitOperations.Collector.Service
         private readonly IConnectionFactory connectionFactory;
         private readonly IHeaderParser headerParser;
         private readonly IDocumentStore documentStore;
+        private readonly ISettings settings;
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public QueuePoller(string queueName, CancellationToken cancellationToken, IConnectionFactory connectionFactory, IHeaderParser headerParser, IDocumentStore documentStore)
+        public QueuePoller(string queueName, CancellationToken cancellationToken, IConnectionFactory connectionFactory, IHeaderParser headerParser, IDocumentStore documentStore, ISettings settings)
         {
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
             Verify.RequireNotNull(cancellationToken, "cancellationToken");
             Verify.RequireNotNull(connectionFactory, "connectionFactory");
             Verify.RequireNotNull(headerParser, "headerParser");
             Verify.RequireNotNull(documentStore, "documentStore");
+            Verify.RequireNotNull(settings, "settings");
 
             this.QueueName = queueName;
             this.cancellationToken = cancellationToken;
             this.connectionFactory = connectionFactory;
             this.headerParser = headerParser;
             this.documentStore = documentStore;
+            this.settings = settings;
         }
 
         public void Dispose()
@@ -58,7 +62,8 @@ namespace RabbitOperations.Collector.Service
                     channel.BasicQos(0, 1, false); 
                     var consumer = new QueueingBasicConsumer(channel);
                     channel.BasicConsume(QueueName, false, consumer);
-                    logger.Info("Begin polling {0}", QueueName);
+                    logger.Info("Begin polling {0} {1}", QueueName, settings.MaxMessagesPerRun > 0 ? string.Format(" to read a maximum of {0} messages", settings.MaxMessagesPerRun) : "");
+                    long messageCount = 0;
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         BasicDeliverEventArgs ea = null;
@@ -70,6 +75,11 @@ namespace RabbitOperations.Collector.Service
                             {
                                 HandleMessage(new RawMessage(ea));
                                 channel.BasicAck(ea.DeliveryTag, false);
+                                messageCount++;
+                                if (settings.MaxMessagesPerRun > 0 && messageCount >= settings.MaxMessagesPerRun)
+                                {
+                                    break;
+                                }
                             }
                             catch (Exception err)
                             {

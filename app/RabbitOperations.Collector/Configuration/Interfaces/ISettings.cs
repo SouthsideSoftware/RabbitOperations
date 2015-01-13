@@ -16,6 +16,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
 
         void Load();
         void Save();
-        MessageTypeHandling MessageTypeHandlingFor(string type); 
+        MessageTypeHandling MessageTypeHandlingFor(string type);
+        int MaxMessagesPerRun { get; set; }
     }
 }

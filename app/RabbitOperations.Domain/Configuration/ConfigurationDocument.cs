@@ -16,6 +16,7 @@ namespace RabbitOperations.Domain.Configuration
             ErrorQueue = "error";
             RabbitConnectionString = "amqp://localhost";
             PollingTimeout = 5000;
+            MaxMessagesPerRun = 0;
         }
         public int Id { get; set; }
         public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
@@ -24,5 +25,6 @@ namespace RabbitOperations.Domain.Configuration
         public int PollingTimeout { get; set; }
 
         public string RabbitConnectionString { get; set; }
+        public int MaxMessagesPerRun { get; set; }
     }
 }

@@ -35,6 +35,12 @@ namespace RabbitOperations.Collector.Configuration
             set { configurationDocument.PollingTimeout = value; }
         }
 
+        public int MaxMessagesPerRun
+        {
+            get { return configurationDocument.MaxMessagesPerRun; }
+            set { configurationDocument.MaxMessagesPerRun = value; }
+        }
+
         public string RabbitConnectionString
         {
             get { return configurationDocument.RabbitConnectionString; }
