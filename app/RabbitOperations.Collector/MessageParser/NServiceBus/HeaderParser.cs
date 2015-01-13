@@ -10,16 +10,15 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
 {
     public class HeaderParser : IHeaderParser
     {
-        private const string MessageTypeHeader = "EnclosedMessageTypes";
-        private const string NservicebusHeaderPrefix = "NServiceBus";
-        private const string SagaInfoHeader = "InvokedSagas";
-        private const string TimeSentHeader = "TimeSent";
+        private const string MessageTypeHeader = "NServiceBus.EnclosedMessageTypes";
+        private const string SagaInfoHeader = "NServiceBus.InvokedSagas";
+        private const string TimeSentHeader = "NServiceBus.TimeSent";
         private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss:ffffff Z";
-        private const string ContentTypeHeader = "ContentType";
-        private const string ProcessingStartedHeader = "ProcessingStarted";
-        private const string ProcessingEndedHeader = "ProcessingEnded";
-        private const string TimeOfFailureHeader = "TimeOfFailure";
-        private const string ExceptionTypeHeader = "ExceptionInfo.ExceptionType";
+        private const string ContentTypeHeader = "NServiceBus.ContentType";
+        private const string ProcessingStartedHeader = "NServiceBus.ProcessingStarted";
+        private const string ProcessingEndedHeader = "NServiceBus.ProcessingEnded";
+        private const string TimeOfFailureHeader = "NServiceBus.TimeOfFailure";
+        private const string ExceptionTypeHeader = "NServiceBus.ExceptionInfo.ExceptionType";
 
         public void AddHeaderInformation(IRawMessage rawMessage, MessageDocument document)
         {
@@ -120,10 +119,7 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         {
             foreach (var header in rawMessage.Headers)
             {
-                if (header.Key.StartsWith(NservicebusHeaderPrefix))
-                {
-                    document.Headers.Add(header.Key.Substring(NservicebusHeaderPrefix.Length + 1), header.Value);
-                }
+                document.Headers.Add(header.Key, header.Value);
             }
         }
     }
