@@ -46,8 +46,16 @@ namespace RabbitOperations.Collector.Service
         {
             queuePollers.Add(Task.Factory.StartNew(() =>
             {
-                var queuePoller = queuePollerFactory.Create(queueName, cancellationToken);
-                queuePoller.Poll();
+                try
+                {
+                    var queuePoller = queuePollerFactory.Create(queueName, cancellationToken);
+                    queuePoller.Poll();
+                }
+                catch (Exception err)
+                {
+                    logger.Error("Failed in queue poller for {0} with error {1}", queueName, err);
+                    throw;
+                }
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));
         }
 

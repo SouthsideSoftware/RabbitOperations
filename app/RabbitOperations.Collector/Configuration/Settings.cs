@@ -29,9 +29,16 @@ namespace RabbitOperations.Collector.Configuration
             set { configurationDocument.AuditQueue = value; }
         }
 
+        public int PollingTimeout
+        {
+            get { return configurationDocument.PollingTimeout; }
+            set { configurationDocument.PollingTimeout = value; }
+        }
+
         public string RabbitConnectionString
         {
-            get { return ConfigurationManager.ConnectionStrings["Rabbit"].ToString(); }
+            get { return configurationDocument.RabbitConnectionString; }
+            set { configurationDocument.RabbitConnectionString = value;  }
         }
 
         public IList<MessageTypeHandling> MessageHandlingInstructions
