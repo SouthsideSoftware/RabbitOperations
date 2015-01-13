@@ -45,7 +45,11 @@ namespace RabbitOperations.Collector.CastleWindsor
                     docStore.Initialize();
                     return docStore;
                 }).LifestyleSingleton(),
-                Component.For<IConnectionFactory>().UsingFactoryMethod(x => new ConnectionFactory() { uri = new Uri(container.Resolve<ISettings>().RabbitConnectionString) }));
+                Component.For<IConnectionFactory>().UsingFactoryMethod(x => new ConnectionFactory()
+                {
+                    uri = new Uri(container.Resolve<ISettings>().RabbitConnectionString),
+                    RequestedHeartbeat = 30
+                }));
         }
     }
 }
