@@ -4,7 +4,7 @@ using RabbitOperations.Collector.MessageParser.Interfaces;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
-    public interface IQueuePoller : IDisposable
+    public interface IQueuePoller
     {
         /// <summary>
         /// Gets the queue name for this poller

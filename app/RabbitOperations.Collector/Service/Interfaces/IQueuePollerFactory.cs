@@ -10,6 +10,5 @@ namespace RabbitOperations.Collector.Service.Interfaces
     public interface IQueuePollerFactory
     {
         IQueuePoller Create(string queueName, CancellationToken cancellationToken);
-        void Destroy(IQueuePoller poller);
     }
 }

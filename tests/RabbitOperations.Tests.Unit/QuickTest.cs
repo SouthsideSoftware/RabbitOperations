@@ -51,7 +51,6 @@ namespace RabbitOperations.Tests.Unit
             var factory = ServiceLocator.Container.Resolve<IQueuePollerFactory>();
             var poller = factory.Create("Test", new CancellationToken());
             poller.QueueName.Should().Be("Test");
-            factory.Destroy(poller);
         }
         [Test]
         [Ignore("Spike")]

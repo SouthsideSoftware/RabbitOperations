@@ -28,7 +28,8 @@ namespace RabbitOperations.Collector.Service
         private readonly ISettings settings;
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public QueuePoller(string queueName, CancellationToken cancellationToken, IConnectionFactory connectionFactory, IHeaderParser headerParser, IDocumentStore documentStore, ISettings settings)
+        public QueuePoller(string queueName, CancellationToken cancellationToken, IConnectionFactory connectionFactory,
+            IHeaderParser headerParser, IDocumentStore documentStore, ISettings settings)
         {
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
             Verify.RequireNotNull(cancellationToken, "cancellationToken");
@@ -45,11 +46,6 @@ namespace RabbitOperations.Collector.Service
             this.settings = settings;
         }
 
-        public void Dispose()
-        {
-            Console.WriteLine("Disposed");
-        }
-
         public string QueueName { get; private set; }
 
         public void Poll()
@@ -59,16 +55,20 @@ namespace RabbitOperations.Collector.Service
             {
                 using (var channel = connection.CreateModel())
                 {
-                    channel.BasicQos(0, 1, false); 
+                    channel.BasicQos(0, 1, false);
                     var consumer = new QueueingBasicConsumer(channel);
                     channel.BasicConsume(QueueName, false, consumer);
-                    logger.Info("Begin polling {0} {1}", QueueName, settings.MaxMessagesPerRun > 0 ? string.Format(" to read a maximum of {0} messages", settings.MaxMessagesPerRun) : "");
+                    logger.Info("Begin polling {0} {1}", QueueName,
+                        settings.MaxMessagesPerRun > 0
+                            ? string.Format(" to read a maximum of {0} messages", settings.MaxMessagesPerRun)
+                            : "");
                     long messageCount = 0;
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         BasicDeliverEventArgs ea = null;
-                        consumer.Queue.Dequeue(5000, out ea);
-                        logger.Trace("Dequeue completed {0}", ea == null ? "without a message (timeout)" : "with a message");
+                        consumer.Queue.Dequeue(settings.PollingTimeout, out ea);
+                        logger.Trace("Dequeue completed {0}",
+                            ea == null ? "without a message (timeout)" : "with a message");
                         if (ea != null)
                         {
                             try
@@ -83,9 +83,9 @@ namespace RabbitOperations.Collector.Service
                             }
                             catch (Exception err)
                             {
-                                logger.Error(err);
-                                //todo: hmmmm.... This could be a real problem.  It will keep putting this message back on the queue and if there is something wrong that we cannot parse it, yuck.
                                 channel.BasicNack(ea.DeliveryTag, false, true);
+                                logger.Error(err);
+                                throw;
                             }
                         }
                     }
@@ -97,9 +97,11 @@ namespace RabbitOperations.Collector.Service
         public void HandleMessage(IRawMessage message)
         {
             logger.Trace("handling message");
+
             var document = new MessageDocument();
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
+
             using (var session = documentStore.OpenSession())
             {
                 session.Store(document);
