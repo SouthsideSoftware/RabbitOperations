@@ -27,11 +27,8 @@ NServiceBus Headers and capture the raw message body. It then writes
 a document with the data to RavenDB.
 
 ## Next Steps
-* Web interface with basic message search and configuration screens
-* Ability to replay errors for NServiceBus
-* Ability to parse out and index business keys for search
-* Business keys used to tie together related messages
-* Support for Rebus
+* Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what 
+we're planning.
 
 ## Contributing
 
