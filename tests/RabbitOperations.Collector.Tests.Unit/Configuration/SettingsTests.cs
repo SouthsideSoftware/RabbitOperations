@@ -8,6 +8,7 @@ using FluentAssertions;
 using Moq;
 using Moq.AutoMock;
 using RabbitOperations.Collector.Configuration;
+using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Domain.Configuration;
 using SouthsideUtility.RavenDB.Testing;
 
@@ -16,6 +17,12 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
     [TestFixture]
     public class SettingsTests : RavenDbTest
     {
+        [TestFixtureSetUp]
+        public void TestFixtireSetup()
+        {
+            new RavenTenantInitializer(Store).InitializeTenant(Settings.StaticDefaultRavenDBTenant);
+        }
+
         [Test]
         public void SettingsCanBeSavedAndLoaded()
         {

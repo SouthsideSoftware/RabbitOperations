@@ -5,6 +5,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
 {
     public interface ISettings
     {
+        int EmbeddedRavenDBManagementPort { get; }
         string AuditQueue { get; set; }
         string ErrorQueue { get; set; }
 
@@ -18,5 +19,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         void Save();
         MessageTypeHandling MessageTypeHandlingFor(string type);
         int MaxMessagesPerRun { get; set; }
+        bool EmbedRavenDB { get; }
+        string DefaultRavenDBTenant { get; }
     }
 }

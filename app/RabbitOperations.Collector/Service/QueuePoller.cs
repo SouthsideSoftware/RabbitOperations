@@ -12,6 +12,7 @@ using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.Service.Interfaces;
 using RabbitOperations.Domain;
 using Raven.Client;
@@ -102,7 +103,7 @@ namespace RabbitOperations.Collector.Service
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
 
-            using (var session = documentStore.OpenSession())
+            using (var session = documentStore.OpenSessionForDefaultTenant())
             {
                 session.Store(document);
                 session.SaveChanges();

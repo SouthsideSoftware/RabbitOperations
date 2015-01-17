@@ -58,15 +58,19 @@
     </Reference>
     <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\RavenDB.Client.3.0.3566-Unstable\lib\net45\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\RavenDB.Database.3.0.3571-Unstable\lib\net45\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\RavenDB.Client.3.0.3566-Unstable\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\..\packages\RavenDB.Client.3.0.3571-Unstable\lib\net45\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.2.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+      <HintPath>..\..\packages\RavenDB.Database.3.0.3571-Unstable\lib\net45\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="SouthsideUtility.Core, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.3.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -89,6 +93,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CastleWindsor\Installer.cs" />
+    <Compile Include="RavenDB\Interfaces\IRavenTenantInitializer.cs" />
+    <Compile Include="RavenDB\RavenTenantInitializer.cs" />
     <Compile Include="Configuration\Interfaces\ISettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="MessageParser\BodyParser.cs" />
@@ -99,6 +105,7 @@
     <Compile Include="MessageParser\NServiceBus\HeaderParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenDB\DocumentStoreExtensions.cs" />
     <Compile Include="Service\Interfaces\IMessageReader.cs" />
     <Compile Include="Service\Interfaces\IQueuePoller.cs" />
     <Compile Include="Service\Interfaces\IQueuePollerFactory.cs" />
@@ -108,7 +115,13 @@
     <Compile Include="Service\QueuePoller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="..\..\packages\RavenDB.Database.3.0.3571-Unstable\lib\net45\Raven.Studio.Html5.zip">
+      <Link>Raven.Studio.Html5.zip</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
