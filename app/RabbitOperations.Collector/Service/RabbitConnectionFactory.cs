@@ -1,8 +1,8 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using RabbitMQ.Client;
-using System.Collections.Concurrent;
+using RabbitOperations.Collector.Service.Interfaces;
 
-namespace RabbitOperations.Collector.Service.Interfaces
+namespace RabbitOperations.Collector.Service
 {
     public class RabbitConnectionFactory : IRabbitConnectionFactory
     {

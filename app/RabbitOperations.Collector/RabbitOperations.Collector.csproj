@@ -113,7 +113,7 @@
     <Compile Include="MessageParser\Interfaces\IRawMessage.cs" />
     <Compile Include="MessageParser\RawMessage.cs" />
     <Compile Include="Service\Interfaces\IRabbitConnectionFactory.cs" />
-    <Compile Include="Service\Interfaces\RabbitConnectionFactory.cs" />
+    <Compile Include="Service\RabbitConnectionFactory.cs" />
     <Compile Include="Service\QueueSettings.cs" />
     <Compile Include="Service\MessageReader.cs" />
     <Compile Include="Service\QueuePoller.cs" />
