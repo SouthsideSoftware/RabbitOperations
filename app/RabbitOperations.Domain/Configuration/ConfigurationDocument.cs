@@ -17,7 +17,7 @@ namespace RabbitOperations.Domain.Configuration
                 AuditQueue = "audit",
                 ErrorQueue = "error",
                 RabbitConnectionString = "amqp://localhost",
-                PollingTimeout = 5000,
+                PollingTimeoutMilliseconds = 5000,
                 MaxMessagesPerRun = 0,
                 EnvironmentName = "Default",
                 EnvironmentId = "Default"

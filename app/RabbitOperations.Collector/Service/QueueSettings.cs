@@ -10,7 +10,14 @@ namespace RabbitOperations.Collector.Service
         {
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
             Verify.RequireNotNull(environment, "environment");
-            
+
+            QueueName = queueName;
+            EnvironmentId = environment.EnvironmentId;
+            EnvironmentName = environment.EnvironmentName;
+            RabbitConnectionString = environment.RabbitConnectionString;
+            MaxMessagesPerRun = environment.MaxMessagesPerRun;
+            PollingTimeoutMilliseconds = environment.PollingTimeoutMilliseconds;
+            HeartbeatIntervalSeconds = environment.HeartbeatIntervalSeconds;
         }
 
         public string EnvironmentId { get; private set; }
@@ -21,7 +28,7 @@ namespace RabbitOperations.Collector.Service
 
         public int MaxMessagesPerRun { get; private set; }
 
-        public int PollingTimeout { get; private set; }
+        public int PollingTimeoutMilliseconds { get; private set; }
 
         public string RabbitConnectionString { get; private set; }
 

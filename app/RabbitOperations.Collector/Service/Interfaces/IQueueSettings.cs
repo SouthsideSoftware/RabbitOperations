@@ -7,7 +7,7 @@
         string QueueName { get; }
 
         int MaxMessagesPerRun { get; }
-        int PollingTimeout { get; }
+        int PollingTimeoutMilliseconds { get; }
         string RabbitConnectionString { get; }
         int HeartbeatIntervalSeconds { get; }
     }

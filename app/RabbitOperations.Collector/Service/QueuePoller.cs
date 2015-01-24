@@ -68,7 +68,7 @@ namespace RabbitOperations.Collector.Service
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         BasicDeliverEventArgs ea = null;
-                        consumer.Queue.Dequeue(QueueSettings.PollingTimeout, out ea);
+                        consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
                         logger.Trace("Dequeue completed for {0}{1}", queueLogInfo,
                             ea == null ? " without a message (timeout)" : " with a message");
                         if (ea != null)

@@ -12,9 +12,9 @@ namespace RabbitOperations.Domain.Configuration
         public string RabbitConnectionString { get; set; }
 
         public int MaxMessagesPerRun { get; set; }
-        public int PollingTimeout { get; set; }
+        public int PollingTimeoutMilliseconds { get; set; }
 
-        public int HeartbeatInterval { get; set; }
+        public int HeartbeatIntervalSeconds { get; set; }
         public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
     }
 }
