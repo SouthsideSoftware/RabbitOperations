@@ -37,23 +37,27 @@ namespace RabbitOperations.Collector.Service
         public void Start()
         {
             logger.Info("Collector starting...");
-            StartPollingQueue(settings.AuditQueue);
-            StartPollingQueue(settings.ErrorQueue);
+            foreach (var environment in settings.Environments)
+            {
+                StartPollingQueue(new QueueSettings(environment.AuditQueue, environment));
+                StartPollingQueue(new QueueSettings(environment.ErrorQueue, environment));
+            }
             logger.Info("Collector started");
         }
 
-        private void StartPollingQueue(string queueName)
+        private void StartPollingQueue(IQueueSettings queueSettings)
         {
             queuePollers.Add(Task.Factory.StartNew(() =>
             {
+                string queueLogInfo = string.Format("queue {0} in environment {1}({2})", queueSettings.QueueName, queueSettings.EnvironmentName, queueSettings.EnvironmentId);
                 try
                 {
-                    var queuePoller = queuePollerFactory.Create(queueName, cancellationToken);
+                    var queuePoller = queuePollerFactory.Create(queueSettings, cancellationToken);
                     queuePoller.Poll();
                 }
                 catch (Exception err)
                 {
-                    logger.Error("Failed in queue poller for {0} with error {1}", queueName, err);
+                    logger.Error("Failed in queue poller for {0} with error {1}", queueLogInfo, err);
                     throw;
                 }
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));

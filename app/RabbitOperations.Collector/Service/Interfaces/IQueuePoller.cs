@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Domain.Configuration;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
@@ -9,7 +10,7 @@ namespace RabbitOperations.Collector.Service.Interfaces
         /// <summary>
         /// Gets the queue name for this poller
         /// </summary>
-        string QueueName { get; }
+        IQueueSettings QueueSettings { get; }
         /// <summary>
         /// Start polling the indicated queue
         /// </summary>

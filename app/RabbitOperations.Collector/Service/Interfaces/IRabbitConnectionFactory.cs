@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using RabbitMQ.Client;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
-    public interface IQueuePollerFactory
+    public interface IRabbitConnectionFactory
     {
-        IQueuePoller Create(IQueueSettings queueSettings, CancellationToken cancellationToken);
+        IConnectionFactory Create(IQueueSettings queueSettings);
     }
 }

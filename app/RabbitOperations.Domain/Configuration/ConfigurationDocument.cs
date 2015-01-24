@@ -10,21 +10,23 @@ namespace RabbitOperations.Domain.Configuration
     {
         public ConfigurationDocument()
         {
-            MessageHandlingInstructions = new List<MessageTypeHandling>();
+            GlobalMessageHandlingInstructions = new List<MessageTypeHandling>();
             Id = 1;
-            AuditQueue = "audit";
-            ErrorQueue = "error";
-            RabbitConnectionString = "amqp://localhost";
-            PollingTimeout = 5000;
-            MaxMessagesPerRun = 0;
+            Environments = new List<EnvironmentConfiguration> { new EnvironmentConfiguration{
+                MessageHandlingInstructions = new List<MessageTypeHandling>(),
+                AuditQueue = "audit",
+                ErrorQueue = "error",
+                RabbitConnectionString = "amqp://localhost",
+                PollingTimeout = 5000,
+                MaxMessagesPerRun = 0,
+                EnvironmentName = "Default",
+                EnvironmentId = "Default"
+              }};
         }
         public int Id { get; set; }
-        public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
-        public string AuditQueue { get; set; }
-        public string ErrorQueue { get; set; }
-        public int PollingTimeout { get; set; }
 
-        public string RabbitConnectionString { get; set; }
-        public int MaxMessagesPerRun { get; set; }
+        public IList<MessageTypeHandling> GlobalMessageHandlingInstructions { get; set; } 
+
+        public IList<EnvironmentConfiguration> Environments { get; set; } 
     }
 }

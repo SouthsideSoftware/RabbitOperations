@@ -28,14 +28,19 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
         {
             //arrange
             var settings = new Settings(Store);
-            settings.AuditQueue = "xxx";
+            const string environmentId = "one";
+            settings.Environments.Add(new EnvironmentConfiguration
+            {
+                AuditQueue = "xxx",
+                EnvironmentId = environmentId
+            });
             settings.Save();
 
             //act
             settings = new Settings(Store);
 
             //assert 
-            settings.AuditQueue.Should().Be("xxx");
+            settings.Environments.First(x => x.EnvironmentId == environmentId).AuditQueue.Should().Be("xxx");
         }
 
         [Test]
@@ -43,7 +48,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
         {
             //arrange
             var settings = new Settings(Store);
-            settings.MessageHandlingInstructions = new List<MessageTypeHandling>
+            settings.GlobalMessageHandlingInstructions = new List<MessageTypeHandling>
             {
                 new MessageTypeHandling
                 {
@@ -83,7 +88,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
         {
             //arrange
             var settings = new Settings(Store);
-            settings.MessageHandlingInstructions = new List<MessageTypeHandling>
+            settings.GlobalMessageHandlingInstructions = new List<MessageTypeHandling>
             {
                 new MessageTypeHandling
                 {

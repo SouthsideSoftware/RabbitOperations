@@ -35,9 +35,12 @@ namespace RabbitOperations.Collector.CastleWindsor
             container.Kernel.AddFacility<TypedFactoryFacility>();
             container.Register(Component.For<IQueuePoller>().ImplementedBy<QueuePoller>().LifestyleTransient(),
                 Component.For<IQueuePollerFactory>().AsFactory(),
+                Component.For<IRabbitConnectionFactory>().ImplementedBy<RabbitConnectionFactory>().LifestyleSingleton(),
                 Component.For<IRawMessage>().ImplementedBy<RawMessage>().LifestyleTransient(),
                 Component.For<IMessageReader>().ImplementedBy<MessageReader>().LifestyleSingleton(),
-                Component.For<ICancellationTokenSource>().ImplementedBy<CancellationTokenSourceWrapper>().LifestyleTransient(),
+                Component.For<ICancellationTokenSource>()
+                    .ImplementedBy<CancellationTokenSourceWrapper>()
+                    .LifestyleTransient(),
                 Component.For<CancellationTokenSource>().LifestyleTransient(),
                 Component.For<ISettings>().ImplementedBy<Settings>().LifestyleSingleton(),
                 Component.For<IHeaderParser>().ImplementedBy<HeaderParser>().LifestyleSingleton(),
@@ -68,12 +71,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                     CreateDefaultDatabaseWithExpirationBundleIfNotExists(docStore);
 
                     return docStore;
-                }).LifestyleSingleton(),
-                Component.For<IConnectionFactory>().UsingFactoryMethod(x => new ConnectionFactory()
-                {
-                    uri = new Uri(container.Resolve<ISettings>().RabbitConnectionString),
-                    RequestedHeartbeat = 30
-                }));
+                }).LifestyleSingleton());
         }
 
         private static void CreateDefaultDatabaseWithExpirationBundleIfNotExists(IDocumentStore docStore)

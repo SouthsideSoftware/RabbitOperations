@@ -14,6 +14,7 @@ using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain.Configuration;
 using SouthsideUtility.Core.CastleWindsor;
 
 namespace RabbitOperations.Tests.Unit
@@ -49,8 +50,8 @@ namespace RabbitOperations.Tests.Unit
         {
             ServiceLocator.Container.Install(new RabbitOperations.Collector.CastleWindsor.Installer());
             var factory = ServiceLocator.Container.Resolve<IQueuePollerFactory>();
-            var poller = factory.Create("Test", new CancellationToken());
-            poller.QueueName.Should().Be("Test");
+            var poller = factory.Create(new QueueSettings("Test", new EnvironmentConfiguration()), new CancellationToken());
+            poller.QueueSettings.QueueName.Should().Be("Test");
         }
         [Test]
         [Ignore("Spike")]

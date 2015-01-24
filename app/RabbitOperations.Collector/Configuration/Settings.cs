@@ -54,47 +54,23 @@ namespace RabbitOperations.Collector.Configuration
             get { return StaticEmbeddedRavenDBManagementPort; }
         }
 
-        public string AuditQueue
+        public IList<MessageTypeHandling> GlobalMessageHandlingInstructions
         {
-            get { return configurationDocument.AuditQueue; }
-            set { configurationDocument.AuditQueue = value; }
+            get { return configurationDocument.GlobalMessageHandlingInstructions; }
+            set { configurationDocument.GlobalMessageHandlingInstructions = value; }
         }
 
-        public int PollingTimeout
+        public IList<EnvironmentConfiguration> Environments
         {
-            get { return configurationDocument.PollingTimeout; }
-            set { configurationDocument.PollingTimeout = value; }
-        }
-
-        public int MaxMessagesPerRun
-        {
-            get { return configurationDocument.MaxMessagesPerRun; }
-            set { configurationDocument.MaxMessagesPerRun = value; }
-        }
-
-        public string RabbitConnectionString
-        {
-            get { return configurationDocument.RabbitConnectionString; }
-            set { configurationDocument.RabbitConnectionString = value; }
-        }
-
-        public IList<MessageTypeHandling> MessageHandlingInstructions
-        {
-            get { return configurationDocument.MessageHandlingInstructions; }
-            set { configurationDocument.MessageHandlingInstructions = value; }
-        }
-
-        public string ErrorQueue
-        {
-            get { return configurationDocument.ErrorQueue; }
-            set { configurationDocument.ErrorQueue = value; }
+            get { return configurationDocument.Environments; }
+            set { configurationDocument.Environments = value; }
         }
 
         public MessageTypeHandling MessageTypeHandlingFor(string type)
         {
             Verify.RequireStringNotNullOrWhitespace(type, "type");
 
-            return MessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
+            return GlobalMessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
         }
 
         public void Load()

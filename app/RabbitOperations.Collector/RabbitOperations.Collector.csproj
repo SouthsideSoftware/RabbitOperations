@@ -93,6 +93,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CastleWindsor\Installer.cs" />
+    <Compile Include="Service\Interfaces\IQueueSettings.cs" />
     <Compile Include="RavenDB\Interfaces\IRavenTenantInitializer.cs" />
     <Compile Include="RavenDB\RavenTenantInitializer.cs" />
     <Compile Include="Configuration\Interfaces\ISettings.cs" />
@@ -111,6 +112,9 @@
     <Compile Include="Service\Interfaces\IQueuePollerFactory.cs" />
     <Compile Include="MessageParser\Interfaces\IRawMessage.cs" />
     <Compile Include="MessageParser\RawMessage.cs" />
+    <Compile Include="Service\Interfaces\IRabbitConnectionFactory.cs" />
+    <Compile Include="Service\Interfaces\RabbitConnectionFactory.cs" />
+    <Compile Include="Service\QueueSettings.cs" />
     <Compile Include="Service\MessageReader.cs" />
     <Compile Include="Service\QueuePoller.cs" />
   </ItemGroup>
