@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace RabbitOperations.Collector
         static void Main(string[] args)
         {
             ServiceLocator.Container.Install(new Installer());
-            logger.Info("Starting app");
+            logger.Info("Starting app in {0}", Environment.Is64BitProcess ? "64bit process" : "32bit process");
             HostFactory.Run(x =>                                 
             {
                 x.Service<IMessageReader>(s =>                        
