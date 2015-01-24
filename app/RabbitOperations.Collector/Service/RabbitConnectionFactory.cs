@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.Service.Interfaces;
 
@@ -6,16 +7,16 @@ namespace RabbitOperations.Collector.Service
 {
     public class RabbitConnectionFactory : IRabbitConnectionFactory
     {
-        public ConcurrentDictionary<string, IConnectionFactory> ConnectionFactories;
+        protected internal ConcurrentDictionary<string, IConnectionFactory> connectionFactories;
 
         public RabbitConnectionFactory()
         {
-            ConnectionFactories = new ConcurrentDictionary<string, IConnectionFactory>();
+            connectionFactories = new ConcurrentDictionary<string, IConnectionFactory>();
         }
  
         public IConnectionFactory Create(IQueueSettings queueSettings)
         {
-            return ConnectionFactories.GetOrAdd(queueSettings.RabbitConnectionString, x => new ConnectionFactory
+            return connectionFactories.GetOrAdd(queueSettings.RabbitConnectionString, x => new ConnectionFactory
             {
                 Uri = queueSettings.RabbitConnectionString,
                 RequestedHeartbeat = (ushort) queueSettings.HeartbeatIntervalSeconds

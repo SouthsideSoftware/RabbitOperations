@@ -7,3 +7,4 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("RabbitOperations.Collector")]
 [assembly: AssemblyDescription("")]
+[assembly: InternalsVisibleTo("RabbitOperations.Collector.Tests.Unit")]
