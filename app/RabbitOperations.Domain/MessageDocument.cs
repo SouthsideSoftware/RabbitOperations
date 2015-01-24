@@ -15,8 +15,11 @@ namespace RabbitOperations.Domain
             MessageTypes = new List<TypeName>();
             BusTechnology = "NServiceBus";
             BusinessKeys = new Dictionary<string, string>();
+            EnvironmentId = "Default";
         }
         public int Id { get; set; }
+
+        public string EnvironmentId { get; set; }
         public IDictionary<string, string> BusinessKeys { get; set; }
         public string ContentType { get; set; }
         public string BusTechnology { get; set; }

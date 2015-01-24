@@ -102,7 +102,10 @@ namespace RabbitOperations.Collector.Service
         {
             logger.Trace("handling message on {0}", queueLogInfo);
 
-            var document = new MessageDocument();
+            var document = new MessageDocument
+            {
+                EnvironmentId = QueueSettings.EnvironmentId
+            };
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
 
