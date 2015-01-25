@@ -1,6 +1,7 @@
 using Castle.Windsor;
 using Nancy;
 using Nancy.Bootstrappers.Windsor;
+using Nancy.Conventions;
 using SouthsideUtility.Core.CastleWindsor;
 
 namespace RabbitOperations.Collector.Web.Startup

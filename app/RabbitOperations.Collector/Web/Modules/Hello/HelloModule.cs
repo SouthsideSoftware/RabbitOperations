@@ -8,6 +8,7 @@ namespace RabbitOperations.Collector.Web.Modules.Hello
         {
             Get["/"] = parameters =>
             {
+                
                 return View["hello.cshtml"];
             };
         }
