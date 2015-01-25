@@ -11,6 +11,8 @@ using Castle.Windsor;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.Configuration.Interfaces;
+using RabbitOperations.Collector.Host;
+using RabbitOperations.Collector.Host.Interfaces;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageParser.NServiceBus;
@@ -37,7 +39,10 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IQueuePollerFactory>().AsFactory(),
                 Component.For<IRabbitConnectionFactory>().ImplementedBy<RabbitConnectionFactory>().LifestyleSingleton(),
                 Component.For<IRawMessage>().ImplementedBy<RawMessage>().LifestyleTransient(),
-                Component.For<IMessageReader>().ImplementedBy<MessageReader>().LifestyleSingleton(),
+                Component.For<IHost>().ImplementedBy<Host.Host>().LifestyleSingleton(),
+                Component.For<IQueuePollerHost>().ImplementedBy<QueuePollerHost>().LifestyleTransient(),
+                Component.For<IWebHost>().ImplementedBy<WebHost>().LifestyleTransient(),
+                Component.For<ISubHostFactory>().AsFactory().LifestyleSingleton(),
                 Component.For<ICancellationTokenSource>()
                     .ImplementedBy<CancellationTokenSourceWrapper>()
                     .LifestyleTransient(),

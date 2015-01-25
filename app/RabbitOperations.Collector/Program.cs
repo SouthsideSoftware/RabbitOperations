@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 using RabbitOperations.Collector.CastleWindsor;
+using RabbitOperations.Collector.Host.Interfaces;
 using SouthsideUtility.Core.CastleWindsor;
 using Topshelf;
 using RabbitOperations.Collector.Service.Interfaces;
@@ -23,9 +24,9 @@ namespace RabbitOperations.Collector
             logger.Info("Starting app in {0}", Environment.Is64BitProcess ? "64bit process" : "32bit process");
             HostFactory.Run(x =>                                 
             {
-                x.Service<IMessageReader>(s =>                        
+                x.Service<IHost>(s =>                        
                 {
-                    s.ConstructUsing(name => ServiceLocator.Container.Resolve<IMessageReader>());     
+                    s.ConstructUsing(name => ServiceLocator.Container.Resolve<IHost>());     
                     s.WhenStarted(mr => mr.Start());              
                     s.WhenStopped(mr => mr.Stop());               
                 });

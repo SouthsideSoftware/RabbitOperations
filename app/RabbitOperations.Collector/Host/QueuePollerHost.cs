@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 using RabbitOperations.Collector.Configuration.Interfaces;
+using RabbitOperations.Collector.Host.Interfaces;
+using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 using SouthsideUtility.Core.TestableSystem.Interfaces;
 
-namespace RabbitOperations.Collector.Service
+namespace RabbitOperations.Collector.Host
 {
-    public class MessageReader : IMessageReader
+    public class QueuePollerHost : IQueuePollerHost
     {
-        private readonly ICancellationTokenSource cancellationTokenSource;
-        private readonly ISettings settings;
-        private readonly IQueuePollerFactory queuePollerFactory;
-        private CancellationToken cancellationToken;
-        private IList<Task> queuePollers = new List<Task>();
         private Logger logger = LogManager.GetCurrentClassLogger();
+        private IList<Task> queuePollers = new List<Task>();
+        private readonly IQueuePollerFactory queuePollerFactory;
+        private readonly ICancellationTokenSource cancellationTokenSource;
+        private CancellationToken cancellationToken;
+        private readonly ISettings settings;
 
-        public MessageReader(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory)
+        public QueuePollerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory)
         {
             Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");
@@ -36,13 +37,21 @@ namespace RabbitOperations.Collector.Service
 
         public void Start()
         {
-            logger.Info("Collector starting...");
+            logger.Info("Queue poller host starting...");
             foreach (var environment in settings.Environments)
             {
                 StartPollingQueue(new QueueSettings(environment.AuditQueue, environment));
                 StartPollingQueue(new QueueSettings(environment.ErrorQueue, environment));
             }
-            logger.Info("Collector started");
+            logger.Info("Queue poller host started");
+        }
+
+        public void Stop()
+        {
+            logger.Info("Queue poller host stopping...");
+            cancellationTokenSource.Cancel();
+            HandleShutdown();
+            logger.Info("Queue poller host stopped");
         }
 
         private void StartPollingQueue(IQueueSettings queueSettings)
@@ -63,14 +72,6 @@ namespace RabbitOperations.Collector.Service
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));
         }
 
-        public void Stop()
-        {
-            logger.Info("Collector stopping...");
-            cancellationTokenSource.Cancel();
-            HandleShutdown();
-            logger.Info("Collector stopped");
-        }
-
         private void HandleShutdown()
         {
             try
@@ -79,7 +80,7 @@ namespace RabbitOperations.Collector.Service
             }
             catch (Exception ex)
             {
-                logger.Error("Collector encountered exception while shutting down");
+                logger.Error("QueuePollerHost encountered exception while shutting down");
 
                 var aggregateException = ex as AggregateException;
                 if (aggregateException != null)
