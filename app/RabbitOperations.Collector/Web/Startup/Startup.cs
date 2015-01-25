@@ -1,6 +1,6 @@
 using Owin;
 
-namespace RabbitOperations.Collector.Web
+namespace RabbitOperations.Collector.Web.Startup
 {
     public class Startup
     {

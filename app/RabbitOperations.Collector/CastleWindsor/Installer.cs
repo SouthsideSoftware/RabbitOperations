@@ -8,6 +8,7 @@ using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Nancy.ViewEngines;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.Configuration.Interfaces;

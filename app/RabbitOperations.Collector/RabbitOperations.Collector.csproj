@@ -57,8 +57,14 @@
     <Reference Include="Nancy">
       <HintPath>..\..\packages\Nancy.1.0.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy.Bootstrappers.Windsor">
+      <HintPath>..\..\packages\Nancy.Bootstrappers.Windsor.1.0.0\lib\net40\Nancy.Bootstrappers.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy.Owin">
       <HintPath>..\..\packages\Nancy.Owin.1.0.0\lib\net40\Nancy.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.ViewEngines.Razor">
+      <HintPath>..\..\packages\Nancy.Viewengines.Razor.1.0.0\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,6 +100,11 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -117,7 +128,8 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
-    <Compile Include="Web\HelloModule.cs" />
+    <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
+    <Compile Include="Web\Modules\Hello\HelloModule.cs" />
     <Compile Include="Service\Interfaces\IQueueSettings.cs" />
     <Compile Include="RavenDB\Interfaces\IRavenTenantInitializer.cs" />
     <Compile Include="RavenDB\RavenTenantInitializer.cs" />
@@ -142,7 +154,8 @@
     <Compile Include="Service\QueueSettings.cs" />
     <Compile Include="Host\Host.cs" />
     <Compile Include="Service\QueuePoller.cs" />
-    <Compile Include="Web\Startup.cs" />
+    <Compile Include="Web\Startup\NancyBootstrapper.cs" />
+    <Compile Include="Web\Startup\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\packages\RavenDB.Database.3.0.3571-Unstable\lib\net45\Raven.Studio.Html5.zip">
@@ -157,6 +170,10 @@
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="web.config.zzz" />
+    <None Include="Web\Views\Hello\hello.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +193,13 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName) == Debug (
+xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.0.0\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
+xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.0.0\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin\"
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

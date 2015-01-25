@@ -6,6 +6,7 @@ using NLog;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.Host.Interfaces;
 using RabbitOperations.Collector.Web;
+using RabbitOperations.Collector.Web.Startup;
 using Raven.Database.Server;
 using SouthsideUtility.Core.DesignByContract;
 using SouthsideUtility.Core.TestableSystem.Interfaces;
