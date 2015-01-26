@@ -54,6 +54,16 @@ namespace RabbitOperations.Collector.Configuration
             get { return StaticEmbeddedRavenDBManagementPort; }
         }
 
+        public static int StaticEmbeddedWebPort
+        {
+            get { return GetInt("WebPort", 8082).Value; }
+        }
+
+        public int WebPort
+        {
+            get { return StaticEmbeddedWebPort; }
+        }
+
         public IList<MessageTypeHandling> GlobalMessageHandlingInstructions
         {
             get { return configurationDocument.GlobalMessageHandlingInstructions; }

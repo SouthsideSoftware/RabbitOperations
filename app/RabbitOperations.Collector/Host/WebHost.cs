@@ -50,14 +50,15 @@ namespace RabbitOperations.Collector.Host
         {
             webServer = Task.Factory.StartNew(() =>
             {
-                var url = "http://+:8082";
-                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8082);
+                var url = string.Format("http://+:{0}", settings.WebPort);
+                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(settings.WebPort);
 
                 using (WebApp.Start<Startup>(url))
                 {
                     while (!cancellationToken.IsCancellationRequested)
                     {
-                        Thread.Sleep(5000);
+                        //web requests are served on other threads.  This sleep just keeps us from polling too fast waiting for a shutdown request.
+                        Thread.Sleep(10000);
                     }
                 }
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);

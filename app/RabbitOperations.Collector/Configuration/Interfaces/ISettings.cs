@@ -16,5 +16,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         MessageTypeHandling MessageTypeHandlingFor(string type);
         bool EmbedRavenDB { get; }
         string DefaultRavenDBTenant { get; }
+
+        int WebPort { get; }
     }
 }

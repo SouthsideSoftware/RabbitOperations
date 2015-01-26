@@ -171,7 +171,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="web.config.zzz" />
     <None Include="Web\Content\Bootstrap\css\bootstrap-theme.css.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
