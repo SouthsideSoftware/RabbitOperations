@@ -2,14 +2,14 @@ using Nancy;
 
 namespace RabbitOperations.Collector.Web.Modules.Hello
 {
-    public class HelloModule : NancyModule
+    public class DashboardModule : NancyModule
     {
-        public HelloModule() 
+        public DashboardModule() 
         {
             Get["/"] = parameters =>
             {
                 
-                return View["hello.cshtml"];
+                return View["dashboard.cshtml"];
             };
         }
     }

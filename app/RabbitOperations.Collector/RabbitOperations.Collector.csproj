@@ -129,7 +129,7 @@
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
     <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
-    <Compile Include="Web\Modules\Hello\HelloModule.cs" />
+    <Compile Include="Web\Modules\Hello\DashboardModule.cs" />
     <Compile Include="Service\Interfaces\IQueueSettings.cs" />
     <Compile Include="RavenDB\Interfaces\IRavenTenantInitializer.cs" />
     <Compile Include="RavenDB\RavenTenantInitializer.cs" />
@@ -189,7 +189,10 @@
     <None Include="Web\Content\Bootstrap\fonts\glyphicons-halflings-regular.woff2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Web\Views\Hello\hello.cshtml">
+    <None Include="Web\Views\layout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Web\Views\Dashboard\dashboard.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
