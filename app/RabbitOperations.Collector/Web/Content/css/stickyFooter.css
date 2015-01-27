@@ -27,6 +27,9 @@ body {
   max-width: 680px;
   padding: 0 15px;
 }
-.container .text-muted {
+.footer .text-muted {
+  margin: 20px 0;
+}
+.footer img {
   margin: 20px 0;
 }

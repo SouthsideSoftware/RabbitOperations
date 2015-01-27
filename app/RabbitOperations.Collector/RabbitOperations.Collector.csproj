@@ -156,6 +156,7 @@
     <Compile Include="Service\QueuePoller.cs" />
     <Compile Include="Web\Startup\NancyBootstrapper.cs" />
     <Compile Include="Web\Startup\Startup.cs" />
+    <Compile Include="Web\VersionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\packages\RavenDB.Database.3.0.3571-Unstable\lib\net45\Raven.Studio.Html5.zip">
