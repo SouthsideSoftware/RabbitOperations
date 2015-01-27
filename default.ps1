@@ -15,6 +15,9 @@ task default -depends Build
 task build -Description "Build application.  Runs tests" -depends cleanBuildOutput, compile, test {
 }
 
+task quickBuild -Description "Build application no tests" -depends cleanBuildOutput, compile {
+}
+
 task test -Description "Runs tests" {
   [string]$nunitVersion = Get-NunitVersion
   if ($inTeamCity) {

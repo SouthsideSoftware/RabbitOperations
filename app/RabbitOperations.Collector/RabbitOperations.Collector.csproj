@@ -233,6 +233,9 @@
     <Content Include="Web\Content\css\dashboard.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\css\stickyFooter.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\Holder\holder.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
