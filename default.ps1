@@ -1,7 +1,7 @@
 properties {
   $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
   $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-  $version = "0.1.0"
+  $version = "0.2.0"
   $configuration = "Debug"
   $platform = "Any CPU"
   $buildOutputDir = "./BuildOutput"
@@ -66,10 +66,7 @@ Task versionReset -Description "Returns the version of the assemblies to 0.1.0.0
 }
 
 Task publish -Description "Publish artifacts" {
-  Copy-DllOutputs "Autobahn.Fulfillment.Messages"
-  Create-NugetPackage "Autobahn.Fulfillment.Messages"
-  Copy-DllOutputs "Autobahn.Notification.Messages"
-  Create-NugetPackage "Autobahn.Notification.Messages"
+
 }
 
 task startCollector -Description "Starts the collector host" {

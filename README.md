@@ -11,6 +11,10 @@ keys out of the body so messages can be related to one another and searched
 by logical business keys and keywords. There will be a web front end
 to support configuration and searching.
 
+## Documentation
+
+Very limited documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
+
 ## License
 
 [GPL v3](http://www.gnu.org/licenses/gpl-3.0.txt)
@@ -27,7 +31,7 @@ NServiceBus Headers and capture the raw message body. It then writes
 a document with the data to RavenDB.
 
 ## Next Steps
-* Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what 
+* Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what
 we're planning.
 
 ## Contributing

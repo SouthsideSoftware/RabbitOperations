@@ -33,9 +33,9 @@ namespace RabbitOperations.Collector.Host
         }
         public void Start()
         {
-            logger.Info("Web host starting...");
+            logger.Info("Web host starting on port {0}...", settings.WebPort);
             StartWebServer();
-            logger.Info("Web host started.");
+            logger.Info("Web host started on port {0}.", settings.WebPort);
         }
 
         public void Stop()
