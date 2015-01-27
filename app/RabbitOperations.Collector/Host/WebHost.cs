@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
@@ -20,6 +21,7 @@ namespace RabbitOperations.Collector.Host
         private CancellationToken cancellationToken;
         private Task webServer;
         private Logger logger = LogManager.GetCurrentClassLogger();
+        private string hostName;
 
         public WebHost(ICancellationTokenSource cancellationTokenSource, ISettings settings)
         {
@@ -30,12 +32,20 @@ namespace RabbitOperations.Collector.Host
             this.settings = settings;
 
             cancellationToken = cancellationTokenSource.Token;
+            try
+            {
+                hostName = Dns.GetHostName();
+            }
+            catch (Exception err)
+            {
+                logger.Error("Error getting host name {0}");
+            }
         }
         public void Start()
         {
             logger.Info("Web host starting on port {0}...", settings.WebPort);
             StartWebServer();
-            logger.Info("Web host started on port {0}.", settings.WebPort);
+            logger.Info("Web host started.  Access it at http://localhost", settings.WebPort);
         }
 
         public void Stop()
