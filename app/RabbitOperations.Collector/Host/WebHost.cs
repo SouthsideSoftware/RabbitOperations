@@ -38,14 +38,15 @@ namespace RabbitOperations.Collector.Host
             }
             catch (Exception err)
             {
-                logger.Error("Error getting host name {0}");
+                logger.Error("Error getting host name {0}", err);
+                hostName = "127.0.0.1";
             }
         }
         public void Start()
         {
             logger.Info("Web host starting on port {0}...", settings.WebPort);
             StartWebServer();
-            logger.Info("Web host started.  Access it at http://localhost", settings.WebPort);
+            logger.Info("Web host started.  Access it at http://{0}:{1} or http://localhost:{1}", hostName, settings.WebPort);
         }
 
         public void Stop()
