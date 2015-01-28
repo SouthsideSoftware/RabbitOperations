@@ -21,9 +21,9 @@ Very limited documentation is available in the [wiki](https://github.com/Southsi
 
 ## Use of RavenDB
 
-Currently, you must install RavenDB separately. We're thinking about adding
-an embedded option in the future. RavenDB's licensing should
-allow this as this project is released under GPL v3.
+RavenDB is embedded by default. Ayende has graciously agreed to provide a license for this purpose. You can also
+use an external RavenDB if you like. If you use RavenDB externally, you will have to obtain an appropriate license
+from their [website](http://www.ravendb.org).
 
 ## Current State
 * Windows service to read messages is completed. It currently parses
