@@ -11,7 +11,7 @@ keys out of the body so messages can be related to one another and searched
 by logical business keys and keywords. There will be a web front end
 to support configuration and searching.
 
-## Documentation
+## Documentation and Release Notes
 
 Very limited documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
 
@@ -24,11 +24,6 @@ Very limited documentation is available in the [wiki](https://github.com/Southsi
 RavenDB is embedded by default. Ayende has graciously agreed to provide a license for this purpose. You can also
 use an external RavenDB if you like. If you use RavenDB externally, you will have to obtain an appropriate license
 from their [website](http://www.ravendb.org).
-
-## Current State
-* Windows service to read messages is completed. It currently parses
-NServiceBus Headers and capture the raw message body. It then writes
-a document with the data to RavenDB.
 
 ## Next Steps
 * Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what
