@@ -26,7 +26,7 @@ use an external RavenDB if you like. If you use RavenDB externally, you will hav
 from their [website](http://www.ravendb.org).
 
 ## Next Steps
-* Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what
+Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what
 we're planning.
 
 ## Contributing
