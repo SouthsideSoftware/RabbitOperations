@@ -207,6 +207,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="license.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\Bootstrap\css\bootstrap-theme.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

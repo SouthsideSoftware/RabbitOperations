@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<license id="40cb7008-5054-40e0-968e-b15d631ad5a5" expiration="2017-01-31T00:00:00.0000000" type="Subscription" version="3.0" allowWindowsClustering="false" OEM="true" numberOfDatabases="unlimited" fips="false" periodicBackup="true" encryption="false" compression="false" quotas="false" authorization="true" documentExpiration="true" replication="true" versioning="true" maxSizeInMb="unlimited" ravenfs="true" maxRamUtilization="12884901888" maxParallelism="6" updatesExpiration="2017-Jan-31">
+  <name>Tom Cabanski</name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>XhyjH+WT2HsuAA1Kwz5vGTZHxl8=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>rR24ScY355MqRLdgryrEz0oShRIxNJ4kz7vNuGJYOE0P3xCRq++Ul77n/17Mje13Lacc153kHF6zExgfeB732+O9gu/kK0iWT4Em3XtnJ9y3PP+V7L6kAdJCYhFYQAi8qr0sLk8DVJ0qOSfdPOh3Ri2CKfhtm/pLSHTT/mQjJrk=</SignatureValue>
+  </Signature>
+</license>
