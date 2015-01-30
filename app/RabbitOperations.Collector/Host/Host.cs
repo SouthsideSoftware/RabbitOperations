@@ -1,29 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Owin.Hosting;
 using NLog;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.Host.Interfaces;
-using RabbitOperations.Collector.Service;
-using RabbitOperations.Collector.Service.Interfaces;
-using RabbitOperations.Collector.Web;
-using Raven.Database.Server;
 using SouthsideUtility.Core.DesignByContract;
-using SouthsideUtility.Core.TestableSystem.Interfaces;
 
 namespace RabbitOperations.Collector.Host
 {
     public class Host : IHost
     {
-        private readonly ISubHostFactory subHostFactory;
+        private readonly string hostName;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly ISettings settings;
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly ISubHostFactory subHostFactory;
         private IQueuePollerHost queuePollerHost;
         private IWebHost webHost;
-        private string hostName;
 
         public Host(ISubHostFactory subHostFactory, ISettings settings)
         {
@@ -49,7 +40,14 @@ namespace RabbitOperations.Collector.Host
             logger.Info("Collector starting...");
 
             queuePollerHost = subHostFactory.CreatePollerHost();
-            queuePollerHost.Start();
+            if (settings.AutoStartQueuePolling)
+            {
+                queuePollerHost.Start();
+            }
+            else
+            {
+                logger.Info("Polling of queues is not set for autostart. See the web application to start manually or to change this setting");
+            }
 
             webHost = subHostFactory.CreateWebHost();
             webHost.Start();
@@ -63,7 +61,6 @@ namespace RabbitOperations.Collector.Host
             }
         }
 
-       
         public void Stop()
         {
             logger.Info("Collector stopping...");

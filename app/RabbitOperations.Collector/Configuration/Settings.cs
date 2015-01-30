@@ -12,8 +12,8 @@ namespace RabbitOperations.Collector.Configuration
 {
     public class Settings : ISettings
     {
-        private ConfigurationDocument configurationDocument;
         private readonly IDocumentStore documentStore;
+        private ConfigurationDocument configurationDocument;
 
         public Settings(IDocumentStore documentStore)
         {
@@ -29,11 +29,6 @@ namespace RabbitOperations.Collector.Configuration
             get { return GetString("DefaultRavenDBTenant", "RabbitOperations"); }
         }
 
-        public string DefaultRavenDBTenant
-        {
-            get { return StaticDefaultRavenDBTenant; }
-        }
-
         public static bool StaticEmbedRavenDB
         {
             get { return GetBoolean("EmbedRavenDB", true); }
@@ -44,6 +39,22 @@ namespace RabbitOperations.Collector.Configuration
             get { return GetInt("EmbeddedRavenDBManagementPort", 8080).Value; }
         }
 
+        public static int StaticEmbeddedWebPort
+        {
+            get { return GetInt("WebPort", 8082).Value; }
+        }
+
+        public bool AutoStartQueuePolling
+        {
+            get { return configurationDocument.AutoStartQueuePolling; }
+            set { configurationDocument.AutoStartQueuePolling = value; }
+        }
+
+        public string DefaultRavenDBTenant
+        {
+            get { return StaticDefaultRavenDBTenant; }
+        }
+
         public bool EmbedRavenDB
         {
             get { return StaticEmbedRavenDB; }
@@ -52,11 +63,6 @@ namespace RabbitOperations.Collector.Configuration
         public int EmbeddedRavenDBManagementPort
         {
             get { return StaticEmbeddedRavenDBManagementPort; }
-        }
-
-        public static int StaticEmbeddedWebPort
-        {
-            get { return GetInt("WebPort", 8082).Value; }
         }
 
         public int WebPort

@@ -16,5 +16,7 @@ namespace RabbitOperations.Domain.Configuration
 
         public int HeartbeatIntervalSeconds { get; set; }
         public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
+
+        public bool AutoStartQueuePolling { get; set; }
     }
 }

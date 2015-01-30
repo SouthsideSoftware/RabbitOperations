@@ -40,8 +40,15 @@ namespace RabbitOperations.Collector.Host
             logger.Info("Queue poller host starting...");
             foreach (var environment in settings.Environments)
             {
-                StartPollingQueue(new QueueSettings(environment.AuditQueue, environment));
-                StartPollingQueue(new QueueSettings(environment.ErrorQueue, environment));
+                if (environment.AutoStartQueuePolling)
+                {
+                    StartPollingQueue(new QueueSettings(environment.AuditQueue, environment));
+                    StartPollingQueue(new QueueSettings(environment.ErrorQueue, environment));
+                }
+                else
+                {
+                    logger.Info("Polling for environment {0}({1}) is disabled. This is configured in the web application.", environment.EnvironmentName, environment.EnvironmentId);
+                }
             }
             logger.Info("Queue poller host started");
         }

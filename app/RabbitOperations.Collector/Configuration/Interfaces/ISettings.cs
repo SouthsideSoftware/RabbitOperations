@@ -18,5 +18,6 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         string DefaultRavenDBTenant { get; }
 
         int WebPort { get; }
+        bool AutoStartQueuePolling { get; set; }
     }
 }
