@@ -1,3 +1,4 @@
+using System;
 using Castle.Windsor;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -5,6 +6,7 @@ using Nancy.Bootstrappers.Windsor;
 using Nancy.Conventions;
 using SouthsideUtility.Core.CastleWindsor;
 using System.Web.Routing;
+using Metrics;
 
 namespace RabbitOperations.Collector.Web.Startup
 {
@@ -13,7 +15,9 @@ namespace RabbitOperations.Collector.Web.Startup
         protected override void ApplicationStartup(IWindsorContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
-            
+            Metric.Config
+                .WithAllCounters()
+                .WithNancy(pipelines);
         }
 
         protected override IRootPathProvider RootPathProvider

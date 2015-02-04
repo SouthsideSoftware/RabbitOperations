@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Metrics;
 using Newtonsoft.Json;
 using NLog;
 using RabbitMQ.Client;
@@ -32,6 +33,7 @@ namespace RabbitOperations.Collector.Service
         private readonly IDocumentStore documentStore;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly string queueLogInfo;
+        private readonly Meter messageMeter;
 
         public QueuePoller(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
             IHeaderParser headerParser, IDocumentStore documentStore)
@@ -49,6 +51,8 @@ namespace RabbitOperations.Collector.Service
             this.documentStore = documentStore;
             queueLogInfo = string.Format("queue {0} in environment {1}({2})", QueueSettings.QueueName,
                 QueueSettings.EnvironmentName, QueueSettings.EnvironmentId);
+
+            messageMeter = Metric.Meter(string.Format("{0}.{1}.Messages", QueueSettings.EnvironmentId, QueueSettings.QueueName), Unit.Items);
         }
 
         public IQueueSettings QueueSettings { get; protected set; }
@@ -74,8 +78,6 @@ namespace RabbitOperations.Collector.Service
                         consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
                         logger.Trace("Dequeue completed for {0}{1}", queueLogInfo,
                             ea == null ? " without a message (timeout)" : " with a message");
-                        MessagePulseHub.SendMessage(string.Format("Polled at {0}", DateTime.Now));
-                        logger.Trace("Sent signalr");
                         if (ea != null)
                         {
                             try
@@ -120,6 +122,7 @@ namespace RabbitOperations.Collector.Service
                 session.SaveChanges();
                 logger.Trace("Saved document for message with id {0} from {1}", document.Id, queueLogInfo);
             }
+            messageMeter.Mark();
         }
     }
 }
