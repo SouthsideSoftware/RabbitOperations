@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ using RabbitOperations.Domain;
 using RabbitOperations.Domain.Configuration;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
+using Microsoft.AspNet.SignalR;
+using RabbitOperations.Collector.Web.SignalRHubs;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -71,6 +74,8 @@ namespace RabbitOperations.Collector.Service
                         consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
                         logger.Trace("Dequeue completed for {0}{1}", queueLogInfo,
                             ea == null ? " without a message (timeout)" : " with a message");
+                        MessagePulseHub.SendMessage(string.Format("Polled at {0}", DateTime.Now));
+                        logger.Trace("Sent signalr");
                         if (ea != null)
                         {
                             try

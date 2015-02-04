@@ -6,6 +6,7 @@ namespace RabbitOperations.Collector.Web.Startup
     {
         public void Configuration(IAppBuilder app)
         {
+            app.MapSignalR();
             app.UseNancy();
         }
     }
