@@ -32,7 +32,7 @@
     <![endif]-->
 </head>
 
-<body>
+<body ng-app="rabbitOperationsApplication">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
@@ -73,36 +73,11 @@
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <h1 class="page-header">Dashboard</h1>
 
-                <div class="row placeholders">
-                    <div class="col-xs-4 col-sm-2 placeholder">
-                        <img data-src="holder.js/150x150/auto/vine/text:1 per sec" class="img-responsive" alt="Generic placeholder thumbnail">
+                <div class="row placeholders" ng-controller="dashboardController">
+                    <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
+                        <div class="holderjs greenHolder" alt="Generic placeholder thumbnail" holder-fix/>
                         <h4>Stage</h4>
                         <span class="text-muted">audit</span>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 placeholder">
-                        <img data-src="holder.js/150x150/auto/lava/text:0 per sec" class="img-responsive" alt="Generic placeholder thumbnail">
-                        <h4>Stage</h4>
-                        <span class="text-muted">error</span>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 placeholder">
-                        <img data-src="holder.js/150x150/auto/vine/text:13,432 per sec" class="img-responsive" alt="Generic placeholder thumbnail">
-                        <h4>Production</h4>
-                        <span class="text-muted">audit</span>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 placeholder">
-                        <img data-src="holder.js/150x150/auto/lava/text:132 per sec" class="img-responsive" alt="Generic placeholder thumbnail">
-                        <h4>Production</h4>
-                        <span class="text-muted">error</span>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 placeholder">
-                        <img data-src="holder.js/150x150/auto/vine/text: 0 per sec" class="img-responsive" alt="Generic placeholder thumbnail">
-                        <h4>Dev</h4>
-                        <span class="text-muted">audit</span>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 placeholder">
-                        <img data-src="holder.js/150x150/auto/lava/text: 0 per sec" class="img-responsive" alt="Generic placeholder thumbnail">
-                        <h4>Dev</h4>
-                        <span class="text-muted">error</span>
                     </div>
                 </div>
 
@@ -124,7 +99,50 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="content/Bootstrap/js/bootstrap.min.js"></script>
-    <script src="content/Holder/holder.js"></script>
+    <script src="content/holder/holder.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+    <script type="text/javascript">
+        
+        var rabbitOperationsApplication = angular.module('rabbitOperationsApplication', []);
+
+        rabbitOperationsApplication.directive('holderFix', function () {
+            return {
+                link: function (scope, element, attrs) {
+                    Holder.run({ images: element[0], nocss: true });
+                }
+            };
+        });
+
+        rabbitOperationsApplication.controller('dashboardController', function($scope) {
+            $scope.queues = ["one", "two"];
+
+            $scope.getQueuesFromMessage = function (jsonMessage) {
+                var stats = $.parseJSON(jsonMessage);
+                $scope.queues.length = 0;
+                _.each(stats, function(stat) {
+                    $scope.queues.push({
+                        "environmentId": "production",
+                        "queue": "error",
+                        "count": 13
+                    });
+                });
+                $scope.$apply();
+            }
+
+            // Declare a proxy to reference the hub.
+            var chat = $.connection.messagePulseHub;
+            // Create a function that the hub can call to broadcast messages.
+            chat.client.pulse = function (messageType, message) {
+                console.log('Type: ' + messageType + ' Message: ' + message);
+                $scope.getQueuesFromMessage(message);
+            };
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+            });
+        });
+</script>
+
     @RenderSection("Script", false)
 </body>
 </html>

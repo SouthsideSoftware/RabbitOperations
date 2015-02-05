@@ -138,18 +138,6 @@
 @section Script {
     <script src="content/SignalR/jquery.signalR-2.2.0.min.js"></script>
     <script src="../signalr/hubs" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-            // Declare a proxy to reference the hub.
-            var chat = $.connection.messagePulseHub;
-            // Create a function that the hub can call to broadcast messages.
-            chat.client.pulse = function (messageType, message) {
-                console.log('Type: ' + messageType + ' Message: ' + message);
-            };
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-            });
-        });
-    </script>
+
 
 }

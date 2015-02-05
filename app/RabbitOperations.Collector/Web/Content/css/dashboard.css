@@ -103,3 +103,8 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+.greenHolder {
+    background: url(?holder.js/200x200/vine) no-repeat;
+    border-radius: 50%;
+}
