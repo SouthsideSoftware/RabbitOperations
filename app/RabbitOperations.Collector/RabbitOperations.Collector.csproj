@@ -172,12 +172,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Content\Bootstrap\css\bootstrap-theme.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Web\Content\Bootstrap\css\bootstrap.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Web\Content\Bootstrap\fonts\glyphicons-halflings-regular.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
