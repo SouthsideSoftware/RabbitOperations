@@ -57,7 +57,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
@@ -81,13 +81,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Database.3.0.3590-Unstable\lib\net45\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SouthsideUtility.Core, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.3.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.4.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SouthsideUtility.RavenDB, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SouthsideUtility.RavenDB, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SouthsideUtility.RavenDB.0.3.0.0\lib\net45\SouthsideUtility.RavenDB.dll</HintPath>
+      <HintPath>..\..\packages\SouthsideUtility.RavenDB.0.4.0.0\lib\net45\SouthsideUtility.RavenDB.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
