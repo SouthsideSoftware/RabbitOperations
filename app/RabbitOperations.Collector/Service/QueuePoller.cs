@@ -21,7 +21,6 @@ using RabbitOperations.Domain.Configuration;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 using Microsoft.AspNet.SignalR;
-using RabbitOperations.Collector.Web.SignalRHubs;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -52,7 +51,7 @@ namespace RabbitOperations.Collector.Service
             queueLogInfo = string.Format("queue {0} in environment {1}({2})", QueueSettings.QueueName,
                 QueueSettings.EnvironmentName, QueueSettings.EnvironmentId);
 
-            messageMeter = Metric.Meter(string.Format("{0}.{1}.Messages", QueueSettings.EnvironmentId, QueueSettings.QueueName), Unit.Items);
+            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.EnvironmentId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
         }
 
         public IQueueSettings QueueSettings { get; protected set; }

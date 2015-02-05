@@ -7,6 +7,8 @@ using Nancy.Conventions;
 using SouthsideUtility.Core.CastleWindsor;
 using System.Web.Routing;
 using Metrics;
+using Metrics.Reports;
+using RabbitOperations.Collector.Web.SignalR;
 
 namespace RabbitOperations.Collector.Web.Startup
 {
@@ -16,7 +18,7 @@ namespace RabbitOperations.Collector.Web.Startup
         {
             base.ApplicationStartup(container, pipelines);
             Metric.Config
-                .WithAllCounters()
+                .WithAllCounters().WithReporting(x => x.WithReport(new SingalrMetricsReport("RabbitOperations"), TimeSpan.FromSeconds(5)))
                 .WithNancy(pipelines);
         }
 

@@ -148,9 +148,9 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
-    <Compile Include="Web\SignalRHubs\MessagePulseHub.cs" />
+    <Compile Include="Web\SignalR\MessagePulseHub.cs" />
     <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
-    <Compile Include="Web\Modules\Hello\DashboardModule.cs" />
+    <Compile Include="Web\Modules\DashboardModule.cs" />
     <Compile Include="Service\Interfaces\IQueueSettings.cs" />
     <Compile Include="RavenDB\Interfaces\IRavenTenantInitializer.cs" />
     <Compile Include="RavenDB\RavenTenantInitializer.cs" />
@@ -176,6 +176,7 @@
     <Compile Include="Host\Host.cs" />
     <Compile Include="Service\QueuePoller.cs" />
     <Compile Include="Web\Startup\NancyBootstrapper.cs" />
+    <Compile Include="Web\SignalR\SingalrMetricsReport.cs" />
     <Compile Include="Web\Startup\Startup.cs" />
     <Compile Include="Web\VersionHelper.cs" />
   </ItemGroup>

@@ -1,8 +1,6 @@
-using Microsoft.AspNet.SignalR;
 using Nancy;
-using RabbitOperations.Collector.Web.SignalRHubs;
 
-namespace RabbitOperations.Collector.Web.Modules.Hello
+namespace RabbitOperations.Collector.Web.Modules
 {
     public class DashboardModule : NancyModule
     {

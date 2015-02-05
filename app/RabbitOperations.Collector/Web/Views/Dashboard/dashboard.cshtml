@@ -143,8 +143,8 @@
             // Declare a proxy to reference the hub.
             var chat = $.connection.messagePulseHub;
             // Create a function that the hub can call to broadcast messages.
-            chat.client.pulse = function (message) {
-                console.log(message);
+            chat.client.pulse = function (messageType, message) {
+                console.log('Type: ' + messageType + ' Message: ' + message);
             };
             // Start the connection.
             $.connection.hub.start().done(function () {
