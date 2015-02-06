@@ -105,6 +105,16 @@ body {
 }
 
 .greenHolder {
-    background: url(?holder.js/200x200/vine) no-repeat;
+    background: url(?holder.js/150x150/vine/text:) no-repeat;
     border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+}
+
+.greenHolder span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
 }
