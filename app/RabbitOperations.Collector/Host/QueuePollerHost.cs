@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -65,7 +66,8 @@ namespace RabbitOperations.Collector.Host
         {
             queuePollers.Add(Task.Factory.StartNew(() =>
             {
-                string queueLogInfo = string.Format("queue {0} in environment {1}({2})", queueSettings.QueueName, queueSettings.EnvironmentName, queueSettings.EnvironmentId);
+                string queueLogInfo = string.Format("queue {0} in environment {1}({2})", queueSettings.QueueName,
+                    queueSettings.EnvironmentName, queueSettings.EnvironmentId);
                 try
                 {
                     var queuePoller = queuePollerFactory.Create(queueSettings, cancellationToken);

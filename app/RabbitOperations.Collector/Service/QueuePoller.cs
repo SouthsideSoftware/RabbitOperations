@@ -30,34 +30,48 @@ namespace RabbitOperations.Collector.Service
         private readonly IRabbitConnectionFactory rabbitConnectionFactory;
         private readonly IHeaderParser headerParser;
         private readonly IDocumentStore documentStore;
+        private readonly IActiveQueuePollers activeQueuePollers;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly string queueLogInfo;
         private readonly Meter messageMeter;
 
+        internal QueuePoller(Guid key)
+        {
+            Verify.RequireNotNull(key, "key");
+
+            Key = key;
+        }
+
         public QueuePoller(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
-            IHeaderParser headerParser, IDocumentStore documentStore)
+            IHeaderParser headerParser, IDocumentStore documentStore, IActiveQueuePollers activeQueuePollers)
         {
             Verify.RequireNotNull(queueSettings, "queueSettings");
             Verify.RequireNotNull(cancellationToken, "cancellationToken");
             Verify.RequireNotNull(headerParser, "headerParser");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(rabbitConnectionFactory, "rabbitConnectionFactory");
+            Verify.RequireNotNull(activeQueuePollers, "activeQueuePollers");
 
             QueueSettings = queueSettings;
             this.cancellationToken = cancellationToken;
             this.rabbitConnectionFactory = rabbitConnectionFactory;
             this.headerParser = headerParser;
             this.documentStore = documentStore;
+            this.activeQueuePollers = activeQueuePollers;
             queueLogInfo = string.Format("queue {0} in environment {1}({2})", QueueSettings.QueueName,
                 QueueSettings.EnvironmentName, QueueSettings.EnvironmentId);
+            Key = Guid.NewGuid();
 
             messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.EnvironmentId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
         }
 
         public IQueueSettings QueueSettings { get; protected set; }
 
+        public Guid Key { get; protected set; }
+
         public void Poll()
         {
+            activeQueuePollers.Add(this);
             logger.Info("Started queue poller for {0}", queueLogInfo);
             using (var connection = rabbitConnectionFactory.Create(QueueSettings).CreateConnection())
             {
@@ -100,6 +114,7 @@ namespace RabbitOperations.Collector.Service
                 }
             }
             logger.Info("Shutting down queue poller for {0} because of cancellation request", queueLogInfo);
+            activeQueuePollers.Remove(this);
         }
 
  

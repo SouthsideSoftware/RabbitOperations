@@ -109,6 +109,7 @@
     <Compile Include="MessageParser\RawMessageTests.cs" />
     <Compile Include="MessageParser\TypeNameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ActiveQueuePollersTests.cs" />
     <Compile Include="Service\QueueSettingsTests.cs" />
     <Compile Include="Service\RabbitConnectionFactoryTests.cs" />
   </ItemGroup>

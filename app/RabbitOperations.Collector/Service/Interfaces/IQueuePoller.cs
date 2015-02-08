@@ -11,6 +11,9 @@ namespace RabbitOperations.Collector.Service.Interfaces
         /// Gets the queue name for this poller
         /// </summary>
         IQueueSettings QueueSettings { get; }
+
+        Guid Key { get; }
+
         /// <summary>
         /// Start polling the indicated queue
         /// </summary>
