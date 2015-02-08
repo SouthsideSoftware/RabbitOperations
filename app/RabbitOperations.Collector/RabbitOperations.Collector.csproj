@@ -148,6 +148,7 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
+    <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
     <Compile Include="Web\SignalR\MessagePulseHub.cs" />
     <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
     <Compile Include="Web\Modules\DashboardModule.cs" />
