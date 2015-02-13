@@ -17,6 +17,8 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
     [TestFixture]
     public class SettingsTests : RavenDbTest
     {
+        public SettingsTests() : base(ravenInMemory: true) { }
+
         [TestFixtureSetUp]
         public void TestFixtireSetup()
         {
