@@ -114,28 +114,19 @@
             };
         });
 
-        rabbitOperationsApplication.controller('dashboardController', function($scope) {
-            $scope.queues = ["one", "two"];
-
-            $scope.getQueuesFromMessage = function (jsonMessage) {
-                var stats = $.parseJSON(jsonMessage);
-                $scope.queues.length = 0;
-                _.each(stats, function(stat) {
-                    $scope.queues.push({
-                        "environmentId": "production",
-                        "queue": "error",
-                        "count": 13
-                    });
-                });
-                $scope.$apply();
-            }
+        rabbitOperationsApplication.controller('dashboardController', function ($scope, $http) {
+            $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
+                $scope.queues = data.activePollers;
+            }).error(function (data, status, headers, config) {
+                alert("AJAX failed!");
+            });
 
             // Declare a proxy to reference the hub.
             var chat = $.connection.messagePulseHub;
             // Create a function that the hub can call to broadcast messages.
             chat.client.pulse = function (messageType, message) {
                 console.log('Type: ' + messageType + ' Message: ' + message);
-                $scope.getQueuesFromMessage(message);
+                //$scope.getQueuesFromMessage(message);
             };
             // Start the connection.
             $.connection.hub.start().done(function () {
