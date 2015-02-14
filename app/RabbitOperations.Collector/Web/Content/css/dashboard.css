@@ -118,3 +118,18 @@ body {
     vertical-align: middle;
     line-height: normal;
 }
+
+.redHolder {
+    background: lightpink;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+}
+
+.redHolder span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}

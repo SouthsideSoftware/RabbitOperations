@@ -18,8 +18,10 @@ namespace RabbitOperations.Collector.Service
             MaxMessagesPerRun = environment.MaxMessagesPerRun;
             PollingTimeoutMilliseconds = environment.PollingTimeoutMilliseconds;
             HeartbeatIntervalSeconds = environment.HeartbeatIntervalSeconds;
+            IsErrorQueue = environment.ErrorQueue == QueueName;
         }
 
+        public bool IsErrorQueue { get; private set; }
         public string EnvironmentId { get; private set; }
 
         public string EnvironmentName { get; private set; }

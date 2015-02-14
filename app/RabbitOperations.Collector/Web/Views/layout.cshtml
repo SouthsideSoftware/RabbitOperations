@@ -75,9 +75,9 @@
 
                 <div class="row placeholders" ng-controller="dashboardController">
                     <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
-                        <div class="holderjs greenHolder" alt="Generic placeholder thumbnail" holder-fix><span>This is text</span></div>
-                        <h4>Stage</h4>
-                        <span class="text-muted">audit</span>
+                        <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix><span>This is text</span></div>
+                        <h4>{{queue.queueSettings.environmentName}}</h4>
+                        <span class="text-muted">{{queue.queueSettings.queueName}}</span>
                     </div>
                 </div>
 
@@ -99,20 +99,11 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="content/Bootstrap/js/bootstrap.min.js"></script>
-    <script src="content/holder/holder.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
     <script type="text/javascript">
         
         var rabbitOperationsApplication = angular.module('rabbitOperationsApplication', []);
-
-        rabbitOperationsApplication.directive('holderFix', function () {
-            return {
-                link: function (scope, element, attrs) {
-                    Holder.run({ images: element[0], nocss: true });
-                }
-            };
-        });
 
         rabbitOperationsApplication.controller('dashboardController', function ($scope, $http) {
             $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
