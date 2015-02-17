@@ -1,6 +1,7 @@
 using System.IO;
 using System.Reflection;
 using Nancy;
+using RabbitOperations.Collector.Configuration;
 
 namespace RabbitOperations.Collector.Web.Startup
 {
@@ -15,7 +16,7 @@ namespace RabbitOperations.Collector.Web.Startup
             var binDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var devFileDirectory = Path.Combine(binDirectory, "..\\..\\Web");
             var devFile = Path.Combine(devFileDirectory, "Views\\layout.cshtml");
-            appLocation = File.Exists(devFile) ? Path.GetFullPath(devFileDirectory) : Path.Combine(binDirectory, "Web");
+            appLocation = File.Exists(devFile) && Settings.StaticAllowDevelopmentMode ? Path.GetFullPath(devFileDirectory) : Path.Combine(binDirectory, "Web");
         }
 
         public string GetRootPath()

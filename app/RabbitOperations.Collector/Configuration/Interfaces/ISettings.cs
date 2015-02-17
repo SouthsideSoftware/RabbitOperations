@@ -19,5 +19,11 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
 
         int WebPort { get; }
         bool AutoStartQueuePolling { get; set; }
+
+        /// <summary>
+        /// Returns true if the application should use views and other web client side components
+        /// from development directories if present.
+        /// </summary>
+        bool AllowDevelopmentMode { get; }
     }
 }

@@ -24,6 +24,24 @@ namespace RabbitOperations.Collector.Configuration
             Load();
         }
 
+        /// <summary>
+        /// Returns true if the application should use views and other web client side components
+        /// from development directories if present.
+        /// </summary>
+        public static bool StaticAllowDevelopmentMode
+        {
+            get { return GetBoolean("AllowDevelopmentMode", true); }
+        }
+
+        /// <summary>
+        /// Returns true if the application should use views and other web client side components
+        /// from development directories if present.
+        /// </summary>
+        public bool AllowDevelopmentMode
+        {
+            get { return StaticAllowDevelopmentMode; }
+        }
+
         public static string StaticDefaultRavenDBTenant
         {
             get { return GetString("DefaultRavenDBTenant", "RabbitOperations"); }
