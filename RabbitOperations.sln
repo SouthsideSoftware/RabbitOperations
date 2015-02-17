@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitOperations.Collector.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitOperations.Domain", "app\RabbitOperations.Domain\RabbitOperations.Domain.csproj", "{C578C1DA-F710-4E0F-83FC-04FB6905AE92}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFixtures", "TestFixtures", "{E7EC9A1C-D554-49E6-8E48-8645C2D4BEDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendTestMessages", "TestFixtures\SendTestMessages\SendTestMessages.csproj", "{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,10 @@ Global
 		{C578C1DA-F710-4E0F-83FC-04FB6905AE92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C578C1DA-F710-4E0F-83FC-04FB6905AE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C578C1DA-F710-4E0F-83FC-04FB6905AE92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +57,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FC619F88-1320-4CB8-9E25-B5FAC9DE0137} = {368C301C-99E1-4C51-BA5E-303E8D25A1C7}
 		{031F03FA-0193-49F0-8B9B-7D282675CE9A} = {368C301C-99E1-4C51-BA5E-303E8D25A1C7}
+		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9} = {E7EC9A1C-D554-49E6-8E48-8645C2D4BEDB}
 	EndGlobalSection
 EndGlobal
