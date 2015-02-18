@@ -12,7 +12,7 @@ namespace SendTestMessages
     {
         static void Main(string[] args)
         {
-            Args.InvokeMain<Arguments>(args);
+            Args.InvokeMain<CommandLineApplication>(args);
         }
     }
 }
