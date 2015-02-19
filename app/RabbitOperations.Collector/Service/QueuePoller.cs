@@ -107,6 +107,7 @@ namespace RabbitOperations.Collector.Service
                             {
                                 channel.BasicNack(ea.DeliveryTag, false, true);
                                 logger.Error("Error on {0} with details {1}", queueLogInfo, err);
+                                //todo: move the message out of the way!
                                 throw;
                             }
                         }

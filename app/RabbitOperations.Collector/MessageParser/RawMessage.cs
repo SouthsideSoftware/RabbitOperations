@@ -26,11 +26,14 @@ namespace RabbitOperations.Collector.MessageParser
             {
                 Body = reader.ReadToEnd();
             }
-            foreach (var header in deliveryEventArgs.BasicProperties.Headers)
+            if (deliveryEventArgs.BasicProperties.Headers != null)
             {
-                if (header.Value != null)
+                foreach (var header in deliveryEventArgs.BasicProperties.Headers)
                 {
-                    Headers.Add(header.Key, Encoding.UTF8.GetString((byte[]) header.Value));
+                    if (header.Value != null)
+                    {
+                        Headers.Add(header.Key, Encoding.UTF8.GetString((byte[]) header.Value));
+                    }
                 }
             }
         }
