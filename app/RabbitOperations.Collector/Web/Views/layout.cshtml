@@ -75,7 +75,7 @@
 
                 <div class="row placeholders" ng-controller="dashboardController">
                     <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
-                        <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix><span>This is text</span></div>
+                        <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix><span>{{queue.messageRate}}/sec</span></div>
                         <h4>{{queue.queueSettings.environmentName}}</h4>
                         <span class="text-muted">{{queue.queueSettings.queueName}}</span>
                     </div>
@@ -113,10 +113,29 @@
             });
 
             // Declare a proxy to reference the hub.
-            var chat = $.connection.messagePulseHub;
+            var serverUpdates = $.connection.messagePulseHub;
             // Create a function that the hub can call to broadcast messages.
-            chat.client.pulse = function (messageType, message) {
-                console.log('Type: ' + messageType + ' Message: ' + message);
+            serverUpdates.client.pulse = function (messageType, message) {
+                var stats = angular.fromJson(message);
+                _.each(stats, function (element, index, list) {
+                    var prefix = 'RabbitOperations.QueuePoller.Messages';
+                    var index = element.Name.indexOf(prefix);
+                    if (index === 0) {
+                        var parts = element.Name.substring(index + prefix.length + 1).split('.');
+                        if (parts.length === 2) {
+                            var queue = _.find($scope.queues,
+                                function (queue) {
+                                    if (queue.queueSettings.environmentId === parts[0] &&
+                                      queue.queueSettings.queueName === parts[1]) {
+                                        queue.messageRate = element.Value.OneMinuteRate.toFixed(2);
+                                        $scope.$apply();
+                                    }
+                                }
+                            );
+                        }
+                        console.log();
+                    }
+                });
                 //$scope.getQueuesFromMessage(message);
             };
             // Start the connection.
