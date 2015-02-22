@@ -43,7 +43,6 @@ namespace SendTestMessages.CommandLine
 
         [ArgRequired(PromptIfMissing = true)]
         [ArgShortcut("-m")]
-        [ArgDefaultValue(60)]
         [ArgRange(0, int.MaxValue)]
         [ArgDescription("The number of dummy messages to send per minute")]
         public int MessagesPerMinute { get; set; }
