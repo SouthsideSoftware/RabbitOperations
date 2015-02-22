@@ -9,6 +9,8 @@ using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.Host.Interfaces;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain.Configuration;
+using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 using SouthsideUtility.Core.TestableSystem.Interfaces;
 
@@ -19,21 +21,25 @@ namespace RabbitOperations.Collector.Host
         private Logger logger = LogManager.GetCurrentClassLogger();
         private IList<Task> queuePollers = new List<Task>();
         private readonly IQueuePollerFactory queuePollerFactory;
+        private readonly IDocumentStore documentStore;
         private readonly ICancellationTokenSource cancellationTokenSource;
         private CancellationToken cancellationToken;
         private readonly ISettings settings;
 
-        public QueuePollerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory)
+        public QueuePollerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory, IDocumentStore documentStore)
         {
             Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");
             Verify.RequireNotNull(queuePollerFactory, "queuePollerFactory");
+            Verify.RequireNotNull(documentStore, "documentStore");
 
             this.cancellationTokenSource = cancellationTokenSource;
             this.settings = settings;
             this.queuePollerFactory = queuePollerFactory;
+            this.documentStore = documentStore;
 
             cancellationToken = cancellationTokenSource.Token;
+            CreateDefaultEnvirtonmentIfNoneExists();
         }
 
         public void Start()
@@ -52,6 +58,24 @@ namespace RabbitOperations.Collector.Host
                 }
             }
             logger.Info("Queue poller host started");
+        }
+
+        private void CreateDefaultEnvirtonmentIfNoneExists()
+        {
+            if (settings.Environments.Count == 0)
+            {
+                logger.Info("Creating default environment.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
+                settings.Environments.Add(new EnvironmentConfiguration
+                {
+                    EnvironmentId = "default",
+                    EnvironmentName = "Default",
+                    AuditQueue = "audit",
+                    ErrorQueue = "error",
+                    AutoStartQueuePolling = false,
+                    RabbitConnectionString = "amqp://[user]:[password]@localhost[/vhost]"
+                });
+                settings.Save();
+            }
         }
 
         public void Stop()
