@@ -4,7 +4,15 @@
     Layout = "layout.cshtml";
 }
 
+<h1 class="page-header">Dashboard</h1>
 
+<div class="row placeholders" ng-controller="dashboardController">
+    <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
+        <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix><span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span></div>
+        <h4>{{queue.queueSettings.environmentName}}</h4>
+        <span class="text-muted">{{queue.queueSettings.queueName}}</span>
+    </div>
+</div>
 
 <h2 class="sub-header">Section title</h2>
 <div class="table-responsive">
@@ -136,8 +144,8 @@
 </div>
 
 @section Script {
-    <script src="content/SignalR/jquery.signalR-2.2.0.min.js"></script>
+    <script src="/content/SignalR/jquery.signalR-2.2.0.min.js"></script>
     <script src="../signalr/hubs" type="text/javascript"></script>
-
-
+    <script src="/content/App/Dashboard/dashboardApp.js"></script>
+    <script src="/content/App/Dashboard/dashboardController.js"></script>
 }

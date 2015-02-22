@@ -229,6 +229,12 @@
     <Content Include="license.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\App\Dashboard\dashboardApp.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\App\Dashboard\dashboardController.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\SignalR\jquery.signalR-2.2.0.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

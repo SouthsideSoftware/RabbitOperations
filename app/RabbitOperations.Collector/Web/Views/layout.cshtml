@@ -32,7 +32,7 @@
     <![endif]-->
 </head>
 
-<body ng-app="rabbitOperationsApplication">
+<body ng-app="dashboardApp">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
@@ -71,15 +71,6 @@
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h1 class="page-header">Dashboard</h1>
-
-                <div class="row placeholders" ng-controller="dashboardController">
-                    <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
-                        <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix><span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span></div>
-                        <h4>{{queue.queueSettings.environmentName}}</h4>
-                        <span class="text-muted">{{queue.queueSettings.queueName}}</span>
-                    </div>
-                </div>
 
                 @RenderBody()
 
@@ -101,48 +92,7 @@
     <script src="content/Bootstrap/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
-    <script type="text/javascript">
-        
-        var rabbitOperationsApplication = angular.module('rabbitOperationsApplication', []);
 
-        rabbitOperationsApplication.controller('dashboardController', function ($scope, $http) {
-            $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
-                $scope.queues = data.activePollers;
-            }).error(function (data, status, headers, config) {
-                alert("AJAX failed!");
-            });
-
-            // Declare a proxy to reference the hub.
-            var serverUpdates = $.connection.messagePulseHub;
-            // Create a function that the hub can call to broadcast messages.
-            serverUpdates.client.pulse = function (messageType, message) {
-                var stats = angular.fromJson(message);
-                _.each(stats, function (element, index, list) {
-                    var prefix = 'RabbitOperations.QueuePoller.Messages';
-                    var index = element.Name.indexOf(prefix);
-                    if (index === 0) {
-                        var parts = element.Name.substring(index + prefix.length + 1).split('.');
-                        if (parts.length === 2) {
-                            var queue = _.find($scope.queues,
-                                function (queue) {
-                                    if (queue.queueSettings.environmentId === parts[0] &&
-                                      queue.queueSettings.queueName === parts[1]) {
-                                        queue.messageRate = element.Value.OneMinuteRate.toFixed(2);
-                                        $scope.$apply();
-                                    }
-                                }
-                            );
-                        }
-                        console.log();
-                    }
-                });
-                //$scope.getQueuesFromMessage(message);
-            };
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-            });
-        });
-</script>
 
     @RenderSection("Script", false)
 </body>
