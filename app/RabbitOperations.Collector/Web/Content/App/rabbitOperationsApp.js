@@ -1,0 +1,1 @@
+﻿var rabbitOperationsApp = angular.module('rabbitOperationsApp', []);

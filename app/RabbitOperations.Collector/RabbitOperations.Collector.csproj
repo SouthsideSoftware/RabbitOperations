@@ -229,7 +229,10 @@
     <Content Include="license.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web\Content\App\Dashboard\dashboardApp.js">
+    <Content Include="Web\Content\App\NavBar\navBarController.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\App\rabbitOperationsApp.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\Dashboard\dashboardController.js">

@@ -1,4 +1,4 @@
-﻿dashboardApp.controller('dashboardController', function ($scope, $http) {
+﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http) {
   $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
     $scope.queues = data.activePollers;
   }).error(function (data, status, headers, config) {
