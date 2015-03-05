@@ -45,9 +45,9 @@
     <Reference Include="NLog">
       <HintPath>..\..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SouthsideUtility.Core, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.9.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.10.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
