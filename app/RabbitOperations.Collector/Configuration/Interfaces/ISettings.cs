@@ -25,5 +25,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         /// from development directories if present.
         /// </summary>
         bool AllowDevelopmentMode { get; }
+
+        int DatabaseSchemaVersion { get; set; }
     }
 }

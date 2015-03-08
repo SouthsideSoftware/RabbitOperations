@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Releasers;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Nancy.ViewEngines;
@@ -40,6 +41,7 @@ namespace RabbitOperations.Collector.CastleWindsor
             container.Kernel.ReleasePolicy = new NoTrackingReleasePolicy();
 #pragma warning restore 618
             container.Kernel.AddFacility<TypedFactoryFacility>();
+            container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
             container.Register(Component.For<IQueuePoller>().ImplementedBy<QueuePoller>().LifestyleTransient(),
                 Component.For<IQueuePollerFactory>().AsFactory(),
                 Component.For<IRabbitConnectionFactory>().ImplementedBy<RabbitConnectionFactory>().LifestyleSingleton(),
@@ -48,6 +50,8 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IQueuePollerHost>().ImplementedBy<QueuePollerHost>().LifestyleTransient(),
                 Component.For<IWebHost>().ImplementedBy<WebHost>().LifestyleTransient(),
                 Component.For<ISubHostFactory>().AsFactory().LifestyleSingleton(),
+                Component.For<ISchemaUpdater>().ImplementedBy<SchemaUpdater>().LifestyleTransient(),
+                Classes.FromThisAssembly().BasedOn<IUpdateSchema>().WithService.FromInterface().LifestyleTransient(),
                 Component.For<IActiveQueuePollers>().ImplementedBy<ActiveQueuePollers>().LifestyleSingleton(),
                 Component.For<ICancellationTokenSource>()
                     .ImplementedBy<CancellationTokenSourceWrapper>()

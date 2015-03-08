@@ -42,6 +42,12 @@ namespace RabbitOperations.Collector.Configuration
             get { return StaticAllowDevelopmentMode; }
         }
 
+        public int DatabaseSchemaVersion
+        {
+            get { return configurationDocument.DatabaseSchemaVersion; }
+            set { configurationDocument.DatabaseSchemaVersion = value; }
+        }
+
         public static string StaticDefaultRavenDBTenant
         {
             get { return GetString("DefaultRavenDBTenant", "RabbitOperations"); }

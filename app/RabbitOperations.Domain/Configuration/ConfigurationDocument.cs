@@ -24,5 +24,7 @@ namespace RabbitOperations.Domain.Configuration
         public IList<EnvironmentConfiguration> Environments { get; set; }
 
         public bool AutoStartQueuePolling { get; set; }
+
+        public int DatabaseSchemaVersion { get; set; }
     }
 }

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using NLog;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.Host.Interfaces;
+using RabbitOperations.Collector.RavenDB.Interfaces;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 using RabbitOperations.Domain.Configuration;
 using Raven.Client;
+using Raven.Storage.Esent.SchemaUpdates;
 using SouthsideUtility.Core.DesignByContract;
 using SouthsideUtility.Core.TestableSystem.Interfaces;
 
@@ -22,24 +24,33 @@ namespace RabbitOperations.Collector.Host
         private IList<Task> queuePollers = new List<Task>();
         private readonly IQueuePollerFactory queuePollerFactory;
         private readonly IDocumentStore documentStore;
+        private readonly ISchemaUpdater schemaUpdater;
         private readonly ICancellationTokenSource cancellationTokenSource;
         private CancellationToken cancellationToken;
         private readonly ISettings settings;
 
-        public QueuePollerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory, IDocumentStore documentStore)
+        public QueuePollerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
         {
             Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");
             Verify.RequireNotNull(queuePollerFactory, "queuePollerFactory");
             Verify.RequireNotNull(documentStore, "documentStore");
+            Verify.RequireNotNull(schemaUpdater, "schemaUpdater");
 
             this.cancellationTokenSource = cancellationTokenSource;
             this.settings = settings;
             this.queuePollerFactory = queuePollerFactory;
             this.documentStore = documentStore;
+            this.schemaUpdater = schemaUpdater;
 
             cancellationToken = cancellationTokenSource.Token;
             CreateDefaultEnvirtonmentIfNoneExists();
+            UpdateSchemaIfNeeded();
+        }
+
+        private void UpdateSchemaIfNeeded()
+        {
+            schemaUpdater.UpdateSchema();
         }
 
         public void Start()
