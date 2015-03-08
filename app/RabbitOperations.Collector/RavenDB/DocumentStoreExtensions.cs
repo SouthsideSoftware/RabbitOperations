@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RabbitOperations.Collector.Configuration;
 using Raven.Client;
+using Raven.Client.Indexes;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.RavenDB
@@ -16,6 +17,14 @@ namespace RabbitOperations.Collector.RavenDB
             Verify.RequireNotNull(documentStore, "documentStore");
 
             return documentStore.OpenSession(Settings.StaticDefaultRavenDBTenant);
+        }
+
+        public static void ExecuteIndexCreationOnDefaultTenant(this IDocumentStore documentStore, AbstractIndexCreationTask indexCreationTask)
+        {
+            Verify.RequireNotNull(documentStore, "documentStore");
+
+            indexCreationTask.Execute(documentStore.DatabaseCommands.ForDatabase(Settings.StaticDefaultRavenDBTenant),
+                documentStore.Conventions);
         }
     }
 }

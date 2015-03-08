@@ -40,5 +40,7 @@ namespace RabbitOperations.Domain
         public IDictionary<string, string> Headers { get; set; }
 
         public string Body { get; set; }
+
+        public string Any { get; set; }
     }
 }
