@@ -9,7 +9,7 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
 {
-    public class ToVersion1 : IUpdateSchema
+    public class ToVersion1 : IUpdateSchemaVersion
     {
         private readonly ISettings settings;
         public ToVersion1(ISettings settings)
@@ -26,7 +26,7 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
 
         public void UpdateSchema()
         {
-            //all we have to do is save
+            //In this case, all we have to do is save
             settings.Save();
         }
     }

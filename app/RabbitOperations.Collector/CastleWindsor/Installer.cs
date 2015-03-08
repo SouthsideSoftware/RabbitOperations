@@ -21,6 +21,7 @@ using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageParser.NServiceBus;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.RavenDB.Interfaces;
+using RabbitOperations.Collector.RavenDB.SchemaUpdates;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 using Raven.Abstractions.Data;
@@ -51,7 +52,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IWebHost>().ImplementedBy<WebHost>().LifestyleTransient(),
                 Component.For<ISubHostFactory>().AsFactory().LifestyleSingleton(),
                 Component.For<ISchemaUpdater>().ImplementedBy<SchemaUpdater>().LifestyleTransient(),
-                Classes.FromThisAssembly().BasedOn<IUpdateSchema>().WithService.FromInterface().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion1>().LifestyleTransient(),
                 Component.For<IActiveQueuePollers>().ImplementedBy<ActiveQueuePollers>().LifestyleSingleton(),
                 Component.For<ICancellationTokenSource>()
                     .ImplementedBy<CancellationTokenSourceWrapper>()

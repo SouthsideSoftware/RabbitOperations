@@ -14,19 +14,17 @@ namespace RabbitOperations.Collector.RavenDB
 {
     public class SchemaUpdater : ISchemaUpdater
     {
-        private readonly IList<IUpdateSchema> schemaUpdaters;
+        private readonly IList<IUpdateSchemaVersion> schemaUpdaters;
         private readonly ISettings settings;
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public SchemaUpdater(IList<IUpdateSchema> schemaUpdaters, ISettings settings)
+        public SchemaUpdater(IList<IUpdateSchemaVersion> schemaUpdaters, ISettings settings)
         {
             Verify.RequireNotNull(schemaUpdaters, "schemaUpdaters");
             Verify.RequireNotNull(settings, "settings");
 
-            this.schemaUpdaters = schemaUpdaters;
             this.settings = settings;
-
-            schemaUpdaters = schemaUpdaters.Where(x => x.SchemaVersion > settings.DatabaseSchemaVersion).OrderBy(x => x.SchemaVersion).ToList();
+            this.schemaUpdaters = schemaUpdaters.Where(x => x.SchemaVersion > settings.DatabaseSchemaVersion).OrderBy(x => x.SchemaVersion).ToList();
         }
 
         public void UpdateSchema()

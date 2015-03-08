@@ -1,6 +1,6 @@
 namespace RabbitOperations.Collector.RavenDB.Interfaces
 {
-    public interface IUpdateSchema
+    public interface IUpdateSchemaVersion
     {
         int SchemaVersion { get; }
         void UpdateSchema();

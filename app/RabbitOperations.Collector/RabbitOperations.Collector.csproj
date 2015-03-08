@@ -136,6 +136,7 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -159,7 +160,7 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
-    <Compile Include="RavenDB\Interfaces\IUpdateSchema.cs" />
+    <Compile Include="RavenDB\Interfaces\IUpdateSchemaVersion.cs" />
     <Compile Include="RavenDB\Interfaces\ISchemaUpdater.cs" />
     <Compile Include="RavenDB\SchemaUpdater.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion1.cs" />
@@ -212,7 +213,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="web.config" />
     <None Include="Web\Content\Bootstrap\fonts\glyphicons-halflings-regular.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

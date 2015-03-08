@@ -12,7 +12,6 @@ using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 using RabbitOperations.Domain.Configuration;
 using Raven.Client;
-using Raven.Storage.Esent.SchemaUpdates;
 using SouthsideUtility.Core.DesignByContract;
 using SouthsideUtility.Core.TestableSystem.Interfaces;
 
@@ -35,7 +34,7 @@ namespace RabbitOperations.Collector.Host
             Verify.RequireNotNull(settings, "settings");
             Verify.RequireNotNull(queuePollerFactory, "queuePollerFactory");
             Verify.RequireNotNull(documentStore, "documentStore");
-            Verify.RequireNotNull(schemaUpdater, "schemaUpdater");
+            Verify.RequireNotNull(schemaUpdater, "SchemaUpdater");
 
             this.cancellationTokenSource = cancellationTokenSource;
             this.settings = settings;
