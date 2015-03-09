@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,22 +15,23 @@ namespace RabbitOperations.Collector.RavenDB
 {
     public class SchemaUpdater : ISchemaUpdater
     {
-        private readonly IList<IUpdateSchemaVersion> schemaUpdaters;
+        private readonly IQualifiedSchemaUpdatersFactory qualifiedSchemaUpdatersFactory;
         private readonly ISettings settings;
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public SchemaUpdater(IList<IUpdateSchemaVersion> schemaUpdaters, ISettings settings)
+        public SchemaUpdater(IQualifiedSchemaUpdatersFactory qualifiedSchemaUpdatersFactory, ISettings settings)
         {
-            Verify.RequireNotNull(schemaUpdaters, "schemaUpdaters");
             Verify.RequireNotNull(settings, "settings");
+            Verify.RequireNotNull(qualifiedSchemaUpdatersFactory, "qualifiedSchemaUpdatersFactory");
 
+            this.qualifiedSchemaUpdatersFactory = qualifiedSchemaUpdatersFactory;
             this.settings = settings;
-            this.schemaUpdaters = schemaUpdaters.Where(x => x.SchemaVersion > settings.DatabaseSchemaVersion).OrderBy(x => x.SchemaVersion).ToList();
         }
 
         public void UpdateSchema()
         {
             logger.Info("Current database schema is version {0}", settings.DatabaseSchemaVersion);
+            var schemaUpdaters = qualifiedSchemaUpdatersFactory.Get();
             if (schemaUpdaters.Count > 0)
             {
                 logger.Info("Database will be upgraded to version {0}", schemaUpdaters.Last().SchemaVersion);

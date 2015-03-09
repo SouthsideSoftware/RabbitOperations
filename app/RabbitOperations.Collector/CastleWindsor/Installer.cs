@@ -61,6 +61,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<ISettings>().ImplementedBy<Settings>().LifestyleSingleton(),
                 Component.For<IHeaderParser>().ImplementedBy<HeaderParser>().LifestyleSingleton(),
                 Component.For<IRavenTenantInitializer>().ImplementedBy<RavenTenantInitializer>().LifestyleSingleton(),
+                Component.For<IQualifiedSchemaUpdatersFactory>().ImplementedBy<QualifiedSchemaUpdatersFactory>().LifestyleSingleton(),
                 Component.For<IDocumentStore>().UsingFactoryMethod(x =>
                 {
                     IDocumentStore docStore = null;
