@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+﻿using System.IO;
 using FluentAssertions;
-using Moq.AutoMock;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.MessageParser;
-using RabbitOperations.Collector.MessageParser.NServiceBus;
 using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageParser
@@ -15,7 +12,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
     [TestFixture]
     public class BodyParserTests
     {
-        const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss:ffffffZ";
+        private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss:ffffffZ";
         private const string ApplicationJsonContentType = "application/json";
 
         [Test]
@@ -27,9 +24,9 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             {
                 data = reader.ReadToEnd();
             }
-            var mocker = new AutoMocker();
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-            var bodyParser = mocker.CreateInstance<BodyParser>() ;
+            var bodyParser = fixture.Create<BodyParser>();
             var doc = new MessageDocument();
 
             //act
@@ -49,8 +46,8 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
                 data = reader.ReadToEnd();
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-            var mocker = new AutoMocker();
-            var bodyParser = mocker.CreateInstance<BodyParser>();
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            var bodyParser = fixture.Create<BodyParser>();
             var doc = new MessageDocument();
 
             //act

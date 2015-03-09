@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using FluentAssertions;
-using Moq;
-using Moq.AutoMock;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Domain.Configuration;

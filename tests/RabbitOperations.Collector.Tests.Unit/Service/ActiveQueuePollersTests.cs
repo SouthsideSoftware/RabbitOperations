@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Moq;
-using Moq.AutoMock;
 using FluentAssertions;
-using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Collector.MessageParser;
+using NUnit.Framework;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
-using RabbitOperations.Domain.Configuration;
 
 namespace RabbitOperations.Collector.Tests.Unit.Service
 {
@@ -127,7 +120,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             activeQueuePollers.Remove(queuePoller1);
 
             //assert 
-            activeQueuePollers.ActivePollers.Select(p => p.Key).Should().BeEquivalentTo(new List<Guid> { key2 });
+            activeQueuePollers.ActivePollers.Select(p => p.Key).Should().BeEquivalentTo(new List<Guid> {key2});
         }
     }
 }
