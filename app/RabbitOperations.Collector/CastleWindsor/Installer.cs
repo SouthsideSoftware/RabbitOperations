@@ -52,7 +52,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IWebHost>().ImplementedBy<WebHost>().LifestyleTransient(),
                 Component.For<ISubHostFactory>().AsFactory().LifestyleSingleton(),
                 Component.For<ISchemaUpdater>().ImplementedBy<SchemaUpdater>().LifestyleTransient(),
-                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion1>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion2>().LifestyleTransient(),
                 Component.For<IActiveQueuePollers>().ImplementedBy<ActiveQueuePollers>().LifestyleSingleton(),
                 Component.For<ICancellationTokenSource>()
                     .ImplementedBy<CancellationTokenSourceWrapper>()

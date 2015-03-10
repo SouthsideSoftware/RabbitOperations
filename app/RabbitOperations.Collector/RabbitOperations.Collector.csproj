@@ -166,7 +166,7 @@
     <Compile Include="RavenDB\Interfaces\IQualifiedSchemaUpdatersFactory.cs" />
     <Compile Include="RavenDB\QualifiedSchemaUpdatersFactory.cs" />
     <Compile Include="RavenDB\SchemaUpdater.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion1.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion2.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
