@@ -13,7 +13,7 @@ namespace RabbitOperations.Domain.Configuration
             HeartbeatIntervalSeconds = 10;
             MessageHandlingInstructions = new List<MessageTypeHandling>();
             AutoStartQueuePolling = false;
-            DocumentExpirationInHours = 30*24;
+            DocumentExpirationInHours = 7*24;
         }
 
 

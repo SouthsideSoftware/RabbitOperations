@@ -43,13 +43,13 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
             //Update config document by saving
             logger.Info("Updating structure of configuration document");
             settings.Save();
-            logger.Info("Patching existing message document to expire in 30 days");
+            logger.Info("Patching existing message documents to expire in 7 days");
             SetExpiration();
         }
 
         private void SetExpiration()
         {
-            var expiry = DateTime.UtcNow.AddHours(30*24);
+            var expiry = DateTime.UtcNow.AddHours(7*24);
             store.DatabaseCommands.ForDatabase(settings.DefaultRavenDBTenant)
                 .UpdateByIndex("Raven/DocumentsByEntityName",
                     new IndexQuery {Query = "Tag:MessageDocuments"},
