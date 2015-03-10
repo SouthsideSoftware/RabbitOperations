@@ -13,7 +13,8 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
             Map = messageDocuments => from messageDocument in messageDocuments
                 select new
                 {
-                    Any = messageDocument.Body
+                    Any = messageDocument.Body,
+                    messageDocument.TimeSent
                 };
 
             Index(x=> x.Any, FieldIndexing.Analyzed);
