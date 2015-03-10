@@ -10,5 +10,6 @@
         int PollingTimeoutMilliseconds { get; }
         string RabbitConnectionString { get; }
         int HeartbeatIntervalSeconds { get; }
+        int DocumentExpirationInHours { get; }
     }
 }

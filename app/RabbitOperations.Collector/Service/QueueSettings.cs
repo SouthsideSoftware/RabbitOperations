@@ -19,6 +19,7 @@ namespace RabbitOperations.Collector.Service
             PollingTimeoutMilliseconds = environment.PollingTimeoutMilliseconds;
             HeartbeatIntervalSeconds = environment.HeartbeatIntervalSeconds;
             IsErrorQueue = environment.ErrorQueue == QueueName;
+            DocumentExpirationInHours = environment.DocumentExpirationInHours;
         }
 
         public bool IsErrorQueue { get; private set; }
@@ -35,5 +36,7 @@ namespace RabbitOperations.Collector.Service
         public string RabbitConnectionString { get; private set; }
 
         public int HeartbeatIntervalSeconds { get; private set; }
+
+        public int DocumentExpirationInHours { get; private set; }
     }
 }

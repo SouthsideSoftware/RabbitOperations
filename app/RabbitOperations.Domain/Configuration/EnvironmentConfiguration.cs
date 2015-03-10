@@ -13,7 +13,9 @@ namespace RabbitOperations.Domain.Configuration
             HeartbeatIntervalSeconds = 10;
             MessageHandlingInstructions = new List<MessageTypeHandling>();
             AutoStartQueuePolling = false;
+            DocumentExpirationInHours = 30*24;
         }
+
 
         public string EnvironmentId { get; set; }
         public string EnvironmentName { get; set; }
@@ -39,5 +41,7 @@ namespace RabbitOperations.Domain.Configuration
         public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
 
         public bool AutoStartQueuePolling { get; set; }
+
+        public int DocumentExpirationInHours { get; set; }
     }
 }

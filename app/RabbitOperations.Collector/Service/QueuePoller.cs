@@ -21,6 +21,7 @@ using RabbitOperations.Domain.Configuration;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 using Microsoft.AspNet.SignalR;
+using Raven.Json.Linq;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -72,7 +73,7 @@ namespace RabbitOperations.Collector.Service
         public void Poll()
         {
             activeQueuePollers.Add(this);
-            logger.Info("Started queue poller for {0}", queueLogInfo);
+            logger.Info("Started queue poller for {0} with expiration of {1} hours", queueLogInfo, QueueSettings.DocumentExpirationInHours);
             using (var connection = rabbitConnectionFactory.Create(QueueSettings).CreateConnection())
             {
                 using (var channel = connection.CreateModel())
@@ -130,10 +131,12 @@ namespace RabbitOperations.Collector.Service
             };
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
+            var expiry = DateTime.UtcNow.AddHours(QueueSettings.DocumentExpirationInHours);
 
             using (var session = documentStore.OpenSessionForDefaultTenant())
             {
                 session.Store(document);
+                session.Advanced.GetMetadataFor(document)["Raven-Expiration-Date"] = new RavenJValue(expiry);
                 session.SaveChanges();
                 logger.Trace("Saved document for message with id {0} from {1}", document.Id, queueLogInfo);
             }

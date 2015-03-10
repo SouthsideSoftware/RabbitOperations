@@ -32,6 +32,18 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         }
 
         [Test]
+        public void ShouldSetDocumentExpirationInHoursFromConstructor()
+        {
+            //arrange and act
+            const int documentExpirationInHours = 3;
+            var settings = new QueueSettings("x", new EnvironmentConfiguration { EnvironmentName = "one", DocumentExpirationInHours = documentExpirationInHours});
+            var queueSettings = settings;
+
+            //assert
+            queueSettings.DocumentExpirationInHours.Should().Be(documentExpirationInHours);
+        }
+
+        [Test]
         public void ShouldSetEnvironmentNameFromConstructor()
         {
             //arrange and act
