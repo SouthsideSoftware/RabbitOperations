@@ -35,7 +35,7 @@ namespace RabbitOperations.Collector
                 x.SetDescription("RabbitOperations Collector");        
                 x.SetDisplayName("RabbitOperations Collector");                       
                 x.SetServiceName("RabbitOperations.Collector");
-                x.StartAutomaticallyDelayed();
+                x.StartAutomatically();
             }); 
         }
     }
