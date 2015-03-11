@@ -169,7 +169,7 @@
     <Compile Include="RavenDB\Query\Interfaces\IBasicSearch.cs" />
     <Compile Include="RavenDB\SchemaUpdater.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion2.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion3.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion4.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />

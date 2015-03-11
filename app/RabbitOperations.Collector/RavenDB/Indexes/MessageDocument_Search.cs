@@ -14,7 +14,8 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
                 select new
                 {
                     Any = messageDocument.Body,
-                    messageDocument.TimeSent
+                    messageDocument.TimeSent,
+                    ClassName = messageDocument.MessageTypes.Select(x => x.ClassName)
                 };
 
             Index(x=> x.Any, FieldIndexing.Analyzed);
