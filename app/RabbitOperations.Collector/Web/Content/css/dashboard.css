@@ -111,6 +111,7 @@ body {
     height: 150px;
     line-height: 150px;
     text-align: center;
+    margin: 0 auto;
 }
 
 .greenHolder span {
@@ -126,6 +127,7 @@ body {
     height: 150px;
     line-height: 150px;
     text-align: center;
+    margin: 0 auto;
 }
 
 .redHolder span {
