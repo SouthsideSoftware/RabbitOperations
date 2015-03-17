@@ -27,5 +27,6 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         bool AllowDevelopmentMode { get; }
 
         int DatabaseSchemaVersion { get; set; }
+        string RavenDBConnectionString { get; }
     }
 }

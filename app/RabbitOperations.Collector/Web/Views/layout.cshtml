@@ -1,4 +1,6 @@
-﻿@using RabbitOperations.Collector.Web
+﻿@using Nancy.ViewEngines.Razor
+@using RabbitOperations.Collector.Web
+@using RabbitOperations.Collector.Web.Helpers
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +68,7 @@
                     @*<li ng-class="{active: selected === 'messages'}"><a href="#">Messages</a></li>*@
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li ng-class="{active: selected === 'ravenDbStudio'}"><a target="_blank" href="http://localhost:8080">RavenDB Studio</a></li>
+                    <li ng-class="{active: selected === 'ravenDbStudio'}"><a target="_blank" href="@Html.RavenStudioUrl()">RavenDB Studio</a></li>
                     <li ng-class="{active: selected === 'metrics'}"><a target="_blank" href="metrics">Metrics</a></li>
                     @*<li ng-class="{active: selected === 'configuration'}"><a href="">Configuration</a></li>*@
                 </ul>

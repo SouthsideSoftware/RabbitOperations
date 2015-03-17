@@ -48,6 +48,17 @@ namespace RabbitOperations.Collector.Configuration
             set { configurationDocument.DatabaseSchemaVersion = value; }
         }
 
+        public static string StaticRavenDBConnectionString
+        {
+            get { return ConfigurationManager.ConnectionStrings["RavenDB"].ToString(); }
+        }
+
+        public string RavenDBConnectionString
+        {
+            get {  return StaticRavenDBConnectionString; }
+        }
+
+
         public static string StaticDefaultRavenDBTenant
         {
             get { return GetString("DefaultRavenDBTenant", "RabbitOperations"); }

@@ -172,6 +172,7 @@
     <Compile Include="RavenDB\SchemaUpdates\ToVersion6.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
+    <Compile Include="Web\Helpers\LinkHelper.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
     <Compile Include="Web\SignalR\MessagePulseHub.cs" />
