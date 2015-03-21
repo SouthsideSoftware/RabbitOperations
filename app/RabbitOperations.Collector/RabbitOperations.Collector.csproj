@@ -252,6 +252,9 @@
     <Content Include="license.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\App\Dashboard\searchController.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\App\NavBar\navBarController.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
