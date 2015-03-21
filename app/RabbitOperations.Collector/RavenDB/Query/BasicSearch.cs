@@ -25,7 +25,7 @@ namespace RabbitOperations.Collector.RavenDB.Query
             this.store = store;
         }
 
-        public IList<MessageDocument> Search(string searchString, int take, int page)
+        public SearchResult<MessageDocument> Search(string searchString, int take, int page)
         {
             using (var session = store.OpenSessionForDefaultTenant())
             {
@@ -40,11 +40,11 @@ namespace RabbitOperations.Collector.RavenDB.Query
                     var timings = string.Join("\n\t",
                         stats.TimingsInMilliseconds.Select(x => string.Format("{0}:{1}ms", x.Key, x.Value)));
                     logger.Debug(
-                        "Query for {0} macthed {1} documents.  Took {2} from page (0-based) {3}.  Timings: \n\t{4}",
+                        "Query for {0} matched {1} documents.  Took {2} from page (0-based) {3}.  Timings: \n\t{4}",
                         searchString, stats.TotalResults, take, page, timings);
                 }
 
-                return results;
+                return new SearchResult<MessageDocument>(searchString, page, results, stats);
             }
         }
     }
