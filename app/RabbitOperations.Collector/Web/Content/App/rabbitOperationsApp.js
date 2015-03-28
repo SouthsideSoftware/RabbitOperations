@@ -1,1 +1,1 @@
-﻿var rabbitOperationsApp = angular.module('rabbitOperationsApp', []);
+﻿var rabbitOperationsApp = angular.module('rabbitOperationsApp', ['ngRoute', 'ui.bootstrap']);

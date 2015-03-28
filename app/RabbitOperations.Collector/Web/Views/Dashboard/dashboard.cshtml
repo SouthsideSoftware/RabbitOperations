@@ -3,7 +3,7 @@
     Layout = "layout.cshtml";
 }
 
-<div ng-app="dashboardApp">
+<div>
     <h1 class="page-header">Dashboard</h1>
 
     <div class="row placeholders" ng-controller="dashboardController">
@@ -24,7 +24,7 @@
                 </div>
                 <div>
                     <div class="input-group-btn">
-                        <button class="btn btn-default" ng-click="click(item, $event)" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        <button class="btn btn-default" ng-click="search(item, $event)" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
             </div>
@@ -41,13 +41,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="result in searchResults.results">
-                        <td>{{result.id}}</td>
-                        <td>{{result.environmentId}}</td>
-                        <td>{{result.messageTypes.length > 0 ? result.messageTypes[0].className : 'UNK'}}</td>
-                        <td>{{result.timeSent}}</td>
-                        <td>{{result.isError}}</td>
-                    </tr>
+                <tr ng-repeat="result in searchResults.results" ng-click="showDetails(item, $event)">
+                    <td>{{result.id}}</td>
+                    <td>{{result.environmentId}}</td>
+                    <td>{{result.messageTypes.length > 0 ? result.messageTypes[0].className : 'UNK'}}</td>
+                    <td>{{result.timeSent}}</td>
+                    <td>{{result.isError}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -56,7 +56,9 @@
 
 @section Script {
     <script src="/content/SignalR/jquery.signalR-2.2.0.min.js"></script>
+    <!--<script src="/content/ui-bootstrap/ui-bootstrap-min.js"</script>-->
     <script src="../signalr/hubs" type="text/javascript"></script>
+    <!--<script src="/content/App/Dashboard/dashboardApp.js"></script>-->
     <script src="/content/App/Dashboard/dashboardController.js"></script>
     <script src="/content/App/Dashboard/searchController.js"></script>
 }
