@@ -1,14 +1,32 @@
 ﻿<div class="modal-header">
-    <h1>Message {{item.id}}</h1>
+    <h1>Message {{message.item.id}}</h1>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>Environment:</td>
+                <td>{{message.item.environmentId}}</td>
+            </tr>
+            <tr>
+                <td>Time Sent:</td>
+                <td>{{message.item.timeSent}}</td>
+            </tr>
+            <tr>
+                <td>Is Error:</td>
+                <td>{{message.item.isError}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <div class="modal-body">
     <b>Headers:</b>
-    <div hljs source="headers">
+    <div hljs source="message.headers">
     </div>
 </div>
 <div class="modal-body">
     <b>Body:</b>
-    <div hljs source="body">
+    <div hljs source="message.body">
     </div>
 </div>
 <div class="modal-footer">

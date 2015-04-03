@@ -34,9 +34,11 @@
 });
 
 rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item) {
-    $scope.item = item;
-    $scope.body = JSON.stringify(JSON.parse(item.body), null, 2);
-    $scope.headers = JSON.stringify(item.headers, null, 2);
+    $scope.message = {
+        item: item,
+        body: item !== undefined && item.body !== undefined ? JSON.stringify(JSON.parse(item.body), null, 2) : '',
+        headers: item !== undefined && item.headers !== undefined ? JSON.stringify(item.headers, null, 2) : '',
+    };
 
     $scope.ok = function () {
         $modalInstance.close();
