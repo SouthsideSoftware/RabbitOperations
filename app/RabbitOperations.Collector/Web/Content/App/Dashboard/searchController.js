@@ -26,6 +26,10 @@
                 }
             }
         });
+
+        modalInstance.opened.then(function() {
+            //hljs.initHighlighting();
+        });
     }
 });
 
