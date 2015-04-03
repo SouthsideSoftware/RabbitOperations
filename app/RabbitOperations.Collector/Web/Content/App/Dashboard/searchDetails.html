@@ -1,7 +1,15 @@
 ﻿<div class="modal-header">
-    <h1>Hello Modal</h1>
+    <h1>Message {{item.id}}</h1>
 </div>
-<div hljs source="item.body">
+<div class="modal-body">
+    <b>Headers:</b>
+    <div hljs source="headers">
+    </div>
+</div>
+<div class="modal-body">
+    <b>Body:</b>
+    <div hljs source="body">
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">OK</button>

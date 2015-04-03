@@ -35,6 +35,8 @@
 
 rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item) {
     $scope.item = item;
+    $scope.body = JSON.stringify(JSON.parse(item.body), null, 2);
+    $scope.headers = JSON.stringify(item.headers, null, 2);
 
     $scope.ok = function () {
         $modalInstance.close();

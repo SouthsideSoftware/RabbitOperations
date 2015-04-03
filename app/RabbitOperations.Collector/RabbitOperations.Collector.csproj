@@ -254,6 +254,9 @@
     <Content Include="license.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\angular-highlightjs\angular-highlightjs.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\App\Dashboard\searchController.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
