@@ -30,7 +30,7 @@
             </div>
         </form>
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-condensed table-hover">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -41,7 +41,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="result in searchResults.results" ng-click="showDetails(result, $event)">
+                <tr class="clickable" ng-repeat="result in searchResults.results" ng-click="showDetails(result, $event)">
                     <td>{{result.id}}</td>
                     <td>{{result.environmentId}}</td>
                     <td>{{result.messageTypes.length > 0 ? result.messageTypes[0].className : 'UNK'}}</td>

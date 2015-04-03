@@ -135,3 +135,11 @@ body {
     vertical-align: middle;
     line-height: normal;
 }
+
+.rowLabel {
+    font-weight: bold;
+}
+
+.clickable {
+    cursor: pointer;
+}
