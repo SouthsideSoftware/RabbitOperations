@@ -19,6 +19,8 @@
         $scope.search();
     }
 
+    $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'IsError:', 'TimeSent:']
+
     $scope.search = function () {
         var url = "/api/v1/Messages/" + $scope.formInfo.searchString + "?page=" + ($scope.pageInfo.page - 1) + "&take=" + $scope.pageInfo.take
         $http.get(url).success(function (data, status, headers, config) {
