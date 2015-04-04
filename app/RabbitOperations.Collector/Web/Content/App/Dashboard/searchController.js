@@ -6,7 +6,8 @@
     };
 
     $scope.search = function (item, event) {
-        $http.get("/api/v1/Messages/" + $scope.formInfo.searchString).success(function (data, status, headers, config) {
+        var url = "/api/v1/Messages/" + $scope.formInfo.searchString;
+        $http.get(url).success(function (data, status, headers, config) {
             $scope.searchResults = data;
             //$scope.$apply();
         }).error(function (data, status, headers, config) {

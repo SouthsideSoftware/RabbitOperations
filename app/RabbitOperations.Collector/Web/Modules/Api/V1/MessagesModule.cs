@@ -15,7 +15,7 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
 
             this.basicSearch = basicSearch;
 
-            Get["/{searchString}"] = parameters =>
+            Get["/{searchString?undefined}"] = parameters =>
             {
                 return basicSearch.Search(parameters.searchString, 100, 0);
             };

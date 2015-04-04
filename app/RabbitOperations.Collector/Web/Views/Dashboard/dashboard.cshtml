@@ -20,11 +20,11 @@
         <form>
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
-                    <input type="text" class="form-control" ng-model="formInfo.searchString" placeholder="Search for messages...">
-                </div>
-                <div>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" ng-click="search(item, $event)" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="formInfo.searchString" placeholder="Search for messages...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="search(item, $event)" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </span>
                     </div>
                 </div>
             </div>

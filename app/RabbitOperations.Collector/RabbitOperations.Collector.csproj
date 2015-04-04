@@ -269,6 +269,9 @@
     <Content Include="Web\Content\App\Dashboard\dashboardController.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\moment\moment.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\SignalR\jquery.signalR-2.2.0.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

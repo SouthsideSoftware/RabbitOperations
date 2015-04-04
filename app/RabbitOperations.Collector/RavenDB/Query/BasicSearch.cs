@@ -27,6 +27,7 @@ namespace RabbitOperations.Collector.RavenDB.Query
 
         public SearchResult<MessageDocument> Search(string searchString, int take, int page)
         {
+            if (string.IsNullOrWhiteSpace(searchString) || searchString.Trim() == "undefined") searchString = "";
             using (var session = store.OpenSessionForDefaultTenant())
             {
                 RavenQueryStatistics stats = null;
@@ -41,7 +42,7 @@ namespace RabbitOperations.Collector.RavenDB.Query
                         stats.TimingsInMilliseconds.Select(x => string.Format("{0}:{1}ms", x.Key, x.Value)));
                     logger.Debug(
                         "Query for {0} matched {1} documents.  Took {2} from page (0-based) {3}.  Timings: \n\t{4}",
-                        searchString, stats.TotalResults, take, page, timings);
+                        !string.IsNullOrWhiteSpace(searchString) ? searchString : "ALL DOCS", stats.TotalResults, take, page, timings);
                 }
 
                 return new SearchResult<MessageDocument>(searchString, page, results, stats);
