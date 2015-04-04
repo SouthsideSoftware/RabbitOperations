@@ -30,6 +30,12 @@
         });
     }
 
+    $scope.$watch("pageInfo.take", function () {
+        if ($scope.pageInfo.totalItems > 0) {
+            $scope.newSearch();
+        }
+    });
+
     $scope.showDetails = function(item, event) {
         var modalInstance = $modal.open({
             templateUrl: '/Content/App/Dashboard/searchDetails.html',
