@@ -4,16 +4,20 @@
     $scope.searchResults = {
         results: []
     };
+    $scope.pageInfo =
+    {
+        page: 1,
+        take: 20,
+        totalItems: 0
+    };
 
     $scope.search = function (item, event) {
-        var url = "/api/v1/Messages/" + $scope.formInfo.searchString;
+        var url = "/api/v1/Messages/" + $scope.formInfo.searchString + "?page=" + ($scope.pageInfo.page - 1) + "&take=" + $scope.pageInfo.take
         $http.get(url).success(function (data, status, headers, config) {
             $scope.searchResults = data;
-            //$scope.$apply();
         }).error(function (data, status, headers, config) {
             alert("AJAX failed!");
         });
-        //alert("search on " + $scope.formInfo.searchString)
     }
 
     $scope.showDetails = function(item, event) {
@@ -26,10 +30,6 @@
                     return item;
                 }
             }
-        });
-
-        modalInstance.opened.then(function() {
-            //hljs.initHighlighting();
         });
     }
 });

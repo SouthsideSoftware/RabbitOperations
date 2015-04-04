@@ -27,7 +27,14 @@ namespace RabbitOperations.Collector.RavenDB.Query
 
         public SearchResult<MessageDocument> Search(string searchString, int take, int page)
         {
-            if (string.IsNullOrWhiteSpace(searchString) || searchString.Trim() == "undefined") searchString = "";
+            if (string.IsNullOrWhiteSpace(searchString) || searchString.Trim() == "undefined")
+            {
+                searchString = "";
+            }
+            else
+            {
+                searchString = searchString.Trim();
+            }
             using (var session = store.OpenSessionForDefaultTenant())
             {
                 RavenQueryStatistics stats = null;

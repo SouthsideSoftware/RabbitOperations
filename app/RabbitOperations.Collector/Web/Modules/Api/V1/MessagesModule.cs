@@ -1,4 +1,5 @@
 using Nancy;
+using Nancy.ModelBinding;
 using RabbitOperations.Collector.RavenDB.Query.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
@@ -17,7 +18,8 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
 
             Get["/{searchString?undefined}"] = parameters =>
             {
-                return basicSearch.Search(parameters.searchString, 100, 0);
+                SearchModel searchModel = this.Bind<SearchModel>();
+                return basicSearch.Search(searchModel.SearchString, searchModel.Take, searchModel.Page);
             };
         }
     }
