@@ -8,13 +8,23 @@
     {
         page: 1,
         take: 20,
-        totalItems: 0
+        totalItems: 0,
+        totalPages: 0
     };
 
-    $scope.search = function (item, event) {
+    $scope.newSearch = function() {
+        $scope.pageInfo.page = 1;
+        $scope.pageInfo.totalItems = 0;
+        $scope.pageInfo.totalPages = 0;
+        $scope.search();
+    }
+
+    $scope.search = function () {
         var url = "/api/v1/Messages/" + $scope.formInfo.searchString + "?page=" + ($scope.pageInfo.page - 1) + "&take=" + $scope.pageInfo.take
         $http.get(url).success(function (data, status, headers, config) {
             $scope.searchResults = data;
+            $scope.pageInfo.totalItems = data.totalResults;
+            $scope.pageInfo.totalPages = Math.ceil(data.totalResults / $scope.pageInfo.take);
         }).error(function (data, status, headers, config) {
             alert("AJAX failed!");
         });
