@@ -7,7 +7,7 @@
     $scope.pageInfo =
     {
         page: 1,
-        take: 20,
+        take: 10,
         totalItems: 0,
         totalPages: 0
     };

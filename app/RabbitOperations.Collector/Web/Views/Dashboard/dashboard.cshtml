@@ -7,16 +7,21 @@
     <h1 class="page-header">Dashboard</h1>
 
     <div class="row placeholders" ng-controller="dashboardController">
-        <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
-            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix>
-                <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span></div>
-            <h4>{{queue.queueSettings.environmentName}}</h4>
-            <span class="text-muted">{{queue.queueSettings.queueName}}</span>
+        <div class="pull-left">
+            <i class="glyphicon glyphicon-chevron-up" ng-click="displayStats = true" ng-show="!displayStats"></i>
+            <i class="glyphicon glyphicon-chevron-down" ng-click="displayStats = false" ng-show="displayStats"></i>
+        </div>
+        <div collapse="!displayStats">
+            <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
+                <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix>
+                    <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span></div>
+                <h4>{{queue.queueSettings.environmentName}}</h4>
+                <span class="text-muted">{{queue.queueSettings.queueName}}</span>
+            </div>
         </div>
     </div>
 
     <div ng-controller="searchController">
-        <h2 class="sub-header">Message Search</h2>
         <form>
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
@@ -31,6 +36,7 @@
                 <div class="col-lg-4 col-sm-4 col-xs-4">
                     <div class="input-group">
                         <div class="btn-group">
+                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="10">10</label>
                             <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="20">20</label>
                             <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="50">50</label>
                             <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="100">100</label>
