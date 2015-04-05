@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter.Xml;
 using NLog;
+using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB.Indexes;
 using RabbitOperations.Collector.RavenDB.Query.Interfaces;
+using RabbitOperations.Collector.Web.Modules.Api.V1;
 using RabbitOperations.Domain;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
@@ -16,7 +18,7 @@ namespace RabbitOperations.Collector.RavenDB.Query
     public class BasicSearch : IBasicSearch
     {
         private readonly IDocumentStore store;
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public BasicSearch(IDocumentStore store)
         {
@@ -25,23 +27,15 @@ namespace RabbitOperations.Collector.RavenDB.Query
             this.store = store;
         }
 
-        public SearchResult<MessageDocument> Search(string searchString, int take, int page)
+        public SearchResult<MessageDocument> Search(SearchModel searchModel)
         {
-            if (string.IsNullOrWhiteSpace(searchString) || searchString.Trim() == "undefined")
-            {
-                searchString = "";
-            }
-            else
-            {
-                searchString = searchString.Trim();
-            }
             using (var session = store.OpenSessionForDefaultTenant())
             {
                 RavenQueryStatistics stats = null;
                 var results = session.Advanced.DocumentQuery<MessageDocument, MessageDocument_Search>()
-                        .Where(searchString)
-                        .OrderByDescending(x => x.TimeSent)
-                        .UsingDefaultField("Any").Skip(take * page).Take(take).Statistics(out stats).ShowTimings()
+                        .Where(searchModel.RavenSearchString)
+                        .OrderBy(searchModel.RavenSort)
+                        .UsingDefaultField("Any").Skip(searchModel.Page * searchModel.Take).Take(searchModel.Take).Statistics(out stats).ShowTimings()
                         .ToList();
                 if (logger.IsDebugEnabled)
                 {
@@ -49,10 +43,10 @@ namespace RabbitOperations.Collector.RavenDB.Query
                         stats.TimingsInMilliseconds.Select(x => string.Format("{0}:{1}ms", x.Key, x.Value)));
                     logger.Debug(
                         "Query for {0} matched {1} documents.  Took {2} from page (0-based) {3}.  Timings: \n\t{4}",
-                        !string.IsNullOrWhiteSpace(searchString) ? searchString : "ALL DOCS", stats.TotalResults, take, page, timings);
+                        !string.IsNullOrWhiteSpace(searchModel.SearchString) ? searchModel.SearchString : "ALL DOCS", stats.TotalResults, searchModel.Take, searchModel.Page, timings);
                 }
 
-                return new SearchResult<MessageDocument>(searchString, page, results, stats);
+                return new SearchResult<MessageDocument>(searchModel, results, stats);
             }
         }
     }
