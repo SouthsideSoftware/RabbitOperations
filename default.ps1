@@ -1,7 +1,7 @@
 properties {
   $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
   $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-  $version = "0.2.0"
+  $version = "0.3.0"
   $configuration = "Debug"
   $platform = "Any CPU"
   $buildOutputDir = "./BuildOutput"
@@ -12,10 +12,10 @@ properties {
 
 task default -depends Build
 
-task build -Description "Build application.  Runs tests" -depends cleanBuildOutput, compile, test {
+task build -Description "Build application.  Runs tests" -depends cleanBuildOutput, version, compile, test {
 }
 
-task quickBuild -Description "Build application no tests" -depends cleanBuildOutput, compile {
+task quickBuild -Description "Build application no tests" -depends cleanBuildOutput, version, compile {
 }
 
 task test -Description "Runs tests" {
