@@ -25,6 +25,9 @@
     $scope.search = function () {
         var url = "/api/v1/Messages/" + $scope.pageInfo.searchString + "?page=" + ($scope.pageInfo.page - 1) + "&take=" + $scope.pageInfo.take + "&sortField=" + $scope.pageInfo.sortField + "&sortAscending=" + $scope.pageInfo.sortAscending
         $http.get(url).success(function (data, status, headers, config) {
+            _.each(data.results, function(element, index, list) {
+                element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';
+            });
             $scope.searchResults = data;
             $scope.pageInfo.totalItems = data.totalResults;
             $scope.pageInfo.totalPages = Math.ceil(data.totalResults / $scope.pageInfo.take);
