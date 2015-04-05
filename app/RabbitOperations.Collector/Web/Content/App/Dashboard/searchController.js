@@ -1,6 +1,4 @@
 ﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal) {
-    $scope.formInfo = {
-    };
     $scope.searchResults = {
         results: []
     };
@@ -9,7 +7,10 @@
         page: 1,
         take: 10,
         totalItems: 0,
-        totalPages: 0
+        totalPages: 0,
+        searchString: undefined,
+        sortField: "TimeSent",
+        sortAscending: false
     };
 
     $scope.newSearch = function() {
@@ -22,7 +23,7 @@
     $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'IsError:', 'TimeSent:']
 
     $scope.search = function () {
-        var url = "/api/v1/Messages/" + $scope.formInfo.searchString + "?page=" + ($scope.pageInfo.page - 1) + "&take=" + $scope.pageInfo.take
+        var url = "/api/v1/Messages/" + $scope.pageInfo.searchString + "?page=" + ($scope.pageInfo.page - 1) + "&take=" + $scope.pageInfo.take + "&sortField=" + $scope.pageInfo.sortField + "&sortAscending=" + $scope.pageInfo.sortAscending
         $http.get(url).success(function (data, status, headers, config) {
             $scope.searchResults = data;
             $scope.pageInfo.totalItems = data.totalResults;
@@ -30,6 +31,17 @@
         }).error(function (data, status, headers, config) {
             alert("AJAX failed!");
         });
+    }
+
+    $scope.toggleSort = function (field) {
+        //default sort on new field to true, otherwise toggle
+        if ($scope.pageInfo.sortField !== field) {
+            $scope.pageInfo.sortAscending = true;
+        } else {
+            $scope.pageInfo.sortAscending = !$scope.pageInfo.sortAscending;
+        }
+        $scope.pageInfo.sortField = field;
+        $scope.newSearch();
     }
 
     $scope.$watch("pageInfo.take", function () {

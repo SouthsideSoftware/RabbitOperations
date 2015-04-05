@@ -42,8 +42,8 @@ namespace RabbitOperations.Collector.RavenDB.Query
                     var timings = string.Join("\n\t",
                         stats.TimingsInMilliseconds.Select(x => string.Format("{0}:{1}ms", x.Key, x.Value)));
                     logger.Debug(
-                        "Query for {0} matched {1} documents.  Took {2} from page (0-based) {3}.  Timings: \n\t{4}",
-                        !string.IsNullOrWhiteSpace(searchModel.SearchString) ? searchModel.SearchString : "ALL DOCS", stats.TotalResults, searchModel.Take, searchModel.Page, timings);
+                        "Query for {0} order by {1} matched {2} documents.  Took {3} from page (0-based) {4}.  Timings: \n\t{5}",
+                        !string.IsNullOrWhiteSpace(searchModel.SearchString) ? searchModel.SearchString : "ALL DOCS", searchModel.RavenSort, stats.TotalResults, searchModel.Take, searchModel.Page, timings);
                 }
 
                 return new SearchResult<MessageDocument>(searchModel, results, stats);

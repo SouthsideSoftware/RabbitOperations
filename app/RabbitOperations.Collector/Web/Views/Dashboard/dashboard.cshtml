@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="formInfo.searchString" placeholder="Search for messages..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
+                        <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Search for messages..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="newSearch()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use ClassName, IsError, EnvironmentId, TimeSent. (e.g. IsError:false AND EnvironmentId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
@@ -51,10 +51,26 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Environment</th>
-                    <th>Class</th>
-                    <th>Time Sent</th>
-                    <th>Is Error</th>
+                    <th ng-click="toggleSort('EnvironmentId')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'EnvironmentId' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'EnvironmentId' && !pageInfo.sortAscending"></i>
+                        Environment
+                    </th>
+                    <th ng-click="toggleSort('ClassName')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ClassName' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'ClassName' && !pageInfo.sortAscending"></i>
+                        Class
+                    </th>
+                    <th ng-click="toggleSort('TimeSent')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'TimeSent' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'TimeSent' && !pageInfo.sortAscending"></i>
+                        Time Sent
+                    </th>
+                    <th ng-click="toggleSort('IsError')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'IsError' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'IsError' && !pageInfo.sortAscending"></i>
+                        Is Error
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
