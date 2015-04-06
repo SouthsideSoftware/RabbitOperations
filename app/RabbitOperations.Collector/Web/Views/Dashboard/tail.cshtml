@@ -4,22 +4,9 @@
 }
 
 <div>
-    <h1 class="page-header">Dashboard</h1>
+    <h1 class="page-header">Tail</h1>
 
-    <div class="row placeholders" ng-controller="dashboardController">
-        <div class="pull-left">
-            <i class="glyphicon glyphicon-chevron-up" ng-click="displayStats = true" ng-show="!displayStats"></i>
-            <i class="glyphicon glyphicon-chevron-down" ng-click="displayStats = false" ng-show="displayStats"></i>
-        </div>
-        <div collapse="!displayStats">
-            <div class="col-xs-4 col-sm-2 placeholder" ng-repeat="queue in queues">
-                <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix>
-                    <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span></div>
-                <h4>{{queue.queueSettings.environmentName}}</h4>
-                <span class="text-muted">{{queue.queueSettings.queueName}}</span>
-            </div>
-        </div>
-    </div>
+    @Html.Partial("dashboardIcons")
 
     <div ng-controller="searchController">
         <form>
