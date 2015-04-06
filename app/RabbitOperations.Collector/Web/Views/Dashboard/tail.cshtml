@@ -13,22 +13,11 @@
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Search for messages..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
+                        <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Specify Environment..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" ng-click="newSearch()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                            <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use ClassName, IsError, EnvironmentId, TimeSent. (e.g. IsError:false AND EnvironmentId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
+                            <button class="btn btn-default" ng-click="newSearch()" type="submit">Tail</button>
+                            <button class="btn btn-default" popover-title="Fields" popover="Shows the last 100 messages for the environment" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
                         </span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-4 col-xs-4">
-                    <div class="input-group">
-                        <div class="btn-group">
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="10">10</label>
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="20">20</label>
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="50">50</label>
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="100">100</label>
-                        </div>
-                        <span>&nbsp; Per Page</span>
                     </div>
                 </div>
             </div>
@@ -70,12 +59,6 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="col-lg-4 col-sm-4 col-xs-4">
-            <pager ng-show="pageInfo.totalPages > 1" total-items="pageInfo.totalItems" ng-model="pageInfo.page" ng-change="search()"></pager>
-        </div>
-        <div class="col-lg-4 col-sm-4 col-xs-4 pull-right">
-            <pre ng-show="pageInfo.totalPages > 1">Page: {{pageInfo.page}} / {{pageInfo.totalPages}}</pre>
         </div>
     </div>
 </div>
