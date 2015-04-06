@@ -11,5 +11,6 @@
         string RabbitConnectionString { get; }
         int HeartbeatIntervalSeconds { get; }
         int DocumentExpirationInHours { get; }
+        bool IsErrorQueue { get; }
     }
 }
