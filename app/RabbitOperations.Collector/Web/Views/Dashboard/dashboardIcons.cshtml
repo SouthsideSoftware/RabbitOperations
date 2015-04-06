@@ -9,7 +9,7 @@
                 <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span>
             </div>
             <h4>{{queue.queueSettings.environmentName}}</h4>
-            <span class="text-muted">{{queue.queueSettings.queueName}}</span>
+            <span class="text-muted">{{queue.queueSettings.isErrorQueue ? 'Error' : 'Audit'}}</span>
         </div>
     </div>
 </div>
