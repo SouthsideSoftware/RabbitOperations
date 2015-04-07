@@ -36,10 +36,12 @@ namespace RabbitOperations.Collector.Service
         private readonly string queueLogInfo;
         private readonly Meter messageMeter;
 
-        internal QueuePoller(Guid key)
+        internal QueuePoller(Guid key, IQueueSettings queueSettings)
         {
             Verify.RequireNotNull(key, "key");
+            Verify.RequireNotNull(queueSettings, "queueSettings");
 
+            QueueSettings = queueSettings;
             Key = key;
         }
 
