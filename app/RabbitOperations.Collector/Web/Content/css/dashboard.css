@@ -112,6 +112,7 @@ body {
     line-height: 110px;
     text-align: center;
     margin: 0 auto;
+    cursor: pointer;
 }
 
 .greenHolder span {
@@ -128,6 +129,7 @@ body {
     line-height: 110px;
     text-align: center;
     margin: 0 auto;
+    cursor: pointer;
 }
 
 .redHolder span {

@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http) {
+﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http, searchService) {
     $scope.displayStats = true;
 
     $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
@@ -6,6 +6,11 @@
     }).error(function (data, status, headers, config) {
         alert("AJAX failed!");
     });
+
+    $scope.quickSearch = function(environmentId, isErrorQueue) {
+        searchService.pageInfo.searchString = 'EnvironmentId:' + environmentId + ' AND IsError:' + isErrorQueue;
+        searchService.newSearch();
+    };
 
     // Declare a proxy to reference the hub.
     var serverUpdates = $.connection.messagePulseHub;

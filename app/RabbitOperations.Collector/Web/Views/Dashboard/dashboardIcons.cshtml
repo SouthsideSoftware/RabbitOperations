@@ -5,7 +5,7 @@
     </div>
     <div collapse="!displayStats">
         <div class="col-lg-2 col-xs-3 col-sm-2 placeholder" ng-repeat="queue in queues">
-            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" alt="Generic placeholder thumbnail" holder-fix>
+            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" ng-click="quickSearch(queue.queueSettings.environmentId, queue.queueSettings.isErrorQueue)"alt="Generic placeholder thumbnail" holder-fix>
                 <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span>
             </div>
             <h4>{{queue.queueSettings.environmentName}}</h4>
