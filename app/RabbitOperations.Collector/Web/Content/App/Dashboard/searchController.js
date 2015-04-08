@@ -2,7 +2,7 @@
     $scope.pageInfo = searchService.pageInfo;
     $scope.searchResults = searchService.searchResults;
 
-    $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'IsError:', 'TimeSent:'];
+    $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'Header:', 'IsError:', 'TimeSent:'];
 
     $scope.$watch(function () { return searchService.searchResults }, function (searchResults) {
         $scope.searchResults = searchResults;
