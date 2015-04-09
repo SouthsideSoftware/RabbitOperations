@@ -8,7 +8,8 @@
         self.queues = data.activePollers;
         var newEnvironments = [];
         _.each(self.queues, function (queue) {
-            if (_.find(self.environments, function (environment) { return environment.environmentId === queue.queueSettings.environmentId }) === undefined) {
+            var found = _.find(newEnvironments, function(environment) { return environment.environmentId === queue.queueSettings.environmentId });
+            if (found === undefined) {
                 newEnvironments.push({
                     environmentId: queue.queueSettings.environmentId,
                     environmentName: queue.queueSettings.environmentName,
