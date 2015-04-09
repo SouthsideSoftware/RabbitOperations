@@ -1,10 +1,14 @@
-﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http, searchService) {
+﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http, searchService, queueService) {
     $scope.displayStats = true;
+    $scope.environments = [];
+    $scope.queues = [];
 
-    $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
-        $scope.queues = data.activePollers;
-    }).error(function (data, status, headers, config) {
-        alert("AJAX failed!");
+    $scope.$watch(function () { return queueService.queues }, function (queues) {
+        $scope.queues = queues;
+    });
+
+    $scope.$watch(function () { return queueService.environments }, function (environments) {
+        $scope.environments = environments;
     });
 
     $scope.quickSearch = function(environmentId, isErrorQueue) {

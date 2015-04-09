@@ -61,13 +61,16 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     <li ng-click="navigateTo('Search')" ng-class="{active: selected === 'search'}"><a href="/search">Search <span class="sr-only">(search)</span></a></li>
-                    @*<li ng-click="navigateTo('Tail')" ng-class="{active: selected === 'tail'}"><a href="/tail">Tail<span class="sr-only">(tail)</span></a></li>*@
-                    @*<li ng-class="{active: selected === 'messages'}"><a href="#">Messages</a></li>*@
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li ng-class="{active: selected === 'ravenDbStudio'}"><a target="_blank" href="@Html.RavenStudioUrl()">RavenDB Studio</a></li>
                     <li ng-class="{active: selected === 'metrics'}"><a target="_blank" href="metrics">Metrics</a></li>
-                    @*<li ng-class="{active: selected === 'configuration'}"><a href="">Configuration</a></li>*@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Rabbit Management Web<b class="caret"></b></a>
+                        <ul class="dropdown dropdown-menu">
+                            <li class="menu-item" ng-repeat="environment in environments"><a target="_blank" href="{{environment.rabbitManagementWebUrl}}">{{environment.environmentName}}</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -98,6 +101,7 @@
     <script src="/content/angular-highlightjs/angular-highlightjs.min.js"></script>
     <script src="/content/moment/moment.min.js"></script>
     <script src="/content/App/rabbitOperationsApp.js"></script>
+    <script src="/content/App/queueService.js"></script>
     <script src="/content/App/NavBar/navBarController.js"></script>
     <script src="/content/App/Dashboard/whatsNewController.js"></script>
     <script src="/content/App/NavBar/topBarController.js"></script>
