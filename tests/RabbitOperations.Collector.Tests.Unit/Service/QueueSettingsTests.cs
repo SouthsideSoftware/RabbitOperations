@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Net;
+using FluentAssertions;
 using NUnit.Framework;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Domain.Configuration;
@@ -66,6 +67,32 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
 
             //assert
             queueSettings.RabbitConnectionString.Should().Be(rabbitConnectionString);
+        }
+
+        [Test]
+        public void ShouldSetRabbitManagementWebUrlWhenPortIsDefault()
+        {
+            //arrange and act
+            const string rabbitConnectionString = "http://host:99";
+            var settings = new QueueSettings("x",
+                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString });
+            var queueSettings = settings;
+
+            //assert
+            queueSettings.RabbitManagementWebUrl.Should().Be("http://host:15672");
+        }
+
+        [Test]
+        public void ShouldSetRabbitManagementWebUrlWhenPortIsNotDefault()
+        {
+            //arrange and act
+            const string rabbitConnectionString = "http://host:99";
+            var settings = new QueueSettings("x",
+                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString, RabbitManagementPort = 101});
+            var queueSettings = settings;
+
+            //assert
+            queueSettings.RabbitManagementWebUrl.Should().Be("http://host:101");
         }
 
         [Test]

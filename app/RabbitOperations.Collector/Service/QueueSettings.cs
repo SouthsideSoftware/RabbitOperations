@@ -1,3 +1,4 @@
+using System;
 using RabbitOperations.Collector.Service.Interfaces;
 using RabbitOperations.Domain.Configuration;
 using SouthsideUtility.Core.DesignByContract;
@@ -20,6 +21,17 @@ namespace RabbitOperations.Collector.Service
             HeartbeatIntervalSeconds = environment.HeartbeatIntervalSeconds;
             IsErrorQueue = environment.ErrorQueue == QueueName;
             DocumentExpirationInHours = environment.DocumentExpirationInHours;
+
+            try
+            {
+                RabbitManagementWebUrl = string.Format("http://{0}:{1}",
+                    new Uri(environment.RabbitConnectionString).Host,
+                    environment.RabbitManagementPort);
+            }
+            catch
+            {
+                RabbitManagementWebUrl = "#";
+            }
         }
 
         public bool IsErrorQueue { get; private set; }
@@ -38,5 +50,7 @@ namespace RabbitOperations.Collector.Service
         public int HeartbeatIntervalSeconds { get; private set; }
 
         public int DocumentExpirationInHours { get; private set; }
+
+        public string RabbitManagementWebUrl { get; private set; }
     }
 }

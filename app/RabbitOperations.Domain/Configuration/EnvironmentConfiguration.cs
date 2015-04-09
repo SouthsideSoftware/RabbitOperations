@@ -14,6 +14,7 @@ namespace RabbitOperations.Domain.Configuration
             MessageHandlingInstructions = new List<MessageTypeHandling>();
             AutoStartQueuePolling = false;
             DocumentExpirationInHours = 7*24;
+            RabbitManagementPort = 15672;
         }
 
 
@@ -43,5 +44,7 @@ namespace RabbitOperations.Domain.Configuration
         public bool AutoStartQueuePolling { get; set; }
 
         public int DocumentExpirationInHours { get; set; }
+
+        public int RabbitManagementPort { get; set; }
     }
 }

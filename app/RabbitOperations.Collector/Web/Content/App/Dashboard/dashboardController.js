@@ -8,7 +8,10 @@
     });
 
     $scope.quickSearch = function(environmentId, isErrorQueue) {
-        searchService.pageInfo.searchString = 'EnvironmentId:' + environmentId + ' AND IsError:' + isErrorQueue;
+        searchService.pageInfo.searchString = 'EnvironmentId:' + environmentId;
+        if (isErrorQueue !== undefined) {
+            searchService.pageInfo.searchString += ' AND IsError:' + isErrorQueue;
+        }
         searchService.newSearch();
     };
 

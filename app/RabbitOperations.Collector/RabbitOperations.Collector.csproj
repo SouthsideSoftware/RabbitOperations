@@ -172,6 +172,7 @@
     <Compile Include="RavenDB\SchemaUpdates\ToVersion2.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion6.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion7.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion8.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
     <Compile Include="Web\Helpers\LinkHelper.cs" />

@@ -1,15 +1,19 @@
-﻿<div class="row placeholders" ng-controller="dashboardController">
+﻿@using Nancy.ViewEngines.Razor
+@using Nancy.ViewEngines.Razor
+@using RabbitOperations.Collector.Web
+@using RabbitOperations.Collector.Web.Helpers
+<div class="row placeholders" ng-controller="dashboardController">
     <div>
         <i class="glyphicon glyphicon-chevron-up" ng-click="displayStats = true" ng-show="!displayStats"></i>
         <i class="glyphicon glyphicon-chevron-down" ng-click="displayStats = false" ng-show="displayStats"></i>
     </div>
     <div collapse="!displayStats">
         <div class="col-lg-2 col-xs-3 col-sm-2 placeholder" ng-repeat="queue in queues">
-            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" ng-click="quickSearch(queue.queueSettings.environmentId, queue.queueSettings.isErrorQueue)"alt="Generic placeholder thumbnail" holder-fix>
+            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" ng-click="quickSearch(queue.queueSettings.environmentId, queue.queueSettings.isErrorQueue)" alt="Generic placeholder thumbnail" holder-fix>
                 <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span>
             </div>
-            <h4>{{queue.queueSettings.environmentName}}</h4>
-            <span class="text-muted">{{queue.queueSettings.isErrorQueue ? 'Error' : 'Audit'}}</span>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.environmentId)"><h4>{{queue.queueSettings.environmentName}}</h4></span>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.environmentId, queue.queueSettings.isErrorQueue)" class="text-muted">{{queue.queueSettings.isErrorQueue ? 'Error' : 'Audit'}}</span>
         </div>
     </div>
 </div>
