@@ -37,7 +37,7 @@
 
 <body ng-app="rabbitOperationsApp">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="topBarController">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -50,9 +50,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li ng-click="showWhatsNew()"><a href="#">What's New</a></li>
                 </ul>
             </div>
         </div>
@@ -101,6 +99,8 @@
     <script src="/content/moment/moment.min.js"></script>
     <script src="/content/App/rabbitOperationsApp.js"></script>
     <script src="/content/App/NavBar/navBarController.js"></script>
+    <script src="/content/App/Dashboard/whatsNewController.js"></script>
+    <script src="/content/App/NavBar/topBarController.js"></script>
 
 
     @RenderSection("Script", false)

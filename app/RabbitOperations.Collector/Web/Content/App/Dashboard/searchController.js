@@ -18,7 +18,7 @@
 
     $scope.search = function() {
         searchService.search();
-    }
+    };
 
     $scope.$watch("pageInfo.take", function () {
         if ($scope.pageInfo.totalItems > 0) {
@@ -28,7 +28,7 @@
 
     $scope.showDetails = function(item, event) {
         var modalInstance = $modal.open({
-            templateUrl: '/Content/App/Dashboard/searchDetails.html',
+            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
             controller: 'searchDetailController',
             size: 'lg',
             resolve: {
@@ -37,5 +37,5 @@
                 }
             }
         });
-    }
+    };
 });

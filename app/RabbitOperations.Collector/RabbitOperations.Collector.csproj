@@ -265,6 +265,12 @@
     <Content Include="Web\Content\angular-highlightjs\angular-highlightjs.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\App\Dashboard\Popups\whatsNew.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\App\Dashboard\whatsNewController.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\App\Dashboard\searchDetailController.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -272,6 +278,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\Dashboard\searchController.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\App\NavBar\topBarController.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\NavBar\navBarController.js">
@@ -331,7 +340,7 @@
     <Content Include="Web\Content\ui-bootstrap\ui-bootstrap-min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web\Content\App\Dashboard\searchDetails.html">
+    <Content Include="Web\Content\App\Dashboard\Popups\searchDetails.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
