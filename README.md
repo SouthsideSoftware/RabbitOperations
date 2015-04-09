@@ -6,14 +6,12 @@ planned is Rebus.
 
 The general idea is to read messages from audit and error queues into
 RavenDB, a document database with excellent indexing capabilities built
-on Lucene.Net. Eventually, you will be able to configure rules to parse business
-keys out of the body so messages can be related to one another and searched
-by logical business keys and keywords. There will be a web front end
-to support configuration and searching.
+on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
+searching, tailing. Shortly, monitoring, heart beating and integration with New Relic and PagerDuty will be added.
 
 ## Documentation and Release Notes
 
-Very limited documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
+Documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
 
 ## License
 
