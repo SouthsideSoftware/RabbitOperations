@@ -1,13 +1,16 @@
 properties {
-  $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
-  $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-  $version = "0.6.0"
-  $configuration = "Debug"
-  $platform = "Any CPU"
-  $buildOutputDir = "./BuildOutput"
-  $nugetOutputDir = Join-Path $buildOutputDir "nuget"
-  $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
-  "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
+    #can override these from command line with invoke-psake -properties @{}
+    #for example, invoke-psake -properties @{configuration="debug2";platform="all"}
+    #would override both configuration and platform
+    $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
+    $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
+    $version = "0.6.0"
+    $configuration = "Debug"
+    $platform = "Any CPU"
+    $buildOutputDir = "./BuildOutput"
+    $nugetOutputDir = Join-Path $buildOutputDir "nuget"
+    $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
+    "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
 
 task default -depends Build
@@ -73,7 +76,7 @@ Task publish -Description "Publish artifacts" {
 }
 
 task startCollector -Description "Starts the collector host" {
-    StartApp "app/RabbitOperations.Collector/bin/debug/RabbitOperations.Collector.exe" "RabbitOperations.Collector"
+    StartApp "app/RabbitOperations.Collector/bin/$configuration/RabbitOperations.Collector.exe" "RabbitOperations.Collector"
 }
 
 task ? -Description "Helper to display task info" {
