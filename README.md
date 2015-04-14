@@ -9,6 +9,8 @@ RavenDB, a document database with excellent indexing capabilities built
 on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
 searching, tailing. Shortly, monitoring, heart beating and integration with New Relic and PagerDuty will be added.
 
+![Screen](/docs/images/screenshot.png?raw=true "Screenshot")
+
 ## Documentation and Release Notes
 
 Documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
