@@ -169,10 +169,11 @@
     <Compile Include="RavenDB\Query\Interfaces\IBasicSearch.cs" />
     <Compile Include="RavenDB\Query\SearchResult.cs" />
     <Compile Include="RavenDB\SchemaUpdater.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion2.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion6.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion7.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion8.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0002.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0006.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0007.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0008.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0010.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
     <Compile Include="Web\Helpers\LinkHelper.cs" />
