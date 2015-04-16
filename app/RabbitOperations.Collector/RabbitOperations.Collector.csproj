@@ -160,6 +160,7 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
+    <Compile Include="MessageRetry\Interfaces\ICreateRetryMessagesFromOriginal.cs" />
     <Compile Include="MessageRetry\Interfaces\IRetryMessages.cs" />
     <Compile Include="MessageRetry\RetryMessagesService.cs" />
     <Compile Include="Models\RetryMessageResult.cs" />
@@ -256,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MessageParser\NServiceBus\Interfaces\" />
+    <Folder Include="MessageRetry\NServiceBus\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RabbitOperations.Domain\RabbitOperations.Domain.csproj">

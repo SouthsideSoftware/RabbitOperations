@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="Configuration\SettingsTests.cs" />
     <Compile Include="MessageParser\BodyParserTests.cs" />
+    <Compile Include="MessageParser\CreateRawMessageFromMessageDocumentTests.cs" />
     <Compile Include="MessageParser\KeyExtractorTests.cs" />
     <Compile Include="MessageParser\NServiceBus\HeaderParserTests.cs" />
     <Compile Include="MessageParser\RawMessageTests.cs" />

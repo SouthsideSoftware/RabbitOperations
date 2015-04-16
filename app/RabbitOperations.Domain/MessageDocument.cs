@@ -28,6 +28,7 @@ namespace RabbitOperations.Domain
 
         public AdditionalErrorStatus AdditionalErrorStatus { get; set; }
 
+
         public DateTime TimeSent { get; set; }
 
         public TimeSpan TotalTime { get; set; }

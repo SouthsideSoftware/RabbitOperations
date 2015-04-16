@@ -6,6 +6,7 @@ using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 using Newtonsoft.Json.Linq;
+using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.MessageParser
 {
@@ -36,6 +37,13 @@ namespace RabbitOperations.Collector.MessageParser
                     }
                 }
             }
+        }
+
+        public RawMessage(MessageDocument messageDocument)
+        {
+            Verify.RequireNotNull(messageDocument, "messageDocument");
+            Headers = new Dictionary<string, string>(messageDocument.Headers);
+            Body = messageDocument.Body;
         }
 
         public RawMessage(Dictionary<string, string> headers, string body)
