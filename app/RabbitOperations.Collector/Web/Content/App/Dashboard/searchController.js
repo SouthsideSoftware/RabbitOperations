@@ -22,10 +22,13 @@
     };
 
     $scope.selectionChanged = function() {
-        var selected = _.find($scope.searchResults.results, function(item) {
+        var selected = _.filter($scope.searchResults.results, function(item) {
             return item.isSelected;
         });
-        $scope.allowRetry = (selected !== undefined);
+        var allSelectedAllowRetry = _.every(selected, function(item) {
+            return item.canRetry;
+        });
+        $scope.allowRetry = selected.length > 0 && allSelectedAllowRetry;
     };
 
     $scope.$watch("pageInfo.take", function () {

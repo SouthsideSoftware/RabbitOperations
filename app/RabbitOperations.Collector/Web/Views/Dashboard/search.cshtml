@@ -63,6 +63,11 @@
                         <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'IsError' && !pageInfo.sortAscending"></i>
                         Is Error
                     </th>
+                    <th ng-click="toggleSort('CanRetry')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'CanRetry' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'CanRetry' && !pageInfo.sortAscending"></i>
+                        Can Retry
+                    </th>
                     <th>Select</th>
                 </tr>
                 </thead>
@@ -73,6 +78,7 @@
                     <td ng-click="showDetails(result, $event)">{{result.messageTypes.length > 0 ? result.messageTypes[0].className : 'UNK'}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.formattedTimeSent}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.isError}}</td>
+                    <td ng-click="showDetails(result, $event)">{{result.canRetry}}</td>
                     <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()"/></td>
                 </tr>
                 </tbody>
