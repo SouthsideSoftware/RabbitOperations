@@ -145,6 +145,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="TestData\EmptyBody.json" />
     <None Include="TestData\Audit.json" />
     <None Include="TestData\Error.json" />
     <None Include="web.config" />
