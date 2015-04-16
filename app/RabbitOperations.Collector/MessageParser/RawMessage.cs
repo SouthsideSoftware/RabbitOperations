@@ -39,21 +39,26 @@ namespace RabbitOperations.Collector.MessageParser
             }
         }
 
-        public RawMessage(MessageDocument messageDocument)
+        public RawMessage(MessageDocument messageDocument) 
         {
             Verify.RequireNotNull(messageDocument, "messageDocument");
-            Headers = new Dictionary<string, string>(messageDocument.Headers);
-            Body = messageDocument.Body;
+            CreateFromHeadersAndBody(messageDocument.Headers, messageDocument.Body);
         }
 
         public RawMessage(Dictionary<string, string> headers, string body)
         {
-            Verify.RequireStringNotNullOrWhitespace(body, "body");
+            CreateFromHeadersAndBody(headers, body);
+        }
+
+        private void CreateFromHeadersAndBody(IDictionary<string, string> headers, string body)
+        {
+            Verify.RequireNotNull(body, "body");
             Verify.RequireNotNull(headers, "headers");
 
             Headers = headers;
             Body = body;
         }
+
         [JsonProperty]
         public IDictionary<string, string> Headers { get; protected set; }
 

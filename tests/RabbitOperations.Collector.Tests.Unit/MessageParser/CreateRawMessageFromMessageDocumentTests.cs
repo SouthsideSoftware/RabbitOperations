@@ -21,7 +21,8 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
                 {
                     {"one", "oneValue"},
                     {"two", "twoValue"}
-                }
+                },
+                Body = ""
             };
 
             //act
