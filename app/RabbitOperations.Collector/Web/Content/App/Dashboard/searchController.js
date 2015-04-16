@@ -1,6 +1,7 @@
 ﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal, searchService) {
     $scope.pageInfo = searchService.pageInfo;
     $scope.searchResults = searchService.searchResults;
+    $scope.allowRetry = false;
 
     $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'Header:', 'IsError:', 'TimeSent:'];
 
@@ -18,6 +19,13 @@
 
     $scope.search = function() {
         searchService.search();
+    };
+
+    $scope.selectionChanged = function() {
+        var selected = _.find($scope.searchResults.results, function(item) {
+            return item.isSelected;
+        });
+        $scope.allowRetry = (selected !== undefined);
     };
 
     $scope.$watch("pageInfo.take", function () {

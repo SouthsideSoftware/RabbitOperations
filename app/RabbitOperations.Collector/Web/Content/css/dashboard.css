@@ -151,3 +151,7 @@ body {
      color:blue;
      text-decoration:underline;
 }
+
+.toolbar {
+    background-color: LightGray;
+}
