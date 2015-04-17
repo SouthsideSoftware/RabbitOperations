@@ -1,13 +1,12 @@
 # Rabbit Operations
 
-Operations support for RabbitMQ applications with support for popular
-message bus libraries.  Right now it only supports NServiceBus.  Next
-planned is Rebus.
+Operations support for RabbitMQ applications integrated with popular
+message bus libraries.  Right now it only supports NServiceBus.  We are also planning to support Rebus and MassTransit.
 
-The general idea is to read messages from audit and error queues into
+The application reads messages from audit and error queues into
 RavenDB, a document database with excellent indexing capabilities built
 on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
-searching, tailing. Shortly, monitoring, heart beating and integration with New Relic and PagerDuty will be added.
+searching and monitors message rates. It also links to the RabbiMQ management console. Future plans include support for replaying errors, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what is in development and what is being planned.
 
 ![Screen](/docs/images/screenshot.png?raw=true "Screenshot")
 
@@ -25,13 +24,9 @@ RavenDB is embedded by default. Ayende has graciously agreed to provide a licens
 use an external RavenDB if you like. If you use RavenDB externally, you will have to obtain an appropriate license
 from their [website](http://www.ravendb.org).
 
-## Next Steps
-Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what
-we're planning.
-
 ## Contributing
 
-Pull requests welcome. If you want to get involved in the project,
+Pull requests are welcome. If you want to get involved in the project,
 there is room for one or two more core contributors. Next interesting
 challenges are replaying errors for NServiceBus and adding support
 for Rebus.
