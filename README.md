@@ -10,6 +10,10 @@ searching and monitors message rates. It also links to the RabbiMQ management co
 
 ![Screen](/docs/images/screenshot.png?raw=true "Screenshot")
 
+## Prerequisites
+
+Your application should send successfully processed messages to the audit queue and any message that fails processing to the error queue. Popular .NET message bus libraries, like NServiceBus, MassTransit and Rebus either do this by default or can be configured to do so.
+
 ## Documentation and Release Notes
 
 Documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
