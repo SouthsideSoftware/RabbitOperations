@@ -156,6 +156,6 @@ body {
     background-color: LightGray;
 }
 
-.searchProgressBar {
+.searchProgressBar > span {
     color: white;
 }

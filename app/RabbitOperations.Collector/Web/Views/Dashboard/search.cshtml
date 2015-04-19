@@ -37,11 +37,11 @@
                     <button class="btn btn-default" popover="retry" type="submit" ng-disabled="!allowRetry || searchProgress > 0"><i class="glyphicon glyphicon-repeat"></i></button>
                 </div>
                 <div class="col-lg-11 col-sm-11 col-xs-11">
-                    <progressbar max="100" value="searchProgress" ng-show="searchProgress > 0"><span class="searchProgressBar">Searching...</span></progressbar>
+                    <progressbar class="searchProgressBar" max="100" value="searchProgress" ng-show="searchProgress > 0"><span class="searchProgressBar">Searching...</span></progressbar>
                 </div>
             </div>
         </form>
-        <div class="table-responsive" ng-show="searchProgress === 0">
+        <div class="table-responsive">
             <table class="table table-striped table-condensed table-hover">
                 <thead>
                 <tr>
@@ -52,7 +52,8 @@
                         Environment
                     </th>
                     <th ng-click="toggleSort('ClassName')" class="clickable">
-                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ClassName' && pageInfo.sortAscending"></i>
+                        <i class=" glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ClassName' && pageInfo.sortAscending">
+                        </i>
                         <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'ClassName' && !pageInfo.sortAscending"></i>
                         Class
                     </th>
@@ -82,7 +83,7 @@
                     <td ng-click="showDetails(result, $event)">{{result.formattedTimeSent}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.isError}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.canRetry}}</td>
-                    <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()"/></td>
+                    <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()" ng-disabled="searchProgress > 0" /></td>
                 </tr>
                 </tbody>
             </table>

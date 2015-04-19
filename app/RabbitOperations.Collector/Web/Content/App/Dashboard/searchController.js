@@ -42,16 +42,18 @@
         }
     });
 
-    $scope.showDetails = function(item, event) {
-        var modalInstance = $modal.open({
-            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
-            controller: 'searchDetailController',
-            size: 'lg',
-            resolve: {
-                item: function() {
-                    return item;
+    $scope.showDetails = function (item, event) {
+        if ($scope.searchProgress === 0) {
+            var modalInstance = $modal.open({
+                templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
+                controller: 'searchDetailController',
+                size: 'lg',
+                resolve: {
+                    item: function() {
+                        return item;
+                    }
                 }
-            }
-        });
+            });
+        }
     };
 });

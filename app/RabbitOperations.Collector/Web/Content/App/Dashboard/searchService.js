@@ -15,7 +15,7 @@
     };
     this.searchProgress = 0;
 
-    this.newSearch = function() {
+    this.newSearch = function () {
         self.pageInfo.page = 1;
         self.pageInfo.totalItems = 0;
         self.pageInfo.totalPages = 0;
@@ -41,14 +41,16 @@
         });
     }
 
-   self.toggleSort = function (field) {
-        //default sort on new field to true, otherwise toggle
-        if (self.pageInfo.sortField !== field) {
-            self.pageInfo.sortAscending = true;
-        } else {
-            self.pageInfo.sortAscending = !self.pageInfo.sortAscending;
+    self.toggleSort = function (field) {
+        if (self.searchProgress === 0) {
+            //default sort on new field to true, otherwise toggle
+            if (self.pageInfo.sortField !== field) {
+                self.pageInfo.sortAscending = true;
+            } else {
+                self.pageInfo.sortAscending = !self.pageInfo.sortAscending;
+            }
+            self.pageInfo.sortField = field;
+            self.newSearch();
         }
-        self.pageInfo.sortField = field;
-        self.newSearch();
     }
 });
