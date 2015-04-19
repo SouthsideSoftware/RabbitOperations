@@ -155,3 +155,7 @@ body {
 .toolbar {
     background-color: LightGray;
 }
+
+.searchProgressBar {
+    color: white;
+}

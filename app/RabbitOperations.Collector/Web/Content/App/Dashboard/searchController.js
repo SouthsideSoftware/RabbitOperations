@@ -1,12 +1,17 @@
 ﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal, searchService) {
     $scope.pageInfo = searchService.pageInfo;
     $scope.searchResults = searchService.searchResults;
+    $scope.searchProgress = searchService.searchProgress;
     $scope.allowRetry = false;
 
     $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'Header:', 'IsError:', 'TimeSent:'];
 
     $scope.$watch(function () { return searchService.searchResults }, function (searchResults) {
         $scope.searchResults = searchResults;
+    });
+
+    $scope.$watch(function () { return searchService.searchProgress }, function (searchProgress) {
+        $scope.searchProgress = searchProgress;
     });
 
     $scope.toggleSort = function(field) {
