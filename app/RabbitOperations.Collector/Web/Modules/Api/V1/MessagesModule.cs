@@ -27,10 +27,10 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
                 return basicSearch.Search(searchModel);
             };
 
-            Put["/retry/{messageId}"] = parameters =>
+            Put["/retry"] = parameters =>
             {
-                var messageId = parameters.messageId;
-                return retryMessagesService.Retry(messageId);
+                var retryModel = this.Bind<RetryMessageModel>();
+                return retryMessagesService.Retry(retryModel);
             };
         }
     }

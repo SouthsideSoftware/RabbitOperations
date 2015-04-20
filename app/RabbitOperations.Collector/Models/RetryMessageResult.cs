@@ -8,7 +8,10 @@ namespace RabbitOperations.Collector.Models
 {
     public class RetryMessageResult
     {
-        public bool IsSuccess { get; set; }
-        public long Retryid { get; set; }
+        public RetryMessageResult()
+        {
+            RetryMessageItems = new List<RetryMessageItem>();
+        }
+        public IList<RetryMessageItem> RetryMessageItems { get; set; } 
     }
 }

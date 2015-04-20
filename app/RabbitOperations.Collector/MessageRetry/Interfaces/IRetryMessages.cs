@@ -4,6 +4,6 @@ namespace RabbitOperations.Collector.MessageRetry.Interfaces
 {
     public interface IRetryMessages
     {
-        RetryMessageResult Retry(long messageId);
+        RetryMessageResult Retry(RetryMessageModel retryMessageModel);
     }
 }

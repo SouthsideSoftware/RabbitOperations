@@ -5,12 +5,19 @@ namespace RabbitOperations.Collector.MessageRetry
 {
     public class RetryMessagesService : IRetryMessages
     {
-        public RetryMessageResult Retry(long messageId)
+        public RetryMessageResult Retry(RetryMessageModel retryMessageModel)
         {
-            return new RetryMessageResult
+            var result = new RetryMessageResult();
+            foreach (var retryId in retryMessageModel.RetryIds)
             {
-                IsSuccess = false
-            };
+                result.RetryMessageItems.Add(new RetryMessageItem
+                {
+                    IsRetrying = false,
+                    Retryid = retryId
+                });                
+            }
+
+            return result;
         }
     }
 }
