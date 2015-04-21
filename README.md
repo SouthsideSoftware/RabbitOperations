@@ -1,6 +1,6 @@
 # Rabbit Operations
 
-Operations support for RabbitMQ applications integrated with popular
+Operations support for RabbitMQ applications including integration with popular
 message bus libraries.  Right now it only supports NServiceBus.  We are also planning to support Rebus and MassTransit.
 
 The application reads messages from audit and error queues into
