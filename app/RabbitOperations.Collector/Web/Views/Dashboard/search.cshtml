@@ -16,7 +16,7 @@
                         <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Search for messages..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-disabled="searchProgress > 0" ng-click="newSearch()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                            <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use ClassName, IsError, EnvironmentId, TimeSent. (e.g. IsError:false AND EnvironmentId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
+                            <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use ClassName, IsError, ApplicationId, TimeSent. (e.g. IsError:false AND ApplicationId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
                         </span>
                     </div>
                 </div>
@@ -46,9 +46,9 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th ng-click="toggleSort('EnvironmentId')" class="clickable">
-                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'EnvironmentId' && pageInfo.sortAscending"></i>
-                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'EnvironmentId' && !pageInfo.sortAscending"></i>
+                    <th ng-click="toggleSort('ApplicationId')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ApplicationId' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'ApplicationId' && !pageInfo.sortAscending"></i>
                         Environment
                     </th>
                     <th ng-click="toggleSort('ClassName')" class="clickable">
@@ -78,7 +78,7 @@
                 <tbody>
                 <tr class="clickable" ng-repeat="result in searchResults.results">
                     <td ng-click="showDetails(result, $event)">{{result.id}}</td>
-                    <td ng-click="showDetails(result, $event)">{{result.environmentId}}</td>
+                    <td ng-click="showDetails(result, $event)">{{result.applicationId}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.messageTypes.length > 0 ? result.messageTypes[0].className : 'UNK'}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.formattedTimeSent}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.isError}}</td>

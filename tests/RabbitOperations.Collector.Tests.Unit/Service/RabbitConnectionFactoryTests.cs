@@ -20,7 +20,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange
             const string rabbitConnectionString = "amqp://localhost2";
             var queueSettings = new QueueSettings("queue",
-                new EnvironmentConfiguration {RabbitConnectionString = rabbitConnectionString});
+                new ApplicationConfiguration {RabbitConnectionString = rabbitConnectionString});
             var factory = new RabbitConnectionFactory();
             
             //act
@@ -37,7 +37,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange
             const string rabbitConnectionString = "amqp://localhost2";
             var queueSettings = new QueueSettings("queue",
-                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString });
+                new ApplicationConfiguration { RabbitConnectionString = rabbitConnectionString });
             var factory = new RabbitConnectionFactory();
             var originalInstance = factory.Create(queueSettings);
 
@@ -56,12 +56,12 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             const string rabbitHost1 = "localhost1";
             var rabbitConnectionString1 = string.Format("amqp://{0}",rabbitHost1);
             var queueSettings1 = new QueueSettings("queue",
-                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString1 });
+                new ApplicationConfiguration { RabbitConnectionString = rabbitConnectionString1 });
 
             const string rabbitHost2 = "localhost2";
             var rabbitConnectionString2 = string.Format("amqp://{0}", rabbitHost2);
             var queueSettings2 = new QueueSettings("queue",
-                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString2 });
+                new ApplicationConfiguration { RabbitConnectionString = rabbitConnectionString2 });
             var factory = new RabbitConnectionFactory();
 
             //act

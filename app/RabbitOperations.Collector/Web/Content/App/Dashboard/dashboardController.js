@@ -12,7 +12,7 @@
     });
 
     $scope.quickSearch = function(environmentId, isErrorQueue) {
-        searchService.pageInfo.searchString = 'EnvironmentId:' + environmentId;
+        searchService.pageInfo.searchString = 'ApplicationId:' + environmentId;
         if (isErrorQueue !== undefined) {
             searchService.pageInfo.searchString += ' AND IsError:' + isErrorQueue;
         }

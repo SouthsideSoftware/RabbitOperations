@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Microsoft.SqlServer.Server;
 
 namespace RabbitOperations.Domain.Configuration
 {
-    public class EnvironmentConfiguration
+    public class ApplicationConfiguration
     {
-        public EnvironmentConfiguration()
+        public ApplicationConfiguration()
         {
             AuditQueue = "audit";
             ErrorQueue = "error";
@@ -18,8 +19,8 @@ namespace RabbitOperations.Domain.Configuration
         }
 
 
-        public string EnvironmentId { get; set; }
-        public string EnvironmentName { get; set; }
+        public string ApplicationId { get; set; }
+        public string ApplicationName { get; set; }
         public string AuditQueue { get; set; }
         public string ErrorQueue { get; set; }
 

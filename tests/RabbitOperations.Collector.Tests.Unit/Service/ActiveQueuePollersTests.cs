@@ -19,9 +19,9 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
 
             //act
@@ -38,9 +38,9 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
             activeQueuePollers.Add(queuePoller);
 
@@ -58,16 +58,16 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
             activeQueuePollers.Add(queuePoller);
 
             var key2 = Guid.NewGuid();
-            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
 
 
@@ -85,9 +85,9 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
 
             activeQueuePollers.Add(queuePoller);
@@ -106,14 +106,14 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller1 = new QueuePoller(key1, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller1 = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
             var key2 = Guid.NewGuid();
-            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
 
             //act
@@ -131,14 +131,14 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller1 = new QueuePoller(key1, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller1 = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
             var key2 = Guid.NewGuid();
-            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new EnvironmentConfiguration
+            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new ApplicationConfiguration
             {
-                EnvironmentId = "test"
+                ApplicationId = "test"
             }));
 
             activeQueuePollers.Add(queuePoller1);

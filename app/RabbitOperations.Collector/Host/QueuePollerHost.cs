@@ -64,7 +64,7 @@ namespace RabbitOperations.Collector.Host
                 }
                 else
                 {
-                    logger.Info("Polling for environment {0}({1}) is disabled. This is configured in the web application.", environment.EnvironmentName, environment.EnvironmentId);
+                    logger.Info("Polling for environment {0}({1}) is disabled. This is configured in the web application.", environment.ApplicationName, environment.ApplicationId);
                 }
             }
             logger.Info("Queue poller host started");
@@ -75,10 +75,10 @@ namespace RabbitOperations.Collector.Host
             if (settings.Environments.Count == 0)
             {
                 logger.Info("Creating default environment.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
-                settings.Environments.Add(new EnvironmentConfiguration
+                settings.Environments.Add(new ApplicationConfiguration
                 {
-                    EnvironmentId = "default",
-                    EnvironmentName = "Default",
+                    ApplicationId = "default",
+                    ApplicationName = "Default",
                     AuditQueue = "audit",
                     ErrorQueue = "error",
                     AutoStartQueuePolling = false,
@@ -101,7 +101,7 @@ namespace RabbitOperations.Collector.Host
             queuePollers.Add(Task.Factory.StartNew(() =>
             {
                 string queueLogInfo = string.Format("queue {0} in environment {1}({2})", queueSettings.QueueName,
-                    queueSettings.EnvironmentName, queueSettings.EnvironmentId);
+                    queueSettings.ApplicationName, queueSettings.ApplicationId);
                 try
                 {
                     var queuePoller = queuePollerFactory.Create(queueSettings, cancellationToken);

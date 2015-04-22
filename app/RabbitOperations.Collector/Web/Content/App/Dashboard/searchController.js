@@ -4,7 +4,7 @@
     $scope.searchProgress = searchService.searchProgress;
     $scope.allowRetry = false;
 
-    $scope.searchFields = ['Any:', 'ClassName:', 'EnvironmentId:', 'Header:', 'IsError:', 'TimeSent:'];
+    $scope.searchFields = ['Any:', 'ClassName:', 'ApplicationId:', 'Header:', 'IsError:', 'TimeSent:'];
 
     $scope.$watch(function () { return searchService.searchResults }, function (searchResults) {
         $scope.searchResults = searchResults;

@@ -7,26 +7,26 @@ namespace RabbitOperations.Collector.Service
 {
     public class QueueSettings : IQueueSettings
     {
-        public QueueSettings(string queueName, EnvironmentConfiguration environment)
+        public QueueSettings(string queueName, ApplicationConfiguration application)
         {
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
-            Verify.RequireNotNull(environment, "environment");
+            Verify.RequireNotNull(application, "application");
 
             QueueName = queueName;
-            EnvironmentId = environment.EnvironmentId;
-            EnvironmentName = environment.EnvironmentName;
-            RabbitConnectionString = environment.RabbitConnectionString;
-            MaxMessagesPerRun = environment.MaxMessagesPerRun;
-            PollingTimeoutMilliseconds = environment.PollingTimeoutMilliseconds;
-            HeartbeatIntervalSeconds = environment.HeartbeatIntervalSeconds;
-            IsErrorQueue = environment.ErrorQueue == QueueName;
-            DocumentExpirationInHours = environment.DocumentExpirationInHours;
+            ApplicationId = application.ApplicationId;
+            ApplicationName = application.ApplicationName;
+            RabbitConnectionString = application.RabbitConnectionString;
+            MaxMessagesPerRun = application.MaxMessagesPerRun;
+            PollingTimeoutMilliseconds = application.PollingTimeoutMilliseconds;
+            HeartbeatIntervalSeconds = application.HeartbeatIntervalSeconds;
+            IsErrorQueue = application.ErrorQueue == QueueName;
+            DocumentExpirationInHours = application.DocumentExpirationInHours;
 
             try
             {
                 RabbitManagementWebUrl = string.Format("http://{0}:{1}",
-                    new Uri(environment.RabbitConnectionString).Host,
-                    environment.RabbitManagementPort);
+                    new Uri(application.RabbitConnectionString).Host,
+                    application.RabbitManagementPort);
             }
             catch
             {
@@ -35,9 +35,9 @@ namespace RabbitOperations.Collector.Service
         }
 
         public bool IsErrorQueue { get; private set; }
-        public string EnvironmentId { get; private set; }
+        public string ApplicationId { get; private set; }
 
-        public string EnvironmentName { get; private set; }
+        public string ApplicationName { get; private set; }
 
         public string QueueName { get; private set; }
 

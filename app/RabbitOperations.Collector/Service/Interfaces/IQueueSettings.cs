@@ -2,8 +2,8 @@
 {
     public interface IQueueSettings
     {
-        string EnvironmentId { get; }
-        string EnvironmentName { get; }
+        string ApplicationId { get; }
+        string ApplicationName { get; }
         string QueueName { get; }
 
         int MaxMessagesPerRun { get; }

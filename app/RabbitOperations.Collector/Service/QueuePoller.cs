@@ -62,10 +62,10 @@ namespace RabbitOperations.Collector.Service
             this.documentStore = documentStore;
             this.activeQueuePollers = activeQueuePollers;
             queueLogInfo = string.Format("queue {0} in environment {1}({2})", QueueSettings.QueueName,
-                QueueSettings.EnvironmentName, QueueSettings.EnvironmentId);
+                QueueSettings.ApplicationName, QueueSettings.ApplicationId);
             Key = Guid.NewGuid();
 
-            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.EnvironmentId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
+            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
         }
 
         public IQueueSettings QueueSettings { get; protected set; }
@@ -130,7 +130,7 @@ namespace RabbitOperations.Collector.Service
 
             var document = new MessageDocument
             {
-                EnvironmentId = QueueSettings.EnvironmentId
+                ApplicationId = QueueSettings.ApplicationId
             };
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;

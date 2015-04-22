@@ -12,16 +12,14 @@ namespace RabbitOperations.Domain.Configuration
         {
             GlobalMessageHandlingInstructions = new List<MessageTypeHandling>();
             Id = 1;
-            Environments = new List<EnvironmentConfiguration>();
+            Applications = new List<ApplicationConfiguration>();
             AutoStartQueuePolling = false;
-            Environments = new List<EnvironmentConfiguration>();
-
         }
         public int Id { get; set; }
 
         public IList<MessageTypeHandling> GlobalMessageHandlingInstructions { get; set; } 
 
-        public IList<EnvironmentConfiguration> Environments { get; set; }
+        public IList<ApplicationConfiguration> Applications { get; set; }
 
         public bool AutoStartQueuePolling { get; set; }
 
