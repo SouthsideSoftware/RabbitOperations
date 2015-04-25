@@ -61,7 +61,7 @@ namespace RabbitOperations.Collector.Service
             this.headerParser = headerParser;
             this.documentStore = documentStore;
             this.activeQueuePollers = activeQueuePollers;
-            queueLogInfo = string.Format("queue {0} in environment {1}({2})", QueueSettings.QueueName,
+            queueLogInfo = string.Format("queue {0} in application {1}({2})", QueueSettings.QueueName,
                 QueueSettings.ApplicationName, QueueSettings.ApplicationId);
             Key = Guid.NewGuid();
 

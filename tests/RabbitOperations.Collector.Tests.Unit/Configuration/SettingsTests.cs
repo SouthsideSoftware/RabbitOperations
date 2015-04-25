@@ -28,11 +28,11 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
         {
             //arrange
             var settings = new Settings(Store);
-            const string environmentId = "one";
-            settings.Environments.Add(new ApplicationConfiguration
+            const string applicationId = "one";
+            settings.Applications.Add(new ApplicationConfiguration
             {
                 AuditQueue = "xxx",
-                ApplicationId = environmentId
+                ApplicationId = applicationId
             });
             settings.Save();
 
@@ -40,7 +40,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
             settings = new Settings(Store);
 
             //assert 
-            settings.Environments.First(x => x.ApplicationId == environmentId).AuditQueue.Should().Be("xxx");
+            settings.Applications.First(x => x.ApplicationId == applicationId).AuditQueue.Should().Be("xxx");
         }
 
         [Test]

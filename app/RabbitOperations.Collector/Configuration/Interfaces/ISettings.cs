@@ -9,7 +9,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
        
         IList<MessageTypeHandling> GlobalMessageHandlingInstructions { get; set; }
 
-        IList<ApplicationConfiguration> Environments { get; set; } 
+        IList<ApplicationConfiguration> Applications { get; set; } 
 
         void Load();
         void Save();

@@ -111,7 +111,7 @@ namespace RabbitOperations.Collector.Configuration
             set { configurationDocument.GlobalMessageHandlingInstructions = value; }
         }
 
-        public IList<ApplicationConfiguration> Environments
+        public IList<ApplicationConfiguration> Applications
         {
             get { return configurationDocument.Applications; }
             set { configurationDocument.Applications = value; }

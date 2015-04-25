@@ -1,18 +1,18 @@
 ﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http, searchService, queueService) {
     $scope.displayStats = true;
-    $scope.environments = [];
+    $scope.applications = [];
     $scope.queues = [];
 
     $scope.$watch(function () { return queueService.queues }, function (queues) {
         $scope.queues = queues;
     });
 
-    $scope.$watch(function () { return queueService.environments }, function (environments) {
-        $scope.environments = environments;
+    $scope.$watch(function () { return queueService.applications }, function (applications) {
+        $scope.applications = applications;
     });
 
-    $scope.quickSearch = function(environmentId, isErrorQueue) {
-        searchService.pageInfo.searchString = 'ApplicationId:' + environmentId;
+    $scope.quickSearch = function(applicationId, isErrorQueue) {
+        searchService.pageInfo.searchString = 'ApplicationId:' + applicationId;
         if (isErrorQueue !== undefined) {
             searchService.pageInfo.searchString += ' AND IsError:' + isErrorQueue;
         }
@@ -38,7 +38,7 @@
                     targetQueueName += parts[x];
                 }
                 var queue = _.find($scope.queues, function(queue) {
-                    if (queue.queueSettings.environmentId === parts[0] && queue.queueSettings.queueName === targetQueueName) {
+                    if (queue.queueSettings.applicationId === parts[0] && queue.queueSettings.queueName === targetQueueName) {
                         queue.messageRate = element.Value.OneMinuteRate.toFixed(2);
                         $scope.$apply();
                     }

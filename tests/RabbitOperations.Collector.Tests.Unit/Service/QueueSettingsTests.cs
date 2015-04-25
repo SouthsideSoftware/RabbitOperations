@@ -21,15 +21,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         }
 
         [Test]
-        public void ShouldSetEnvironmentIdFromConstructor()
+        public void ShouldSetApplicationIdFromConstructor()
         {
             //arrange and act
-            const string environmentId = "one";
-            var settings = new QueueSettings("x", new ApplicationConfiguration {ApplicationId = environmentId});
+            const string applicationId = "one";
+            var settings = new QueueSettings("x", new ApplicationConfiguration {ApplicationId = applicationId});
             var queueSettings = settings;
 
             //assert
-            queueSettings.ApplicationId.Should().Be(environmentId);
+            queueSettings.ApplicationId.Should().Be(applicationId);
         }
 
         [Test]
@@ -45,15 +45,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         }
 
         [Test]
-        public void ShouldSetEnvironmentNameFromConstructor()
+        public void ShouldSetApplicationNameFromConstructor()
         {
             //arrange and act
-            const string environmentName = "one";
-            var settings = new QueueSettings("x", new ApplicationConfiguration {ApplicationName = environmentName});
+            const string applicationName = "one";
+            var settings = new QueueSettings("x", new ApplicationConfiguration {ApplicationName = applicationName});
             var queueSettings = settings;
 
             //assert
-            queueSettings.ApplicationName.Should().Be(environmentName);
+            queueSettings.ApplicationName.Should().Be(applicationName);
         }
 
         [Test]

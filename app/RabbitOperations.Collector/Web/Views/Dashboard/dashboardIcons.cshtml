@@ -9,11 +9,11 @@
     </div>
     <div collapse="!displayStats">
         <div class="col-lg-2 col-xs-3 col-sm-2 placeholder" ng-repeat="queue in queues">
-            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" ng-click="quickSearch(queue.queueSettings.environmentId, queue.queueSettings.isErrorQueue)" alt="Generic placeholder thumbnail" holder-fix>
+            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isErrorQueue)" alt="Generic placeholder thumbnail" holder-fix>
                 <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span>
             </div>
-            <span class="link" ng-click="quickSearch(queue.queueSettings.environmentId)"><h4>{{queue.queueSettings.environmentName}}</h4></span>
-            <span class="link" ng-click="quickSearch(queue.queueSettings.environmentId, queue.queueSettings.isErrorQueue)" class="text-muted">{{queue.queueSettings.isErrorQueue ? 'Error' : 'Audit'}}</span>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId)"><h4>{{queue.queueSettings.applicationName}}</h4></span>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isErrorQueue)" class="text-muted">{{queue.queueSettings.isErrorQueue ? 'Error' : 'Audit'}}</span>
         </div>
     </div>
 </div>

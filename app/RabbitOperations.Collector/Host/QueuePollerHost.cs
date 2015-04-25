@@ -55,16 +55,16 @@ namespace RabbitOperations.Collector.Host
         public void Start()
         {
             logger.Info("Queue poller host starting...");
-            foreach (var environment in settings.Environments)
+            foreach (var application in settings.Applications)
             {
-                if (environment.AutoStartQueuePolling)
+                if (application.AutoStartQueuePolling)
                 {
-                    StartPollingQueue(new QueueSettings(environment.AuditQueue, environment));
-                    StartPollingQueue(new QueueSettings(environment.ErrorQueue, environment));
+                    StartPollingQueue(new QueueSettings(application.AuditQueue, application));
+                    StartPollingQueue(new QueueSettings(application.ErrorQueue, application));
                 }
                 else
                 {
-                    logger.Info("Polling for environment {0}({1}) is disabled. This is configured in the web application.", environment.ApplicationName, environment.ApplicationId);
+                    logger.Info("Polling for application {0}({1}) is disabled. This is configured in the web application.", application.ApplicationName, application.ApplicationId);
                 }
             }
             logger.Info("Queue poller host started");
@@ -72,10 +72,10 @@ namespace RabbitOperations.Collector.Host
 
         private void CreateDefaultEnvirtonmentIfNoneExists()
         {
-            if (settings.Environments.Count == 0)
+            if (settings.Applications.Count == 0)
             {
-                logger.Info("Creating default environment.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
-                settings.Environments.Add(new ApplicationConfiguration
+                logger.Info("Creating default application.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
+                settings.Applications.Add(new ApplicationConfiguration
                 {
                     ApplicationId = "default",
                     ApplicationName = "Default",
@@ -100,7 +100,7 @@ namespace RabbitOperations.Collector.Host
         {
             queuePollers.Add(Task.Factory.StartNew(() =>
             {
-                string queueLogInfo = string.Format("queue {0} in environment {1}({2})", queueSettings.QueueName,
+                string queueLogInfo = string.Format("queue {0} in application {1}({2})", queueSettings.QueueName,
                     queueSettings.ApplicationName, queueSettings.ApplicationId);
                 try
                 {

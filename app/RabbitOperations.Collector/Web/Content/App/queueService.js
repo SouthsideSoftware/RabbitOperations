@@ -1,23 +1,23 @@
 ﻿rabbitOperationsApp.service('queueService', function ($http) {
     var self = this; 
     
-    this.environments = [];
+    this.applications = [];
     this.queues = [];
 
     $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
         self.queues = data.activePollers;
-        var newEnvironments = [];
+        var newApplications = [];
         _.each(self.queues, function (queue) {
-            var found = _.find(newEnvironments, function(environment) { return environment.environmentId === queue.queueSettings.environmentId });
+            var found = _.find(newApplications, function(application) { return application.applicationId === queue.queueSettings.applicationId });
             if (found === undefined) {
-                newEnvironments.push({
-                    environmentId: queue.queueSettings.environmentId,
-                    environmentName: queue.queueSettings.environmentName,
+                newApplications.push({
+                    applicationId: queue.queueSettings.applicationId,
+                    applicationName: queue.queueSettings.applicationName,
                     rabbitManagementWebUrl: queue.queueSettings.rabbitManagementWebUrl
                 });
             }
         });
-        self.environments = newEnvironments;
+        self.applications = newApplications;
     }).error(function (data, status, headers, config) {
         alert("AJAX failed!");
     });
