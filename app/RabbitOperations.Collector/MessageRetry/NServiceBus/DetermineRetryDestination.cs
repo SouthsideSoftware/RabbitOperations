@@ -2,6 +2,7 @@
 using System.Linq;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
+using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.MessageRetry.NServiceBus
 {
@@ -9,6 +10,8 @@ namespace RabbitOperations.Collector.MessageRetry.NServiceBus
     {
         public string GetRetryDestination(IRawMessage rawMessage)
         {
+            Verify.RequireNotNull(rawMessage, "rawMessage");
+
             if (rawMessage.Headers.ContainsKey("NServiceBus.FailedQ"))
             {
                 var failedQ = rawMessage.Headers["NServiceBus.FailedQ"];
