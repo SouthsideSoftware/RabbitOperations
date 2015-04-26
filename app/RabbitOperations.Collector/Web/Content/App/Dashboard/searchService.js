@@ -27,6 +27,7 @@
         var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
         self.searchProgress = 30;
         $http.get(url).success(function (data, status, headers, config) {
+            self.searchProgress = 90;
             _.each(data.results, function(element, index, list) {
                 element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';
             });

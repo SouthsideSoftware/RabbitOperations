@@ -153,11 +153,17 @@ body {
 }
 
 .toolbar {
-    background-color: LightGray;
+    margin-top: 5px;
 }
 
-.searchProgressBar > span {
+.searching {
+    height: 30px;
     color: white;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #337ab7;
+    padding: 5px 5px 5px 5px;
+    float: right;
 }
 
 .headerLogo {
