@@ -30,5 +30,47 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             //assert
             destination.Should().Be("Autobahn.Configuration.Host");
         }
+
+        [Test]
+        public void ReturnsNullIfFailedQHeaderNotPresent()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            rawMessage.Headers.Remove("NServiceBus.FailedQ");
+
+            var destinationFinder = new DetermineRetryDestination();
+
+            //act
+            var destination = destinationFinder.GetRetryDestination(rawMessage);
+
+            //assert
+            destination.Should().BeNull();
+        }
+
+        [Test]
+        public void ReturnsWholeQueueWhenDelimiterNotPresent()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            rawMessage.Headers["NServiceBus.FailedQ"] = "simpleQueue";
+
+            var destinationFinder = new DetermineRetryDestination();
+
+            //act
+            var destination = destinationFinder.GetRetryDestination(rawMessage);
+
+            //assert
+            destination.Should().Be("simpleQueue");
+        }
     }
 }

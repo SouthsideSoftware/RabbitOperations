@@ -4,5 +4,7 @@
     {
         public bool IsRetrying { get; set; }
         public long Retryid { get; set; }
+
+        public string AdditionalInfo { get; set; }
     }
 }
