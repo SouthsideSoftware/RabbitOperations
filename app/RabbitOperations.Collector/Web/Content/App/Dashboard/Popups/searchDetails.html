@@ -18,6 +18,10 @@
                 <td>{{message.item.isError}}</td>
             </tr>
             <tr>
+                <td class="rowLabel">Can Retry:</td>
+                <td>{{message.item.canRetry}}</td>
+            </tr>
+            <tr>
                 <td class="rowLabel">Processing Time:</td>
                 <td>{{message.processingTime}}</td>
             </tr>
@@ -35,5 +39,6 @@
     </div>
 </div>
 <div class="modal-footer">
+    <button class="btn btn-primary" ng-show="message.item.canRetry" ng-click="retry()">Retry</button>
     <button class="btn btn-primary" ng-click="ok()">OK</button>
 </div>

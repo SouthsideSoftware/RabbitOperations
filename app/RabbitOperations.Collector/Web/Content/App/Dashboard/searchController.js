@@ -10,19 +10,20 @@
         $scope.searchResults = searchResults;
     });
 
-    $scope.$watch(function () { return searchService.searchProgress }, function (searchProgress) {
-        $scope.searchProgress = searchProgress;
+    $scope.$watch(function () { return searchService.searchInProgress }, function (searchInProgress) {
+        $scope.allowRetry = false;
+        $scope.searchInProgress = searchInProgress;
     });
 
     $scope.toggleSort = function(field) {
         searchService.toggleSort(field);
     };
 
-    $scope.newSearch = function() {
+    $scope.newSearch = function () {
         searchService.newSearch();
     };
 
-    $scope.search = function() {
+    $scope.search = function () {
         searchService.search();
     };
 
@@ -43,7 +44,7 @@
     });
 
     $scope.showDetails = function (item, event) {
-        if ($scope.searchProgress === 0) {
+        if (!$scope.searchInProgress) {
             var modalInstance = $modal.open({
                 templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
                 controller: 'searchDetailController',

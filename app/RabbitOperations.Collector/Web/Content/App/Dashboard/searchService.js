@@ -13,7 +13,7 @@
         sortField: "TimeSent",
         sortAscending: false
     };
-    this.searchProgress = 0;
+    this.searchInProgress = false;
 
     this.newSearch = function () {
         self.pageInfo.page = 1;
@@ -23,21 +23,18 @@
     }
 
     self.search = function () {
-        self.searchProgress = 10;
+        self.searchInProgress = true;
         var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
-        self.searchProgress = 30;
         $http.get(url).success(function (data, status, headers, config) {
-            self.searchProgress = 90;
             _.each(data.results, function(element, index, list) {
                 element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';
             });
-            self.searchProgress = 100;
             self.searchResults = data;
             self.pageInfo.totalItems = data.totalResults;
             self.pageInfo.totalPages = Math.ceil(data.totalResults / self.pageInfo.take);
-            self.searchProgress = 0;
+            self.searchInProgress = false;
         }).error(function (data, status, headers, config) {
-            self.searchProgress = 0;
+            self.searchInProgress = false;
             alert("AJAX failed!");
         });
     }

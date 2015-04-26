@@ -15,7 +15,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Search for messages..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" ng-disabled="searchProgress > 0" ng-click="newSearch()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-default" ng-disabled="searchInProgress" ng-click="newSearch()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use ClassName, IsError, ApplicationId, TimeSent. (e.g. IsError:false AND ApplicationId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
                         </span>
                     </div>
@@ -23,10 +23,10 @@
                 <div class="col-lg-4 col-sm-4 col-xs-4">
                     <div class="input-group">
                         <div class="btn-group">
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="10" ng-disabled="searchProgress > 0">10</label>
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="20" ng-disabled="searchProgress > 0">20</label>
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="50" ng-disabled="searchProgress > 0">50</label>
-                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="100" ng-disabled="searchProgress > 0">100</label>
+                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="10" ng-disabled="searchInProgress">10</label>
+                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="20" ng-disabled="searchInProgress">20</label>
+                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="50" ng-disabled="searchInProgress">50</label>
+                            <label class="btn btn-primary" ng-model="pageInfo.take" btn-radio="100" ng-disabled="searchInProgress">100</label>
                         </div>
                         <span>&nbsp; Per Page</span>
                     </div>
@@ -35,8 +35,8 @@
             <div class="row toolbar">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
                     <div class="btn-toolbar">
-                        <button class="btn btn-default btn-primary" tooltip="retry" type="submit" ng-disabled="!allowRetry || searchProgress > 0"><i class="glyphicon glyphicon-repeat"></i></button>
-                        <span class="searching" ng-show="searchProgress > 0">Searching...</span>
+                        <button class="btn btn-default btn-primary" tooltip="retry" type="submit" ng-disabled="!allowRetry || searchInProgress"><i class="glyphicon glyphicon-repeat"></i></button>
+                        <span class="searching" ng-show="searchInProgress">Searching...</span>
                     </div>
                 </div>
             </div>
@@ -83,13 +83,13 @@
                     <td ng-click="showDetails(result, $event)">{{result.formattedTimeSent}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.isError}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.canRetry}}</td>
-                    <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()" ng-disabled="searchProgress > 0" /></td>
+                    <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()" ng-disabled="searchInProgress" /></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-lg-4 col-sm-4 col-xs-4">
-            <pager ng-show="pageInfo.totalPages > 1 && searchProgress === 0" total-items="pageInfo.totalItems" ng-model="pageInfo.page" ng-change="search()"></pager>
+            <pager ng-show="pageInfo.totalPages > 1 && searchInProgress" total-items="pageInfo.totalItems" ng-model="pageInfo.page" ng-change="search()"></pager>
         </div>
         <div class="col-lg-4 col-sm-4 col-xs-4 pull-right">
             <pre ng-show="pageInfo.totalPages > 1">Page: {{pageInfo.page}} / {{pageInfo.totalPages}}</pre>

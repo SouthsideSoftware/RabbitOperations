@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item) {
+﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http) {
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
             var hours = duration.days * 24 + duration.hours;
@@ -20,4 +20,12 @@
     $scope.ok = function () {
         $modalInstance.close();
     };
+
+    $scope.retry = function() {
+        $http.put('/api/v1/messages/retry', {retryIds: [item.id]}).success(function (data, status, headers, config) {
+            alert('AJAX success with ' + JSON.stringify(data, null, 2));
+        }).error(function (data, status, headers, config) {
+            alert("AJAX failed!");
+        });
+    }
 })
