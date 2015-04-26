@@ -159,3 +159,11 @@ body {
 .searchProgressBar > span {
     color: white;
 }
+
+.headerLogo {
+  float: left;
+  height: 50px;
+  padding: 5px 10px 5px 0px;
+  font-size: 18px;
+  line-height: 20px;
+}
