@@ -31,6 +31,5 @@ from their [website](http://www.ravendb.org).
 ## Contributing
 
 Pull requests are welcome. If you want to get involved in the project,
-there is room for one or two more core contributors. Next interesting
-challenges are replaying errors for NServiceBus and adding support
-for Rebus.
+there is room for one or two more core contributors. At this point, it would be nice to have someone
+interested in adding support for Rebus and MassTransit.
