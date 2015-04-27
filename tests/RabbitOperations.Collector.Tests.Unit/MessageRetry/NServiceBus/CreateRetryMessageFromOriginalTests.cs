@@ -131,15 +131,6 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         [Test]
         public void ShouldNotRemoveOtherHeaders()
         {
-            var otherHeaders = new List<string>
-            {
-                "NServiceBus.TimeSent",
-                "NServiceBus.ProcessingStarted",
-                "NServiceBus.ProcessingEnded",
-                "NServiceBus.OriginatingAddress",
-                "NServiceBus.ProcessingEndpoint",
-                "NServiceBus.ProcessingMachine"
-            };
             //arrange
             string data;
             using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
