@@ -13,7 +13,8 @@ namespace RabbitOperations.Collector.MessageRetry
                 result.RetryMessageItems.Add(new RetryMessageItem
                 {
                     IsRetrying = false,
-                    Retryid = retryId
+                    Retryid = retryId,
+                    RetryQueue = retryMessageModel.UserSuppliedRetryDestination
                 });                
             }
 
