@@ -8,9 +8,14 @@ namespace RabbitOperations.Collector.MessageRetry.NServiceBus
 {
     public class DetermineRetryDestination : IDetermineRetryDestination
     {
-        public string GetRetryDestination(IRawMessage rawMessage)
+        public string GetRetryDestination(IRawMessage rawMessage, string userSuppliedRetryDestination)
         {
             Verify.RequireNotNull(rawMessage, "rawMessage");
+
+            if (!string.IsNullOrWhiteSpace(userSuppliedRetryDestination))
+            {
+                return userSuppliedRetryDestination;
+            }
 
             if (rawMessage.Headers.ContainsKey("NServiceBus.FailedQ"))
             {

@@ -4,6 +4,6 @@ namespace RabbitOperations.Collector.MessageRetry.Interfaces
 {
     public interface IDetermineRetryDestination
     {
-        string GetRetryDestination(IRawMessage rawMessage);
+        string GetRetryDestination(IRawMessage rawMessage, string userSuppliedRetryDestination);
     }
 }

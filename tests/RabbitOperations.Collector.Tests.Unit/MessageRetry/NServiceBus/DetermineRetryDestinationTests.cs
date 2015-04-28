@@ -25,10 +25,52 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             var destinationFinder = new DetermineRetryDestination();
 
             //act
-            var destination = destinationFinder.GetRetryDestination(rawMessage);
+            var destination = destinationFinder.GetRetryDestination(rawMessage, null);
 
             //assert
             destination.Should().Be("Autobahn.Configuration.Host");
+        }
+
+        [Test]
+        public void ReturnsProperRetryDestinationFromErrorWhenUserSuppliedIsWhitespace()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+
+            var destinationFinder = new DetermineRetryDestination();
+
+            //act
+            var destination = destinationFinder.GetRetryDestination(rawMessage, "\t\t");
+
+            //assert
+            destination.Should().Be("Autobahn.Configuration.Host");
+        }
+
+        //test
+        public void ReturnsUserSuppliedValueWhenNotNullOrWhitespace()
+        {
+            //arrange
+            string userSupplied = "userQueue";
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            rawMessage.Headers.Remove("NServiceBus.FailedQ");
+
+            var destinationFinder = new DetermineRetryDestination();
+
+            //act
+            var destination = destinationFinder.GetRetryDestination(rawMessage, userSupplied);
+
+            //assert
+            destination.Should().Be(userSupplied);    
         }
 
         [Test]
@@ -46,7 +88,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             var destinationFinder = new DetermineRetryDestination();
 
             //act
-            var destination = destinationFinder.GetRetryDestination(rawMessage);
+            var destination = destinationFinder.GetRetryDestination(rawMessage, null);
 
             //assert
             destination.Should().BeNull();
@@ -67,7 +109,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             var destinationFinder = new DetermineRetryDestination();
 
             //act
-            var destination = destinationFinder.GetRetryDestination(rawMessage);
+            var destination = destinationFinder.GetRetryDestination(rawMessage, null);
 
             //assert
             destination.Should().Be("simpleQueue");
