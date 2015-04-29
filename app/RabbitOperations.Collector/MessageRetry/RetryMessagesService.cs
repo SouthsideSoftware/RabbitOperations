@@ -1,6 +1,9 @@
 ﻿using System.Runtime.Remoting.Messaging;
+using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Collector.Models;
+using RabbitOperations.Collector.RavenDB;
+using RabbitOperations.Domain;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 
@@ -29,8 +32,9 @@ namespace RabbitOperations.Collector.MessageRetry
             var result = new RetryMessageResult();
             foreach (var retryId in retryMessageModel.RetryIds)
             {
-                //get message
-                //construct new rawmessage
+                MessageDocument originalMessage = GetOriginalMessageIfExists(retryId, result);
+                if (originalMessage == null) continue;
+                //get raw message
                 //run through the createRetryMessage
                 //get the destination
                 //setup the RetryId header
@@ -45,6 +49,27 @@ namespace RabbitOperations.Collector.MessageRetry
             }
 
             return result;
+        }
+
+        private MessageDocument GetOriginalMessageIfExists(long retryId, RetryMessageResult result)
+        {
+            MessageDocument originalMessage;
+            using (var session = documentStore.OpenSessionForDefaultTenant())
+            {
+                originalMessage = session.Load<MessageDocument>(retryId);
+            }
+            if (originalMessage == null)
+            {
+                result.RetryMessageItems.Add(new RetryMessageItem
+                {
+                    IsRetrying = false,
+                    Retryid = retryId,
+                    RetryQueue = null,
+                    AdditionalInfo = "Original message does not exist in message store"
+                });
+                return null;
+            }
+            return originalMessage;
         }
     }
 }

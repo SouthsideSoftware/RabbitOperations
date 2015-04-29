@@ -131,6 +131,7 @@
     <Compile Include="MessageParser\TypeNameTests.cs" />
     <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginalServiceTests.cs" />
     <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestinationServiceTests.cs" />
+    <Compile Include="MessageRetry\RetryMessagesServiceTests.cs" />
     <Compile Include="Models\SearchModelTests.cs" />
     <Compile Include="Poller\PollerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
