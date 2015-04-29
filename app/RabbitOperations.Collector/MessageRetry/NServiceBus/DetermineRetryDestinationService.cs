@@ -6,7 +6,7 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.MessageRetry.NServiceBus
 {
-    public class DetermineRetryDestination : IDetermineRetryDestination
+    public class DetermineRetryDestinationService : IDetermineRetryDestination
     {
         public string GetRetryDestination(IRawMessage rawMessage, string userSuppliedRetryDestination)
         {

@@ -42,6 +42,7 @@ namespace RabbitOperations.Collector.Host
             this.documentStore = documentStore;
             this.schemaUpdater = schemaUpdater;
 
+            
             cancellationToken = cancellationTokenSource.Token;
             CreateDefaultEnvirtonmentIfNoneExists();
             UpdateSchemaIfNeeded();

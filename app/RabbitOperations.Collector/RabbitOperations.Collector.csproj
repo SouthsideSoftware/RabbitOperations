@@ -160,11 +160,11 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
-    <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestination.cs" />
+    <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestinationService.cs" />
     <Compile Include="MessageRetry\Interfaces\ICreateRetryMessagesFromOriginal.cs" />
     <Compile Include="MessageRetry\Interfaces\IDetermineRetryDestination.cs" />
     <Compile Include="MessageRetry\Interfaces\IRetryMessages.cs" />
-    <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginal.cs" />
+    <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginalService.cs" />
     <Compile Include="MessageRetry\RetryMessagesService.cs" />
     <Compile Include="Models\RetryMessageItem.cs" />
     <Compile Include="Models\RetryMessageModel.cs" />

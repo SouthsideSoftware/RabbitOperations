@@ -21,6 +21,7 @@ using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageParser.NServiceBus;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
+using RabbitOperations.Collector.MessageRetry.NServiceBus;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.RavenDB.Interfaces;
 using RabbitOperations.Collector.RavenDB.Query;
@@ -72,7 +73,9 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IHeaderParser>().ImplementedBy<HeaderParser>().LifestyleSingleton(),
                 Component.For<IRavenTenantInitializer>().ImplementedBy<RavenTenantInitializer>().LifestyleSingleton(),
                 Component.For<IQualifiedSchemaUpdatersFactory>().ImplementedBy<QualifiedSchemaUpdatersFactory>().LifestyleSingleton(),
-                Component.For<IRetryMessages>().ImplementedBy<RetryMessagesService>().LifestyleTransient(),
+                Component.For<IRetryMessages>().ImplementedBy<RetryMessagesService>().LifestyleSingleton(),
+                Component.For<ICreateRetryMessagesFromOriginal>().ImplementedBy<CreateRetryMessageFromOriginalService>().LifestyleSingleton(),
+                Component.For<IDetermineRetryDestination>().ImplementedBy<DetermineRetryDestinationService>().LifestyleSingleton(),
                 Component.For<IDocumentStore>().UsingFactoryMethod(x =>
                 {
                     IDocumentStore docStore = null;

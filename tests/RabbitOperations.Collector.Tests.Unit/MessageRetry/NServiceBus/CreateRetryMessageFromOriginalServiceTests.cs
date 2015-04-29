@@ -9,7 +9,7 @@ using RabbitOperations.Collector.MessageRetry.NServiceBus;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
 {
-    public class CreateRetryMessageFromOriginalTests
+    public class CreateRetryMessageFromOriginalServiceTests
     {
         [Test]
         public void ShouldRemoveDiagnosticHeaders()
@@ -22,7 +22,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var creator = new CreateRetryMessageFromOriginal();
+            var creator = new CreateRetryMessageFromOriginalService();
 
             //act
             creator.PrepareMessageForRetry(rawMessage);
@@ -42,7 +42,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var creator = new CreateRetryMessageFromOriginal();
+            var creator = new CreateRetryMessageFromOriginalService();
 
             //act
             creator.PrepareMessageForRetry(rawMessage);
@@ -65,7 +65,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var creator = new CreateRetryMessageFromOriginal();
+            var creator = new CreateRetryMessageFromOriginalService();
 
             //act
             creator.PrepareMessageForRetry(rawMessage);
@@ -91,7 +91,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var creator = new CreateRetryMessageFromOriginal();
+            var creator = new CreateRetryMessageFromOriginalService();
 
             //act
             creator.PrepareMessageForRetry(rawMessage);
@@ -119,7 +119,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var creator = new CreateRetryMessageFromOriginal();
+            var creator = new CreateRetryMessageFromOriginalService();
 
             //act
             creator.PrepareMessageForRetry(rawMessage);
@@ -139,7 +139,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var creator = new CreateRetryMessageFromOriginal();
+            var creator = new CreateRetryMessageFromOriginalService();
 
             //act
             creator.PrepareMessageForRetry(rawMessage);

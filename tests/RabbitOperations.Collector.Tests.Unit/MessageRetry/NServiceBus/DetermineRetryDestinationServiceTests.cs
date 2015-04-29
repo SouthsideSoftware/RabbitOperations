@@ -9,7 +9,7 @@ using RabbitOperations.Collector.MessageRetry.NServiceBus;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
 {
-    public class DetermineRetryDestinationTests
+    public class DetermineRetryDestinationServiceTests
     {
         [Test]
         public void CanGetProperRetryDestinationFromError()
@@ -22,7 +22,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var destinationFinder = new DetermineRetryDestination();
+            var destinationFinder = new DetermineRetryDestinationService();
 
             //act
             var destination = destinationFinder.GetRetryDestination(rawMessage, null);
@@ -42,7 +42,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             }
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
-            var destinationFinder = new DetermineRetryDestination();
+            var destinationFinder = new DetermineRetryDestinationService();
 
             //act
             var destination = destinationFinder.GetRetryDestination(rawMessage, "\t\t");
@@ -64,7 +64,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
             rawMessage.Headers.Remove("NServiceBus.FailedQ");
 
-            var destinationFinder = new DetermineRetryDestination();
+            var destinationFinder = new DetermineRetryDestinationService();
 
             //act
             var destination = destinationFinder.GetRetryDestination(rawMessage, userSupplied);
@@ -85,7 +85,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
             rawMessage.Headers.Remove("NServiceBus.FailedQ");
 
-            var destinationFinder = new DetermineRetryDestination();
+            var destinationFinder = new DetermineRetryDestinationService();
 
             //act
             var destination = destinationFinder.GetRetryDestination(rawMessage, null);
@@ -106,7 +106,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
             rawMessage.Headers["NServiceBus.FailedQ"] = "simpleQueue";
 
-            var destinationFinder = new DetermineRetryDestination();
+            var destinationFinder = new DetermineRetryDestinationService();
 
             //act
             var destination = destinationFinder.GetRetryDestination(rawMessage, null);

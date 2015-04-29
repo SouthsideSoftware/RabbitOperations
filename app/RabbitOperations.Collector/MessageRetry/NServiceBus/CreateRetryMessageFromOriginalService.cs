@@ -5,7 +5,7 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.MessageRetry.NServiceBus
 {
-    public class CreateRetryMessageFromOriginal : ICreateRetryMessagesFromOriginal
+    public class CreateRetryMessageFromOriginalService : ICreateRetryMessagesFromOriginal
     {
         public void PrepareMessageForRetry(IRawMessage rawMessage)
         {
