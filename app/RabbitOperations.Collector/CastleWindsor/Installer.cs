@@ -76,6 +76,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IRetryMessages>().ImplementedBy<RetryMessagesService>().LifestyleSingleton(),
                 Component.For<ICreateRetryMessagesFromOriginal>().ImplementedBy<CreateRetryMessageFromOriginalService>().LifestyleSingleton(),
                 Component.For<IDetermineRetryDestination>().ImplementedBy<DetermineRetryDestinationService>().LifestyleSingleton(),
+                Component.For<IAddRetryTrackingHeaders>().ImplementedBy<AddRetryTrackingHeadersService>().LifestyleSingleton(),
                 Component.For<IDocumentStore>().UsingFactoryMethod(x =>
                 {
                     IDocumentStore docStore = null;

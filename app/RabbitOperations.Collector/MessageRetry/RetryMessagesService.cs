@@ -34,9 +34,11 @@ namespace RabbitOperations.Collector.MessageRetry
             {
                 MessageDocument originalMessage = GetOriginalMessageIfExists(retryId, result);
                 if (originalMessage == null) continue;
-                //get raw message
-                //run through the createRetryMessage
-                //get the destination
+     
+                var rawMessage = new RawMessage(originalMessage);
+                createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
+                var destination = determineRetryDestinationService.GetRetryDestination(rawMessage,
+                    retryMessageModel.UserSuppliedRetryDestination);
                 //setup the RetryId header
                 //send it
                 //add information about the retry to the collection

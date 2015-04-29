@@ -129,6 +129,7 @@
     <Compile Include="MessageParser\NServiceBus\HeaderParserTests.cs" />
     <Compile Include="MessageParser\RawMessageTests.cs" />
     <Compile Include="MessageParser\TypeNameTests.cs" />
+    <Compile Include="MessageRetry\AddRetryTrackingHeadersTests.cs" />
     <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginalServiceTests.cs" />
     <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestinationServiceTests.cs" />
     <Compile Include="MessageRetry\RetryMessagesServiceTests.cs" />
