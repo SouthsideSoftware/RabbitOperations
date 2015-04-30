@@ -13,17 +13,20 @@ namespace RabbitOperations.Collector.MessageRetry
     {
         private readonly ICreateRetryMessagesFromOriginal createRetryMessagesFromOriginalService;
         private readonly IDetermineRetryDestination determineRetryDestinationService;
+        private readonly IAddRetryTrackingHeaders addRetryTrackingHeadersService;
         private readonly IDocumentStore documentStore;
 
         public RetryMessagesService(ICreateRetryMessagesFromOriginal createRetryMessagesFromOriginalService,
-            IDetermineRetryDestination determineRetryDestinationService, IDocumentStore documentStore)
+            IDetermineRetryDestination determineRetryDestinationService, IAddRetryTrackingHeaders addRetryTrackingHeadersService, IDocumentStore documentStore)
         {
             Verify.RequireNotNull(createRetryMessagesFromOriginalService, "createRetryMessagesFromOriginalService");
             Verify.RequireNotNull(determineRetryDestinationService, "determineRetryDestinationService");
             Verify.RequireNotNull(documentStore, "documentStore");
+            Verify.RequireNotNull(addRetryTrackingHeadersService, "addRetryTrackingHeadersService");
 
             this.createRetryMessagesFromOriginalService = createRetryMessagesFromOriginalService;
             this.determineRetryDestinationService = determineRetryDestinationService;
+            this.addRetryTrackingHeadersService = addRetryTrackingHeadersService;
             this.documentStore = documentStore;
         }
 
@@ -39,14 +42,15 @@ namespace RabbitOperations.Collector.MessageRetry
                 createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
                 var destination = determineRetryDestinationService.GetRetryDestination(rawMessage,
                     retryMessageModel.UserSuppliedRetryDestination);
-                //setup the RetryId header
+                addRetryTrackingHeadersService.AddTrackingHeaders(rawMessage, retryId);
+
                 //send it
                 //add information about the retry to the collection
                 result.RetryMessageItems.Add(new RetryMessageItem
                 {
-                    IsRetrying = false,
+                    IsRetrying = true,
                     Retryid = retryId,
-                    RetryQueue = retryMessageModel.UserSuppliedRetryDestination
+                    RetryQueue = destination
                 });                
             }
 
