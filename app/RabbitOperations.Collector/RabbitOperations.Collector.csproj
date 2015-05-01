@@ -123,9 +123,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Database.3.0.3660\lib\net45\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SouthsideUtility.Core, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.15.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.16.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -194,6 +194,11 @@
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0012.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
+    <Compile Include="Service\Interfaces\IStoreMessages.cs" />
+    <Compile Include="Service\Interfaces\IStoreMessagesFactory.cs" />
+    <Compile Include="Service\StoreMessagesFactory.cs" />
+    <Compile Include="Service\StoreMessagesThatAreRetriesService.cs" />
+    <Compile Include="Service\StoreMessagesThatAreNotRetriesService.cs" />
     <Compile Include="Web\Helpers\LinkHelper.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />

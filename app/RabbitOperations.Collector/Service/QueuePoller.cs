@@ -122,8 +122,6 @@ namespace RabbitOperations.Collector.Service
             activeQueuePollers.Remove(this);
         }
 
- 
-
         public void HandleMessage(IRawMessage message)
         {
             logger.Trace("handling message on {0}", queueLogInfo);
