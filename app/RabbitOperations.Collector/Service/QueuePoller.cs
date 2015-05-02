@@ -91,7 +91,16 @@ namespace RabbitOperations.Collector.Service
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         BasicDeliverEventArgs ea = null;
-                        consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
+                        try
+                        {
+                            YieldToOtherPollers();
+                            consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
+                        }
+                        catch (Exception err)
+                        {
+                            logger.ErrorException("Dequeue error ", err);
+                            throw;
+                        }
                         logger.Trace("Dequeue completed for {0}{1}", queueLogInfo,
                             ea == null ? " without a message (timeout)" : " with a message");
                         if (ea != null)
@@ -120,6 +129,11 @@ namespace RabbitOperations.Collector.Service
             }
             logger.Info("Shutting down queue poller for {0} because of cancellation request", queueLogInfo);
             activeQueuePollers.Remove(this);
+        }
+
+        private static void YieldToOtherPollers()
+        {
+            Thread.Sleep(1);
         }
 
         public void HandleMessage(IRawMessage message)

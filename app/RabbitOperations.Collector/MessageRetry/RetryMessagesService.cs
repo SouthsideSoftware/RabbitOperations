@@ -41,9 +41,9 @@ namespace RabbitOperations.Collector.MessageRetry
                 if (originalMessage == null) continue;
      
                 var rawMessage = new RawMessage(originalMessage);
-                createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
                 var destination = determineRetryDestinationService.GetRetryDestination(rawMessage,
                     retryMessageModel.UserSuppliedRetryDestination);
+                createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
                 addRetryTrackingHeadersService.AddTrackingHeaders(rawMessage, retryId);
                 var errorMessage = sendMessagesService.Send(rawMessage, destination);
                 if (errorMessage == null)

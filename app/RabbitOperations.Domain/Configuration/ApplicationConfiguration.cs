@@ -10,7 +10,7 @@ namespace RabbitOperations.Domain.Configuration
             AuditQueue = "audit";
             ErrorQueue = "error";
             RabbitConnectionString = "amqp://localhost";
-            PollingTimeoutMilliseconds = 5000;
+            PollingTimeoutMilliseconds = 1000;
             HeartbeatIntervalSeconds = 10;
             MessageHandlingInstructions = new List<MessageTypeHandling>();
             AutoStartQueuePolling = false;
