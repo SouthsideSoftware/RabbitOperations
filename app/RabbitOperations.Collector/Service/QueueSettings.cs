@@ -32,9 +32,12 @@ namespace RabbitOperations.Collector.Service
             {
                 RabbitManagementWebUrl = "#";
             }
+            LogInfo = string.Format("queue {0} in application {1}({2})", QueueName,
+                ApplicationName, ApplicationId);
         }
 
         public bool IsErrorQueue { get; private set; }
+        public string LogInfo { get; private set; }
         public string ApplicationId { get; private set; }
 
         public string ApplicationName { get; private set; }

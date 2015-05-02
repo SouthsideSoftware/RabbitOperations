@@ -48,7 +48,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "test");
 
             //act
-            var service = factory.MessageStorageServiceFor(rawMessage, Moq.Mock.Of<IQueueSettings>());
+            var service = factory.MessageStorageServiceFor(rawMessage);
 
             //assert
             service.Should().BeOfType<StoreMessagesThatAreRetriesService>();
@@ -68,7 +68,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
 
             //act
-            var service = factory.MessageStorageServiceFor(rawMessage, Moq.Mock.Of<IQueueSettings>());
+            var service = factory.MessageStorageServiceFor(rawMessage);
 
             //assert
             service.Should().BeOfType<StoreMessagesThatAreNotRetriesService>();

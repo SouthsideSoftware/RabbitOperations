@@ -7,7 +7,7 @@ namespace RabbitOperations.Collector.Service
 {
     public class StoreMessagesFactory : IStoreMessagesFactory
     {
-        public IStoreMessages MessageStorageServiceFor(IRawMessage message, IQueueSettings queueSettings)
+        public IStoreMessages MessageStorageServiceFor(IRawMessage message)
         {
             if (message.Headers.ContainsKey(AddRetryTrackingHeadersService.RetryHeader))
             {

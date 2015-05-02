@@ -5,6 +5,6 @@ namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IStoreMessagesFactory
     {
-        IStoreMessages MessageStorageServiceFor(IRawMessage message, IQueueSettings queueSettings);
+        IStoreMessages MessageStorageServiceFor(IRawMessage message);
     }
 }
