@@ -81,6 +81,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IStoreMessages>().ImplementedBy<StoreMessagesThatAreRetriesService>().LifestyleSingleton(),
                 Component.For<IStoreMessages>().ImplementedBy<StoreMessagesThatAreNotRetriesService>().LifestyleSingleton(),
                 Component.For<IStoreMessagesFactory>().ImplementedBy<StoreMessagesFactory>().LifestyleSingleton(),
+                Component.For<ICreateBasicProperties>().ImplementedBy<CreateBasicPropertiesService>().LifestyleSingleton(),
                 Component.For<IDocumentStore>().UsingFactoryMethod(x =>
                 {
                     IDocumentStore docStore = null;

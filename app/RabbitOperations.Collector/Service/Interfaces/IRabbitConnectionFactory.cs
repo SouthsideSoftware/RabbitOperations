@@ -9,6 +9,6 @@ namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IRabbitConnectionFactory
     {
-        IConnectionFactory Create(IQueueSettings queueSettings);
+        IConnectionFactory Create(string connectionString, ushort heartbeatIntervalSeconds = 10);
     }
 }

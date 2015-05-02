@@ -24,7 +24,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var factory = new RabbitConnectionFactory();
             
             //act
-            factory.Create(queueSettings);
+            factory.Create(queueSettings.RabbitConnectionString, (ushort) queueSettings.HeartbeatIntervalSeconds);
 
             //assert
             factory.connectionFactories.ContainsKey(rabbitConnectionString).Should().BeTrue();
@@ -39,10 +39,10 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var queueSettings = new QueueSettings("queue",
                 new ApplicationConfiguration { RabbitConnectionString = rabbitConnectionString });
             var factory = new RabbitConnectionFactory();
-            var originalInstance = factory.Create(queueSettings);
+            var originalInstance = factory.Create(queueSettings.RabbitConnectionString, (ushort) queueSettings.HeartbeatIntervalSeconds);
 
             //act
-            var secondInstance = factory.Create(queueSettings);
+            var secondInstance = factory.Create(queueSettings.RabbitConnectionString, (ushort)queueSettings.HeartbeatIntervalSeconds);
 
             //assert
             originalInstance.Should().BeSameAs(secondInstance);
@@ -65,8 +65,8 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var factory = new RabbitConnectionFactory();
 
             //act
-            var instance1 = factory.Create(queueSettings1);
-            var instance2 = factory.Create(queueSettings2);
+            var instance1 = factory.Create(queueSettings1.RabbitConnectionString, (ushort)queueSettings1.HeartbeatIntervalSeconds);
+            var instance2 = factory.Create(queueSettings2.RabbitConnectionString, (ushort)queueSettings2.HeartbeatIntervalSeconds);
 
             //assert
             instance1.Should().NotBeSameAs(instance2);

@@ -35,5 +35,27 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             rawMessage.Headers.Should()
                 .Contain(new KeyValuePair<string, string>(AddRetryTrackingHeadersService.RetryHeader, "101"));
         }
+
+        [Test]
+        public void ShouldReplaceOldRetryHeaderIfExists()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "99");
+
+            var retryHeaderService = new AddRetryTrackingHeadersService();
+
+            //act
+            retryHeaderService.AddTrackingHeaders(rawMessage, 101);
+
+            //assert
+            rawMessage.Headers.Should()
+                .Contain(new KeyValuePair<string, string>(AddRetryTrackingHeadersService.RetryHeader, "101"));
+        }
     }
 }

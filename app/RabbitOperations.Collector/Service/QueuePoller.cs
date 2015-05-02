@@ -76,7 +76,7 @@ namespace RabbitOperations.Collector.Service
         {
             activeQueuePollers.Add(this);
             logger.Info("Started queue poller for {0} with expiration of {1} hours", QueueSettings.LogInfo, QueueSettings.DocumentExpirationInHours);
-            using (var connection = rabbitConnectionFactory.Create(QueueSettings).CreateConnection())
+            using (var connection = rabbitConnectionFactory.Create(QueueSettings.RabbitConnectionString, (ushort)QueueSettings.HeartbeatIntervalSeconds).CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {

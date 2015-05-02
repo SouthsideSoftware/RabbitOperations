@@ -11,6 +11,7 @@ namespace RabbitOperations.Collector.MessageRetry
 
         public void AddTrackingHeaders(IRawMessage rawMessage, long retryId)
         {
+            rawMessage.Headers.Remove(RetryHeader);
             rawMessage.Headers.Add(RetryHeader, retryId.ToString());
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -6,6 +7,8 @@ using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 using Newtonsoft.Json.Linq;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Framing;
 using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.MessageParser
@@ -16,10 +19,15 @@ namespace RabbitOperations.Collector.MessageParser
         public RawMessage()
         {
             Headers = new Dictionary<string, string>();
+            BasicProperties = new BasicProperties
+            {
+                DeliveryMode = 2
+            };
         }
 
         public RawMessage(BasicDeliverEventArgs deliveryEventArgs) : this()
         {
+            
             Verify.RequireNotNull(deliveryEventArgs, "deliveryEventArgs");
 
             var rawBody = deliveryEventArgs.Body;
@@ -45,11 +53,6 @@ namespace RabbitOperations.Collector.MessageParser
             CreateFromHeadersAndBody(messageDocument.Headers, messageDocument.Body);
         }
 
-        public RawMessage(Dictionary<string, string> headers, string body)
-        {
-            CreateFromHeadersAndBody(headers, body);
-        }
-
         private void CreateFromHeadersAndBody(IDictionary<string, string> headers, string body)
         {
             Verify.RequireNotNull(body, "body");
@@ -64,5 +67,29 @@ namespace RabbitOperations.Collector.MessageParser
 
         [JsonProperty]
         public string Body { get; protected set; }
+
+        public Tuple<byte[], Dictionary<string, object>> GetEelementsForRabbitPublish()
+        {
+            var headers = new Dictionary<string, object>();
+            foreach (var header in Headers)
+            {
+                headers.Add(header.Key, System.Text.Encoding.UTF8.GetBytes(header.Value));
+            }
+            return new Tuple<byte[], Dictionary<string, object>>(GetBytesFromString(Body),
+                headers);
+        }
+
+        public IBasicProperties BasicProperties { get; set; }
+
+        private byte [] GetBytesFromString(string s)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(true));
+                writer.Write(s);
+                writer.Flush();
+                return stream.ToArray();
+            }
+        }
     }
 }

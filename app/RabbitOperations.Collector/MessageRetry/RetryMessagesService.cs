@@ -1,4 +1,5 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Framing;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Collector.Models;
@@ -11,25 +12,30 @@ namespace RabbitOperations.Collector.MessageRetry
 {
     public class RetryMessagesService : IRetryMessages
     {
+        private readonly IAddRetryTrackingHeaders addRetryTrackingHeadersService;
+        private readonly ICreateBasicProperties createBasicPropertiesService;
         private readonly ICreateRetryMessagesFromOriginal createRetryMessagesFromOriginalService;
         private readonly IDetermineRetryDestination determineRetryDestinationService;
-        private readonly IAddRetryTrackingHeaders addRetryTrackingHeadersService;
         private readonly IDocumentStore documentStore;
         private readonly ISendMessages sendMessagesService;
 
         public RetryMessagesService(ICreateRetryMessagesFromOriginal createRetryMessagesFromOriginalService,
-            IDetermineRetryDestination determineRetryDestinationService, IAddRetryTrackingHeaders addRetryTrackingHeadersService, IDocumentStore documentStore, ISendMessages sendMessagesService)
+            IDetermineRetryDestination determineRetryDestinationService,
+            IAddRetryTrackingHeaders addRetryTrackingHeadersService, IDocumentStore documentStore,
+            ISendMessages sendMessagesService, ICreateBasicProperties createBasicPropertiesService)
         {
             Verify.RequireNotNull(createRetryMessagesFromOriginalService, "createRetryMessagesFromOriginalService");
             Verify.RequireNotNull(determineRetryDestinationService, "determineRetryDestinationService");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(addRetryTrackingHeadersService, "addRetryTrackingHeadersService");
+            Verify.RequireNotNull(createBasicPropertiesService, "createBasicPropertiesService");
 
             this.createRetryMessagesFromOriginalService = createRetryMessagesFromOriginalService;
             this.determineRetryDestinationService = determineRetryDestinationService;
             this.addRetryTrackingHeadersService = addRetryTrackingHeadersService;
             this.documentStore = documentStore;
             this.sendMessagesService = sendMessagesService;
+            this.createBasicPropertiesService = createBasicPropertiesService;
         }
 
         public RetryMessageResult Retry(RetryMessageModel retryMessageModel)
@@ -37,15 +43,17 @@ namespace RabbitOperations.Collector.MessageRetry
             var result = new RetryMessageResult();
             foreach (var retryId in retryMessageModel.RetryIds)
             {
-                MessageDocument originalMessage = GetOriginalMessageIfExists(retryId, result);
+                var originalMessage = GetOriginalMessageIfExists(retryId, result);
                 if (originalMessage == null) continue;
-     
+
                 var rawMessage = new RawMessage(originalMessage);
                 var destination = determineRetryDestinationService.GetRetryDestination(rawMessage,
                     retryMessageModel.UserSuppliedRetryDestination);
                 createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
                 addRetryTrackingHeadersService.AddTrackingHeaders(rawMessage, retryId);
-                var errorMessage = sendMessagesService.Send(rawMessage, destination);
+                IBasicProperties basicProperties = createBasicPropertiesService.Create(rawMessage);
+                var errorMessage = sendMessagesService.Send(rawMessage, destination, originalMessage.ApplicationId,
+                    basicProperties);
                 if (errorMessage == null)
                 {
                     result.RetryMessageItems.Add(new RetryMessageItem
