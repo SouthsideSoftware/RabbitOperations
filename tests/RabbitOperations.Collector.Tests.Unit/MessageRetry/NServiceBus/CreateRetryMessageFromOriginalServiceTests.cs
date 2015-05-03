@@ -15,12 +15,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldRemoveDiagnosticHeaders()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var creator = new CreateRetryMessageFromOriginalService();
 
@@ -35,12 +30,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldRemoveExceptionHeaders()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var creator = new CreateRetryMessageFromOriginalService();
 
@@ -58,12 +48,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldRemoveTimeoutHeaders()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var creator = new CreateRetryMessageFromOriginalService();
 
@@ -84,12 +69,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
                 "NServiceBus.TimeOfFailure"
             };
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var creator = new CreateRetryMessageFromOriginalService();
 
@@ -112,12 +92,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
                 "NServiceBus.ProcessingMachine"
             };
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var creator = new CreateRetryMessageFromOriginalService();
 
@@ -132,12 +107,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldNotRemoveOtherHeaders()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var creator = new CreateRetryMessageFromOriginalService();
 

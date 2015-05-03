@@ -19,12 +19,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         public void ShouldAddHeaderForTrackingTheRetry()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var retryHeaderService = new AddRetryTrackingHeadersService();
 
@@ -40,12 +35,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         public void ShouldReplaceOldRetryHeaderIfExists()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "99");
 
             var retryHeaderService = new AddRetryTrackingHeadersService();

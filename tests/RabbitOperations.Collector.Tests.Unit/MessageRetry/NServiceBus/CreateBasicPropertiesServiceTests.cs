@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageRetry.NServiceBus;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
@@ -15,7 +12,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldSetContentTypeWhenNServiceBusHeaderExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var service = new CreateBasicPropertiesService();
 
@@ -30,7 +27,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldNotSetContentTypeWhenNServiceBusHeaderDoesNotExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Remove("NServiceBus.ContentType");
 
             var service = new CreateBasicPropertiesService();
@@ -46,7 +43,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldSetMessageIdWhenNServiceBusHeaderExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var service = new CreateBasicPropertiesService();
 
@@ -61,7 +58,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldNotSetMessageIdWhenNServiceBusHeaderDoesNotExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Remove("NServiceBus.MessageId");
 
             var service = new CreateBasicPropertiesService();
@@ -77,7 +74,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldSetCorrelationIdWhenNServiceBusHeaderExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var service = new CreateBasicPropertiesService();
 
@@ -92,7 +89,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldNotSetCorrelationIdWhenNServiceBusHeaderDoesNotExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Remove("NServiceBus.CorrelationId");
 
             var service = new CreateBasicPropertiesService();
@@ -108,7 +105,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldSetTypeWhenNServiceBusHeaderExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var service = new CreateBasicPropertiesService();
 
@@ -123,7 +120,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldNotSetTypeWhenNServiceBusHeaderDoesNotExists()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Remove("NServiceBus.EnclosedMessageTypes");
 
             var service = new CreateBasicPropertiesService();
@@ -139,7 +136,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ShouldNotSetDeliveryModeToPersistent()
         {
             //arrange
-            var rawMessage = GetRawMessageForTest();
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             byte persistentDeliverMode = 2;
 
             var service = new CreateBasicPropertiesService();
@@ -150,19 +147,5 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             //assert
             properties.DeliveryMode.Should().Be(persistentDeliverMode);
         }
-
-
-        private static RawMessage GetRawMessageForTest()
-        {
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-            return rawMessage;
-        }
-
-
     }
 }

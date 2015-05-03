@@ -15,12 +15,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void CanGetProperRetryDestinationFromError()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var destinationFinder = new DetermineRetryDestinationService();
 
@@ -35,12 +30,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ReturnsProperRetryDestinationFromErrorWhenUserSuppliedIsWhitespace()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             var destinationFinder = new DetermineRetryDestinationService();
 
@@ -56,12 +46,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         {
             //arrange
             string userSupplied = "userQueue";
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Remove("NServiceBus.FailedQ");
 
             var destinationFinder = new DetermineRetryDestinationService();
@@ -77,12 +62,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ReturnsNullIfFailedQHeaderNotPresent()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Remove("NServiceBus.FailedQ");
 
             var destinationFinder = new DetermineRetryDestinationService();
@@ -98,12 +78,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         public void ReturnsWholeQueueWhenDelimiterNotPresent()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers["NServiceBus.FailedQ"] = "simpleQueue";
 
             var destinationFinder = new DetermineRetryDestinationService();

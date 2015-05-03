@@ -56,12 +56,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
         public void CanRoundTripBody()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
 
             //act
             var publishData = rawMessage.GetEelementsForRabbitPublish();
@@ -75,12 +70,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
         public void CanRoundTripHeaders()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
 
             //act
             var publishData = rawMessage.GetEelementsForRabbitPublish();

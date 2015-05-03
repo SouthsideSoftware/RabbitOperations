@@ -56,11 +56,13 @@ namespace RabbitOperations.Domain
 
         public IList<MessageDocument> Retries { get; set; }
 
+        public bool IsRetry { get; set; }
+
         public bool CanRetry
         {
             get
             {
-                return IsError && AdditionalErrorStatus != AdditionalErrorStatus.Resolved &&
+                return IsError && !IsRetry && AdditionalErrorStatus != AdditionalErrorStatus.Resolved &&
                        AdditionalErrorStatus != AdditionalErrorStatus.Closed &&
                        AdditionalErrorStatus != AdditionalErrorStatus.RetryPending;
             }

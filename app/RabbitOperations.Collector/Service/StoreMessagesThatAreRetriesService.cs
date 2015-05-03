@@ -33,6 +33,7 @@ namespace RabbitOperations.Collector.Service
             };
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
+            document.IsRetry = true;
             var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
 
             using (var session = documentStore.OpenSessionForDefaultTenant())

@@ -38,13 +38,8 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         {
             //arrange
             var factory = new StoreMessagesFactory();
-            
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "test");
 
             //act
@@ -60,12 +55,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange
             var factory = new StoreMessagesFactory();
 
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
 
             //act
             var service = factory.MessageStorageServiceFor(rawMessage);
