@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using RabbitMQ.Client;
 
 namespace RabbitOperations.Domain
@@ -28,6 +30,11 @@ namespace RabbitOperations.Domain
 
         public AdditionalErrorStatus AdditionalErrorStatus { get; set; }
 
+        //This property only exists to support serializing the status to a string for Nancy
+        public string AdditionalErrorStatusString
+        {
+            get { return AdditionalErrorStatus.ToString(); }
+        }
 
         public DateTime TimeSent { get; set; }
 
