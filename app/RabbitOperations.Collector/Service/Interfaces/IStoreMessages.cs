@@ -8,6 +8,6 @@ namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IStoreMessages
     {
-        void Store(IRawMessage message, IQueueSettings queueSettings);
+        long Store(IRawMessage message, IQueueSettings queueSettings);
     }
 }

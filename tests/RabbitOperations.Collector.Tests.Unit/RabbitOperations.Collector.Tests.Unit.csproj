@@ -145,6 +145,7 @@
     <Compile Include="Service\QueueSettingsTests.cs" />
     <Compile Include="Service\RabbitConnectionFactoryTests.cs" />
     <Compile Include="Service\StoreMessageFactoryTests.cs" />
+    <Compile Include="Service\StoreMessagesThatAreRetriesServiceTests.cs" />
     <Compile Include="Web\LinkHelper\LinkHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>

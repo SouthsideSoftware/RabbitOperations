@@ -25,7 +25,7 @@ namespace RabbitOperations.Collector.Service
             this.documentStore = documentStore;
         }
 
-        public void Store(IRawMessage message, IQueueSettings queueSettings)
+        public long Store(IRawMessage message, IQueueSettings queueSettings)
         {
             var document = new MessageDocument
             {
@@ -33,7 +33,6 @@ namespace RabbitOperations.Collector.Service
             };
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
-            document.IsRetry = true;
             var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
 
             using (var session = documentStore.OpenSessionForDefaultTenant())
@@ -43,6 +42,8 @@ namespace RabbitOperations.Collector.Service
                 session.SaveChanges();
                 logger.Trace("Saved document for message with id {0} from {1}", document.Id, queueSettings.LogInfo);
             }
+
+            return document.Id;
         }
     }
 }

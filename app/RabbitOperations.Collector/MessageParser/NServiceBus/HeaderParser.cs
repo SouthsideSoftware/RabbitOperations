@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
 
@@ -55,11 +56,25 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
             document.IsError = document.Headers.ContainsKey(ExceptionTypeHeader);
             if (document.IsError)
             {
-                document.AdditionalErrorStatus = AdditionalErrorStatus.Unresolved;
+                if (document.Headers.ContainsKey(AddRetryTrackingHeadersService.RetryHeader))
+                {
+                    document.AdditionalErrorStatus = AdditionalErrorStatus.IsRetry;
+                }
+                else
+                {
+                    document.AdditionalErrorStatus = AdditionalErrorStatus.Unresolved;
+                }
             }
             else
             {
-                document.AdditionalErrorStatus = AdditionalErrorStatus.NotAnError;
+                if (document.Headers.ContainsKey(AddRetryTrackingHeadersService.RetryHeader))
+                {
+                    document.AdditionalErrorStatus = AdditionalErrorStatus.IsRetry;
+                }
+                else
+                {
+                    document.AdditionalErrorStatus = AdditionalErrorStatus.NotAnError;
+                }
             }
         }
 

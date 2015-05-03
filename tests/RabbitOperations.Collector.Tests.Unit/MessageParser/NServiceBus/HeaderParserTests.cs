@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageParser.NServiceBus;
+using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
@@ -368,6 +369,38 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
 
             //assert
             doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.Unresolved);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromErrorThatIsRetry()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+            doc.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "foo");
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.IsRetry);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromAuditThatIsRetry()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+            doc.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "foo");
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.IsRetry);
         }
 
         [Test]

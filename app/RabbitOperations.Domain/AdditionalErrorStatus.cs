@@ -6,6 +6,7 @@
         Unresolved,
         RetryPending,
         Resolved,
-        Closed
+        Closed,
+        IsRetry
     }
 }
