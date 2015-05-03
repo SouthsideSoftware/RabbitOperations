@@ -53,6 +53,14 @@ namespace RabbitOperations.Collector.MessageParser.NServiceBus
         private static void CaptureIsError(MessageDocument document)
         {
             document.IsError = document.Headers.ContainsKey(ExceptionTypeHeader);
+            if (document.IsError)
+            {
+                document.AdditionalErrorStatus = AdditionalErrorStatus.Unresolved;
+            }
+            else
+            {
+                document.AdditionalErrorStatus = AdditionalErrorStatus.NotAnError;
+            }
         }
 
         private static void CaptureProcessingTime(MessageDocument document)

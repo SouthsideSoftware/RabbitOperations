@@ -357,6 +357,36 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         }
 
         [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromAudit()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Audit");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.NotAnError);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromError()
+        {
+            //arrange
+            var rawMessage = LoadRawMessage("Error");
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.Unresolved);
+        }
+
+        [Test]
         public void HeaderParserGetsProperTotalTimeFromAudit()
         {
             //arrange
