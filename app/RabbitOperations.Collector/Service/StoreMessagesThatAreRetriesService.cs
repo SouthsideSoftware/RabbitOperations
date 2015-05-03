@@ -1,6 +1,7 @@
 ﻿using System;
 using NLog;
 using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.Service.Interfaces;
 using RabbitOperations.Domain;
@@ -27,23 +28,52 @@ namespace RabbitOperations.Collector.Service
 
         public long Store(IRawMessage message, IQueueSettings queueSettings)
         {
-            var document = new MessageDocument
+            var retry = new MessageDocument
             {
                 ApplicationId = queueSettings.ApplicationId
             };
-            headerParser.AddHeaderInformation(message, document);
-            document.Body = message.Body;
+            headerParser.AddHeaderInformation(message, retry);
+            retry.Body = message.Body;
             var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
+
+            long originalId = -1;
+            long.TryParse(message.Headers[AddRetryTrackingHeadersService.RetryHeader], out originalId);
+            long documentIdToReturn = -1;
 
             using (var session = documentStore.OpenSessionForDefaultTenant())
             {
-                session.Store(document);
-                session.Advanced.GetMetadataFor(document)["Raven-Expiration-Date"] = new RavenJValue(expiry);
+                MessageDocument originalMessage = null;
+                if (originalId > 0)
+                {
+                    originalMessage = session.Load<MessageDocument>(originalId);
+                }
+                if (originalMessage != null)
+                {
+                    originalMessage.Retries.Add(retry);
+                    if (retry.IsError)
+                    {
+                        originalMessage.AdditionalErrorStatus = AdditionalErrorStatus.Unresolved;
+                    }
+                    else
+                    {
+                        originalMessage.AdditionalErrorStatus = AdditionalErrorStatus.Resolved;
+                    }
+                    session.Advanced.GetMetadataFor(originalMessage)["Raven-Expiration-Date"] = new RavenJValue(expiry);
+                    documentIdToReturn = originalMessage.Id;
+                    logger.Trace("Added retry information with additional error status {0} to existing document with id {1} from {2}", retry.AdditionalErrorStatus, originalMessage.Id, queueSettings.LogInfo);
+                }
+                else
+                {
+                    session.Store(retry);
+                    session.Advanced.GetMetadataFor(retry)["Raven-Expiration-Date"] = new RavenJValue(expiry);
+                    documentIdToReturn = retry.Id;
+                    logger.Trace("Saved new document for retry message with id {0} from {1}", retry.Id, queueSettings.LogInfo);
+                }
                 session.SaveChanges();
-                logger.Trace("Saved document for message with id {0} from {1}", document.Id, queueSettings.LogInfo);
+                
             }
 
-            return document.Id;
+            return documentIdToReturn;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace RabbitOperations.Domain
             BusTechnology = "NServiceBus";
             BusinessKeys = new Dictionary<string, string>();
             ApplicationId = "Default";
+            Retries = new List<MessageDocument>();
         }
 
         public long Id { get; set; }
