@@ -14,6 +14,7 @@ using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB;
+using RabbitOperations.Domain;
 using Raven.Client;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
@@ -38,7 +39,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             //act
             var result = service.Retry(new RetryMessageModel
             {
-                RetryIds = new List<long> {1}
+                RetryIds = new List<long> {-1}
             });
 
             //assert
@@ -58,11 +59,40 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             //act
             var result = service.Retry(new RetryMessageModel
             {
-                RetryIds = new List<long> { 1 }
+                RetryIds = new List<long> { -1 }
             });
 
             //assert
             result.RetryMessageItems.First().IsRetrying.Should().BeFalse();
+        }
+
+        [Test]
+        public void ShouldChangeStatusOfOriginalMessageToRetryPendingWhenRetryStarts()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                var message = session.Load<MessageDocument>(originalMessge.Id);
+                message.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.RetryPending);
+            }
         }
     }
 }

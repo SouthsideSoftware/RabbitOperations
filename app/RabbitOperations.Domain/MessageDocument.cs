@@ -20,6 +20,7 @@ namespace RabbitOperations.Domain
             BusinessKeys = new Dictionary<string, string>();
             ApplicationId = "Default";
             Retries = new List<MessageDocument>();
+            Body = "";
         }
 
         public long Id { get; set; }

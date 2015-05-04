@@ -63,6 +63,12 @@ namespace RabbitOperations.Collector.MessageRetry
                         RetryQueue = destination,
                         AdditionalInfo = null
                     });
+                    using (var session = documentStore.OpenSessionForDefaultTenant())
+                    {
+                        originalMessage.AdditionalErrorStatus = AdditionalErrorStatus.RetryPending;
+                        session.Store(originalMessage);
+                        session.SaveChanges();
+                    }
                 }
                 else
                 {
