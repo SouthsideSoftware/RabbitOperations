@@ -9,6 +9,7 @@
     @Html.Partial("dashboardIcons")
 
     <div ng-controller="searchController">
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         <form>
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
@@ -83,7 +84,7 @@
                     <td ng-click="showDetails(result, $event)">{{result.formattedTimeSent}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.isError}}</td>
                     <td ng-click="showDetails(result, $event)">{{result.additionalErrorStatusString}}</td>
-                    <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()" ng-disabled="searchInProgress" /></td>
+                    <td><input type="checkbox" ng-model="result.isSelected" ng-click="selectionChanged()" ng-disabled="searchInProgress"/></td>
                 </tr>
                 </tbody>
             </table>

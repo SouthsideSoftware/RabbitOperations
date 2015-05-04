@@ -22,6 +22,16 @@
         self.search();
     }
 
+    this.alerts = [];
+
+    this.addAlert = function (type, msg) {
+        self.alerts.push({ type: type, msg: msg });
+    };
+
+    this.closeAlert = function (index) {
+        self.alerts.splice(index, 1);
+    };
+
     self.search = function () {
         self.searchInProgress = true;
         var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
@@ -35,7 +45,7 @@
             self.searchInProgress = false;
         }).error(function (data, status, headers, config) {
             self.searchInProgress = false;
-            alert("AJAX failed!");
+            self.addAlert('danger', 'Error trying to perform search');
         });
     }
 

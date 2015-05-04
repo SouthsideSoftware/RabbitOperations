@@ -3,11 +3,16 @@
     $scope.searchResults = searchService.searchResults;
     $scope.searchProgress = searchService.searchProgress;
     $scope.allowRetry = false;
+    $scope.alerts = searchService.alerts;
 
     $scope.searchFields = ['AdditionalErrorStatus:', 'Any:', 'ApplicationId:', 'ClassName:', 'Header:', 'IsError:', 'TimeSent:'];
 
     $scope.$watch(function () { return searchService.searchResults }, function (searchResults) {
         $scope.searchResults = searchResults;
+    });
+
+    $scope.$watch(function () { return searchService.alerts }, function (alerts) {
+        $scope.alerts = alerts;
     });
 
     $scope.$watch(function () { return searchService.searchInProgress }, function (searchInProgress) {
@@ -25,6 +30,10 @@
 
     $scope.search = function () {
         searchService.search();
+    };
+
+    $scope.closeAlert = function(index) {
+        searchService.closeAlert(index);
     };
 
     $scope.selectionChanged = function() {
