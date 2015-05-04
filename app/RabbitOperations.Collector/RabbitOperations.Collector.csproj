@@ -294,6 +294,9 @@
     <Content Include="Web\Content\angular-highlightjs\angular-highlightjs.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\angular-noty\angular-noty.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\App\Dashboard\Popups\retryResults.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -331,6 +334,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\moment\moment.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\noty\jquery.noty.packaged.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\SignalR\jquery.signalR-2.2.0.min.js">

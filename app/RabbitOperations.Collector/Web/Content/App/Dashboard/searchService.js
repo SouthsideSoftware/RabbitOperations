@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.service('searchService', function ($http) {
+﻿rabbitOperationsApp.service('searchService', function ($http, noty) {
     var self = this; 
     this.searchResults = {
         results: []
@@ -33,8 +33,9 @@
     };
 
     self.search = function () {
+        self.alerts.length = 0;
         self.searchInProgress = true;
-        var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
+        var url = "/api/v10/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
         $http.get(url).success(function (data, status, headers, config) {
             _.each(data.results, function(element, index, list) {
                 element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';
@@ -43,9 +44,9 @@
             self.pageInfo.totalItems = data.totalResults;
             self.pageInfo.totalPages = Math.ceil(data.totalResults / self.pageInfo.take);
             self.searchInProgress = false;
-        }).error(function (data, status, headers, config) {
+        }).error(function (jqXHR, textStatus, errorThrown) {
             self.searchInProgress = false;
-            self.addAlert('danger', 'Error trying to perform search');
+            noty.showError("error on search:" + textStatus);
         });
     }
 
