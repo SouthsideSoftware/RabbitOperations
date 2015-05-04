@@ -40,7 +40,7 @@
     }
 
     self.toggleSort = function (field) {
-        if (self.searchProgress === 0) {
+        if (!self.searchInProgress) {
             //default sort on new field to true, otherwise toggle
             if (self.pageInfo.sortField !== field) {
                 self.pageInfo.sortAscending = true;
