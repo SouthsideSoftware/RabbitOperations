@@ -3,21 +3,12 @@
     $scope.searchResults = searchService.searchResults;
     $scope.searchProgress = searchService.searchProgress;
     $scope.allowRetry = false;
-    $scope.alerts = searchService.alerts;
 
     $scope.searchFields = ['AdditionalErrorStatus:', 'Any:', 'ApplicationId:', 'ClassName:', 'Header:', 'IsError:', 'TimeSent:'];
 
     $scope.$watch(function () { return searchService.searchResults }, function (searchResults) {
-        $scope.searchResults = searchResults;
-    });
-
-    $scope.$watch(function () { return searchService.alerts }, function (alerts) {
-        $scope.alerts = alerts;
-    });
-
-    $scope.$watch(function () { return searchService.searchInProgress }, function (searchInProgress) {
         $scope.allowRetry = false;
-        $scope.searchInProgress = searchInProgress;
+        $scope.searchResults = searchResults;
     });
 
     $scope.toggleSort = function(field) {
@@ -48,7 +39,7 @@
 
     $scope.$watch("pageInfo.take", function () {
         if ($scope.pageInfo.totalItems > 0) {
-            searchService.newSearch();
+            $scope.newSearch();
         }
     });
 

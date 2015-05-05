@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.service('searchService', function ($http, noty) {
+﻿rabbitOperationsApp.service('searchService', function ($http, notificationService) {
     var self = this; 
     this.searchResults = {
         results: []
@@ -13,7 +13,6 @@
         sortField: "TimeSent",
         sortAscending: false
     };
-    this.searchInProgress = false;
 
     this.newSearch = function () {
         self.pageInfo.page = 1;
@@ -22,33 +21,23 @@
         self.search();
     }
 
-    this.alerts = [];
-
-    this.addAlert = function (type, msg) {
-        self.alerts.push({ type: type, msg: msg });
-    };
-
-    this.closeAlert = function (index) {
-        self.alerts.splice(index, 1);
-    };
-
     self.search = function () {
-        self.alerts.length = 0;
-        self.searchInProgress = true;
-        var url = "/api/v10/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
+        self.searchingModal = notificationService.modal("Searching...");
+        var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
         $http.get(url).success(function (data, status, headers, config) {
-            _.each(data.results, function(element, index, list) {
+            _.each(data.results, function (element, index, list) {
                 element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';
             });
             self.searchResults = data;
             self.pageInfo.totalItems = data.totalResults;
             self.pageInfo.totalPages = Math.ceil(data.totalResults / self.pageInfo.take);
-            self.searchInProgress = false;
+            self.searchingModal.close();
         }).error(function (jqXHR, textStatus, errorThrown) {
-            self.searchInProgress = false;
-            noty.showError("error on search:" + textStatus);
+            self.searchingModal.close();
+            notificationService.error("Error calling search service: " + textStatus);
         });
     }
+
 
     self.toggleSort = function (field) {
         if (!self.searchInProgress) {
