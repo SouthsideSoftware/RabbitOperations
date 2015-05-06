@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, $modal) {
+﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService) {
     $scope.toDisplayDuration = function(duration) {
         if (duration !== undefined) {
             var hours = duration.days * 24 + duration.hours;
@@ -30,11 +30,18 @@
         $modalInstance.close();
     };
 
-    $scope.retry = function() {
+    $scope.retry = function () {
+        $scope.modalNoty = notificationService.modal("Retrying...");
         $http.put('/api/v1/messages/retry', { retryIds: [item.id] }).success(function (data, status, headers, config) {
-            alert('AJAX success with ' + JSON.stringify(data, null, 2));
-        }).error(function (data, status, headers, config) {
-            alert("AJAX failed!");
+            $scope.modalNoty.close();
+            if (data.retryMessageItems[0].isRetrying) {
+                notificationService.success("Message " + data.retryMessageItems[0].retryId + " is now retrying on queue " + data.retryMessageItems[0].retryQueue);
+            } else {
+                notificationService.error("Failed to retry: " + data.retryMessageItems[0].additionalInfo);
+            }
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            $scope.modalNoty.close();
+            notificationService.error("Error calling retry service: " + textStatus);
         });
     }
 })

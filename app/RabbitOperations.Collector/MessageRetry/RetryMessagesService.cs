@@ -59,7 +59,7 @@ namespace RabbitOperations.Collector.MessageRetry
                     result.RetryMessageItems.Add(new RetryMessageItem
                     {
                         IsRetrying = true,
-                        Retryid = retryId,
+                        RetryId = retryId,
                         RetryQueue = destination,
                         AdditionalInfo = null
                     });
@@ -75,7 +75,7 @@ namespace RabbitOperations.Collector.MessageRetry
                     result.RetryMessageItems.Add(new RetryMessageItem
                     {
                         IsRetrying = false,
-                        Retryid = retryId,
+                        RetryId = retryId,
                         RetryQueue = destination,
                         AdditionalInfo = errorMessage
                     });
@@ -97,7 +97,7 @@ namespace RabbitOperations.Collector.MessageRetry
                 result.RetryMessageItems.Add(new RetryMessageItem
                 {
                     IsRetrying = false,
-                    Retryid = retryId,
+                    RetryId = retryId,
                     RetryQueue = null,
                     AdditionalInfo = "Original message does not exist in message store"
                 });

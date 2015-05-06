@@ -6,6 +6,10 @@
         return noty(_.extend({}, self.defaultOptions, { text: message, timeout: 5000, theme: "bootstrapTheme", closeWith: ['click', 'button'] }, settings));
     };
 
+    this.success = function (message, settings) {
+        return noty(_.extend({}, self.defaultOptions, { text: message, timeout: 5000, type: "success", theme: "bootstrapTheme", closeWith: ['click', 'button'] }, settings));
+    };
+
     this.error = function(message, settings) {
         return noty(_.extend({}, self.defaultOptions, { text: message, timeout: 5000, type: "error", theme: "bootstrapTheme", closeWith: ['click', 'button'] }, settings));
     };
