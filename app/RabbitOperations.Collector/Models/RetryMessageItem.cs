@@ -7,5 +7,7 @@
         public string RetryQueue { get; set; }
 
         public string AdditionalInfo { get; set; }
+        public string AdditionalErrorStatusOfOriginalMessage { get; set; }
+        public bool CanRetryOriginalMessage { get; set; }
     }
 }

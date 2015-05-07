@@ -38,6 +38,17 @@
         });
     }
 
+    self.changeStatusOfItem = function(id, status, canRetry) {
+        var matchingSearchResult = _.find(self.searchResults.results, function(item) {
+            return item.id === id;
+        });
+        if (matchingSearchResult !== undefined) {
+            matchingSearchResult.additionalErrorStatusString = status;
+            matchingSearchResult.canRetry = canRetry;
+        };
+
+        return matchingSearchResult;
+    };
 
     self.toggleSort = function (field) {
         if (!self.searchInProgress) {

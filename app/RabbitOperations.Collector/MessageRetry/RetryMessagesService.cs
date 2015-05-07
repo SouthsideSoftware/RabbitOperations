@@ -56,19 +56,21 @@ namespace RabbitOperations.Collector.MessageRetry
                     basicProperties);
                 if (errorMessage == null)
                 {
-                    result.RetryMessageItems.Add(new RetryMessageItem
-                    {
-                        IsRetrying = true,
-                        RetryId = retryId,
-                        RetryQueue = destination,
-                        AdditionalInfo = null
-                    });
                     using (var session = documentStore.OpenSessionForDefaultTenant())
                     {
                         originalMessage.AdditionalErrorStatus = AdditionalErrorStatus.RetryPending;
                         session.Store(originalMessage);
                         session.SaveChanges();
                     }
+                    result.RetryMessageItems.Add(new RetryMessageItem
+                    {
+                        IsRetrying = true,
+                        RetryId = retryId,
+                        RetryQueue = destination,
+                        AdditionalInfo = null,
+                        AdditionalErrorStatusOfOriginalMessage = originalMessage.AdditionalErrorStatusString,
+                        CanRetryOriginalMessage = originalMessage.CanRetry
+                    });
                 }
                 else
                 {
@@ -77,7 +79,9 @@ namespace RabbitOperations.Collector.MessageRetry
                         IsRetrying = false,
                         RetryId = retryId,
                         RetryQueue = destination,
-                        AdditionalInfo = errorMessage
+                        AdditionalInfo = errorMessage,
+                        AdditionalErrorStatusOfOriginalMessage = originalMessage.AdditionalErrorStatusString,
+                        CanRetryOriginalMessage = originalMessage.CanRetry
                     });
                 }
             }

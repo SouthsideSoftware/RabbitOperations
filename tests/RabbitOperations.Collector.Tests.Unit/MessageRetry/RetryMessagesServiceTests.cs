@@ -94,5 +94,57 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
                 message.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.RetryPending);
             }
         }
+
+        [Test]
+        public void ShouldReturnAdditionalErrorStatusStringRetryPendingWhenItWorks()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            result.RetryMessageItems.First()
+                .AdditionalErrorStatusOfOriginalMessage.Should()
+                .Be(AdditionalErrorStatus.RetryPending.ToString());
+        }
+
+        [Test]
+        public void ShouldReturnCanRetryFalseWhenItWorks()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            result.RetryMessageItems.First().CanRetryOriginalMessage.Should().BeFalse();
+        }
     }
 }
