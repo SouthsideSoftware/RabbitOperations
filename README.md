@@ -14,6 +14,36 @@ searching and monitors message rates. It also links to the RabbiMQ management co
 
 Your application should send successfully processed messages to the audit queue and any message that fails processing to the error queue. Popular .NET message bus libraries, like NServiceBus, MassTransit and Rebus either do this by default or can be configured to do so.
 
+## Getting Started For Developers
+
+Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake):
+
+````
+choco install psake
+````
+
+Open a Powershell window and issue the following command to build and run tests:
+
+````
+psake
+````
+
+If you want to build from Visual Studio, you will need to add the following to your nuget.config file:
+
+````
+<packageSources>
+   <add key="nuget.org" value="https://www.myget.org/F/southside/" />
+</packageSources>
+````
+
+Check out the [nuget docs](https://docs.nuget.org/consume/nuget-config-file) for more information on editing the nuget.config file.
+
+You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake:
+
+````
+psake startCollector
+````
+
 ## Documentation and Release Notes
 
 Documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
@@ -31,5 +61,5 @@ from their [website](http://www.ravendb.org).
 ## Contributing
 
 Pull requests are welcome. If you want to get involved in the project,
-there is room for one or two more core contributors. At this point, it would be nice to have someone
-interested in adding support for Rebus and MassTransit.
+there is room for one or two more core contributors. Next interesting
+challenges are replaying errors for NServiceBus and adding support
