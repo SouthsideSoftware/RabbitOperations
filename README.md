@@ -19,7 +19,7 @@ Install psake on your machine.  You can get it from the [psake repository](https
 choco install psake
 ````
 
-Then open a Powershell window and issue the following command:
+Open a Powershell window and issue the following command to build and run tests:
 
 ````
 psake
