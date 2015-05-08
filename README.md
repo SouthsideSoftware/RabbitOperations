@@ -13,7 +13,13 @@ searching, tailing. Shortly, monitoring, heart beating and integration with New 
 
 ## Getting Started For Developers
 
-Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake).  Then open a Powershell window and issue the command:
+Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake):
+
+````
+choco install psake
+````
+
+Then open a Powershell window and issue the following command:
 
 ````
 psake
