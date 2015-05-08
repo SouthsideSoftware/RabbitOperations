@@ -13,9 +13,17 @@ properties {
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
 
+task validateProperties -Description "Validate the build script properties." -action {
+    assert( "debug","release" -contains $configuration ) `
+        "Invalid Configuration: $configuration : valid values are debug and release"
+
+    assert( "Any Cpu" -contains $platform ) `
+        "Invalid Platform: $platform : valid values are `"Any Cpu`""
+}
+
 task default -depends Build
 
-task build -Description "Build application.  Runs tests" -depends cleanBuildOutput, version, compile, test {
+task build -Description "Build application.  Runs tests" -depends validateProperties, cleanBuildOutput, version, compile, test {
 }
 
 task quickBuild -Description "Build application no tests" -depends cleanBuildOutput, version, compile {
