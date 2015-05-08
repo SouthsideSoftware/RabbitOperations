@@ -11,6 +11,30 @@ searching, tailing. Shortly, monitoring, heart beating and integration with New 
 
 ![Screen](/docs/images/screenshot.png?raw=true "Screenshot")
 
+## Getting Started For Developers
+
+Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake).  Then open a Powershell window and issue the command:
+
+````
+psake
+````
+
+If you want to build from Visual Studio, you will need to add the following to your nuget.config file:
+
+````
+<packageSources>
+   <add key="nuget.org" value="https://www.myget.org/F/southside/" />
+</packageSources>
+````
+
+Check out the [nuget docs](https://docs.nuget.org/consume/nuget-config-file) for more information on editing the nuget.config file.
+
+You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake:
+
+````
+psake startCollector
+````
+
 ## Documentation and Release Notes
 
 Documentation is available in the [wiki](https://github.com/SouthsideSoftware/RabbitOperations/wiki)
@@ -32,6 +56,5 @@ we're planning.
 ## Contributing
 
 Pull requests welcome. If you want to get involved in the project,
-there is room for one or two more core contributors. Next interesting
-challenges are replaying errors for NServiceBus and adding support
-for Rebus.
+there is room for one or two more core contributors. Many interesting challenges
+remain including adding support for Rebus and MassTransit.
