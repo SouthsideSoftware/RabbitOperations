@@ -1,15 +1,18 @@
 # Rabbit Operations
 
-Operations support for RabbitMQ applications with support for popular
-message bus libraries.  Right now it only supports NServiceBus.  Next
-planned is Rebus.
+Operations support for RabbitMQ applications including integration with popular
+message bus libraries.  Right now it only supports NServiceBus.  We are also planning to support Rebus and MassTransit.
 
-The general idea is to read messages from audit and error queues into
+The application reads messages from audit and error queues into
 RavenDB, a document database with excellent indexing capabilities built
 on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
-searching, tailing. Shortly, monitoring, heart beating and integration with New Relic and PagerDuty will be added.
+searching and monitors message rates. It also links to the RabbiMQ management console. Future plans include support for replaying errors, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what is in development and what is being planned.
 
 ![Screen](/docs/images/screenshot.png?raw=true "Screenshot")
+
+## Prerequisites
+
+Your application should send successfully processed messages to the audit queue and any message that fails processing to the error queue. Popular .NET message bus libraries, like NServiceBus, MassTransit and Rebus either do this by default or can be configured to do so.
 
 ## Getting Started For Developers
 
@@ -19,23 +22,24 @@ Install psake on your machine.  You can get it from the [psake repository](https
 choco install psake
 ````
 
-Open a Powershell window and issue the following command to build and run tests:
+Open a Powershell window and issue the command to build and run tests.  If you installed psake from the repository:
+
+````
+invoke-psake
+````
+
+Or, if you installed it via Choclatey:
 
 ````
 psake
 ````
 
-If you want to build from Visual Studio, you will need to add the following to your nuget.config file:
+You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake.  If you installed psake via the repository, use:
 
 ````
-<packageSources>
-   <add key="nuget.org" value="https://www.myget.org/F/southside/" />
-</packageSources>
+invoke-psake startCollector
 ````
-
-Check out the [nuget docs](https://docs.nuget.org/consume/nuget-config-file) for more information on editing the nuget.config file.
-
-You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake:
+Or, if you installed it from Choclatey:
 
 ````
 psake startCollector
@@ -55,12 +59,8 @@ RavenDB is embedded by default. Ayende has graciously agreed to provide a licens
 use an external RavenDB if you like. If you use RavenDB externally, you will have to obtain an appropriate license
 from their [website](http://www.ravendb.org).
 
-## Next Steps
-Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what we're up to and what
-we're planning.
-
 ## Contributing
 
-Pull requests welcome. If you want to get involved in the project,
-there is room for one or two more core contributors. Many interesting challenges
-remain including adding support for Rebus and MassTransit.
+Pull requests are welcome. If you want to get involved in the project,
+there is room for one or two more core contributors. Next interesting
+challenges are replaying errors for NServiceBus and adding support

@@ -42,6 +42,7 @@ namespace RabbitOperations.Collector.Host
             this.documentStore = documentStore;
             this.schemaUpdater = schemaUpdater;
 
+            
             cancellationToken = cancellationTokenSource.Token;
             CreateDefaultEnvirtonmentIfNoneExists();
             UpdateSchemaIfNeeded();
@@ -55,16 +56,16 @@ namespace RabbitOperations.Collector.Host
         public void Start()
         {
             logger.Info("Queue poller host starting...");
-            foreach (var environment in settings.Environments)
+            foreach (var application in settings.Applications)
             {
-                if (environment.AutoStartQueuePolling)
+                if (application.AutoStartQueuePolling)
                 {
-                    StartPollingQueue(new QueueSettings(environment.AuditQueue, environment));
-                    StartPollingQueue(new QueueSettings(environment.ErrorQueue, environment));
+                    StartPollingQueue(new QueueSettings(application.AuditQueue, application));
+                    StartPollingQueue(new QueueSettings(application.ErrorQueue, application));
                 }
                 else
                 {
-                    logger.Info("Polling for environment {0}({1}) is disabled. This is configured in the web application.", environment.EnvironmentName, environment.EnvironmentId);
+                    logger.Info("Polling for application {0}({1}) is disabled. This is configured in the web application.", application.ApplicationName, application.ApplicationId);
                 }
             }
             logger.Info("Queue poller host started");
@@ -72,13 +73,13 @@ namespace RabbitOperations.Collector.Host
 
         private void CreateDefaultEnvirtonmentIfNoneExists()
         {
-            if (settings.Environments.Count == 0)
+            if (settings.Applications.Count == 0)
             {
-                logger.Info("Creating default environment.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
-                settings.Environments.Add(new EnvironmentConfiguration
+                logger.Info("Creating default application.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
+                settings.Applications.Add(new ApplicationConfiguration
                 {
-                    EnvironmentId = "default",
-                    EnvironmentName = "Default",
+                    ApplicationId = "default",
+                    ApplicationName = "Default",
                     AuditQueue = "audit",
                     ErrorQueue = "error",
                     AutoStartQueuePolling = false,
@@ -100,8 +101,8 @@ namespace RabbitOperations.Collector.Host
         {
             queuePollers.Add(Task.Factory.StartNew(() =>
             {
-                string queueLogInfo = string.Format("queue {0} in environment {1}({2})", queueSettings.QueueName,
-                    queueSettings.EnvironmentName, queueSettings.EnvironmentId);
+                string queueLogInfo = string.Format("queue {0} in application {1}({2})", queueSettings.QueueName,
+                    queueSettings.ApplicationName, queueSettings.ApplicationId);
                 try
                 {
                     var queuePoller = queuePollerFactory.Create(queueSettings, cancellationToken);

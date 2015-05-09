@@ -13,10 +13,10 @@
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Specify Environment..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
+                        <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Specify Application..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="newSearch()" type="submit">Tail</button>
-                            <button class="btn btn-default" popover-title="Fields" popover="Shows the last 100 messages for the environment" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
+                            <button class="btn btn-default" popover-title="Fields" popover="Shows the last 100 messages for the application" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
                         </span>
                     </div>
                 </div>
@@ -27,10 +27,10 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th ng-click="toggleSort('EnvironmentId')" class="clickable">
-                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'EnvironmentId' && pageInfo.sortAscending"></i>
-                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'EnvironmentId' && !pageInfo.sortAscending"></i>
-                        Environment
+                    <th ng-click="toggleSort('ApplicationId')" class="clickable">
+                        <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ApplicationId' && pageInfo.sortAscending"></i>
+                        <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'ApplicationId' && !pageInfo.sortAscending"></i>
+                        Application
                     </th>
                     <th ng-click="toggleSort('ClassName')" class="clickable">
                         <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ClassName' && pageInfo.sortAscending"></i>
@@ -52,7 +52,7 @@
                 <tbody>
                 <tr class="clickable" ng-repeat="result in searchResults.results" ng-click="showDetails(result, $event)">
                     <td>{{result.id}}</td>
-                    <td>{{result.environmentId}}</td>
+                    <td>{{result.applicationId}}</td>
                     <td>{{result.messageTypes.length > 0 ? result.messageTypes[0].className : 'UNK'}}</td>
                     <td>{{result.timeSent}}</td>
                     <td>{{result.isError}}</td>

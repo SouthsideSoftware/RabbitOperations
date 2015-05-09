@@ -76,40 +76,40 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nancy.1.1\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\..\packages\Nancy.1.2.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Bootstrappers.Windsor, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Bootstrappers.Windsor, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nancy.Bootstrappers.Windsor.1.1\lib\net40\Nancy.Bootstrappers.Windsor.dll</HintPath>
+      <HintPath>..\..\packages\Nancy.Bootstrappers.Windsor.1.2.0\lib\net40\Nancy.Bootstrappers.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Metrics, Version=0.2.16.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Nancy.Metrics.0.2.16\lib\net45\Nancy.Metrics.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Owin, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Owin, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nancy.Owin.1.1\lib\net40\Nancy.Owin.dll</HintPath>
+      <HintPath>..\..\packages\Nancy.Owin.1.2.0\lib\net40\Nancy.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.ViewEngines.Razor, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.ViewEngines.Razor, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nancy.Viewengines.Razor.1.1\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
+      <HintPath>..\..\packages\Nancy.Viewengines.Razor.1.2.0\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+    <Reference Include="NLog, Version=3.2.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="RabbitMQ.Client, Version=3.5.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+    <Reference Include="RabbitMQ.Client, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\RabbitMQ.Client.3.5.0\lib\net40\RabbitMQ.Client.dll</HintPath>
+      <HintPath>..\..\packages\RabbitMQ.Client.3.5.1\lib\net40\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -123,18 +123,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Database.3.0.3660\lib\net45\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SouthsideUtility.Core, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.15.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.16.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
@@ -160,6 +160,25 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
+    <Compile Include="MessageRetry\AddRetryTrackingHeadersService.cs" />
+    <Compile Include="MessageRetry\NServiceBus\CreateBasicPropertiesService.cs" />
+    <Compile Include="MessageRetry\Interfaces\IAddRetryTrackingHeaders.cs" />
+    <Compile Include="MessageRetry\Interfaces\ICreateBasicProperties.cs" />
+    <Compile Include="MessageRetry\Interfaces\ISendMessages.cs" />
+    <Compile Include="MessageRetry\SendMessagesService.cs" />
+    <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestinationService.cs" />
+    <Compile Include="MessageRetry\Interfaces\ICreateRetryMessagesFromOriginal.cs" />
+    <Compile Include="MessageRetry\Interfaces\IDetermineRetryDestination.cs" />
+    <Compile Include="MessageRetry\Interfaces\IRetryMessages.cs" />
+    <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginalService.cs" />
+    <Compile Include="MessageRetry\RetryMessagesService.cs" />
+    <Compile Include="Models\RetryMessageItem.cs" />
+    <Compile Include="Models\RetryMessageModel.cs" />
+    <Compile Include="Models\RetryMessageResult.cs" />
+    <Compile Include="Poller\Interfaces\IPoller.cs" />
+    <Compile Include="Poller\Interfaces\IPollerHost.cs" />
+    <Compile Include="Poller\PollerHost.cs" />
+    <Compile Include="Poller\PollerStatus.cs" />
     <Compile Include="RavenDB\Indexes\MessageDocument_Search.cs" />
     <Compile Include="RavenDB\Interfaces\IUpdateSchemaVersion.cs" />
     <Compile Include="RavenDB\Interfaces\ISchemaUpdater.cs" />
@@ -169,12 +188,20 @@
     <Compile Include="RavenDB\Query\Interfaces\IBasicSearch.cs" />
     <Compile Include="RavenDB\Query\SearchResult.cs" />
     <Compile Include="RavenDB\SchemaUpdater.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion2.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion6.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion7.cs" />
-    <Compile Include="RavenDB\SchemaUpdates\ToVersion8.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0002.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0006.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0007.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0008.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0010.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0012.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0014.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
+    <Compile Include="Service\Interfaces\IStoreMessages.cs" />
+    <Compile Include="Service\Interfaces\IStoreMessagesFactory.cs" />
+    <Compile Include="Service\StoreMessagesFactory.cs" />
+    <Compile Include="Service\StoreMessagesThatAreRetriesService.cs" />
+    <Compile Include="Service\StoreMessagesThatAreNotRetriesService.cs" />
     <Compile Include="Web\Helpers\LinkHelper.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
@@ -225,6 +252,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="web.config" />
     <None Include="Web\Content\Bootstrap\fonts\glyphicons-halflings-regular.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -266,7 +294,13 @@
     <Content Include="Web\Content\angular-highlightjs\angular-highlightjs.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\App\Dashboard\Popups\retryResults.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\App\Dashboard\Popups\whatsNew.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\App\notificationService.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\queueService.js">
@@ -300,6 +334,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\moment\moment.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\noty\jquery.noty.packaged.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\SignalR\jquery.signalR-2.2.0.min.js">
@@ -359,8 +396,8 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName) == Debug (
-xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.1\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
-xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.1\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin\"
+xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
+xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin\"
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

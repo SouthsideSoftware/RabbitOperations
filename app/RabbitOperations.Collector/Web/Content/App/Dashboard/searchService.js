@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.service('searchService', function ($http) {
+﻿rabbitOperationsApp.service('searchService', function ($http, notificationService) {
     var self = this; 
     this.searchResults = {
         results: []
@@ -14,7 +14,7 @@
         sortAscending: false
     };
 
-    this.newSearch = function() {
+    this.newSearch = function () {
         self.pageInfo.page = 1;
         self.pageInfo.totalItems = 0;
         self.pageInfo.totalPages = 0;
@@ -22,27 +22,44 @@
     }
 
     self.search = function () {
+        self.searchingModal = notificationService.modal("Searching...");
         var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
         $http.get(url).success(function (data, status, headers, config) {
-            _.each(data.results, function(element, index, list) {
+            _.each(data.results, function (element, index, list) {
                 element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';
             });
             self.searchResults = data;
             self.pageInfo.totalItems = data.totalResults;
             self.pageInfo.totalPages = Math.ceil(data.totalResults / self.pageInfo.take);
-        }).error(function (data, status, headers, config) {
-            alert("AJAX failed!");
+            self.searchingModal.close();
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            self.searchingModal.close();
+            notificationService.error("Error calling search service: " + textStatus);
         });
     }
 
-   self.toggleSort = function (field) {
-        //default sort on new field to true, otherwise toggle
-        if (self.pageInfo.sortField !== field) {
-            self.pageInfo.sortAscending = true;
-        } else {
-            self.pageInfo.sortAscending = !self.pageInfo.sortAscending;
+    self.changeStatusOfItem = function(id, status, canRetry) {
+        var matchingSearchResult = _.find(self.searchResults.results, function(item) {
+            return item.id === id;
+        });
+        if (matchingSearchResult !== undefined) {
+            matchingSearchResult.additionalErrorStatusString = status;
+            matchingSearchResult.canRetry = canRetry;
+        };
+
+        return matchingSearchResult;
+    };
+
+    self.toggleSort = function (field) {
+        if (!self.searchInProgress) {
+            //default sort on new field to true, otherwise toggle
+            if (self.pageInfo.sortField !== field) {
+                self.pageInfo.sortAscending = true;
+            } else {
+                self.pageInfo.sortAscending = !self.pageInfo.sortAscending;
+            }
+            self.pageInfo.sortField = field;
+            self.newSearch();
         }
-        self.pageInfo.sortField = field;
-        self.newSearch();
     }
 });

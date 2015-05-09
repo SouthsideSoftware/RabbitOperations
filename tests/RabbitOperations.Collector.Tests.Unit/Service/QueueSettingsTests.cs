@@ -14,22 +14,22 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         {
             //arrange and act
             const string queueName = "queueName1";
-            var queueSettings = new QueueSettings(queueName, new EnvironmentConfiguration());
+            var queueSettings = new QueueSettings(queueName, new ApplicationConfiguration());
 
             //assert
             queueSettings.QueueName.Should().Be(queueName);
         }
 
         [Test]
-        public void ShouldSetEnvironmentIdFromConstructor()
+        public void ShouldSetApplicationIdFromConstructor()
         {
             //arrange and act
-            const string environmentId = "one";
-            var settings = new QueueSettings("x", new EnvironmentConfiguration {EnvironmentId = environmentId});
+            const string applicationId = "one";
+            var settings = new QueueSettings("x", new ApplicationConfiguration {ApplicationId = applicationId});
             var queueSettings = settings;
 
             //assert
-            queueSettings.EnvironmentId.Should().Be(environmentId);
+            queueSettings.ApplicationId.Should().Be(applicationId);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         {
             //arrange and act
             const int documentExpirationInHours = 3;
-            var settings = new QueueSettings("x", new EnvironmentConfiguration { EnvironmentName = "one", DocumentExpirationInHours = documentExpirationInHours});
+            var settings = new QueueSettings("x", new ApplicationConfiguration { ApplicationName = "one", DocumentExpirationInHours = documentExpirationInHours});
             var queueSettings = settings;
 
             //assert
@@ -45,15 +45,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         }
 
         [Test]
-        public void ShouldSetEnvironmentNameFromConstructor()
+        public void ShouldSetApplicationNameFromConstructor()
         {
             //arrange and act
-            const string environmentName = "one";
-            var settings = new QueueSettings("x", new EnvironmentConfiguration {EnvironmentName = environmentName});
+            const string applicationName = "one";
+            var settings = new QueueSettings("x", new ApplicationConfiguration {ApplicationName = applicationName});
             var queueSettings = settings;
 
             //assert
-            queueSettings.EnvironmentName.Should().Be(environmentName);
+            queueSettings.ApplicationName.Should().Be(applicationName);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange and act
             const string rabbitConnectionString = "one";
             var settings = new QueueSettings("x",
-                new EnvironmentConfiguration {RabbitConnectionString = rabbitConnectionString});
+                new ApplicationConfiguration {RabbitConnectionString = rabbitConnectionString});
             var queueSettings = settings;
 
             //assert
@@ -75,7 +75,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange and act
             const string rabbitConnectionString = "http://host:99";
             var settings = new QueueSettings("x",
-                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString });
+                new ApplicationConfiguration { RabbitConnectionString = rabbitConnectionString });
             var queueSettings = settings;
 
             //assert
@@ -88,7 +88,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange and act
             const string rabbitConnectionString = "http://host:99";
             var settings = new QueueSettings("x",
-                new EnvironmentConfiguration { RabbitConnectionString = rabbitConnectionString, RabbitManagementPort = 101});
+                new ApplicationConfiguration { RabbitConnectionString = rabbitConnectionString, RabbitManagementPort = 101});
             var queueSettings = settings;
 
             //assert
@@ -100,7 +100,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         {
             //arrange and act
             const int maxMessagesPerRun = 11;
-            var settings = new QueueSettings("x", new EnvironmentConfiguration {MaxMessagesPerRun = maxMessagesPerRun});
+            var settings = new QueueSettings("x", new ApplicationConfiguration {MaxMessagesPerRun = maxMessagesPerRun});
             var queueSettings = settings;
 
             //assert
@@ -113,7 +113,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange and act
             const int pollingTimeoutMilliseconds = 11000;
             var settings = new QueueSettings("x",
-                new EnvironmentConfiguration {PollingTimeoutMilliseconds = pollingTimeoutMilliseconds});
+                new ApplicationConfiguration {PollingTimeoutMilliseconds = pollingTimeoutMilliseconds});
             var queueSettings = settings;
 
             //assert
@@ -126,7 +126,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             //arrange and act
             const int heartbeatIntervalSeconds = 11000;
             var settings = new QueueSettings("x",
-                new EnvironmentConfiguration {HeartbeatIntervalSeconds = heartbeatIntervalSeconds});
+                new ApplicationConfiguration {HeartbeatIntervalSeconds = heartbeatIntervalSeconds});
             var queueSettings = settings;
 
             //assert

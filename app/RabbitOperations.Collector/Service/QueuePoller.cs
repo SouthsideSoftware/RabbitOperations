@@ -32,8 +32,8 @@ namespace RabbitOperations.Collector.Service
         private readonly IHeaderParser headerParser;
         private readonly IDocumentStore documentStore;
         private readonly IActiveQueuePollers activeQueuePollers;
+        private readonly IStoreMessagesFactory storeMessagesFactory;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly string queueLogInfo;
         private readonly Meter messageMeter;
 
         internal QueuePoller(Guid key, IQueueSettings queueSettings)
@@ -46,7 +46,7 @@ namespace RabbitOperations.Collector.Service
         }
 
         public QueuePoller(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
-            IHeaderParser headerParser, IDocumentStore documentStore, IActiveQueuePollers activeQueuePollers)
+            IHeaderParser headerParser, IDocumentStore documentStore, IActiveQueuePollers activeQueuePollers, IStoreMessagesFactory storeMessagesFactory)
         {
             Verify.RequireNotNull(queueSettings, "queueSettings");
             Verify.RequireNotNull(cancellationToken, "cancellationToken");
@@ -54,6 +54,7 @@ namespace RabbitOperations.Collector.Service
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(rabbitConnectionFactory, "rabbitConnectionFactory");
             Verify.RequireNotNull(activeQueuePollers, "activeQueuePollers");
+            Verify.RequireNotNull(storeMessagesFactory, "storeMessagesFactory");
 
             QueueSettings = queueSettings;
             this.cancellationToken = cancellationToken;
@@ -61,11 +62,10 @@ namespace RabbitOperations.Collector.Service
             this.headerParser = headerParser;
             this.documentStore = documentStore;
             this.activeQueuePollers = activeQueuePollers;
-            queueLogInfo = string.Format("queue {0} in environment {1}({2})", QueueSettings.QueueName,
-                QueueSettings.EnvironmentName, QueueSettings.EnvironmentId);
+            this.storeMessagesFactory = storeMessagesFactory;
             Key = Guid.NewGuid();
 
-            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.EnvironmentId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
+            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
         }
 
         public IQueueSettings QueueSettings { get; protected set; }
@@ -75,15 +75,15 @@ namespace RabbitOperations.Collector.Service
         public void Poll()
         {
             activeQueuePollers.Add(this);
-            logger.Info("Started queue poller for {0} with expiration of {1} hours", queueLogInfo, QueueSettings.DocumentExpirationInHours);
-            using (var connection = rabbitConnectionFactory.Create(QueueSettings).CreateConnection())
+            logger.Info("Started queue poller for {0} with expiration of {1} hours", QueueSettings.LogInfo, QueueSettings.DocumentExpirationInHours);
+            using (var connection = rabbitConnectionFactory.Create(QueueSettings.RabbitConnectionString, (ushort)QueueSettings.HeartbeatIntervalSeconds).CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
                     channel.BasicQos(0, 1, false);
                     var consumer = new QueueingBasicConsumer(channel);
                     channel.BasicConsume(QueueSettings.QueueName, false, consumer);
-                    logger.Info("Begin polling {0}{1}", queueLogInfo,
+                    logger.Info("Begin polling {0}{1}", QueueSettings.LogInfo,
                         QueueSettings.MaxMessagesPerRun > 0
                             ? string.Format(" to read a maximum of {0} messages", QueueSettings.MaxMessagesPerRun)
                             : "");
@@ -91,8 +91,17 @@ namespace RabbitOperations.Collector.Service
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         BasicDeliverEventArgs ea = null;
-                        consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
-                        logger.Trace("Dequeue completed for {0}{1}", queueLogInfo,
+                        try
+                        {
+                            YieldToOtherPollers();
+                            consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
+                        }
+                        catch (Exception err)
+                        {
+                            logger.ErrorException("Dequeue error ", err);
+                            throw;
+                        }
+                        logger.Trace("Dequeue completed for {0}{1}", QueueSettings.LogInfo,
                             ea == null ? " without a message (timeout)" : " with a message");
                         if (ea != null)
                         {
@@ -109,7 +118,7 @@ namespace RabbitOperations.Collector.Service
                             catch (Exception err)
                             {
                                 channel.BasicNack(ea.DeliveryTag, false, true);
-                                logger.Error("Error on {0} with details {1}", queueLogInfo, err);
+                                logger.Error("Error on {0} with details {1}", QueueSettings.LogInfo, err);
                                 //todo: move the message out of the way!
                                 //todo: make this a bit more resilient (retries etc.)
                                 throw;
@@ -118,31 +127,19 @@ namespace RabbitOperations.Collector.Service
                     }
                 }
             }
-            logger.Info("Shutting down queue poller for {0} because of cancellation request", queueLogInfo);
+            logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
             activeQueuePollers.Remove(this);
         }
 
- 
+        private static void YieldToOtherPollers()
+        {
+            Thread.Sleep(1);
+        }
 
         public void HandleMessage(IRawMessage message)
         {
-            logger.Trace("handling message on {0}", queueLogInfo);
-
-            var document = new MessageDocument
-            {
-                EnvironmentId = QueueSettings.EnvironmentId
-            };
-            headerParser.AddHeaderInformation(message, document);
-            document.Body = message.Body;
-            var expiry = DateTime.UtcNow.AddHours(QueueSettings.DocumentExpirationInHours);
-
-            using (var session = documentStore.OpenSessionForDefaultTenant())
-            {
-                session.Store(document);
-                session.Advanced.GetMetadataFor(document)["Raven-Expiration-Date"] = new RavenJValue(expiry);
-                session.SaveChanges();
-                logger.Trace("Saved document for message with id {0} from {1}", document.Id, queueLogInfo);
-            }
+            logger.Trace("handling message on {0}", QueueSettings.LogInfo);
+            storeMessagesFactory.MessageStorageServiceFor(message).Store(message, QueueSettings);
             messageMeter.Mark();
         }
     }

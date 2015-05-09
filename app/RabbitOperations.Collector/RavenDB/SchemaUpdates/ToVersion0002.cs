@@ -16,13 +16,13 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
 {
-    public class ToVersion2 : IUpdateSchemaVersion
+    public class ToVersion0002 : IUpdateSchemaVersion
     {
         private readonly ISettings settings;
         private readonly IDocumentStore store;
         public Logger logger = LogManager.GetCurrentClassLogger();
 
-        public ToVersion2(ISettings settings, IDocumentStore store)
+        public ToVersion0002(ISettings settings, IDocumentStore store)
         {
             Verify.RequireNotNull(settings, "settings");
             Verify.RequireNotNull(store, "store");

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageParser.NServiceBus;
+using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
@@ -21,12 +22,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperHeadersFromAudit()
         {
             //arrange
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -72,7 +68,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperNServiceSagaInfoFromAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -85,22 +81,11 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             doc.SagaInfo.Key.Should().Be("3b654483-a8ea-470b-8c78-a4110184fa8c");
         }
 
-        private static RawMessage LoadRawMessage(string fileName)
-        {
-            string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", string.Format("{0}.json", fileName))))
-            {
-                data = reader.ReadToEnd();
-            }
-            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
-            return rawMessage;
-        }
-
         [Test]
         public void HeaderParserHasNullSagaOnMessageNotInvolvingSaga()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -115,7 +100,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperNServiceBusMessageTypesAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -135,7 +120,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperNServiceBusMessageTypesError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -153,7 +138,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperHeadersFromError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -204,7 +189,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperBusTechnologyFromAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -219,7 +204,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperBusTechnologyFromError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -234,7 +219,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperTimeSentFromAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -249,7 +234,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperTimeSentFromError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -264,7 +249,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperContentTypeAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -279,7 +264,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperContentTypeError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -294,7 +279,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperProcessingTimeFromAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -315,7 +300,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperProcessingTimeFromError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -330,7 +315,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperIsErrorFromAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -345,7 +330,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperIsErrorFromError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -357,10 +342,72 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         }
 
         [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromAudit()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.NotAnError);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromError()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.Unresolved);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromErrorThatIsRetry()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+            doc.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "foo");
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.IsRetry);
+        }
+
+        [Test]
+        public void HeaderParserGetsProperAdditionalErrorStatusFromAuditThatIsRetry()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
+            var headerParser = new HeaderParser();
+            var doc = new MessageDocument();
+            doc.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "foo");
+
+            //act
+            headerParser.AddHeaderInformation(rawMessage, doc);
+
+            //assert
+            doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.IsRetry);
+        }
+
+        [Test]
         public void HeaderParserGetsProperTotalTimeFromAudit()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Audit");
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 
@@ -381,7 +428,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
         public void HeaderParserGetsProperTotalTimeFromError()
         {
             //arrange
-            var rawMessage = LoadRawMessage("Error");
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
 

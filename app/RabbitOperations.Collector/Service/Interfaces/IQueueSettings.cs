@@ -2,8 +2,8 @@
 {
     public interface IQueueSettings
     {
-        string EnvironmentId { get; }
-        string EnvironmentName { get; }
+        string ApplicationId { get; }
+        string ApplicationName { get; }
         string QueueName { get; }
 
         int MaxMessagesPerRun { get; }
@@ -12,5 +12,6 @@
         int HeartbeatIntervalSeconds { get; }
         int DocumentExpirationInHours { get; }
         bool IsErrorQueue { get; }
+        string LogInfo { get; }
     }
 }

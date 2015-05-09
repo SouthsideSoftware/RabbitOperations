@@ -151,3 +151,25 @@ body {
      color:blue;
      text-decoration:underline;
 }
+
+.toolbar {
+    margin-top: 5px;
+}
+
+.searching {
+    height: 30px;
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #337ab7;
+    padding: 5px 5px 5px 5px;
+    float: right;
+}
+
+.headerLogo {
+  float: left;
+  height: 50px;
+  padding: 5px 10px 5px 0px;
+  font-size: 18px;
+  line-height: 20px;
+}

@@ -1,5 +1,4 @@
-﻿using System;
-using NLog;
+﻿using NLog;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.RavenDB.Indexes;
 using RabbitOperations.Collector.RavenDB.Interfaces;
@@ -10,13 +9,13 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
 {
-    public class ToVersion8 : IUpdateSchemaVersion
+    public class ToVersion0014 : IUpdateSchemaVersion
     {
         private readonly ISettings settings;
         private readonly IDocumentStore store;
         public Logger logger = LogManager.GetCurrentClassLogger();
 
-        public ToVersion8(ISettings settings, IDocumentStore store)
+        public ToVersion0014(ISettings settings, IDocumentStore store)
         {
             Verify.RequireNotNull(settings, "settings");
             Verify.RequireNotNull(store, "store");
@@ -27,14 +26,13 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
 
         public int SchemaVersion
         {
-            get { return 8; }
+            get { return 14; }
         }
 
         public void UpdateSchema()
         {
-            //Update config document by saving
-            logger.Info("Updating structure of configuration document");
-            settings.Save();
+            logger.Info("Updating MessageDocumentSearch index");
+            store.ExecuteIndexCreationOnDefaultTenant(new MessageDocument_Search());
         }
     }
 }

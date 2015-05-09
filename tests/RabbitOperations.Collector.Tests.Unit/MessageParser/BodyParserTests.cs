@@ -56,5 +56,26 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             //assert
             doc.Body.Should().Be("{\"Ids\":[\"afecc831-34d4-47ca-b43b-56eb90d4e3b6\"]}");
         }
+
+        [Test]
+        public void BodyParserHandlesMessagesWithEmptyBodies()
+        {
+            //arrange
+            string data;
+            using (var reader = new StreamReader(Path.Combine("../../TestData", "EmptyBody.json")))
+            {
+                data = reader.ReadToEnd();
+            }
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            var rawMessage = JsonConvert.DeserializeObject<RawMessage>(data);
+            var bodyParser = fixture.Create<BodyParser>();
+            var doc = new MessageDocument();
+
+            //act
+            bodyParser.ParseBody(rawMessage, doc);
+
+            //assert
+            doc.Body.Should().BeEmpty();
+        }
     }
 }

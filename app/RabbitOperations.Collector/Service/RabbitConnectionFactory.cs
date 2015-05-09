@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.Service.Interfaces;
+using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -13,13 +14,15 @@ namespace RabbitOperations.Collector.Service
         {
             connectionFactories = new ConcurrentDictionary<string, IConnectionFactory>();
         }
- 
-        public IConnectionFactory Create(IQueueSettings queueSettings)
+
+        public IConnectionFactory Create(string connectionString, ushort heartbeatIntervalSeconds = 10)
         {
-            return connectionFactories.GetOrAdd(queueSettings.RabbitConnectionString, x => new ConnectionFactory
+            Verify.RequireStringNotNullOrWhitespace(connectionString, "connectionString");
+
+            return connectionFactories.GetOrAdd(connectionString, x => new ConnectionFactory
             {
-                Uri = queueSettings.RabbitConnectionString,
-                RequestedHeartbeat = (ushort) queueSettings.HeartbeatIntervalSeconds
+                Uri = connectionString,
+                RequestedHeartbeat = heartbeatIntervalSeconds
             });
         }
     }

@@ -13,7 +13,7 @@ namespace RabbitOperations.Collector.Service
 
         public IReadOnlyCollection<IQueuePoller> ActivePollers
         {
-            get { return activeQueuePollers.Values.OrderBy(x => x.QueueSettings.EnvironmentId).ThenBy(x => x.QueueSettings.IsErrorQueue).ToList().AsReadOnly(); }
+            get { return activeQueuePollers.Values.OrderBy(x => x.QueueSettings.ApplicationId).ThenBy(x => x.QueueSettings.IsErrorQueue).ToList().AsReadOnly(); }
         }
 
         public void Add(IQueuePoller queuePoller)

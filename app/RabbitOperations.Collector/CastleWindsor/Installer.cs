@@ -19,6 +19,9 @@ using RabbitOperations.Collector.Host.Interfaces;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageParser.NServiceBus;
+using RabbitOperations.Collector.MessageRetry;
+using RabbitOperations.Collector.MessageRetry.Interfaces;
+using RabbitOperations.Collector.MessageRetry.NServiceBus;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.RavenDB.Interfaces;
 using RabbitOperations.Collector.RavenDB.Query;
@@ -54,10 +57,13 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IWebHost>().ImplementedBy<WebHost>().LifestyleTransient(),
                 Component.For<ISubHostFactory>().AsFactory().LifestyleSingleton(),
                 Component.For<ISchemaUpdater>().ImplementedBy<SchemaUpdater>().LifestyleTransient(),
-                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion2>().LifestyleTransient(),
-                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion6>().LifestyleTransient(),
-                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion7>().LifestyleTransient(),
-                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion8>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0002>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0006>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0007>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0008>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0010>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0012>().LifestyleTransient(),
+                Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0014>().LifestyleTransient(),
                 Component.For<IActiveQueuePollers>().ImplementedBy<ActiveQueuePollers>().LifestyleSingleton(),
                 Component.For<IBasicSearch>().ImplementedBy<BasicSearch>().LifestyleSingleton(),
                 Component.For<ICancellationTokenSource>()
@@ -68,6 +74,15 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IHeaderParser>().ImplementedBy<HeaderParser>().LifestyleSingleton(),
                 Component.For<IRavenTenantInitializer>().ImplementedBy<RavenTenantInitializer>().LifestyleSingleton(),
                 Component.For<IQualifiedSchemaUpdatersFactory>().ImplementedBy<QualifiedSchemaUpdatersFactory>().LifestyleSingleton(),
+                Component.For<IRetryMessages>().ImplementedBy<RetryMessagesService>().LifestyleSingleton(),
+                Component.For<ICreateRetryMessagesFromOriginal>().ImplementedBy<CreateRetryMessageFromOriginalService>().LifestyleSingleton(),
+                Component.For<IDetermineRetryDestination>().ImplementedBy<DetermineRetryDestinationService>().LifestyleSingleton(),
+                Component.For<IAddRetryTrackingHeaders>().ImplementedBy<AddRetryTrackingHeadersService>().LifestyleSingleton(),
+                Component.For<ISendMessages>().ImplementedBy<SendMessagesService>().LifestyleSingleton(),
+                Component.For<IStoreMessages>().ImplementedBy<StoreMessagesThatAreRetriesService>().LifestyleSingleton(),
+                Component.For<IStoreMessages>().ImplementedBy<StoreMessagesThatAreNotRetriesService>().LifestyleSingleton(),
+                Component.For<IStoreMessagesFactory>().ImplementedBy<StoreMessagesFactory>().LifestyleSingleton(),
+                Component.For<ICreateBasicProperties>().ImplementedBy<CreateBasicPropertiesService>().LifestyleSingleton(),
                 Component.For<IDocumentStore>().UsingFactoryMethod(x =>
                 {
                     IDocumentStore docStore = null;

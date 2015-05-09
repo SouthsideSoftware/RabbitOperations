@@ -16,15 +16,17 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
                     Any = new Object[]
                     {
                         messageDocument.Body,
-                        messageDocument.EnvironmentId,
                         messageDocument.MessageTypes.Select(x => x.ClassName),
-                        messageDocument.Headers.Select(x => x.Value)
+                        messageDocument.Headers.Select(x => x.Value),
+                        messageDocument.AdditionalErrorStatus,
+                        messageDocument.ApplicationId
                     },
                     messageDocument.TimeSent,
                     ClassName = messageDocument.MessageTypes.Select(x => x.ClassName),
                     messageDocument.IsError,
-                    messageDocument.EnvironmentId,
-                    Header = messageDocument.Headers.Select(x => x.Value)
+                    messageDocument.ApplicationId,
+                    Header = messageDocument.Headers.Select(x => x.Value),
+                    messageDocument.AdditionalErrorStatus
                 };
 
             Index(x => x.Any, FieldIndexing.Analyzed);

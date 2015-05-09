@@ -1,4 +1,4 @@
-#ignore outputs of project
+.vs #ignore outputs of project
 BuildOutput*/
 TestResults*/
 v__*/
@@ -26,6 +26,7 @@ Thumbs.db
 *.psd
 *.bak
 *.css.map
+.vs/*
 [Bb]in
 [Dd]ebug*/
 *.lib

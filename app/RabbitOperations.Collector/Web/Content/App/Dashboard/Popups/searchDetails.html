@@ -6,8 +6,8 @@
     <table class="table table-striped table-condensed">
         <tbody>
             <tr>
-                <td class="rowLabel">Environment:</td>
-                <td>{{message.item.environmentId}}</td>
+                <td class="rowLabel">Application:</td>
+                <td>{{message.item.applicationId}}</td>
             </tr>
             <tr>
                 <td class="rowLabel">Time Sent:</td>
@@ -15,7 +15,11 @@
             </tr>
             <tr>
                 <td class="rowLabel">Is Error:</td>
-                <td>{{message.item.isError}}</td>
+                <td>{{message.item.isError}} ({{message.item.additionalErrorStatusString}})</td>
+            </tr>
+            <tr>
+                <td class="rowLabel">Can Retry:</td>
+                <td>{{message.item.canRetry}}</td>
             </tr>
             <tr>
                 <td class="rowLabel">Processing Time:</td>
@@ -35,5 +39,6 @@
     </div>
 </div>
 <div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="!message.item.canRetry" ng-click="retry()">Retry</button>
     <button class="btn btn-primary" ng-click="ok()">OK</button>
 </div>
