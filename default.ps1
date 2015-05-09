@@ -7,6 +7,7 @@ properties {
     $version = "0.6.0"
     $configuration = "Debug"
     $platform = "Any CPU"
+    $msBuildVerbosity = "normal"; #quiet, minimal, normal, detailed, and diagnostic
     $buildOutputDir = "./BuildOutput"
     $nugetOutputDir = Join-Path $buildOutputDir "nuget"
     $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
@@ -19,6 +20,9 @@ task validateProperties -Description "Validate the build script properties." -ac
 
     assert( "Any Cpu" -contains $platform ) `
         "Invalid Platform: $platform : valid values are `"Any Cpu`""
+
+    assert( "quiet","minimal","normal","detailed","diagnostic" -contains $msBuildVerbosity ) `
+        "Invalid msbuild verbosity: $msBuildVerbosity : valid values are quiet, minimal, normal, detailed, and diagnostic"
 }
 
 task default -depends Build
@@ -47,7 +51,7 @@ task test -Description "Runs tests" {
 
 Task compile -Description "Build application only" {
 		exec {.nuget\nuget restore}
-    exec { msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=12.0 "/p:Configuration=$configuration" "/p:Platform=$platform" }
+    exec { msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=12.0 "/p:Configuration=$configuration" "/p:Platform=$platform" /v:$msBuildVerbosity }
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build
