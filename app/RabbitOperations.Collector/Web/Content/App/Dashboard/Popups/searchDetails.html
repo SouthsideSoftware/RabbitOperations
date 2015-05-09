@@ -39,6 +39,6 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-show="message.item.canRetry" ng-click="retry()">Retry</button>
+    <button class="btn btn-primary" ng-disabled="!message.item.canRetry" ng-click="retry()">Retry</button>
     <button class="btn btn-primary" ng-click="ok()">OK</button>
 </div>

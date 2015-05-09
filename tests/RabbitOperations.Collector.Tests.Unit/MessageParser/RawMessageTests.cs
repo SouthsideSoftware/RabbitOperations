@@ -10,6 +10,7 @@ using NUnit.Framework;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Framing;
 using RabbitOperations.Collector.MessageParser;
+using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageParser
 {
@@ -78,6 +79,29 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
 
             //assert
             newRawMessage.Headers.ShouldBeEquivalentTo(rawMessage.Headers);
+        }
+
+        [Test]
+        public void HeadersAreDeepCopiedWhenConstructedFromMessageDocument()
+        {
+            //arrange
+            var doc = new MessageDocument();
+            var originalHeaders = new Dictionary<string, string>
+            {
+                {"foo1", "foo1" },
+                {"foo2", "foo2" }
+            };
+
+            doc.Headers = originalHeaders;
+
+            //act
+            var rawMessage = new RawMessage(doc);
+            rawMessage.Headers["foo1"] = "fi1";
+            rawMessage.Headers.Remove("foo2");
+
+            //assert
+            rawMessage.Headers.Should().NotBeSameAs(originalHeaders, "The raw message dictionary is not the same as the message document dictionary");
+            doc.Headers.Should().Equal(originalHeaders, "The original message's headers are unchanged");
         }
     }
 }

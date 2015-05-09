@@ -12,6 +12,9 @@ using Moq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
+using RabbitOperations.Collector.MessageParser.NServiceBus;
+using RabbitOperations.Collector.MessageRetry.Interfaces;
+using RabbitOperations.Collector.MessageRetry.NServiceBus;
 using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Domain;
@@ -96,7 +99,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         }
 
         [Test]
-        public void ShouldReturnAdditionalErrorStatusStringRetryPendingWhenItWorks()
+        public void ShouldRetainAllHeadersOfOriginalMessageAfterRetry()
         {
             //arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
@@ -117,9 +120,50 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             });
 
             //assert
-            result.RetryMessageItems.First()
-                .AdditionalErrorStatusOfOriginalMessage.Should()
-                .Be(AdditionalErrorStatus.RetryPending.ToString());
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                var message = session.Load<MessageDocument>(originalMessge.Id);
+                message.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.RetryPending);
+            }
+        }
+
+        [Test]
+        public void ShouldReturnAdditionalErrorStatusStringRetryPendingWhenItWorks()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            fixture.Register<ICreateRetryMessagesFromOriginal>(() => new CreateRetryMessageFromOriginalService());
+            var service = fixture.Create<RetryMessagesService>();
+
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+            var originalMessge = new MessageDocument();
+            new HeaderParser().AddHeaderInformation(rawMessage, originalMessge);
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                var message = session.Load<MessageDocument>(originalMessge.Id);
+                AssertRetriedMessageHeadersExcludingRetryIdSameAsOriginal(message, originalMessge);
+            }
+        }
+
+        private static void AssertRetriedMessageHeadersExcludingRetryIdSameAsOriginal(MessageDocument message,
+            MessageDocument originalMessge)
+        {
+            message.Headers.Remove(AddRetryTrackingHeadersService.RetryHeader);
+            message.Headers.ShouldBeEquivalentTo(originalMessge.Headers);
         }
 
         [Test]

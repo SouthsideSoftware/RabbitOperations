@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Events;
@@ -58,8 +60,12 @@ namespace RabbitOperations.Collector.MessageParser
             Verify.RequireNotNull(body, "body");
             Verify.RequireNotNull(headers, "headers");
 
-            Headers = headers;
-            Body = body;
+            Headers = new Dictionary<string, string>();
+            foreach (var header in headers)
+            {
+                Headers.Add(string.Copy(header.Key), string.Copy(header.Value));
+            }
+            Body = string.Copy(body);
         }
 
         [JsonProperty]

@@ -10,7 +10,6 @@ namespace RabbitOperations.Collector.MessageRetry.Interfaces
 {
     public interface ICreateBasicProperties
     {
-        //todo: implement for NServiceBus
         IBasicProperties Create(IRawMessage rawMessage);
     }
 }

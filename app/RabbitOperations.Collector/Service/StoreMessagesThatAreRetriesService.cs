@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NLog;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry;
@@ -49,6 +50,10 @@ namespace RabbitOperations.Collector.Service
                 }
                 if (originalMessage != null)
                 {
+                    if (originalMessage.Retries == null)
+                    {
+                        originalMessage.Retries = new List<MessageDocument>();
+                    }
                     originalMessage.Retries.Add(retry);
                     if (retry.IsError)
                     {
