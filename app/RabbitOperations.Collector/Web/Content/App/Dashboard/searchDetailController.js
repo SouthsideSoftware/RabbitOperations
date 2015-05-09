@@ -1,6 +1,7 @@
 ﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService, searchService) {
     $scope.displayHeaders = false;
     $scope.displayBody = true;
+    $scope.displayRetries = true;
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
             var hours = duration.days * 24 + duration.hours;
@@ -26,6 +27,19 @@
         timeSent: item !== undefined && item.timeSent !== undefined ? moment(item.timeSent).format('MM/DD/YYYY HH:mm:ss') : '',
         processingTime: item !== undefined ? $scope.toDisplayDuration(item.processingTime) : 'UNK',
         totalTime: item !== undefined ? $scope.toDisplayDuration(item.totalTime) : 'UNK'
+    };
+
+    $scope.retries = [];
+    if (item.retries.length > 0) {
+        _.each(item.retries, function (retry) {
+            $scope.retries.push({
+                isError: retry.isError,
+                timeSent: retry.timeSent !== undefined ? moment(retry.timeSent).format('MM/DD/YYYY HH:mm:ss') : '',
+                processingTime: $scope.toDisplayDuration(retry.processingTime),
+                totalTime: $scope.toDisplayDuration(retry.totalTime),
+                additionalErrorStatusString: retry.additionalErrorStatusString
+            });
+        });
     };
 
     $scope.ok = function () {

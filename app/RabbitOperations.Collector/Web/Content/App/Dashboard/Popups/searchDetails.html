@@ -8,9 +8,9 @@
             <thead>
             <tr>
                 <td>Application</td>
-                <td tooltip="Time sent">Sent</td>
-                <td tooltime="Time to handle message">Processing Time</td>
-                <td tooltip="Total time from message send to message handled">Total Time</td>
+                <td>Sent</td>
+                <td>Processing Time</td>
+                <td>Total Time</td>
                 <td>Error</td>
                 <td>Can Retry</td>
             </tr>
@@ -26,6 +26,33 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div ng-show="message.item.retries.length > 0">
+        <h4>
+            Retries
+            <span ng-click="displayRetries = true" ng-show="!displayRetries" class="clickable">[+]</span>
+            <span ng-click="displayRetries = false" ng-show="displayRetries" class="clickable">[-]</span>
+        </h4>
+        <div collapse="!displayRetries" class="table-responsive">
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <td>Sent</td>
+                        <td>Processing Time</td>
+                        <td>Total Time</td>
+                        <td>Error</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="retry in retries">
+                        <td>{{retry.timeSent}}</td>
+                        <td>{{retry.processingTime}}</td>
+                        <td>{{retry.totalTime}}</td>
+                        <td>{{retry.isError}} ({{retry.additionalErrorStatusString}})</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div>
         <h4>
