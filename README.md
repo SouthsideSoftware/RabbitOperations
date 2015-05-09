@@ -34,16 +34,6 @@ Or, if you installed it via Choclatey:
 psake
 ````
 
-If you want to build from Visual Studio, you will need to add the following to your nuget.config file:
-
-````
-<packageSources>
-   <add key="nuget.org" value="https://www.myget.org/F/southside/" />
-</packageSources>
-````
-
-Check out the [nuget docs](https://docs.nuget.org/consume/nuget-config-file) for more information on editing the nuget.config file.
-
 You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake.  If you installed psake via the repository, use:
 
 ````
