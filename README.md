@@ -22,7 +22,13 @@ Install psake on your machine.  You can get it from the [psake repository](https
 choco install psake
 ````
 
-Open a Powershell window and issue the following command to build and run tests:
+Open a Powershell window and issue the command to build and run tests.  If you installed from the repository:
+
+````
+invoke-psake
+````
+
+Or, if you installed via Choclatey:
 
 ````
 psake
@@ -38,7 +44,12 @@ If you want to build from Visual Studio, you will need to add the following to y
 
 Check out the [nuget docs](https://docs.nuget.org/consume/nuget-config-file) for more information on editing the nuget.config file.
 
-You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake:
+You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake.  If you installed via the repository, use:
+
+````
+invoke-psake startCollector
+````
+Or, from Choclatey:
 
 ````
 psake startCollector
