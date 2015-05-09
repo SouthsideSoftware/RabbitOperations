@@ -138,7 +138,7 @@ body {
     line-height: normal;
 }
 
-.rowLabel {
+thead {
     font-weight: bold;
 }
 

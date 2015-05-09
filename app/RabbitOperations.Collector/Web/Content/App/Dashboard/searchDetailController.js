@@ -1,5 +1,7 @@
 ﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService, searchService) {
-    $scope.toDisplayDuration = function(duration) {
+    $scope.displayHeaders = false;
+    $scope.displayBody = true;
+    $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
             var hours = duration.days * 24 + duration.hours;
             return hours + ":" + duration.minutes + ":" + duration.seconds + "." + duration.milliseconds;
