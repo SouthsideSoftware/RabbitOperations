@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal, searchService) {
+﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal, searchService, retryService) {
     $scope.pageInfo = searchService.pageInfo;
     $scope.searchResults = searchService.searchResults;
     $scope.searchProgress = searchService.searchProgress;
@@ -56,5 +56,14 @@
                 }
             });
         }
+    };
+
+    $scope.retry = function () {
+        var selected = _.filter($scope.searchResults.results, function (item) {
+            return item.isSelected;
+        });
+        retryService.retry(selected).then(function(updatedItems) {
+            $scope.selectionChanged();
+        });
     };
 });

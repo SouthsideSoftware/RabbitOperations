@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService, searchService) {
+﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService, searchService, retryService) {
     $scope.displayHeaders = false;
     $scope.displayBody = true;
     $scope.displayRetries = true;
@@ -47,21 +47,10 @@
     };
 
     $scope.retry = function () {
-        $scope.modalNoty = notificationService.modal("Retrying...");
-        $http.put('/api/v1/messages/retry', { retryIds: [item.id] }).success(function (data, status, headers, config) {
-            $scope.modalNoty.close();
-            if (data.retryMessageItems[0].isRetrying) {
-                notificationService.success("Message " + data.retryMessageItems[0].retryId + " is now retrying on queue " + data.retryMessageItems[0].retryQueue);
-            } else {
-                notificationService.error("Failed to retry: " + data.retryMessageItems[0].additionalInfo);
+        retryService.retry([$scope.message.item]).then(function(updatedItems) {
+            if (updatedItems.length > 0) {
+                $scope.Item = updatedItems[0];
             }
-            var updatedItem = searchService.changeStatusOfItem(data.retryMessageItems[0].retryId, data.retryMessageItems[0].additionalErrorStatusOfOriginalMessage, data.retryMessageItems[0].canRetryOfOriginalMessage);
-            if (updatedItem !== undefined) {
-                $scope.message.item = updatedItem;
-            }
-        }).error(function (jqXHR, textStatus, errorThrown) {
-            $scope.modalNoty.close();
-            notificationService.error("Error calling retry service: " + textStatus);
         });
-    }
+    };
 })

@@ -45,12 +45,13 @@
         if (matchingSearchResult !== undefined) {
             matchingSearchResult.additionalErrorStatusString = status;
             matchingSearchResult.canRetry = canRetry;
+            matchingSearchResult.isSelected = false;
         };
 
         return matchingSearchResult;
     };
 
-    self.toggleSort = function (field) {
+    self.toggleSort = function(field) {
         if (!self.searchInProgress) {
             //default sort on new field to true, otherwise toggle
             if (self.pageInfo.sortField !== field) {
@@ -61,5 +62,5 @@
             self.pageInfo.sortField = field;
             self.newSearch();
         }
-    }
+    };
 });
