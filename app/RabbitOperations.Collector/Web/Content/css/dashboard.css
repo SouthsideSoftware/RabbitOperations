@@ -173,3 +173,8 @@ thead {
   font-size: 18px;
   line-height: 20px;
 }
+
+.subSection-title {
+    text-align: center;
+    font-weight: bold;
+}

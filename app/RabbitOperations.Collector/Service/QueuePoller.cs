@@ -65,7 +65,7 @@ namespace RabbitOperations.Collector.Service
             this.storeMessagesFactory = storeMessagesFactory;
             Key = Guid.NewGuid();
 
-            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, tags:new MetricTags("QueuePoller"));
+            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, TimeUnit.Seconds, tags:new MetricTags("QueuePoller"));
         }
 
         public IQueueSettings QueueSettings { get; protected set; }
