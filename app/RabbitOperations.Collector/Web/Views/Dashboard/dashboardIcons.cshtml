@@ -31,9 +31,9 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="application in evenApplications">
-                    <td>{{application.applicationName}}</td>
-                    <td>{{application.auditQueue.displayRate}}/s</td>
-                    <td>{{application.errorQueue.displayRate}}/s</td>
+                    <td class="link" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.auditQueue.oldCount !== undefined && application.auditQueue.oldCount !== application.auditQueue.count}">{{application.auditQueue.displayRate}}/s</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.errorQueue.oldCount !== undefined && application.errorQueue.oldCount !== application.errorQueue.count}">{{application.errorQueue.displayRate}}/s</td>
                 </tr>
                 </tbody>
             </table>
@@ -49,9 +49,9 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="application in oddApplications">
-                    <td>{{application.applicationName}}</td>
-                    <td>{{application.auditQueue.displayRate}}/s</td>
-                    <td>{{application.errorQueue.displayRate}}/s</td>
+                    <td class="link" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.auditQueue.oldCount !== undefined && application.auditQueue.oldCount !== application.auditQueue.count}">{{application.auditQueue.displayRate}}/s</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.errorQueue.oldCount !== undefined && application.errorQueue.oldCount !== application.errorQueue.count}">{{application.errorQueue.displayRate}}/s</td>
                 </tr>
                 </tbody>
             </table>

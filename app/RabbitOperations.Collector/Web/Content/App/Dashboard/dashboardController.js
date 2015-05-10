@@ -67,6 +67,8 @@
                             queue.fiveMinuteRate = element.Value.FiveMinuteRate.toFixed(2);
                             queue.fifteenMinuteRate = element.Value.FifteenMinuteRate.toFixed(2);
                             queue.meanRate = element.Value.MeanRate.toFixed(2);
+                            queue.oldCount = queue.count;
+                            queue.count = element.Value.Count;
                             $scope.displayRateForQueue(queue);
                             $scope.$apply();
                         }
