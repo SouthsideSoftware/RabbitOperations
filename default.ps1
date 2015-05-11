@@ -10,8 +10,7 @@ properties {
     $platform = "Any CPU"
     $buildOutputDir = "$rootDir/BuildOutput"
     $nugetOutputDir = Join-Path $buildOutputDir "nuget"
-    $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
-    "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
+    $unitTestAssemblies = (Get-ChildItem ($rootDir) -Recurse -Include *Tests.Unit.dll -Name | Select-String "bin\\$configuration")
 }
 
 task validateProperties -Description "Validate the build script properties." -action {
@@ -35,12 +34,12 @@ task test -Description "Runs tests" {
   if ($inTeamCity) {
     Write-Host "Running Tests In TeamCity"
     [string] $nunit = "NUnit-" + $nunitVersion
-    Write-Host "Running " $env:NUNIT_LAUNCHER v4.0 x64 $nunit $testAssemblies
-    & $env:NUNIT_LAUNCHER v4.0 x64 $nunit $testAssemblies
+    Write-Host "Running " $env:NUNIT_LAUNCHER v4.0 x64 $nunit $unitTestAssemblies
+    & $env:NUNIT_LAUNCHER v4.0 x64 $nunit $unitTestAssemblies
   } else {
     Write-Host "Running Tests Outside TeamCity"
     [string] $nunitPath = Get-NunitPath
-    & $nunitPath $testAssemblies /noshadow "/framework:net-4.0"
+    & $nunitPath $unitTestAssemblies /noshadow "/framework:net-4.0"
   }
 
   if ($LastExitCode -ne 0) { throw "Tests failed"}
