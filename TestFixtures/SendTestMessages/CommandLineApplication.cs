@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
 using PowerArgs;
 using RabbitMQ.Client;
 
@@ -50,6 +51,7 @@ namespace SendTestMessages.CommandLine
         private CancellationToken cancellationToken = new CancellationToken();
         private Task senderTask;
         private string connectionString;
+        private int consecutiveRetryCount;
 
         public void Main()
         {
@@ -71,34 +73,60 @@ namespace SendTestMessages.CommandLine
         }
 
         private void SendUntilStopped()
-        {
+        { 
             senderTask = Task.Factory.StartNew(() =>
             {
-                try
-                {
-                    var factory = new ConnectionFactory() { Uri = connectionString };
-                    using (var connection = factory.CreateConnection())
+                var retryPolicy = Policy.Handle<Exception>()
+                    .WaitAndRetry(120, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>
                     {
-                        while (!cancellationToken.IsCancellationRequested)
-                        {
-                            using (var channel = connection.CreateModel())
-                            {
-                                string message = "Hello World!";
-                                var body = Encoding.UTF8.GetBytes(message);
+                        Console.WriteLine($"Retry after {retryDelay}");
+                    });
+                retryPolicy.Execute(SendMessages);
+            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        }
 
-                                channel.BasicPublish(Exchange, "", null, body);
-                                Console.Write(".");
-                            }
-                            Thread.Sleep(60000 / MessagesPerMinute);
+        /// <summary>
+        /// Exponetial backoff of timeout until we hit the sixth retry.
+        /// After that, its 2^5 (32) seconds per retry
+        /// </summary>
+        /// <returns></returns>
+        private TimeSpan GetRetryDelay()
+        {
+            consecutiveRetryCount++;
+            if (consecutiveRetryCount <= 5)
+            {
+                return TimeSpan.FromSeconds(Math.Pow(2, consecutiveRetryCount));
+            }
+            return TimeSpan.FromSeconds(Math.Pow(2, 5));
+        }
+
+        private void SendMessages()
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested) return;
+                var factory = new ConnectionFactory() {Uri = connectionString};
+                using (var connection = factory.CreateConnection())
+                {
+                    while (!cancellationToken.IsCancellationRequested)
+                    {
+                        using (var channel = connection.CreateModel())
+                        {
+                            string message = "Hello World!";
+                            var body = Encoding.UTF8.GetBytes(message);
+
+                            channel.BasicPublish(Exchange, "", null, body);
+                            Console.Write(".");
                         }
+                        Thread.Sleep(60000/MessagesPerMinute);
+                        consecutiveRetryCount = 0;
                     }
                 }
-                catch (Exception err)
-                {
-                    Console.WriteLine("Failed with error {1}", err);
-                    throw;
-                }
-            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine("Failed with error {1}", err);
+            }
         }
 
         private void WriteParametersToConsole(string connectionString)

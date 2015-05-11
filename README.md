@@ -6,7 +6,9 @@ message bus libraries.  Right now it only supports NServiceBus.  We are also pla
 The application reads messages from audit and error queues into
 RavenDB, a document database with excellent indexing capabilities built
 on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
-searching and monitors message rates. It also links to the RabbiMQ management console. Future plans include support for replaying errors, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) that shows what is in development and what is being planned.
+searching and monitors message rates. It also links to the RabbiMQ management console. Future plans include support for replaying errors, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. 
+
+Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) to see what is in development and what is being planned.
 
 ![Screen](/docs/images/screenshot.png?raw=true "Screenshot")
 
@@ -15,6 +17,8 @@ searching and monitors message rates. It also links to the RabbiMQ management co
 Your application should send successfully processed messages to the audit queue and any message that fails processing to the error queue. Popular .NET message bus libraries, like NServiceBus, MassTransit and Rebus either do this by default or can be configured to do so.
 
 ## Getting Started For Developers
+
+_You must have Visual Studio 2015 or Microsoft Build Tools 2015 installed to build the application. Although it currently requires only the .NET 4.5 framework, it uses some C# 6.0 features that require the latest C# compiler_
 
 Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake):
 

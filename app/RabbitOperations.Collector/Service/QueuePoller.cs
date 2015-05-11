@@ -21,6 +21,7 @@ using RabbitOperations.Domain.Configuration;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 using Microsoft.AspNet.SignalR;
+using Polly;
 using Raven.Json.Linq;
 
 namespace RabbitOperations.Collector.Service
@@ -35,6 +36,7 @@ namespace RabbitOperations.Collector.Service
         private readonly IStoreMessagesFactory storeMessagesFactory;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Meter messageMeter;
+        private int consecutiveRetryCount;
 
         internal QueuePoller(Guid key, IQueueSettings queueSettings)
         {
@@ -75,60 +77,102 @@ namespace RabbitOperations.Collector.Service
         public void Poll()
         {
             activeQueuePollers.Add(this);
-            logger.Info("Started queue poller for {0} with expiration of {1} hours", QueueSettings.LogInfo, QueueSettings.DocumentExpirationInHours);
-            using (var connection = rabbitConnectionFactory.Create(QueueSettings.RabbitConnectionString, (ushort)QueueSettings.HeartbeatIntervalSeconds).CreateConnection())
-            {
-                using (var channel = connection.CreateModel())
+            //will retry for about 3.5 days
+            var retryPolicy = Policy
+                .Handle<Exception>()
+                .WaitAndRetry(10000, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>
                 {
-                    channel.BasicQos(0, 1, false);
-                    var consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume(QueueSettings.QueueName, false, consumer);
-                    logger.Info("Begin polling {0}{1}", QueueSettings.LogInfo,
-                        QueueSettings.MaxMessagesPerRun > 0
-                            ? string.Format(" to read a maximum of {0} messages", QueueSettings.MaxMessagesPerRun)
-                            : "");
-                    long messageCount = 0;
-                    while (!cancellationToken.IsCancellationRequested)
+                    logger.ErrorException($"Retrying with delay {retryDelay} on {QueueSettings.LogInfo} after exception", exception);
+                });
+            retryPolicy.Execute(InnerPoll);
+            logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
+            activeQueuePollers.Remove(this);
+        }
+
+        /// <summary>
+        /// Exponetial backoff of timeout until we hit the sixth retry.
+        /// After that, its 2^5 (32) seconds per retry
+        /// </summary>
+        /// <returns></returns>
+        private TimeSpan GetRetryDelay()
+        {
+            consecutiveRetryCount++;
+            if (consecutiveRetryCount <= 5)
+            {
+                return TimeSpan.FromSeconds(Math.Pow(2, consecutiveRetryCount));
+            }
+            return TimeSpan.FromSeconds(Math.Pow(2, 5));
+        }
+
+        private void InnerPoll()
+        {
+            if (cancellationToken.IsCancellationRequested) return;
+            logger.Info("Started queue poller for {0} with expiration of {1} hours", QueueSettings.LogInfo,
+                QueueSettings.DocumentExpirationInHours);
+            try
+            {
+                using (
+                    var connection =
+                        rabbitConnectionFactory.Create(QueueSettings.RabbitConnectionString,
+                            (ushort) QueueSettings.HeartbeatIntervalSeconds).CreateConnection())
+                {
+                    using (var channel = connection.CreateModel())
                     {
-                        BasicDeliverEventArgs ea = null;
-                        try
+                        channel.BasicQos(0, 1, false);
+                        var consumer = new QueueingBasicConsumer(channel);
+                        channel.BasicConsume(QueueSettings.QueueName, false, consumer);
+                        logger.Info("Begin polling {0}{1}", QueueSettings.LogInfo,
+                            QueueSettings.MaxMessagesPerRun > 0
+                                ? string.Format(" to read a maximum of {0} messages", QueueSettings.MaxMessagesPerRun)
+                                : "");
+                        long messageCount = 0;
+                        while (!cancellationToken.IsCancellationRequested)
                         {
-                            YieldToOtherPollers();
-                            consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
-                        }
-                        catch (Exception err)
-                        {
-                            logger.ErrorException("Dequeue error ", err);
-                            throw;
-                        }
-                        logger.Trace("Dequeue completed for {0}{1}", QueueSettings.LogInfo,
-                            ea == null ? " without a message (timeout)" : " with a message");
-                        if (ea != null)
-                        {
+                            BasicDeliverEventArgs ea = null;
                             try
                             {
-                                HandleMessage(new RawMessage(ea));
-                                channel.BasicAck(ea.DeliveryTag, false);
-                                messageCount++;
-                                if (QueueSettings.MaxMessagesPerRun > 0 && messageCount >= QueueSettings.MaxMessagesPerRun)
-                                {
-                                    break;
-                                }
+                                YieldToOtherPollers();
+                                consumer.Queue.Dequeue(QueueSettings.PollingTimeoutMilliseconds, out ea);
                             }
                             catch (Exception err)
                             {
-                                channel.BasicNack(ea.DeliveryTag, false, true);
-                                logger.Error("Error on {0} with details {1}", QueueSettings.LogInfo, err);
-                                //todo: move the message out of the way!
-                                //todo: make this a bit more resilient (retries etc.)
+                                logger.ErrorException("Dequeue error ", err);
                                 throw;
                             }
+                            logger.Trace("Dequeue completed for {0}{1}", QueueSettings.LogInfo,
+                                ea == null ? " without a message (timeout)" : " with a message");
+                            if (ea != null)
+                            {
+                                try
+                                {
+                                    HandleMessage(new RawMessage(ea));
+                                    channel.BasicAck(ea.DeliveryTag, false);
+                                    messageCount++;
+                                    if (QueueSettings.MaxMessagesPerRun > 0 &&
+                                        messageCount >= QueueSettings.MaxMessagesPerRun)
+                                    {
+                                        break;
+                                    }
+                                }
+                                catch (Exception err)
+                                {
+                                    channel.BasicNack(ea.DeliveryTag, false, true);
+                                    logger.Error("Error on {0} with details {1}", QueueSettings.LogInfo, err);
+                                    //todo: move the message out of the way!
+                                    //todo: make this a bit more resilient (retries etc.)
+                                    throw;
+                                }
+                            }
+                            consecutiveRetryCount = 0;
                         }
                     }
                 }
             }
-            logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
-            activeQueuePollers.Remove(this);
+            catch (EndOfStreamException err)
+            {
+                logger.ErrorException($"Error on {QueueSettings.LogInfo}", err);
+                throw;
+            }
         }
 
         private static void YieldToOtherPollers()
