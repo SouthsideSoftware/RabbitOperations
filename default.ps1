@@ -2,12 +2,13 @@ properties {
     #can override these from command line with invoke-psake -properties @{}
     #for example, invoke-psake -properties @{configuration="debug2";platform="all"}
     #would override both configuration and platform
+    $rootDir = Resolve-Path .
     $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
     $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
     $version = "0.6.0"
     $configuration = "Debug"
     $platform = "Any CPU"
-    $buildOutputDir = "./BuildOutput"
+    $buildOutputDir = "$rootDir/BuildOutput"
     $nugetOutputDir = Join-Path $buildOutputDir "nuget"
     $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
