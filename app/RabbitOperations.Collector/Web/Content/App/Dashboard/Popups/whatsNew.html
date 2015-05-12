@@ -3,10 +3,22 @@
     <span>Press ESC to close</span>
 </div>
 <div class="modal-body">
+    <h2>0.7.0 (??)</h2>
+    <ul>
+        <li>Allow retry of failed messages.  Also tracks retries and associates them with the original message.</li>
+        <li>Improve reliability of queue poller by adding retry with exponential backoff</li>
+        <li>More compact display of queue information.</li>
+        <li>Indication of active audit and error queues</li>
+        <li>Collapsible sections in message detail viewer. Better indication of search in progress.</li>
+        <li>Improve AJAX error handling</li>
+        <li>BUG FIX: Not able to display messages bodies that are not in JSON format.</li>
+        <li>BUG FIX: Not able to display messages with empty message body.</li>
+        <
+    </ul>
     <h2>0.6.0 (April 10, 2015)</h2>
     <ul>
         <li>Link to Rabbit management console for each application</li>
-        <li>Better links for quick search.  Click on the application name for a quick search on the application.  Click on the queue name or the colored circle to do a search on the queue.</li>
+        <li>Better links for quick search. Click on the application name for a quick search on the application. Click on the queue name or the colored circle to do a search on the queue.</li>
         <li>Upgrade to latest RavenDB 3.0 stable (build 3660)</li>
     </ul>
     <h2>0.5.0 (April 9, 2015)</h2>
