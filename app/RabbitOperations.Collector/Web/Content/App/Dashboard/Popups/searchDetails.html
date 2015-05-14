@@ -1,6 +1,6 @@
 ﻿<div class="modal-header">
     <button type="button" class="close" ng-click="ok()" aria-hidden="true">×</button>
-    <h3>Message {{message.item.id}}</h3>
+    <h3>{{title}}</h3>
 </div>
 <div class="modal-body">
     <div class="table-responsive">
@@ -44,11 +44,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="retry in retries">
-                        <td>{{retry.timeSent}}</td>
-                        <td>{{retry.processingTime}}</td>
-                        <td>{{retry.totalTime}}</td>
-                        <td>{{retry.isError}} ({{retry.additionalErrorStatusString}})</td>
+                    <tr class="clickable" ng-repeat="retry in retries">
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.timeSent}}</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.processingTime}}</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.totalTime}}</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.isError}} ({{retry.additionalErrorStatusString}})</tdng-click="showRetryDetails(retry.item)">
                     </tr>
                 </tbody>
             </table>

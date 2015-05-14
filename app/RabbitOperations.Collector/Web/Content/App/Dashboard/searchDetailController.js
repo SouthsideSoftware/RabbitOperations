@@ -1,7 +1,8 @@
-﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService, searchService, retryService) {
+﻿rabbitOperationsApp.controller('searchDetailController', function($scope, $modalInstance, item, $http, notificationService, searchService, retryService, $modal) {
     $scope.displayHeaders = false;
     $scope.displayBody = true;
     $scope.displayRetries = true;
+    $scope.title = item.id > 0 ? "Message " + item.id : "Retry of Message " + item.originalId;
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
             var hours = duration.days * 24 + duration.hours;
@@ -33,12 +34,26 @@
     if (item.retries.length > 0) {
         _.each(item.retries, function (retry) {
             $scope.retries.push({
+                item: _.extend(retry, {originalId: $scope.message.item.id}),
                 isError: retry.isError,
                 timeSent: retry.timeSent !== undefined ? moment(retry.timeSent).format('MM/DD/YYYY HH:mm:ss') : '',
                 processingTime: $scope.toDisplayDuration(retry.processingTime),
                 totalTime: $scope.toDisplayDuration(retry.totalTime),
                 additionalErrorStatusString: retry.additionalErrorStatusString
             });
+        });
+    };
+
+    $scope.showRetryDetails = function (retryItem) {
+        $modal.open({
+            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
+            controller: 'searchDetailController',
+            size: 'lg',
+            resolve: {
+                item: function () {
+                    return retryItem;
+                }
+            }
         });
     };
 

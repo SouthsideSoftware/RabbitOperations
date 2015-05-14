@@ -10,7 +10,6 @@
             $scope.displayRateForQueue(application.auditQueue);
             $scope.displayRateForQueue(application.errorQueue);
         });
-        $scope.$apply();
     });
 
     $scope.$watch(function () { return queueService.applications }, function (applications) {
