@@ -13,5 +13,6 @@
         int DocumentExpirationInHours { get; }
         bool IsErrorQueue { get; }
         string LogInfo { get; }
+        ushort Prefetch { get; set; }
     }
 }

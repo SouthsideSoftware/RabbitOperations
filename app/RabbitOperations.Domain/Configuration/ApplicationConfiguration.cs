@@ -10,12 +10,13 @@ namespace RabbitOperations.Domain.Configuration
             AuditQueue = "audit";
             ErrorQueue = "error";
             RabbitConnectionString = "amqp://localhost";
-            PollingTimeoutMilliseconds = 1000;
+            PollingTimeoutMilliseconds = 500;
             HeartbeatIntervalSeconds = 10;
             MessageHandlingInstructions = new List<MessageTypeHandling>();
             AutoStartQueuePolling = false;
             DocumentExpirationInHours = 7*24;
             RabbitManagementPort = 15672;
+            Prefetch = 10;
         }
 
 
@@ -47,5 +48,6 @@ namespace RabbitOperations.Domain.Configuration
         public int DocumentExpirationInHours { get; set; }
 
         public int RabbitManagementPort { get; set; }
+        public ushort Prefetch { get; set; }
     }
 }

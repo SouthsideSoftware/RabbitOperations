@@ -48,6 +48,12 @@ namespace SendTestMessages.CommandLine
         [ArgDescription("The number of dummy messages to send per minute")]
         public int MessagesPerMinute { get; set; }
 
+        [ArgRequired(PromptIfMissing = true)]
+        [ArgShortcut("-mx")]
+        [ArgRange(0, int.MaxValue)]
+        [ArgDescription("The maximum number of messages to send (0 for infinite)")]
+        public int MaxMessages { get; set; }
+
         private CancellationToken cancellationToken = new CancellationToken();
         private Task senderTask;
         private string connectionString;
@@ -108,7 +114,8 @@ namespace SendTestMessages.CommandLine
                 var factory = new ConnectionFactory() {Uri = connectionString};
                 using (var connection = factory.CreateConnection())
                 {
-                    while (!cancellationToken.IsCancellationRequested)
+                    long messageCount = 0;
+                    while (!cancellationToken.IsCancellationRequested && (MaxMessages == 0 || messageCount < MaxMessages))
                     {
                         using (var channel = connection.CreateModel())
                         {
@@ -116,11 +123,14 @@ namespace SendTestMessages.CommandLine
                             var body = Encoding.UTF8.GetBytes(message);
 
                             channel.BasicPublish(Exchange, "", null, body);
+                            messageCount++;
                             Console.Write(".");
                         }
                         Thread.Sleep(60000/MessagesPerMinute);
                         consecutiveRetryCount = 0;
                     }
+
+                    Console.WriteLine("Done");
                 }
             }
             catch (Exception err)
