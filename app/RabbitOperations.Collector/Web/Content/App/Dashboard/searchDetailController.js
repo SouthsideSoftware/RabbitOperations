@@ -13,7 +13,6 @@
     };
 
     $scope.parseBody = function (body) {
-        var bodyToReturn;
         try {
             return JSON.parse(body);
         } catch (err) {
