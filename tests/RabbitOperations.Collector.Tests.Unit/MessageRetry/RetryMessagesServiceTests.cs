@@ -78,6 +78,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             var service = fixture.Create<RetryMessagesService>();
 
             var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.Unresolved;
             using (var session = Store.OpenSessionForDefaultTenant())
             {
                 session.Store(originalMessge);
@@ -98,6 +99,139 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             }
         }
 
+        public void ShouldLeaveStatusOfOriginalMessageUnchangedWhenRetryIsNotAllowed()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.NotAnError;
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                var message = session.Load<MessageDocument>(originalMessge.Id);
+                message.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.NotAnError);
+            }
+        }
+
+        [Test]
+        public void ShouldNotRetryWhenOriginalMessageIsResolved()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.Resolved;
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            result.RetryMessageItems.First().IsRetrying.Should().BeFalse();
+        }
+
+        [Test]
+        public void ShouldNotRetryWhenOriginalMessageIsNotAnError()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.NotAnError;
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            result.RetryMessageItems.First().IsRetrying.Should().BeFalse();
+        }
+
+        [Test]
+        public void ShouldNotRetryWhenOriginalMessageIsClosed()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.Closed;
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            result.RetryMessageItems.First().IsRetrying.Should().BeFalse();
+        }
+
+        [Test]
+        public void ShouldNotRetryWhenOriginalMessageIsRetryPending()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            var service = fixture.Create<RetryMessagesService>();
+
+            var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.RetryPending;
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                session.Store(originalMessge);
+                session.SaveChanges();
+            }
+
+            //act
+            var result = service.Retry(new RetryMessageModel
+            {
+                RetryIds = new List<long> { originalMessge.Id }
+            });
+
+            //assert
+            result.RetryMessageItems.First().IsRetrying.Should().BeFalse();
+        }
+
         [Test]
         public void ShouldRetainAllHeadersOfOriginalMessageAfterRetry()
         {
@@ -107,6 +241,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             var service = fixture.Create<RetryMessagesService>();
 
             var originalMessge = new MessageDocument();
+            originalMessge.AdditionalErrorStatus = AdditionalErrorStatus.Unresolved;
             using (var session = Store.OpenSessionForDefaultTenant())
             {
                 session.Store(originalMessge);

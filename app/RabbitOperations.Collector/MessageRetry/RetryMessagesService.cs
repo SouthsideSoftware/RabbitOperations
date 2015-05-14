@@ -46,43 +46,59 @@ namespace RabbitOperations.Collector.MessageRetry
                 var originalMessage = GetOriginalMessageIfExists(retryId, result);
                 if (originalMessage == null) continue;
 
-                var rawMessage = new RawMessage(originalMessage);
-                var destination = determineRetryDestinationService.GetRetryDestination(rawMessage,
-                    retryMessageModel.UserSuppliedRetryDestination);
-                createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
-                addRetryTrackingHeadersService.AddTrackingHeaders(rawMessage, retryId);
-                IBasicProperties basicProperties = createBasicPropertiesService.Create(rawMessage);
-                var errorMessage = sendMessagesService.Send(rawMessage, destination, originalMessage.ApplicationId,
-                    basicProperties);
-                if (errorMessage == null)
+                if (originalMessage.AdditionalErrorStatus != AdditionalErrorStatus.Unresolved)
                 {
-                    using (var session = documentStore.OpenSessionForDefaultTenant())
-                    {
-                        originalMessage.AdditionalErrorStatus = AdditionalErrorStatus.RetryPending;
-                        session.Store(originalMessage);
-                        session.SaveChanges();
-                    }
                     result.RetryMessageItems.Add(new RetryMessageItem
                     {
-                        IsRetrying = true,
+                        IsRetrying = false,
                         RetryId = retryId,
-                        RetryQueue = destination,
-                        AdditionalInfo = null,
+                        RetryQueue = null,
+                        AdditionalInfo = "Message is in an invalid state for retry",
                         AdditionalErrorStatusOfOriginalMessage = originalMessage.AdditionalErrorStatusString,
                         CanRetryOriginalMessage = originalMessage.CanRetry
                     });
                 }
                 else
                 {
-                    result.RetryMessageItems.Add(new RetryMessageItem
+
+                    var rawMessage = new RawMessage(originalMessage);
+                    var destination = determineRetryDestinationService.GetRetryDestination(rawMessage,
+                        retryMessageModel.UserSuppliedRetryDestination);
+                    createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
+                    addRetryTrackingHeadersService.AddTrackingHeaders(rawMessage, retryId);
+                    IBasicProperties basicProperties = createBasicPropertiesService.Create(rawMessage);
+                    var errorMessage = sendMessagesService.Send(rawMessage, destination, originalMessage.ApplicationId,
+                        basicProperties);
+                    if (errorMessage == null)
                     {
-                        IsRetrying = false,
-                        RetryId = retryId,
-                        RetryQueue = destination,
-                        AdditionalInfo = errorMessage,
-                        AdditionalErrorStatusOfOriginalMessage = originalMessage.AdditionalErrorStatusString,
-                        CanRetryOriginalMessage = originalMessage.CanRetry
-                    });
+                        using (var session = documentStore.OpenSessionForDefaultTenant())
+                        {
+                            originalMessage.AdditionalErrorStatus = AdditionalErrorStatus.RetryPending;
+                            session.Store(originalMessage);
+                            session.SaveChanges();
+                        }
+                        result.RetryMessageItems.Add(new RetryMessageItem
+                        {
+                            IsRetrying = true,
+                            RetryId = retryId,
+                            RetryQueue = destination,
+                            AdditionalInfo = null,
+                            AdditionalErrorStatusOfOriginalMessage = originalMessage.AdditionalErrorStatusString,
+                            CanRetryOriginalMessage = originalMessage.CanRetry
+                        });
+                    }
+                    else
+                    {
+                        result.RetryMessageItems.Add(new RetryMessageItem
+                        {
+                            IsRetrying = false,
+                            RetryId = retryId,
+                            RetryQueue = destination,
+                            AdditionalInfo = errorMessage,
+                            AdditionalErrorStatusOfOriginalMessage = originalMessage.AdditionalErrorStatusString,
+                            CanRetryOriginalMessage = originalMessage.CanRetry
+                        });
+                    }
                 }
             }
 
