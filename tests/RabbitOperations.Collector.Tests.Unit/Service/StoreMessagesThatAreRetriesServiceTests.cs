@@ -3,14 +3,16 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
+using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 using RabbitOperations.Collector.MessageParser.Interfaces;
-using RabbitOperations.Collector.MessageParser.NServiceBus;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Domain;
 using RabbitOperations.Domain.Configuration;
 using SouthsideUtility.RavenDB.Testing;
+using Headers = RabbitOperations.Collector.MessageBusTechnologies.Common.Headers;
 
 namespace RabbitOperations.Collector.Tests.Unit.Service
 {
@@ -28,7 +30,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         {
             //arrange
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "test");
+            rawMessage.Headers.Add(Headers.Retry, "test");
 
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             fixture.Register(() => Store);
@@ -55,7 +57,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         {
             //arrange
             var rawMessage = MessageTestHelpers.GetAuditMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "test");
+            rawMessage.Headers.Add(Headers.Retry, "test");
 
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             fixture.Register(() => Store);
@@ -92,7 +94,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, originalId.ToString());
+            rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
             var id = service.Store(rawMessage, queueSettings);
@@ -121,7 +123,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
 
             var rawMessage = MessageTestHelpers.GetAuditMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, originalId.ToString());
+            rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
             var id = service.Store(rawMessage, queueSettings);
@@ -150,7 +152,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, originalId.ToString());
+            rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
             var id = service.Store(rawMessage, queueSettings);
@@ -181,7 +183,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
 
             var rawMessage = MessageTestHelpers.GetAuditMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, originalId.ToString());
+            rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
             var id = service.Store(rawMessage, queueSettings);
@@ -212,7 +214,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, originalId.ToString());
+            rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
             var id = service.Store(rawMessage, queueSettings);
@@ -241,7 +243,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
 
             var rawMessage = MessageTestHelpers.GetAuditMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, originalId.ToString());
+            rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
             var id = service.Store(rawMessage, queueSettings);

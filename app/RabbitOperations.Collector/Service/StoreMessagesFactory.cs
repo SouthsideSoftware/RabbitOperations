@@ -1,3 +1,4 @@
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.Service.Interfaces;
@@ -9,7 +10,7 @@ namespace RabbitOperations.Collector.Service
     {
         public IStoreMessages MessageStorageServiceFor(IRawMessage message)
         {
-            if (message.Headers.ContainsKey(AddRetryTrackingHeadersService.RetryHeader))
+            if (message.Headers.ContainsKey(Headers.Retry))
             {
                 return
                     ServiceLocator.Container.Resolve<IStoreMessages>(

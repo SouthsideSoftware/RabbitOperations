@@ -1,5 +1,6 @@
 ﻿using System;
 using NLog;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 
@@ -7,12 +8,10 @@ namespace RabbitOperations.Collector.MessageRetry
 {
     public class AddRetryTrackingHeadersService : IAddRetryTrackingHeaders
     {
-        public static string RetryHeader = "RabbitOperations.RetryId";
-
         public void AddTrackingHeaders(IRawMessage rawMessage, long retryId)
         {
-            rawMessage.Headers.Remove(RetryHeader);
-            rawMessage.Headers.Add(RetryHeader, retryId.ToString());
+            rawMessage.Headers.Remove(Headers.Retry);
+            rawMessage.Headers.Add(Headers.Retry, retryId.ToString());
         }
     }
 }

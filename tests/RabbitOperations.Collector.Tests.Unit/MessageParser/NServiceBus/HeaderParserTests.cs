@@ -5,10 +5,12 @@ using System.IO;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
+using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 using RabbitOperations.Collector.MessageParser;
-using RabbitOperations.Collector.MessageParser.NServiceBus;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Domain;
+using Headers = RabbitOperations.Collector.MessageBusTechnologies.Common.Headers;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
 {
@@ -378,7 +380,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             var rawMessage = MessageTestHelpers.GetErrorMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
-            doc.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "foo");
+            doc.Headers.Add(Headers.Retry, "foo");
 
             //act
             headerParser.AddHeaderInformation(rawMessage, doc);
@@ -394,7 +396,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             var rawMessage = MessageTestHelpers.GetAuditMessage();
             var headerParser = new HeaderParser();
             var doc = new MessageDocument();
-            doc.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "foo");
+            doc.Headers.Add(Headers.Retry, "foo");
 
             //act
             headerParser.AddHeaderInformation(rawMessage, doc);

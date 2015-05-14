@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using RabbitOperations.Collector.MessageParser.Interfaces;
+﻿using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.MessageRetry.NServiceBus
+namespace RabbitOperations.Collector.MessageBusTechnologies.NServiceBus
 {
     public class DetermineRetryDestinationService : IDetermineRetryDestination
     {

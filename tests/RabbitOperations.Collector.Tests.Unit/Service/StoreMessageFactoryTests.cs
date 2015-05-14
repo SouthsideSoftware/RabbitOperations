@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.CastleWindsor;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.Service;
@@ -40,7 +41,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var factory = new StoreMessagesFactory();
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "test");
+            rawMessage.Headers.Add(Headers.Retry, "test");
 
             //act
             var service = factory.MessageStorageServiceFor(rawMessage);

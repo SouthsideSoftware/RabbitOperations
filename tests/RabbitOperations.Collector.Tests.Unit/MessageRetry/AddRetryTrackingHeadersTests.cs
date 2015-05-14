@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.MessageRetry;
 
@@ -28,7 +29,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 
             //assert
             rawMessage.Headers.Should()
-                .Contain(new KeyValuePair<string, string>(AddRetryTrackingHeadersService.RetryHeader, "101"));
+                .Contain(new KeyValuePair<string, string>(Headers.Retry, "101"));
         }
 
         [Test]
@@ -36,7 +37,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         {
             //arrange
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Add(AddRetryTrackingHeadersService.RetryHeader, "99");
+            rawMessage.Headers.Add(Headers.Retry, "99");
 
             var retryHeaderService = new AddRetryTrackingHeadersService();
 
@@ -45,7 +46,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 
             //assert
             rawMessage.Headers.Should()
-                .Contain(new KeyValuePair<string, string>(AddRetryTrackingHeadersService.RetryHeader, "101"));
+                .Contain(new KeyValuePair<string, string>(Headers.Retry, "101"));
         }
     }
 }

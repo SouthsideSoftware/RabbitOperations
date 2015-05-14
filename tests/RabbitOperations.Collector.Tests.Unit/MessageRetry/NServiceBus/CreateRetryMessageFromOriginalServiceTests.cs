@@ -1,16 +1,46 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using RabbitOperations.Collector.MessageParser;
-using RabbitOperations.Collector.MessageRetry.NServiceBus;
+using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
 {
     public class CreateRetryMessageFromOriginalServiceTests
     {
+        [Test]
+        public void ShouldSetTimeSentHeaderToTimeOfRetry()
+        {
+            //arrange
+            var utcNow = DateTime.UtcNow.AddSeconds(-1);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+            var creator = new CreateRetryMessageFromOriginalService();
+
+            //act
+            creator.PrepareMessageForRetry(rawMessage);
+
+            //assert
+            Helpers.ToUniversalDateTime(rawMessage.Headers[Headers.TimeSent]).Should().BeAfter(utcNow);
+        }
+
+        [Test]
+        public void ShouldSetTimeSentHeaderToTimeOfRetryWhenOriginalIsMissingTimeSent()
+        {
+            //arrange
+            var utcNow = DateTime.UtcNow.AddSeconds(-1);
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+            rawMessage.Headers.Remove(Headers.TimeSent);
+            var creator = new CreateRetryMessageFromOriginalService();
+
+            //act
+            creator.PrepareMessageForRetry(rawMessage);
+
+            //assert
+            Helpers.ToUniversalDateTime(rawMessage.Headers[Headers.TimeSent]).Should().BeAfter(utcNow);
+        }
+
         [Test]
         public void ShouldRemoveDiagnosticHeaders()
         {

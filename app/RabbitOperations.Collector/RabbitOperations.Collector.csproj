@@ -164,17 +164,20 @@
     <Compile Include="Host\Interfaces\IWebHost.cs" />
     <Compile Include="Host\QueuePollerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
+    <Compile Include="MessageBusTechnologies\Common\Headers.cs" />
+    <Compile Include="MessageBusTechnologies\NServiceBus\Headers.cs" />
+    <Compile Include="MessageBusTechnologies\NServiceBus\Helpers.cs" />
     <Compile Include="MessageRetry\AddRetryTrackingHeadersService.cs" />
-    <Compile Include="MessageRetry\NServiceBus\CreateBasicPropertiesService.cs" />
+    <Compile Include="MessageBusTechnologies\NServiceBus\CreateBasicPropertiesService.cs" />
     <Compile Include="MessageRetry\Interfaces\IAddRetryTrackingHeaders.cs" />
     <Compile Include="MessageRetry\Interfaces\ICreateBasicProperties.cs" />
     <Compile Include="MessageRetry\Interfaces\ISendMessages.cs" />
     <Compile Include="MessageRetry\SendMessagesService.cs" />
-    <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestinationService.cs" />
+    <Compile Include="MessageBusTechnologies\NServiceBus\DetermineRetryDestinationService.cs" />
     <Compile Include="MessageRetry\Interfaces\ICreateRetryMessagesFromOriginal.cs" />
     <Compile Include="MessageRetry\Interfaces\IDetermineRetryDestination.cs" />
     <Compile Include="MessageRetry\Interfaces\IRetryMessages.cs" />
-    <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginalService.cs" />
+    <Compile Include="MessageBusTechnologies\NServiceBus\CreateRetryMessageFromOriginalService.cs" />
     <Compile Include="MessageRetry\RetryMessagesService.cs" />
     <Compile Include="Models\RetryMessageItem.cs" />
     <Compile Include="Models\RetryMessageModel.cs" />
@@ -224,7 +227,7 @@
     <Compile Include="MessageParser\Interfaces\IHeaderParser.cs" />
     <Compile Include="MessageParser\Interfaces\IKeyExtractor.cs" />
     <Compile Include="MessageParser\KeyExtractor.cs" />
-    <Compile Include="MessageParser\NServiceBus\HeaderParser.cs" />
+    <Compile Include="MessageBusTechnologies\NServiceBus\HeaderParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RavenDB\DocumentStoreExtensions.cs" />
@@ -283,9 +286,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MessageParser\NServiceBus\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\RabbitOperations.Domain\RabbitOperations.Domain.csproj">
       <Project>{c578c1da-f710-4e0f-83fc-04fb6905ae92}</Project>

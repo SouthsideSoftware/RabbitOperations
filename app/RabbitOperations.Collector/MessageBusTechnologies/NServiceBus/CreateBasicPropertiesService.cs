@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Framing;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Domain;
 
-namespace RabbitOperations.Collector.MessageRetry.NServiceBus
+namespace RabbitOperations.Collector.MessageBusTechnologies.NServiceBus
 {
     public class CreateBasicPropertiesService : ICreateBasicProperties
     {

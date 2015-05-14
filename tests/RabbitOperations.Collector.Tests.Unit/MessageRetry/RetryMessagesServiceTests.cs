@@ -12,13 +12,14 @@ using Moq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
-using RabbitOperations.Collector.MessageParser.NServiceBus;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
+using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
-using RabbitOperations.Collector.MessageRetry.NServiceBus;
 using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Domain;
 using Raven.Client;
+using Headers = RabbitOperations.Collector.MessageBusTechnologies.Common.Headers;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 {
@@ -297,7 +298,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         private static void AssertRetriedMessageHeadersExcludingRetryIdSameAsOriginal(MessageDocument message,
             MessageDocument originalMessge)
         {
-            message.Headers.Remove(AddRetryTrackingHeadersService.RetryHeader);
+            message.Headers.Remove(Headers.Retry);
             message.Headers.ShouldBeEquivalentTo(originalMessge.Headers);
         }
 

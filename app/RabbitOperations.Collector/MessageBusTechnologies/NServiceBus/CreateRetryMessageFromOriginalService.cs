@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.MessageRetry.NServiceBus
+namespace RabbitOperations.Collector.MessageBusTechnologies.NServiceBus
 {
     public class CreateRetryMessageFromOriginalService : ICreateRetryMessagesFromOriginal
     {
@@ -16,6 +17,13 @@ namespace RabbitOperations.Collector.MessageRetry.NServiceBus
             RemoveTimeoutHeaders(rawMessage);
             RemoveRetryHeaders(rawMessage);
             RemoveProcessingHeaders(rawMessage);
+            SetTimeSent(rawMessage);
+        }
+
+        private void SetTimeSent(IRawMessage rawMessage)
+        {
+            rawMessage.Headers[Collector.MessageBusTechnologies.NServiceBus.Headers.TimeSent] =
+                ToNServiceBusDateTime(DateTime.UtcNow);
         }
 
         private static void RemoveDiagnosticHeaders(IRawMessage rawMessage)
@@ -26,6 +34,11 @@ namespace RabbitOperations.Collector.MessageRetry.NServiceBus
             {
                 rawMessage.Headers.Remove(key);
             }
+        }
+
+        private static string ToNServiceBusDateTime(DateTime dateTime)
+        {
+            return dateTime.ToString(Headers.DateTime);
         }
 
         private static void RemoveExceptionHeaders(IRawMessage rawMessage)

@@ -4,8 +4,8 @@ using System.Linq;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 using RabbitOperations.Collector.MessageParser;
-using RabbitOperations.Collector.MessageRetry.NServiceBus;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
 {

@@ -2,7 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using RabbitOperations.Collector.MessageRetry.NServiceBus;
+using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
 {

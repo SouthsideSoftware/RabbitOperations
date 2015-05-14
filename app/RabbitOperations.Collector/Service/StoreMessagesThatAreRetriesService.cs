@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NLog;
+using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.RavenDB;
@@ -38,7 +39,7 @@ namespace RabbitOperations.Collector.Service
             var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
 
             long originalId = -1;
-            long.TryParse(message.Headers[AddRetryTrackingHeadersService.RetryHeader], out originalId);
+            long.TryParse(message.Headers[Headers.Retry], out originalId);
             long documentIdToReturn = -1;
 
             using (var session = documentStore.OpenSessionForDefaultTenant())
