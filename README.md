@@ -6,7 +6,7 @@ message bus libraries.  Right now it only supports NServiceBus.  We are also pla
 The application reads messages from audit and error queues into
 RavenDB, a document database with excellent indexing capabilities built
 on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
-searching and monitors message rates. It also links to the RabbiMQ management console. Future plans include support for trend analysis, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. 
+searching and monitors message rates. It also links to the RabbiMQ management console. Next up is support for MassTransit and Rebus. Future plans include support for trend analysis, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. 
 
 Check out our [Trello board](https://trello.com/b/m0ZLn5d7/rabbitoperations) to see what is in development and what is being planned.
 
