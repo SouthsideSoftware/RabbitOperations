@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Rabbitoperations by SouthsideSoftware</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Rabbitoperations</h1>
+          <h2>Operations support for RabbitMQ applications</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/SouthsideSoftware/RabbitOperations/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/SouthsideSoftware/RabbitOperations/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/SouthsideSoftware/RabbitOperations" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="rabbit-operations" class="anchor" href="#rabbit-operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rabbit Operations</h1>
+
+<p>Operations support for RabbitMQ applications including integration with popular
+message bus libraries.  Right now it only supports NServiceBus.  We are also planning to support Rebus and MassTransit.</p>
+
+<p>The application reads messages from audit and error queues into
+RavenDB, a document database with excellent indexing capabilities built
+on Lucene.Net. Message content is automatically indexed for searching. The built-in web front end supports
+searching and monitors message rates. It also links to the RabbiMQ management console. Future plans include support for trend analysis, tailing, monitoring, heart beating and integration with New Relic and PagerDuty. </p>
+
+<p>Check out our <a href="https://trello.com/b/m0ZLn5d7/rabbitoperations">Trello board</a> to see what is in development and what is being planned.</p>
+
+<p><img src="/docs/images/screenshot.png?raw=true" alt="Screen" title="Screenshot"></p>
+
+<h2>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<p>Your application should send successfully processed messages to the audit queue and any message that fails processing to the error queue. Popular .NET message bus libraries, like NServiceBus, MassTransit and Rebus either do this by default or can be configured to do so.</p>
+
+<h2>
+<a id="getting-started-for-developers" class="anchor" href="#getting-started-for-developers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started For Developers</h2>
+
+<p><em>You must have Visual Studio 2015 or Microsoft Build Tools 2015 installed to build the application. Although it currently requires only the .NET 4.5 framework, it uses some C# 6.0 features that require the latest C# compiler</em></p>
+
+<p>Install psake on your machine.  You can get it from the <a href="https://github.com/psake/psake">psake repository</a> or install it via <a href="https://chocolatey.org/packages/psake">Choclatey</a>:</p>
+
+<pre><code>choco install psake
+</code></pre>
+
+<p>Open a Powershell window and issue the command to build and run tests.  If you installed psake from the repository:</p>
+
+<pre><code>invoke-psake
+</code></pre>
+
+<p>Or, if you installed it via Choclatey:</p>
+
+<pre><code>psake
+</code></pre>
+
+<p>If you want to build from Visual Studio, you will need to add the following to your nuget.config file:</p>
+
+<pre><code>&lt;packageSources&gt;
+   &lt;add key="nuget.org" value="https://www.myget.org/F/southside/" /&gt;
+&lt;/packageSources&gt;
+</code></pre>
+
+<p>Check out the <a href="https://docs.nuget.org/consume/nuget-config-file">nuget docs</a> for more information on editing the nuget.config file.</p>
+
+<p>You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake.  If you installed psake via the repository, use:</p>
+
+<pre><code>invoke-psake startCollector
+</code></pre>
+
+<p>Or, if you installed it from Choclatey:</p>
+
+<pre><code>psake startCollector
+</code></pre>
+
+<h2>
+<a id="documentation-and-release-notes" class="anchor" href="#documentation-and-release-notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation and Release Notes</h2>
+
+<p>Documentation is available in the <a href="https://github.com/SouthsideSoftware/RabbitOperations/wiki">wiki</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPL v3</a></p>
+
+<h2>
+<a id="use-of-ravendb" class="anchor" href="#use-of-ravendb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use of RavenDB</h2>
+
+<p>RavenDB is embedded by default. Ayende has graciously agreed to provide a license for this purpose. You can also
+use an external RavenDB if you like. If you use RavenDB externally, you will have to obtain an appropriate license
+from their <a href="http://www.ravendb.org">website</a>.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Pull requests are welcome. If you want to get involved in the project,
+there is room for one or two more core contributors. There are many interesting challenges remaining.
+Please contact <a href="mailto:tom@cabanski.com">tom@cabanski.com</a> for more information.</p>
+        </section>
+
+        <footer>
+          Rabbitoperations is maintained by <a href="https://github.com/SouthsideSoftware">SouthsideSoftware</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
