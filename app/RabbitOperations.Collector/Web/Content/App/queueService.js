@@ -1,6 +1,6 @@
 ﻿rabbitOperationsApp.service('queueService', function ($http, notificationService) {
-    var self = this; 
-    
+    var self = this;
+
     this.applications = [];
 
     $http.get("/api/v1/QueuePollers").success(function (data, status, headers, config) {
@@ -12,15 +12,16 @@
                     applicationId: queue.queueSettings.applicationId,
                     applicationName: queue.queueSettings.applicationName,
                     rabbitManagementWebUrl: queue.queueSettings.rabbitManagementWebUrl,
-                    auditQueue: { shortName: "audit", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", queueName: "" },
-                    errorQueue: { shortName: "error", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", queueName: "" }
+                    queues: []
                 };
+                found.queues[0] = { shortName: "audit", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", queueName: "", applicationId: found.applicationId, isErrorQueue: false },
+                found.queues[1] = { shortName: "error", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", queueName: "", applicationId: found.applicationId, isErrorQueue: true }
                 newApplications.push(found);
             }
             if (queue.queueSettings.isErrorQueue) {
-                found.errorQueue.queueName = queue.queueSettings.queueName;
+                found.queues[1].queueName = queue.queueSettings.queueName;
             } else {
-                found.auditQueue.queueName = queue.queueSettings.queueName;
+                found.queues[0].queueName = queue.queueSettings.queueName;
             }
         });
         self.applications = newApplications;

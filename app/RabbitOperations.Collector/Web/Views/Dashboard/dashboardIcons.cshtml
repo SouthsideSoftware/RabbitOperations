@@ -3,14 +3,12 @@
 @using RabbitOperations.Collector.Web
 @using RabbitOperations.Collector.Web.Helpers
 <div class="row" ng-controller="dashboardController">
-    <div class=""></div>
     <h4>
         Queues
         <span ng-click="displayStats = true" ng-show="!displayStats" class="clickable">[+]</span>
         <span ng-click="displayStats = false" ng-show="displayStats" class="clickable">[-]</span>
     </h4>
     <div collapse="!displayStats">
-
         <div class="input-group">
             <span>Message rates averaged over:&nbsp;</span>
             <div class="btn-group">
@@ -19,8 +17,20 @@
                 <label class="btn btn-primary" ng-model="displayRate" btn-radio="15">15 min</label>
                 <label class="btn btn-primary" ng-model="displayRate" btn-radio="mean">Lifetime</label>
             </div>
+            <span style="margin-left: 5px">Tabular View (more compact):</span>
+            <input type="checkbox" ng-model="tabularDisplay">
         </div>
-        <div class="col-lg-6 col-sm-6">
+        <div ng-repeat="application in applications" class="col-lg-2 col-sm-4" ng-show="!tabularDisplay">
+            <nvd3 ng-show="hasPieData(application)"options="options" data="application.queues"></nvd3>
+            <div ng-show="!hasPieData(application)" class="piePlaceholder">
+                <div ng-click="quickSearch(application.applicationId, false)">
+                    <span class="link">Audit: {{application.queues[0].displayRate}}/sec</span><br>
+                    <span class="link">Error: {{application.queues[1].displayRate}}/sec</span>
+                </div>
+            </div>
+            <div class="link subSection-title" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</div>
+        </div>
+        <div class="col-lg-6 col-sm-6" ng-show="tabularDisplay">
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
@@ -32,13 +42,13 @@
                 <tbody>
                 <tr ng-repeat="application in evenApplications">
                     <td class="link" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</td>
-                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.auditQueue.oldCount !== undefined && application.auditQueue.oldCount !== application.auditQueue.count}">{{application.auditQueue.displayRate}}/s</td>
-                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.errorQueue.oldCount !== undefined && application.errorQueue.oldCount !== application.errorQueue.count}">{{application.errorQueue.displayRate}}/s</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.queues[0].oldCount !== undefined && application.queues[0].oldCount !== application.queues[0].count}">{{application.queues[0].displayRate}}/s</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.queues[1].oldCount !== undefined && application.queues[1].oldCount !== application.queues[1].count}">{{application.queues[1].displayRate}}/s</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-6 col-sm-6">
+        <div class="col-lg-6 col-sm-6" ng-show="tabularDisplay">
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
@@ -50,8 +60,8 @@
                 <tbody>
                 <tr ng-repeat="application in oddApplications">
                     <td class="link" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</td>
-                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.auditQueue.oldCount !== undefined && application.auditQueue.oldCount !== application.auditQueue.count}">{{application.auditQueue.displayRate}}/s</td>
-                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.errorQueue.oldCount !== undefined && application.errorQueue.oldCount !== application.errorQueue.count}">{{application.errorQueue.displayRate}}/s</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.queues[0].oldCount !== undefined && application.queues[0].oldCount !== application.queues[0].count}">{{application.queues[0].displayRate}}/s</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.queues[1].oldCount !== undefined && application.queues[1].oldCount !== application.queues[1].count}">{{application.queues[1].displayRate}}/s</td>
                 </tr>
                 </tbody>
             </table>
@@ -59,11 +69,11 @@
         <table class="table table-striped table-condensed">
         </table>
         <div class="col-lg-2 col-xs-3 col-sm-2 placeholder" ng-repeat="queue in queues">
-            <div ng-class="{greenHolder: !queue.queueSettings.isErrorQueue, redHolder: queue.queueSettings.isErrorQueue}" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isErrorQueue)" alt="Generic placeholder thumbnail" holder-fix>
+            <div ng-class="{greenHolder: !queue.queueSettings.isqueues[1], redHolder: queue.queueSettings.isqueues[1]}" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isqueues[1])" alt="Generic placeholder thumbnail" holder-fix>
                 <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span>
             </div>
             <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId)"><h4>{{queue.queueSettings.applicationName}}</h4></span>
-            <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isErrorQueue)" class="text-muted">{{queue.queueSettings.isErrorQueue ? 'Error' : 'Audit'}}</span>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isqueues[1])" class="text-muted">{{queue.queueSettings.isqueues[1] ? 'Error' : 'Audit'}}</span>
         </div>
     </div>
 </div>

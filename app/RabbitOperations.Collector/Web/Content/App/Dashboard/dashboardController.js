@@ -4,11 +4,46 @@
     $scope.evenApplication = [];
     $scope.oddApplications = [];
     $scope.displayRate = 1;
+    $scope.tabularDisplay = true;
+
+    $scope.options = {
+        chart: {
+            type: 'pieChart',
+            height: 150,
+            donut: false,
+            x: function(d) { return d.shortName; },
+            y: function(d) { return d.displayRate; },
+            showLabels: true,
+            labelType: "value",
+            pie: {
+                //startAngle: function(d) { return d.startAngle / 2 - Math.PI / 2 },
+                //endAngle: function(d) { return d.endAngle / 2 - Math.PI / 2 },
+                dispatch: {
+                    elementClick: function(e) { $scope.pieSegmentClicked(e); }
+                },
+                color: ['green', 'red']
+            },
+            transitionDuration: 500,
+            showLegend: false
+}
+    };
+
+    $scope.hasPieData = function(application) {
+        var someZero = _.some(application.queues, function(queue){
+            return (queue === undefined || queue.displayRate === "--" || queue.displayRate == 0);
+        });
+
+        return !someZero;
+    }
+
+    $scope.pieSegmentClicked = function(e) {
+        $scope.quickSearch(e.point.applicationId, e.point.isErrorQueue);
+    };
 
     $scope.$watch(function() { return $scope.displayRate }, function(displayRate) {
         _.each($scope.applications, function(application) {
-            $scope.displayRateForQueue(application.auditQueue);
-            $scope.displayRateForQueue(application.errorQueue);
+            $scope.displayRateForQueue(application.queues[0]);
+            $scope.displayRateForQueue(application. queues[1]);
         });
     });
 
@@ -56,10 +91,10 @@
                     }
                     var application = _.find($scope.applications, function(application) {
                         var queue = undefined;
-                        if (application.applicationId === parts[0] && application.auditQueue.queueName === targetQueueName) {
-                            queue = application.auditQueue;
-                        } else if (application.applicationId === parts[0] && application.errorQueue.queueName === targetQueueName) {
-                            queue = application.errorQueue;
+                        if (application.applicationId === parts[0] && application.queues[0].queueName === targetQueueName) {
+                            queue = application.queues[0];
+                        } else if (application.applicationId === parts[0] && application.queues[1].queueName === targetQueueName) {
+                            queue = application.queues[1];
                         }
                         if (queue !== undefined) {
                             queue.oneMinuteRate = element.Value.OneMinuteRate.toFixed(2);
@@ -71,7 +106,7 @@
                             $scope.displayRateForQueue(queue);
                             $scope.$apply();
                         }
-                    
+
                    });
                 }
             }
