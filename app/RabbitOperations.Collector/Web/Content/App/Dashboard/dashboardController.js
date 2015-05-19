@@ -80,6 +80,19 @@
      };
 
     $scope.displayRateForQueue = function(queue) {
+        if (queue.count > queue.oldCount){
+            if (queue.isErrorQueue){
+                queue.gaugeColor = ["#FF3300"];
+            } else {
+                queue.gaugeColor = ["#66FF66"];
+            }
+        } else {
+            if (queue.isErrorQueue) {
+                queue.gaugeColor = ["#A32900"];
+            } else {
+                queue.gaugeColor = ["#009933"];
+            }
+        }
         switch ($scope.displayRate) {
         case 1:
             queue.displayRate = queue.oneMinuteRate;
@@ -96,19 +109,6 @@
         }
         if (Number(queue.displayRate) > Number(queue.maxRate)){
             queue.maxRate = Number(queue.displayRate);
-        }
-        if (queue.count > queue.oldCount){
-            if (queue.isErrorQueue){
-                queue.gaugeColor = ["#FF3300"];
-            } else {
-                queue.gaugeColor = ["#66FF66"];
-            }
-        } else {
-            if (queue.isErrorQueue) {
-                queue.gaugeColor = ["#A32900"];
-            } else {
-                queue.gaugeColor = ["#009933"];
-            }
         }
     };
 
