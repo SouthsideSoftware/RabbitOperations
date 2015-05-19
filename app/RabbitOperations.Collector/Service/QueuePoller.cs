@@ -97,11 +97,11 @@ namespace RabbitOperations.Collector.Service
         private TimeSpan GetRetryDelay()
         {
             consecutiveRetryCount++;
-            if (consecutiveRetryCount <= 5)
+            if (consecutiveRetryCount <= 6)
             {
                 return TimeSpan.FromSeconds(Math.Pow(2, consecutiveRetryCount));
             }
-            return TimeSpan.FromSeconds(Math.Pow(2, 5));
+            return TimeSpan.FromSeconds(Math.Pow(2, 6));
         }
 
         private void InnerPoll()
