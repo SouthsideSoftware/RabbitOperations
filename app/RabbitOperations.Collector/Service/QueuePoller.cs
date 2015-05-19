@@ -77,7 +77,7 @@ namespace RabbitOperations.Collector.Service
         public void Poll()
         {
             activeQueuePollers.Add(this);
-            //will retry for about 3.5 days
+            //will retry for a little less than 7 days
             var retryPolicy = Policy
                 .Handle<Exception>()
                 .WaitAndRetry(10000, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>

@@ -1,1 +1,1 @@
-﻿var rabbitOperationsApp = angular.module('rabbitOperationsApp', ['ui.bootstrap', 'hljs', 'nvd3']);
+﻿var rabbitOperationsApp = angular.module('rabbitOperationsApp', ['ui.bootstrap', 'hljs', 'frapontillo.gage']);

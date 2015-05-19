@@ -6,40 +6,6 @@
     $scope.displayRate = 1;
     $scope.tabularDisplay = true;
 
-    $scope.options = {
-        chart: {
-            type: 'pieChart',
-            height: 150,
-            donut: false,
-            x: function(d) { return d.shortName; },
-            y: function(d) { return d.displayRate; },
-            showLabels: true,
-            labelType: "value",
-            pie: {
-                //startAngle: function(d) { return d.startAngle / 2 - Math.PI / 2 },
-                //endAngle: function(d) { return d.endAngle / 2 - Math.PI / 2 },
-                dispatch: {
-                    elementClick: function(e) { $scope.pieSegmentClicked(e); }
-                },
-                color: ['green', 'red']
-            },
-            transitionDuration: 500,
-            showLegend: false
-}
-    };
-
-    $scope.hasPieData = function(application) {
-        var someZero = _.some(application.queues, function(queue){
-            return (queue === undefined || queue.displayRate === "--" || queue.displayRate == 0);
-        });
-
-        return !someZero;
-    }
-
-    $scope.pieSegmentClicked = function(e) {
-        $scope.quickSearch(e.point.applicationId, e.point.isErrorQueue);
-    };
-
     $scope.$watch(function() { return $scope.displayRate }, function(displayRate) {
         _.each($scope.applications, function(application) {
             $scope.displayRateForQueue(application.queues[0]);
@@ -128,9 +94,74 @@
             queue.displayRate = queue.meanRate;
             break;
         }
+        if (Number(queue.displayRate) > Number(queue.maxRate)){
+            queue.maxRate = Number(queue.displayRate);
+        }
+        if (queue.count > queue.oldCount){
+            queue.gaugeColor = ["#00ff00"];
+        } else {
+            queue.gaugeColor = ["#7FFFD4"];
+        }
     };
 
-  // Start the connection.
-  $.connection.hub.start().done(function () {
-  });
+    // Start the connection.
+    $.connection.hub.start().done(function () {
+    });
+
+    $scope.title = 'My gauge';
+    $scope.titleFontColor = 'blue';
+
+    $scope.value = 1234.358;
+    $scope.valueFontColor = 'red';
+
+    $scope.min = 0;
+    $scope.max = 3;
+
+    $scope.valueMinFontSize = undefined;
+    $scope.titleMinFontSize = undefined;
+    $scope.labelMinFontSize = undefined;
+    $scope.minLabelMinFontSize = undefined;
+    $scope.maxLabelMinFontSize = undefined;
+
+    $scope.hideValue = false;
+    $scope.hideMinMax = false;
+    $scope.hideInnerShadow = false;
+
+    $scope.width = undefined;
+    $scope.height = undefined;
+    $scope.relativeGaugeSize = undefined;
+
+    $scope.gaugeWidthScale = 0.5;
+    $scope.gaugeColor = 'grey';
+
+    $scope.showInnerShadow = true;
+    $scope.shadowOpacity = 0.5;
+    $scope.shadowSize = 3;
+    $scope.shadowVerticalOffset = 10;
+
+    $scope.levelColors = ['#00ff00'];
+
+    $scope.noGradient = false;
+
+    $scope.label = 'Green label';
+    $scope.labelFontColor = 'green';
+
+    $scope.startAnimationTime = 0;
+    $scope.startAnimationType = undefined;
+    $scope.refreshAnimationTime = 0;
+    $scope.refreshAnimationType = undefined;
+
+    $scope.donut = undefined;
+    $scope.donutAngle = 90;
+
+    $scope.counter = true;
+    $scope.decimals = 2;
+    $scope.symbol = '/s';
+    $scope.formatNumber = true;
+    $scope.humanFriendly = true;
+    $scope.humanFriendlyDecimal = true;
+
+    $scope.textRenderer = function (value) {
+        return value;
+    };
 });

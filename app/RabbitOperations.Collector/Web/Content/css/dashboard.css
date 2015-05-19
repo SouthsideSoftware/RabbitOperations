@@ -148,8 +148,8 @@ thead {
 
 .link {
     cursor:pointer;
-     color:blue;
-     text-decoration:underline;
+    color:blue;
+    text-decoration:underline;
 }
 
 .toolbar {
@@ -194,18 +194,4 @@ thead {
 
 .queueRate.newErrors {
     background-color: rgba(255,0,0,0.1);
-}
-
-.piePlaceholder{
-    height:110px;
-    text-align: center;
-    background-color: #e6e6e6;
-    border-radius: 50%;
-    margin: 20px;
-}
-
-.piePlaceholder>div{
-    position:relative;
-    top:50%;
-    transform: translateY(-50%)
 }
