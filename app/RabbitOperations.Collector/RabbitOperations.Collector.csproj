@@ -203,6 +203,7 @@
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0012.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0014.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0015.cs" />
+    <Compile Include="RavenDB\SchemaUpdates\ToVersion0016.cs" />
     <Compile Include="Service\ActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
     <Compile Include="Service\Interfaces\IStoreMessages.cs" />
