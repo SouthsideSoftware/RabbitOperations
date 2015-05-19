@@ -98,70 +98,21 @@
             queue.maxRate = Number(queue.displayRate);
         }
         if (queue.count > queue.oldCount){
-            queue.gaugeColor = ["#00ff00"];
+            if (queue.isErrorQueue){
+                queue.gaugeColor = ["#FF3300"];
+            } else {
+                queue.gaugeColor = ["#66FF66"];
+            }
         } else {
-            queue.gaugeColor = ["#7FFFD4"];
+            if (queue.isErrorQueue) {
+                queue.gaugeColor = ["#A32900"];
+            } else {
+                queue.gaugeColor = ["#009933"];
+            }
         }
     };
 
     // Start the connection.
     $.connection.hub.start().done(function () {
     });
-
-    $scope.title = 'My gauge';
-    $scope.titleFontColor = 'blue';
-
-    $scope.value = 1234.358;
-    $scope.valueFontColor = 'red';
-
-    $scope.min = 0;
-    $scope.max = 3;
-
-    $scope.valueMinFontSize = undefined;
-    $scope.titleMinFontSize = undefined;
-    $scope.labelMinFontSize = undefined;
-    $scope.minLabelMinFontSize = undefined;
-    $scope.maxLabelMinFontSize = undefined;
-
-    $scope.hideValue = false;
-    $scope.hideMinMax = false;
-    $scope.hideInnerShadow = false;
-
-    $scope.width = undefined;
-    $scope.height = undefined;
-    $scope.relativeGaugeSize = undefined;
-
-    $scope.gaugeWidthScale = 0.5;
-    $scope.gaugeColor = 'grey';
-
-    $scope.showInnerShadow = true;
-    $scope.shadowOpacity = 0.5;
-    $scope.shadowSize = 3;
-    $scope.shadowVerticalOffset = 10;
-
-    $scope.levelColors = ['#00ff00'];
-
-    $scope.noGradient = false;
-
-    $scope.label = 'Green label';
-    $scope.labelFontColor = 'green';
-
-    $scope.startAnimationTime = 0;
-    $scope.startAnimationType = undefined;
-    $scope.refreshAnimationTime = 0;
-    $scope.refreshAnimationType = undefined;
-
-    $scope.donut = undefined;
-    $scope.donutAngle = 90;
-
-    $scope.counter = true;
-    $scope.decimals = 2;
-    $scope.symbol = '/s';
-    $scope.formatNumber = true;
-    $scope.humanFriendly = true;
-    $scope.humanFriendlyDecimal = true;
-
-    $scope.textRenderer = function (value) {
-        return value;
-    };
 });

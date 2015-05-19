@@ -14,8 +14,8 @@
                     rabbitManagementWebUrl: queue.queueSettings.rabbitManagementWebUrl,
                     queues: []
                 };
-                found.queues[0] = { shortName: "audit", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", maxRate: 0, queueName: "", applicationId: found.applicationId, isErrorQueue: false, count:0, oldCount:0, gaugeColor: ['#00f000'] },
-                found.queues[1] = { shortName: "error", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", maxRate: 0, queueName: "", applicationId: found.applicationId, isErrorQueue: true, count:0, oldCount:0, gaugeColor: ['#00f000'] }
+                found.queues[0] = { shortName: "audit", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", maxRate: 0, queueName: "", applicationId: found.applicationId, isErrorQueue: false, count:0, oldCount:0, gaugeColor: ['#009933'] },
+                found.queues[1] = { shortName: "error", oneMinueRate: 0, fiveMinuteRate: 0, fifteenMinuteRate: 0, meanRate: 0, displayRate: "--", maxRate: 0, queueName: "", applicationId: found.applicationId, isErrorQueue: true, count:0, oldCount:0, gaugeColor: ['#A32900'] }
                 newApplications.push(found);
             }
             if (queue.queueSettings.isErrorQueue) {

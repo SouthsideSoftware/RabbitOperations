@@ -152,6 +152,11 @@ thead {
     text-decoration:underline;
 }
 
+.linkNoUnderline {
+    cursor:pointer;
+    color:blue;
+}
+
 .toolbar {
     margin-top: 5px;
 }
@@ -194,4 +199,8 @@ thead {
 
 .queueRate.newErrors {
     background-color: rgba(255,0,0,0.1);
+}
+
+.gauge {
+    margin-top: 10px;
 }
