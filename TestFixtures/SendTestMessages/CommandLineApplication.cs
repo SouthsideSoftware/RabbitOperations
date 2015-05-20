@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Polly;
 using PowerArgs;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Framing;
 
 namespace SendTestMessages.CommandLine
 {
@@ -121,8 +123,12 @@ namespace SendTestMessages.CommandLine
                         {
                             string message = "Hello World!";
                             var body = Encoding.UTF8.GetBytes(message);
+                            var headers = new Dictionary<string, object>
+                            {
+                                {"one", Encoding.UTF8.GetBytes("Header value") }
+                            };
 
-                            channel.BasicPublish(Exchange, "", null, body);
+                            channel.BasicPublish(Exchange, "", new BasicProperties {Headers = headers}, body);
                             messageCount++;
                             Console.Write(".");
                         }

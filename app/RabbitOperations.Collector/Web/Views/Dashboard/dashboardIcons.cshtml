@@ -31,11 +31,11 @@
                      show-inner-shadow="true" shadow-opacity="0.5"
                      shadow-size="3" shadow-vertical-offset="10"
                      level-colors="{{application.queues[0].gaugeColor}}" no-gradient="false"
-                     label="{{application.queues[0].shortName}}" label-font-color="green"
+                     label="{{application.queues[0].shortName + '/sec'}}" label-font-color="green"
                      start-animation-time="0"
                      refresh-animation-time="0"
                      donut="true"
-                     counter="true" decimals="2" symbol="/s" format-number="true"
+                     counter="true" decimals="2" symbol="" format-number="true"
                      human-friendly="true" human-friendly-decimal="true">
                 </div>
             </div>
@@ -49,11 +49,11 @@
                      show-inner-shadow="true" shadow-opacity="0.5"
                      shadow-size="3" shadow-vertical-offset="10"
                      level-colors="{{application.queues[1].gaugeColor}}" no-gradient="false"
-                     label="{{application.queues[1].shortName}}" label-font-color="red"
+                     label="{{application.queues[1].shortName + '/sec'}}" label-font-color="red"
                      start-animation-time="0"
                      refresh-animation-time="0"
                      donut="true"
-                     counter="true" decimals="2" symbol="/s" format-number="true"
+                     counter="true" decimals="2" symbol="" format-number="true"
                      human-friendly="true" human-friendly-decimal="true">
                 </div>
             </div>

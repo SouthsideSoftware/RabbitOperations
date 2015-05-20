@@ -1,4 +1,6 @@
 using System;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Configuration;
 using NLog;
 using NLog.Fluent;
 using Owin;
@@ -12,6 +14,7 @@ namespace RabbitOperations.Collector.Web.Startup
         {
             try
             {
+                GlobalHost.Configuration.DefaultMessageBufferSize = 1000;
                 Nancy.Json.JsonSettings.MaxJsonLength = 10000000;
                 app.MapSignalR();
                 app.UseNancy();

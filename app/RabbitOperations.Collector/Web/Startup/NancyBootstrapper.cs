@@ -18,7 +18,7 @@ namespace RabbitOperations.Collector.Web.Startup
         {
             base.ApplicationStartup(container, pipelines);
             Metric.Config
-                .WithAllCounters().WithReporting(x => x.WithReport(new SingalrMetricsReport("RabbitOperations"), TimeSpan.FromSeconds(5)))
+                .WithAllCounters().WithReporting(x => x.WithReport(new SingalrMetricsReport("RabbitOperations"), TimeSpan.FromMilliseconds(2000)))
                 .WithNancy(pipelines);
         }
 
