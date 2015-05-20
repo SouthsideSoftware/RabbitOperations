@@ -3,6 +3,7 @@ using NLog;
 using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
+using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.MessageRetry
 {

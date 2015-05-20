@@ -14,6 +14,7 @@ using RabbitMQ.Client.Events;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain;
 using RabbitOperations.Domain.Configuration;
 using SouthsideUtility.Core.CastleWindsor;
 

@@ -2,6 +2,7 @@ using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain;
 using SouthsideUtility.Core.CastleWindsor;
 
 namespace RabbitOperations.Collector.Service

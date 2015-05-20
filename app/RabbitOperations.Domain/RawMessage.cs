@@ -1,19 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Newtonsoft.Json;
-using RabbitMQ.Client.Events;
-using RabbitOperations.Collector.MessageParser.Interfaces;
-using SouthsideUtility.Core.DesignByContract;
-using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Framing;
-using RabbitOperations.Domain;
+using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.MessageParser
+namespace RabbitOperations.Domain
 {
     public class RawMessage : IRawMessage
     {

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.MessageRetry.Interfaces
 {

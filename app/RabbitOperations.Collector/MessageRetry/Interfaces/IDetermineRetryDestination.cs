@@ -1,4 +1,5 @@
 ﻿using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.MessageRetry.Interfaces
 {

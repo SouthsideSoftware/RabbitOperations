@@ -28,6 +28,7 @@ using RabbitOperations.Collector.RavenDB.Query.Interfaces;
 using RabbitOperations.Collector.RavenDB.SchemaUpdates;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;

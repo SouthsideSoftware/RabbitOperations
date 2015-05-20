@@ -2,6 +2,7 @@
 using System.Linq;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
+using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.MessageBusTechnologies.NServiceBus

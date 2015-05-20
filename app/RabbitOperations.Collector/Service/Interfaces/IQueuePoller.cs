@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using RabbitOperations.Collector.MessageParser.Interfaces;
+using RabbitOperations.Domain;
 using RabbitOperations.Domain.Configuration;
 
 namespace RabbitOperations.Collector.Service.Interfaces

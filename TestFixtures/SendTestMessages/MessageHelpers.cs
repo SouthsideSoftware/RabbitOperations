@@ -1,6 +1,8 @@
+﻿using System;
 using System.IO;
+using System.Net.Mime;
+using System.Reflection;
 using Newtonsoft.Json;
-using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Domain;
 
 namespace RabbitOperations.Collector.Tests.Unit
@@ -20,7 +22,7 @@ namespace RabbitOperations.Collector.Tests.Unit
         public static RawMessage GetMessageFromFile(string fileName)
         {
             string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", fileName)))
+            using (var reader = new StreamReader(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "TestData", $"{fileName}.json")))
             {
                 data = reader.ReadToEnd();
             }

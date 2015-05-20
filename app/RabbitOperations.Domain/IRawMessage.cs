@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using RabbitMQ.Client;
 
-namespace RabbitOperations.Collector.MessageParser.Interfaces
+namespace RabbitOperations.Domain
 {
     public interface IRawMessage
     {

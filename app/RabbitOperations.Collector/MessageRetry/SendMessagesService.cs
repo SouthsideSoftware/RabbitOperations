@@ -7,6 +7,7 @@ using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.MessageRetry

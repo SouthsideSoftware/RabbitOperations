@@ -235,8 +235,6 @@
     <Compile Include="Host\Interfaces\IHost.cs" />
     <Compile Include="Service\Interfaces\IQueuePoller.cs" />
     <Compile Include="Service\Interfaces\IQueuePollerFactory.cs" />
-    <Compile Include="MessageParser\Interfaces\IRawMessage.cs" />
-    <Compile Include="MessageParser\RawMessage.cs" />
     <Compile Include="Service\Interfaces\IRabbitConnectionFactory.cs" />
     <Compile Include="Service\RabbitConnectionFactory.cs" />
     <Compile Include="Service\QueueSettings.cs" />
@@ -338,6 +336,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\Dashboard\dashboardController.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\gauges\angular-gage.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\gauges\justgage.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\gauges\raphael-min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\Images\favicon.png">

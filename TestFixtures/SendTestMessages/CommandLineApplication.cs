@@ -9,6 +9,7 @@ using Polly;
 using PowerArgs;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Framing;
+using RabbitOperations.Collector.Tests.Unit;
 
 namespace SendTestMessages.CommandLine
 {
@@ -21,7 +22,7 @@ namespace SendTestMessages.CommandLine
 
         [ArgRequired(PromptIfMissing = true)]
         [ArgShortcut("-s")]
-        [ArgDescription("The RabbitMQ server")]
+        [ArgDescription("The RabbitMQ server. Blank for localhost.")]
         public string RabbitServer { get; set; }
 
         [ArgRequired(PromptIfMissing = true)]
@@ -43,6 +44,11 @@ namespace SendTestMessages.CommandLine
         [ArgShortcut("-e")]
         [ArgDescription("The name of the exchange to receive messages")]
         public string Exchange { get; set; }
+
+        [ArgRequired(PromptIfMissing = true)]
+        [ArgShortcut("-ms")]
+        [ArgDescription("The name of the message (error, audit or emptybody).  Blank for dummy message.")]
+        public string MessageToSend { get; set; }
 
         [ArgRequired(PromptIfMissing = true)]
         [ArgShortcut("-m")]
@@ -113,6 +119,34 @@ namespace SendTestMessages.CommandLine
             try
             {
                 if (cancellationToken.IsCancellationRequested) return;
+                byte[] body = null;
+                Dictionary<string, object> headers = null;
+                if (!string.IsNullOrWhiteSpace(MessageToSend))
+                {
+                    try
+                    {
+                        var rawMessage = MessageTestHelpers.GetMessageFromFile(MessageToSend);
+                        var data = rawMessage.GetEelementsForRabbitPublish();
+                        body = data.Item1;
+                        headers = data.Item2;
+                        Console.WriteLine($"Sending message from {MessageToSend}");
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine($"Could not get message from {MessageToSend}.  The error is {err}");
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(MessageToSend) || (body == null && headers == null))
+                {
+                    body = Encoding.UTF8.GetBytes("Hello World!");
+                    headers = new Dictionary<string, object>
+                    {
+                        {"one", Encoding.UTF8.GetBytes("Header value")}
+                    };
+                    Console.WriteLine("Sending HelloWorld!");
+                }
+
                 var factory = new ConnectionFactory() {Uri = connectionString};
                 using (var connection = factory.CreateConnection())
                 {
@@ -121,13 +155,6 @@ namespace SendTestMessages.CommandLine
                     {
                         using (var channel = connection.CreateModel())
                         {
-                            string message = "Hello World!";
-                            var body = Encoding.UTF8.GetBytes(message);
-                            var headers = new Dictionary<string, object>
-                            {
-                                {"one", Encoding.UTF8.GetBytes("Header value") }
-                            };
-
                             channel.BasicPublish(Exchange, "", new BasicProperties {Headers = headers}, body);
                             messageCount++;
                             Console.Write(".");
@@ -156,7 +183,7 @@ namespace SendTestMessages.CommandLine
         {
             if (string.IsNullOrWhiteSpace(RabbitServer))
             {
-                throw new Exception("RabbitServer (-s) must not be null or whitespace");
+                RabbitServer = "localhost";
             }
             if (string.IsNullOrWhiteSpace(Exchange))
             {
