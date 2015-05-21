@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using NLog;
+using Polly;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Collector.Service.Interfaces;
@@ -35,6 +37,18 @@ namespace RabbitOperations.Collector.Service
             document.Body = message.Body;
             var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
 
+            //deal with rare transients that happen under load
+            var policy = Policy.Handle<Exception>().WaitAndRetry(new TimeSpan[] {TimeSpan.FromMilliseconds(5), TimeSpan.FromMilliseconds(10)}, (exception, retryDelay, context) =>
+            {
+                logger.ErrorException($"Retrying storage of message document with delay {retryDelay} after exception", exception);
+            });
+            policy.Execute(() => SaveDocument(queueSettings, document, expiry));
+
+            return document.Id;
+        }
+
+        private void SaveDocument(IQueueSettings queueSettings, MessageDocument document, DateTime expiry)
+        {
             using (var session = documentStore.OpenSessionForDefaultTenant())
             {
                 session.Store(document);
@@ -42,8 +56,6 @@ namespace RabbitOperations.Collector.Service
                 session.SaveChanges();
                 logger.Trace("Saved document for message with id {0} from {1}", document.Id, queueSettings.LogInfo);
             }
-
-            return document.Id;
         }
     }
 }
