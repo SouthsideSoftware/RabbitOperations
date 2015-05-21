@@ -4,7 +4,7 @@ properties {
     #would override both configuration and platform
     $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
     $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-    $version = "0.7.0"
+    $version = "0.8.0"
     $configuration = "Debug"
     $platform = "Any CPU"
     $buildOutputDir = "./BuildOutput"
@@ -52,7 +52,7 @@ Task compile -Description "Build application only" {
     $msbuild = Join-Path -Path $programFilesDir -ChildPath "MSBuild\14.0\Bin\msbuild.exe"
     Write-Host "MSBUild " $msbuild
     exec {.nuget\nuget restore}
-    & $msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=14.0 "/p:Configuration=$configuration" "/p:Platform=$platform" 
+    & $msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=14.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build
