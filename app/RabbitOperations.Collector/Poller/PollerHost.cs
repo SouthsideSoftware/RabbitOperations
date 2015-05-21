@@ -15,7 +15,7 @@ namespace RabbitOperations.Collector.Poller
 {
     public class PollerHost : IPollerHost
     {
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private NLog.Logger logger = LogManager.GetCurrentClassLogger();
         private IList<PollerTaskInfo> runningPollerTasks;
         private IList<IPoller> pollers;
 
