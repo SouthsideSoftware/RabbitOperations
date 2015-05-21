@@ -106,6 +106,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                             ConnectionStringName = "RavenDB"
                         };
                     }
+                    docStore.Conventions.DisableProfiling = true;
                     docStore.Initialize();
 
                     CreateDefaultDatabaseWithExpirationBundleIfNotExists(docStore);

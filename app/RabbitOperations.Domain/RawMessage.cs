@@ -58,9 +58,9 @@ namespace RabbitOperations.Domain
             Headers = new Dictionary<string, string>();
             foreach (var header in headers)
             {
-                Headers.Add(string.Copy(header.Key), string.Copy(header.Value));
+                Headers.Add(header.Key, header.Value);
             }
-            Body = string.Copy(body);
+            Body = body;
         }
 
         [JsonProperty]
