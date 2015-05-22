@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NLog;
+using Polly;
 using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry;
@@ -42,6 +43,22 @@ namespace RabbitOperations.Collector.Service
             long.TryParse(message.Headers[Headers.Retry], out originalId);
             long documentIdToReturn = -1;
 
+            //deal with rare transients that happen under load
+            var policy = Policy.Handle<Exception>().WaitAndRetry(new TimeSpan[] { TimeSpan.FromMilliseconds(5), TimeSpan.FromMilliseconds(10) }, (exception, retryDelay, context) =>
+            {
+                logger.ErrorException($"Retrying storage of message document with delay {retryDelay} after exception", exception);
+            });
+            policy.Execute(() =>
+            {
+                documentIdToReturn = SaveDocument(queueSettings, originalId, retry, expiry);
+            });
+
+            return documentIdToReturn;
+        }
+
+        private long SaveDocument(IQueueSettings queueSettings, long originalId, MessageDocument retry, DateTime expiry)
+        {
+            long documentIdToReturn = -1;
             using (var session = documentStore.OpenSessionForDefaultTenant())
             {
                 MessageDocument originalMessage = null;
@@ -66,7 +83,9 @@ namespace RabbitOperations.Collector.Service
                     }
                     session.Advanced.GetMetadataFor(originalMessage)["Raven-Expiration-Date"] = new RavenJValue(expiry);
                     documentIdToReturn = originalMessage.Id;
-                    logger.Trace("Added retry information with additional error status {0} to existing document with id {1} from {2}", retry.AdditionalErrorStatus, originalMessage.Id, queueSettings.LogInfo);
+                    logger.Trace(
+                        "Added retry information with additional error status {0} to existing document with id {1} from {2}",
+                        retry.AdditionalErrorStatus, originalMessage.Id, queueSettings.LogInfo);
                 }
                 else
                 {
@@ -76,9 +95,7 @@ namespace RabbitOperations.Collector.Service
                     logger.Trace("Saved new document for retry message with id {0} from {1}", retry.Id, queueSettings.LogInfo);
                 }
                 session.SaveChanges();
-                
             }
-
             return documentIdToReturn;
         }
     }
