@@ -7,6 +7,6 @@ namespace RabbitOperations.Collector.RavenDB.Query.Interfaces
 {
     public interface IBasicSearch
     {
-        SearchResult<MessageDocument> Search(SearchModel searchModel);
+        SearchResult<MessageSearchResult> Search(SearchModel searchModel);
     }
 }

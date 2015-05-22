@@ -25,6 +25,7 @@ namespace RabbitOperations.Collector.Web.SignalR
 
             this.counterType = counterType;
             this.prefix = string.Format("{0}.", this.counterType);
+
             clients = GlobalHost.ConnectionManager.GetHubContext<MessagePulseHub>().Clients;
         }
 

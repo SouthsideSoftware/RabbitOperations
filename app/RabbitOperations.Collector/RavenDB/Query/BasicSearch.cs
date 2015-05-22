@@ -27,14 +27,15 @@ namespace RabbitOperations.Collector.RavenDB.Query
             this.store = store;
         }
 
-        public SearchResult<MessageDocument> Search(SearchModel searchModel)
+        public SearchResult<MessageSearchResult> Search(SearchModel searchModel)
         {
             using (var session = store.OpenSessionForDefaultTenant())
             {
                 RavenQueryStatistics stats = null;
-                var results = session.Advanced.DocumentQuery<MessageDocument, MessageDocument_Search>()
+                var results = session.Advanced.DocumentQuery<MessageSearchResult, MessageDocument_Search>()
                         .Where(searchModel.RavenSearchString)
                         .OrderBy(searchModel.RavenSort)
+                        .SelectFields<MessageSearchResult>()
                         .UsingDefaultField("Any").Skip(searchModel.Page * searchModel.Take).Take(searchModel.Take).Statistics(out stats).ShowTimings()
                         .ToList();
                 if (logger.IsDebugEnabled)
@@ -46,7 +47,7 @@ namespace RabbitOperations.Collector.RavenDB.Query
                         !string.IsNullOrWhiteSpace(searchModel.RavenSearchString) ? searchModel.RavenSearchString : "ALL DOCS", searchModel.RavenSort, stats.TotalResults, searchModel.Take, searchModel.Page, timings);
                 }
 
-                return new SearchResult<MessageDocument>(searchModel, results, stats);
+                return new SearchResult<MessageSearchResult>(searchModel, results, stats);
             }
         }
     }

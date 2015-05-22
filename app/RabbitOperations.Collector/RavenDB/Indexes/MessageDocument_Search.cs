@@ -19,8 +19,10 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
                         messageDocument.MessageTypes.Select(x => x.ClassName),
                         messageDocument.Headers.Select(x => x.Value),
                         messageDocument.AdditionalErrorStatus,
-                        messageDocument.ApplicationId
+                        messageDocument.ApplicationId,
+                        messageDocument.Id
                     },
+                    messageDocument.Id,
                     messageDocument.TimeSent,
                     ClassName = messageDocument.MessageTypes.Select(x => x.ClassName),
                     messageDocument.IsError,
