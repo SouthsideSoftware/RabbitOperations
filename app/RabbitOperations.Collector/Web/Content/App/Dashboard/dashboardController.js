@@ -1,10 +1,14 @@
-﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http, searchService, queueService) {
+﻿rabbitOperationsApp.controller('dashboardController', function ($scope, $http, searchService, queueService, $cookies) {
     $scope.displayStats = true;
     $scope.applications = [];
     $scope.evenApplication = [];
     $scope.oddApplications = [];
     $scope.displayRate = 1;
-    $scope.tabularDisplay = true;
+    $scope.tabularDisplay = $cookies.tabularDisplay === "false" ? false : true;
+
+    $scope.tabularDisplaySettingChanged = function(){
+        $cookies.tabularDisplay = $scope.tabularDisplay.toString();
+    }
 
     $scope.$watch(function() { return $scope.displayRate }, function(displayRate) {
         _.each($scope.applications, function(application) {

@@ -18,7 +18,7 @@
                 <label class="btn btn-primary" ng-model="displayRate" btn-radio="mean">Lifetime</label>
             </div>
             <span style="margin-left: 5px">Tabular View (more compact):</span>
-            <input type="checkbox" ng-model="tabularDisplay">
+            <input type="checkbox" ng-model="tabularDisplay" ng-change="tabularDisplaySettingChanged()">
         </div>
         <div ng-show="!tabularDisplay" ng-repeat="application in applications" ng-click="quickSearch(application.applicationId, false)">
             <div class="col-lg-2 col-sm-3 gauge linkNoUnderline">
