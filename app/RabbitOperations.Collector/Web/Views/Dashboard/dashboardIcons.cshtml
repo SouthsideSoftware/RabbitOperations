@@ -20,8 +20,8 @@
             <span style="margin-left: 5px">Tabular View (more compact):</span>
             <input type="checkbox" ng-model="tabularDisplay" ng-change="tabularDisplaySettingChanged()">
         </div>
-        <div ng-show="!tabularDisplay" ng-repeat="application in applications" ng-click="quickSearch(application.applicationId, false)">
-            <div class="col-lg-2 col-sm-3 gauge linkNoUnderline">
+        <div ng-show="!tabularDisplay" ng-repeat="application in applications">
+            <div class="col-lg-2 col-sm-3 gauge linkNoUnderline" ng-click="quickSearch(application.applicationId, false)">
                 <div justgage
                      title="{{application.applicationName}}" title-font-color="green"
                      value="{{application.queues[0].displayRate}}" value-font-color="green"
@@ -39,7 +39,7 @@
                      human-friendly="true" human-friendly-decimal="true">
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-3 gauge linkNoUnderline">
+            <div class="col-lg-2 col-sm-3 gauge linkNoUnderline" ng-click="quickSearch(application.applicationId, true)">
                 <div justgage
                      title="{{application.applicationName}}" title-font-color="red"
                      value="{{application.queues[1].displayRate}}" value-font-color="red"
