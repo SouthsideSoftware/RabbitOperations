@@ -2,6 +2,7 @@
     $scope.displayHeaders = false;
     $scope.displayBody = true;
     $scope.displayRetries = true;
+    $scope.displayStackTrace = false;
     $scope.title = item.id > 0 ? "Message " + item.id : "Retry of Message " + item.originalId;
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
@@ -28,6 +29,13 @@
         processingTime: item !== undefined ? $scope.toDisplayDuration(item.processingTime) : 'UNK',
         totalTime: item !== undefined ? $scope.toDisplayDuration(item.totalTime) : 'UNK'
     };
+
+    $scope.message.stackTrace = undefined;
+    if (item !== undefined && item.headers !== undefined) {
+        if ($scope.message.item.headers["nServiceBus.ExceptionInfo.StackTrace"] !== undefined){
+            $scope.message.stackTrace = $scope.message.item.headers["nServiceBus.ExceptionInfo.StackTrace"];
+        }
+    }
 
     $scope.retries = [];
     if (item.retries.length > 0) {

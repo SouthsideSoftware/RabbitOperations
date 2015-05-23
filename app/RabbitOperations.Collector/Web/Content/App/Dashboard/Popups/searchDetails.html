@@ -54,6 +54,14 @@
             </table>
         </div>
     </div>
+    <div ng-show="message.stackTrace !== undefined">
+        <h4>
+            Stack Trace
+            <span ng-click="displayStackTrace = true" ng-show="!displayStackTrace" class="clickable">[+]</span>
+            <span ng-click="displayStackTrace = false" ng-show="displayStackTrace" class="clickable">[-]</span>
+        </h4>
+    </div>
+    <pre ng-show="message.stackTrace !== undefined" collapse="!displayStackTrace">{{message.stackTrace}}</pre>
     <div>
         <h4>
             Headers
