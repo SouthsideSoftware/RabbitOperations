@@ -46,9 +46,9 @@ namespace SendTestMessages.CommandLine
         public string Exchange { get; set; }
 
         [ArgRequired(PromptIfMissing = true)]
-        [ArgShortcut("-ms")]
+        [ArgShortcut("-t")]
         [ArgDescription("The name of the message (error, audit or emptybody).  Blank for dummy message.")]
-        public string MessageToSend { get; set; }
+        public string Template { get; set; }
 
         [ArgRequired(PromptIfMissing = true)]
         [ArgShortcut("-m")]
@@ -121,23 +121,23 @@ namespace SendTestMessages.CommandLine
                 if (cancellationToken.IsCancellationRequested) return;
                 byte[] body = null;
                 Dictionary<string, object> headers = null;
-                if (!string.IsNullOrWhiteSpace(MessageToSend))
+                if (!string.IsNullOrWhiteSpace(Template))
                 {
                     try
                     {
-                        var rawMessage = MessageTestHelpers.GetMessageFromFile(MessageToSend);
+                        var rawMessage = MessageTestHelpers.GetMessageFromFile(Template);
                         var data = rawMessage.GetEelementsForRabbitPublish();
                         body = data.Item1;
                         headers = data.Item2;
-                        Console.WriteLine($"Sending message from {MessageToSend}");
+                        Console.WriteLine($"Sending message from {Template}");
                     }
                     catch (Exception err)
                     {
-                        Console.WriteLine($"Could not get message from {MessageToSend}.  The error is {err}");
+                        Console.WriteLine($"Could not get message from {Template}.  The error is {err}");
                     }
                 }
 
-                if (string.IsNullOrWhiteSpace(MessageToSend) || (body == null && headers == null))
+                if (string.IsNullOrWhiteSpace(Template) || (body == null && headers == null))
                 {
                     body = Encoding.UTF8.GetBytes("Hello World!");
                     headers = new Dictionary<string, object>
