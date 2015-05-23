@@ -91,7 +91,7 @@ namespace RabbitOperations.Collector.Service
 
         /// <summary>
         /// Exponetial backoff of timeout until we hit the sixth retry.
-        /// After that, its 2^5 (32) seconds per retry
+        /// After that, its 2^6 (64) seconds per retry
         /// </summary>
         /// <returns></returns>
         private TimeSpan GetRetryDelay()
