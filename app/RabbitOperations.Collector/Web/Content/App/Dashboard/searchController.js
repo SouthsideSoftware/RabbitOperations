@@ -49,7 +49,7 @@
             var url = "/api/v1/Messages/" + item.id;
             $http.get(url).success(function (data, status, headers, config) {
                 var modalInstance = $modal.open({
-                    templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
+                    templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=1',
                     controller: 'searchDetailController',
                     size: 'lg',
                     resolve: {

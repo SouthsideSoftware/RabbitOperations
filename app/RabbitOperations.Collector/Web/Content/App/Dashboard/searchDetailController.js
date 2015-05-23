@@ -53,7 +53,7 @@
 
     $scope.showRetryDetails = function (retryItem) {
         $modal.open({
-            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
+            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=1',
             controller: 'searchDetailController',
             size: 'lg',
             resolve: {
