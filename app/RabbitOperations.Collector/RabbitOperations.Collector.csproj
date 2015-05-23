@@ -356,6 +356,9 @@
     <Content Include="Web\Content\moment\moment.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\noty\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\noty\jquery.noty.packaged.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

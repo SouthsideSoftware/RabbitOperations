@@ -2,7 +2,7 @@
     $scope.displayHeaders = false;
     $scope.displayBody = true;
     $scope.displayRetries = true;
-    $scope.displayStackTrace = false;
+    $scope.displayErrorInfo = false;
     $scope.title = item.id > 0 ? "Message " + item.id : "Retry of Message " + item.originalId;
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
@@ -31,9 +31,13 @@
     };
 
     $scope.message.stackTrace = undefined;
+    $scope.message.errorMessage = undefined;
     if (item !== undefined && item.headers !== undefined) {
         if ($scope.message.item.headers["nServiceBus.ExceptionInfo.StackTrace"] !== undefined){
             $scope.message.stackTrace = $scope.message.item.headers["nServiceBus.ExceptionInfo.StackTrace"];
+        }
+        if ($scope.message.item.headers["nServiceBus.ExceptionInfo.Message"] !== undefined) {
+            $scope.message.errorMessage = $scope.message.item.headers["nServiceBus.ExceptionInfo.Message"];
         }
     }
 
@@ -53,7 +57,7 @@
 
     $scope.showRetryDetails = function (retryItem) {
         $modal.open({
-            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=1',
+            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=2',
             controller: 'searchDetailController',
             size: 'lg',
             resolve: {
