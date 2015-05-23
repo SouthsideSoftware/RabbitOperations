@@ -82,7 +82,7 @@ namespace RabbitOperations.Collector.Service
                 .Handle<Exception>()
                 .WaitAndRetry(10000, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>
                 {
-                    logger.ErrorException($"Retrying with delay {retryDelay} on {QueueSettings.LogInfo} after exception", exception);
+                    logger.ErrorException($"Retry #{consecutiveRetryCount} with delay {retryDelay} on {QueueSettings.LogInfo} after exception", exception);
                 });
             retryPolicy.Execute(InnerPoll);
             logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
