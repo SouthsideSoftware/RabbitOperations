@@ -50,5 +50,13 @@ namespace RabbitOperations.Collector.RavenDB.Query
                 return new SearchResult<MessageSearchResult>(searchModel, results, stats);
             }
         }
+
+        public MessageDocument Get(int id)
+        {
+            using (var session = store.OpenSessionForDefaultTenant())
+            {
+                return session.Load<MessageDocument>(id);
+            }
+        }
     }
 }

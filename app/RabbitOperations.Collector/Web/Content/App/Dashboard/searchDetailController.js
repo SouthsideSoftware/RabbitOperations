@@ -63,7 +63,7 @@
     $scope.retry = function () {
         retryService.retry([$scope.message.item]).then(function(updatedItems) {
             if (updatedItems.length > 0) {
-                $scope.Item = updatedItems[0];
+                $scope.message.item = updatedItems[0];
             }
         });
     };

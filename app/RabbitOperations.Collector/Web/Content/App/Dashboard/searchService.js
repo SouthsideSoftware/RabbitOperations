@@ -1,5 +1,5 @@
 ﻿rabbitOperationsApp.service('searchService', function ($http, notificationService) {
-    var self = this; 
+    var self = this;
     this.searchResults = {
         results: []
     };
@@ -23,7 +23,7 @@
 
     self.search = function () {
         self.searchingModal = notificationService.modal("Searching...");
-        var url = "/api/v1/Messages/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
+        var url = "/api/v1/Messages/search/" + self.pageInfo.searchString + "?page=" + (self.pageInfo.page - 1) + "&take=" + self.pageInfo.take + "&sortField=" + self.pageInfo.sortField + "&sortAscending=" + self.pageInfo.sortAscending;
         $http.get(url).success(function (data, status, headers, config) {
             _.each(data.results, function (element, index, list) {
                 element.formattedTimeSent = element !== undefined && element.timeSent !== undefined ? moment(element.timeSent).format('MM/DD/YYYY HH:mm:ss') : '';

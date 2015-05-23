@@ -4,6 +4,7 @@ using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB.Query.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Web.Modules.Api.V1
@@ -21,7 +22,7 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
             this.basicSearch = basicSearch;
             this.retryMessagesService = retryMessagesService;
 
-            Get["/{searchString?undefined}"] = parameters =>
+            Get["/Search/{searchString?undefined}"] = parameters =>
             {
                 SearchModel searchModel = this.Bind<SearchModel>();
                 return basicSearch.Search(searchModel);
@@ -31,6 +32,10 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
             {
                 var retryModel = this.Bind<RetryMessageModel>();
                 return retryMessagesService.Retry(retryModel);
+            };
+
+            Get["/{id}"] = parameters => {
+                return basicSearch.Get(parameters.id);
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal, searchService, retryService) {
+﻿rabbitOperationsApp.controller('searchController', function ($scope, $http, $modal, searchService, retryService, notificationService) {
     $scope.pageInfo = searchService.pageInfo;
     $scope.searchResults = searchService.searchResults;
     $scope.searchProgress = searchService.searchProgress;
@@ -45,15 +45,23 @@
 
     $scope.showDetails = function (item, event) {
         if (!$scope.searchInProgress) {
-            var modalInstance = $modal.open({
-                templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
-                controller: 'searchDetailController',
-                size: 'lg',
-                resolve: {
-                    item: function() {
-                        return item;
+            self.fetchModal = notificationService.modal("Getting Details...");
+            var url = "/api/v1/Messages/" + item.id;
+            $http.get(url).success(function (data, status, headers, config) {
+                var modalInstance = $modal.open({
+                    templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html',
+                    controller: 'searchDetailController',
+                    size: 'lg',
+                    resolve: {
+                        item: function() {
+                            return data;
+                        }
                     }
-                }
+                });
+                self.fetchModal.close();
+            }).error(function (jqXHR, textStatus, errorThrown) {
+                self.fetchModal.close();
+                notificationService.error("Could not get message to display: " + textStatus);
             });
         }
     };
