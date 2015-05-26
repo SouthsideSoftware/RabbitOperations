@@ -2,7 +2,7 @@
     $scope.displayHeaders = false;
     $scope.displayBody = true;
     $scope.displayRetries = true;
-    $scope.displayErrorInfo = false;
+    $scope.displayStackTrace = false;
     $scope.title = item.id > 0 ? "Message " + item.id : "Retry of Message " + item.originalId;
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
@@ -57,7 +57,7 @@
 
     $scope.showRetryDetails = function (retryItem) {
         $modal.open({
-            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=2',
+            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=3',
             controller: 'searchDetailController',
             size: 'lg',
             resolve: {
