@@ -13,8 +13,6 @@ properties {
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
 
-#body
-
 task validateProperties -Description "Validate the build script properties." -action {
     assert( "debug","release" -contains $configuration ) `
         "Invalid Configuration: $configuration : valid values are debug and release"
