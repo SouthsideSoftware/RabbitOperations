@@ -134,6 +134,7 @@ namespace SendTestMessages.CommandLine
                     catch (Exception err)
                     {
                         Console.WriteLine($"Could not get message from {Template}.  The error is {err}");
+                        throw;
                     }
                 }
 
@@ -168,7 +169,8 @@ namespace SendTestMessages.CommandLine
             }
             catch (Exception err)
             {
-                Console.WriteLine("Failed with error {1}", err);
+                Console.WriteLine($"Failed with error {err}");
+                throw;
             }
         }
 
