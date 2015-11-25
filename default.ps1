@@ -4,7 +4,7 @@ properties {
     #would override both configuration and platform
     $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
     $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-    $version = "0.8.0"
+    $version = "0.9.0"
     $configuration = "Debug"
     $platform = "Any CPU"
     $buildOutputDir = "./BuildOutput"
@@ -35,11 +35,11 @@ task test -Description "Runs tests" {
     Write-Host "Running Tests In TeamCity"
     [string] $nunit = "NUnit-" + $nunitVersion
     Write-Host "Running " $env:NUNIT_LAUNCHER v4.0 x64 $nunit $testAssemblies
-    & $env:NUNIT_LAUNCHER v4.0 x64 $nunit $testAssemblies
+    & $env:NUNIT_LAUNCHER v4.5 x64 $nunit $testAssemblies
   } else {
     Write-Host "Running Tests Outside TeamCity"
     [string] $nunitPath = Get-NunitPath
-    & $nunitPath $testAssemblies /noshadow "/framework:net-4.0"
+    & $nunitPath $testAssemblies "/framework:net-4.5"
   }
 
   if ($LastExitCode -ne 0) { throw "Tests failed"}
@@ -212,14 +212,14 @@ function Get-NunitVersion {
   #Find the correct version of NUnit by looking at the referenced
   #package in the packages.config file of the solution
   [xml]$packages = Get-Content ".\.nuget\Packages.config"
-  $server = $packages.SelectSingleNode("//package[@id='NUnit.Runners']")
+  $server = $packages.SelectSingleNode("//package[@id='NUnit.Console']")
   $version = $server.GetAttribute("version")
 
   return $version
 }
 function Get-NunitPath {
   [string] $version = Get-NunitVersion
-  [string] $path = ".\packages\Nunit.Runners.$version\tools\nunit-console.exe"
+  [string] $path = ".\packages\Nunit.Console.$version\tools\nunit3-console.exe"
 
   return $path
 }

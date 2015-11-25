@@ -26,7 +26,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
     [TestFixture]
     public class RetryMessagesServiceTests : RavenDbTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtireSetup()
         {
             new RavenTenantInitializer(Store).InitializeTenant(Settings.StaticDefaultRavenDBTenant);

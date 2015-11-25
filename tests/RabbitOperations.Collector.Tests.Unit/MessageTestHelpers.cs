@@ -2,6 +2,7 @@ using System.IO;
 using Newtonsoft.Json;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Domain;
+using SouthsideUtility.Testing;
 
 namespace RabbitOperations.Collector.Tests.Unit
 {
@@ -20,7 +21,7 @@ namespace RabbitOperations.Collector.Tests.Unit
         public static RawMessage GetMessageFromFile(string fileName)
         {
             string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", fileName)))
+            using (var reader = new StreamReader(TestHelper.FullPath(Path.Combine("../../TestData", fileName))))
             {
                 data = reader.ReadToEnd();
             }

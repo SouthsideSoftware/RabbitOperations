@@ -17,7 +17,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Configuration
     {
         public SettingsTests() : base(ravenInMemory: true) { }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtireSetup()
         {
             new RavenTenantInitializer(Store).InitializeTenant(Settings.StaticDefaultRavenDBTenant);

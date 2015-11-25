@@ -22,13 +22,13 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
     [TestFixture]
     public class StoreMessageFactoryTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             ServiceLocator.Container.Install(new Installer());
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             ServiceLocator.ClearContainer();

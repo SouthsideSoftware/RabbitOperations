@@ -6,6 +6,7 @@ using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Domain;
+using SouthsideUtility.Testing;
 
 namespace RabbitOperations.Collector.Tests.Unit.MessageParser
 {
@@ -20,7 +21,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
         {
             //arrange
             string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Audit.json")))
+            using (var reader = new StreamReader(TestHelper.FullPath(Path.Combine("../../TestData", "Audit.json"))))
             {
                 data = reader.ReadToEnd();
             }
@@ -41,7 +42,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
         {
             //arrange
             string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "Error.json")))
+            using (var reader = new StreamReader(TestHelper.FullPath(Path.Combine("../../TestData", "Error.json"))))
             {
                 data = reader.ReadToEnd();
             }
@@ -62,7 +63,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
         {
             //arrange
             string data;
-            using (var reader = new StreamReader(Path.Combine("../../TestData", "EmptyBody.json")))
+            using (var reader = new StreamReader(TestHelper.FullPath(Path.Combine("../../TestData", "EmptyBody.json"))))
             {
                 data = reader.ReadToEnd();
             }
