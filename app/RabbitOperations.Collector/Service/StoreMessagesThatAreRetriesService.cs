@@ -37,7 +37,7 @@ namespace RabbitOperations.Collector.Service
             };
             headerParser.AddHeaderInformation(message, retry);
             retry.Body = message.Body;
-            var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
+            var expiry = DateTime.UtcNow.AddHours(retry.IsError ? queueSettings.ErrorDocumentExpirationInHours : queueSettings.DocumentExpirationInHours);
 
             long originalId = -1;
             long.TryParse(message.Headers[Headers.Retry], out originalId);

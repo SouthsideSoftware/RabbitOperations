@@ -21,6 +21,7 @@ namespace RabbitOperations.Collector.Service
             HeartbeatIntervalSeconds = application.HeartbeatIntervalSeconds;
             IsErrorQueue = application.ErrorQueue == QueueName;
             DocumentExpirationInHours = application.DocumentExpirationInHours;
+            ErrorDocumentExpirationInHours = application.ErrorDocumentExpirationInHours;
             Prefetch = application.Prefetch;
 
             try
@@ -55,6 +56,7 @@ namespace RabbitOperations.Collector.Service
         public int HeartbeatIntervalSeconds { get; private set; }
 
         public int DocumentExpirationInHours { get; private set; }
+        public int ErrorDocumentExpirationInHours { get; private set; }
 
         public string RabbitManagementWebUrl { get; private set; }
     }

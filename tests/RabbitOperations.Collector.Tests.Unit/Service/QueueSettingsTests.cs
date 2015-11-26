@@ -45,6 +45,19 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         }
 
         [Test]
+        public void ShouldSetErrorDocumentExpirationInHoursFromConstructor()
+        {
+            //arrange and act
+            const int errorDocumentExpirationInHours = 3;
+            var settings = new QueueSettings("x", new ApplicationConfiguration { ApplicationName = "one", ErrorDocumentExpirationInHours = errorDocumentExpirationInHours });
+            var queueSettings = settings;
+
+            //assert
+            queueSettings.ErrorDocumentExpirationInHours.Should().Be(errorDocumentExpirationInHours);
+        }
+
+
+        [Test]
         public void ShouldSetApplicationNameFromConstructor()
         {
             //arrange and act

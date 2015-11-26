@@ -35,7 +35,7 @@ namespace RabbitOperations.Collector.Service
             };
             headerParser.AddHeaderInformation(message, document);
             document.Body = message.Body;
-            var expiry = DateTime.UtcNow.AddHours(queueSettings.DocumentExpirationInHours);
+            var expiry = DateTime.UtcNow.AddHours(document.IsError ? queueSettings.ErrorDocumentExpirationInHours : queueSettings.DocumentExpirationInHours);
 
             //deal with rare transients that happen under load
             var policy = Policy.Handle<Exception>().WaitAndRetry(new TimeSpan[] {TimeSpan.FromMilliseconds(5), TimeSpan.FromMilliseconds(10)}, (exception, retryDelay, context) =>

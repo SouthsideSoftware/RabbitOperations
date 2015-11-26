@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -53,6 +54,37 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         }
 
         [Test]
+        public void ShouldStoreErrorWithProperExpiration()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetErrorMessage();
+
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            fixture.Register<IHeaderParser>(() => new HeaderParser());
+            var service = fixture.Create<StoreMessagesThatAreNotRetriesService>();
+
+            int auditExpirationHours = 1;
+            int errorExpirationHours = 2;
+
+            DateTime expiresAfter = DateTime.UtcNow.AddHours(errorExpirationHours).AddMinutes(-15);
+            DateTime expiresBefore = DateTime.UtcNow.AddHours(errorExpirationHours).AddMinutes(15);
+
+            //act
+            var id = service.Store(rawMessage,
+                new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" , DocumentExpirationInHours = auditExpirationHours, ErrorDocumentExpirationInHours = errorExpirationHours}));
+
+            //assert
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                var doc = session.Load<MessageDocument>(id);
+                var expires = DateTime.Parse(session.Advanced.GetMetadataFor(doc)["Raven-Expiration-Date"].ToString());
+                expires.Should().BeAfter(expiresAfter, $"Should expire after around {errorExpirationHours} hours");
+                expires.Should().BeBefore(expiresBefore, $"Should expire after around {errorExpirationHours} hours");
+            }
+        }
+
+        [Test]
         public void ShouldStoreAuditWithProperErrorStatus()
         {
             //arrange
@@ -75,6 +107,37 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
                 doc.AdditionalErrorStatus.Should().Be(AdditionalErrorStatus.NotAnError, "additional error status should be NotAnError");
                 doc.IsError.Should().BeFalse("IsError should be false");
                 doc.CanRetry.Should().BeFalse("CanRetry should be false");
+            }
+        }
+
+        [Test]
+        public void ShouldStoreAuditWithProperExpiration()
+        {
+            //arrange
+            var rawMessage = MessageTestHelpers.GetAuditMessage();
+
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Register(() => Store);
+            fixture.Register<IHeaderParser>(() => new HeaderParser());
+            var service = fixture.Create<StoreMessagesThatAreNotRetriesService>();
+
+            int auditExpirationHours = 1;
+            int errorExpirationHours = 2;
+
+            DateTime expiresAfter = DateTime.UtcNow.AddHours(auditExpirationHours).AddMinutes(-15);
+            DateTime expiresBefore = DateTime.UtcNow.AddHours(auditExpirationHours).AddMinutes(15);
+
+            //act
+            var id = service.Store(rawMessage,
+                new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test", DocumentExpirationInHours = auditExpirationHours, ErrorDocumentExpirationInHours = errorExpirationHours }));
+
+            //assert
+            using (var session = Store.OpenSessionForDefaultTenant())
+            {
+                var doc = session.Load<MessageDocument>(id);
+                var expires = DateTime.Parse(session.Advanced.GetMetadataFor(doc)["Raven-Expiration-Date"].ToString());
+                expires.Should().BeAfter(expiresAfter, $"Should expire after around {auditExpirationHours} hours");
+                expires.Should().BeBefore(expiresBefore, $"Should expire after around {auditExpirationHours} hours");
             }
         }
     }

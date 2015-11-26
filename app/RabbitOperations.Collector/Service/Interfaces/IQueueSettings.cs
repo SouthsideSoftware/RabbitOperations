@@ -11,6 +11,8 @@
         string RabbitConnectionString { get; }
         int HeartbeatIntervalSeconds { get; }
         int DocumentExpirationInHours { get; }
+        int ErrorDocumentExpirationInHours { get; }
+
         bool IsErrorQueue { get; }
         string LogInfo { get; }
         ushort Prefetch { get; set; }

@@ -107,8 +107,8 @@ namespace RabbitOperations.Collector.Service
         private void InnerPoll()
         {
             if (cancellationToken.IsCancellationRequested) return;
-            logger.Info("Started queue poller for {0} with expiration of {1} hours", QueueSettings.LogInfo,
-                QueueSettings.DocumentExpirationInHours);
+            logger.Info("Started queue poller for {0} with audit expiration of {1} hours and error expiration of {2} hours", QueueSettings.LogInfo,
+                QueueSettings.DocumentExpirationInHours, QueueSettings.ErrorDocumentExpirationInHours);
             try
             {
                 using (
