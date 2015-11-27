@@ -85,7 +85,8 @@ Task versionReset -Description "Returns the version of the assemblies to 0.1.0.0
 }
 
 Task publish -Description "Publish artifacts" {
-
+  Generate-ReleaseNotes $version
+  Copy-ReleaseNotes $version
 }
 
 task startCollector -Description "Starts the collector host" {
@@ -217,9 +218,26 @@ function Get-NunitVersion {
 
   return $version
 }
+
 function Get-NunitPath {
   [string] $version = Get-NunitVersion
   [string] $path = ".\packages\Nunit.Console.$version\tools\nunit3-console.exe"
 
   return $path
+}
+
+function Generate-ReleaseNotes([string]$version) {
+  Copy-Item ReleaseNotes/Configuration/settings.json -Destination node_modules/trello-releasenotes -Force
+  Copy-Item ReleaseNotes/Configuration/default.template -Destination node_modules/trello-releasenotes/templates -Force
+  Push-Location node_modules\trello-releasenotes
+  try {
+    & node index.js -g "Ready to Release $version" -v $version
+  } finally {
+    Pop-Location
+  }
+}
+
+function Copy-ReleaseNotes([string]$version) {
+  $fileVersion = $version.Replace(".", "_")
+  Move-Item "node_modules/trello-releasenotes/export/Rabbit_Operations_$fileVersion.markdown" -Destination ReleaseNotes -Force
 }

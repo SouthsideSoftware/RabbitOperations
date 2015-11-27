@@ -1,0 +1,10 @@
+{
+  "name": "RabbitOperations",
+  "version": "0.9.0",
+  "description": "Tool for Rabbit Operations",
+  "author": "tom@cabanski.com",
+  "dependencies": {},
+  "devDependencies": {
+    "trello-releasenotes": "^0.9.0"
+  }
+}

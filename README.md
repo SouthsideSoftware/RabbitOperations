@@ -20,6 +20,13 @@ Your application should send successfully processed messages to the audit queue 
 
 _You must have Visual Studio 2015 or Microsoft Build Tools 2015 installed to build the application. Although it currently requires only the .NET 4.5 framework, it uses some C# 6.0 features that require the latest C# compiler_
 
+Install node.js on your machine. You can get it from the [node.js site](http://nodejs.org).  After that, install the necessary node
+modules using npm:
+
+````
+npm install
+````
+
 Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake):
 
 ````
