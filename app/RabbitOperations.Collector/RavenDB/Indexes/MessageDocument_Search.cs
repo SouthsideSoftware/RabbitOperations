@@ -31,6 +31,7 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
                     messageDocument.AdditionalErrorStatus
                 };
 
+            Sort(x => x.Id, SortOptions.String);
             Index(x => x.Any, FieldIndexing.Analyzed);
             Analyzers.Add(x => x.Any, "StandardAnalyzer");
         }

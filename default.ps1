@@ -229,9 +229,10 @@ function Get-NunitPath {
 function Generate-ReleaseNotes([string]$version) {
   Copy-Item ReleaseNotes/Configuration/settings.json -Destination node_modules/trello-releasenotes -Force
   Copy-Item ReleaseNotes/Configuration/default.template -Destination node_modules/trello-releasenotes/templates -Force
+  $lists = "Ready to Release $version,Released $version"
   Push-Location node_modules\trello-releasenotes
   try {
-    & node index.js -g "Ready to Release $version" -v $version
+    & node index.js -g "$version" -v $version
   } finally {
     Pop-Location
   }
@@ -239,5 +240,7 @@ function Generate-ReleaseNotes([string]$version) {
 
 function Copy-ReleaseNotes([string]$version) {
   $fileVersion = $version.Replace(".", "_")
-  Move-Item "node_modules/trello-releasenotes/export/Rabbit_Operations_$fileVersion.markdown" -Destination ReleaseNotes -Force
+  $fileName = "Rabbit_Operations_$fileVersion.markdown"
+  $item = "node_modules/trello-releasenotes/export/$fileName"
+  Move-Item $item -Destination ReleaseNotes -Force
 }
