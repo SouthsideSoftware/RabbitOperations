@@ -18,6 +18,8 @@ Your application should send successfully processed messages to the audit queue 
 
 ## Getting Started For Developers
 
+Install Git LFS support and track .zip files.
+
 _You must have Visual Studio 2015 or Microsoft Build Tools 2015 installed to build the application._
 
 Install node.js on your machine. You can get it from the [node.js site](http://nodejs.org).  After that, install the necessary node
