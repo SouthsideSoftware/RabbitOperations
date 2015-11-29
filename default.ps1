@@ -2,19 +2,19 @@ properties {
     #can override these from command line with invoke-psake -properties @{}
     #for example, invoke-psake -properties @{configuration="debug2";platform="all"}
     #would override both configuration and platform
-    $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
-    $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
+    $revision =  if ($env:APPVEYOR_BUILD_NUMBER -ne $NULL) { "$env:APPVEYOR_BUILD_NUMBER" } else { "0" }
+    $inBuildServer = if ($env:APPVEYOR_BUILD_NUMBER -ne $NULL) { $true } else { $false }
     $version = "0.9.0"
     $configuration = "Debug"
     $platform = "Any CPU"
-    $buildOutputDir = "./BuildOutput"
-    $nugetOutputDir = Join-Path $buildOutputDir "nuget"
+    $artifactsDir = "./artifacts"
+    $nugetOutputDir = Join-Path $artifactsDir "nuget"
     $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
 
 task validateProperties -Description "Validate the build script properties." -action {
-    assert( "debug","release" -contains $configuration ) `
+    assert( "Debug","Release" -contains $configuration ) `
         "Invalid Configuration: $configuration : valid values are debug and release"
 
     assert( "Any Cpu" -contains $platform ) `
@@ -46,13 +46,14 @@ task test -Description "Runs tests" {
 }
 
 Task compile -Description "Build application only" {
-    Write-Host "Hello"
-    # programFilesDir = ProgramFiles(x86) ?? ProgramFiles
-    $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
-    $msbuild = Join-Path -Path $programFilesDir -ChildPath "MSBuild\14.0\Bin\msbuild.exe"
-    Write-Host "MSBUild " $msbuild
-    exec {.nuget\nuget restore}
-    & $msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=14.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
+  Push-Location $PSScriptRoot
+  try {
+      Setup-Dnvm
+      Restore-Packages
+      Build-Projects
+  } finally {
+    Pop-Location
+  }
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build
@@ -65,11 +66,10 @@ task buildDist -Description "Update version. Build appication. Runs tests.  Buil
 }
 
 task cleanBuildOutput -Description "Cleans the BuildOutput folder" {
-  if (Test-Path $buildOutputDir) {
-    Remove-Item -Recurse -Force $buildOutputDir
+  if (Test-Path $artifactsDir) {
+    Remove-Item -Recurse -Force $artifactsDir
   }
-  New-Item -ItemType directory -Path $buildOutputDir
-  New-Item -ItemType directory -Path $nugetOutputDir
+  New-Item -ItemType directory -Path $artifactsDir
 }
 
 task startRaven -Description "Starts RavenDB." {
@@ -77,7 +77,8 @@ task startRaven -Description "Starts RavenDB." {
 }
 
 Task version -Description "Version the assemblies" {
-	Update-CommonAssemblyInfoFile $version $revision
+  $env:DNX_BUILD_VERSION = $revision
+  Update-CommonAssemblyInfoFile $version $revision
 }
 
 Task versionReset -Description "Returns the version of the assemblies to 0.1.0.0" {
@@ -90,7 +91,8 @@ Task publish -Description "Publish artifacts" {
 }
 
 task startCollector -Description "Starts the collector host" {
-    StartApp "app/RabbitOperations.Collector/bin/$configuration/RabbitOperations.Collector.exe" "RabbitOperations.Collector"
+	$dnxVersion = Get-DnxVersion
+  StartApp "dnvm use $dnxVersion -r CLR -arch x64;dnx --configuration $configuration --project src/RabbitOperations.Collector web ASPNET_ENV=Development" "dnx"
 }
 
 task ? -Description "Helper to display task info" {
@@ -99,7 +101,11 @@ task ? -Description "Helper to display task info" {
 
 function StartApp($appPath, $appName) {
     $processActive = Get-Process $appName -ErrorAction SilentlyContinue
-    if(!$processActive)
+		if ($processActive){
+			$startAnyway = Read-Host -Prompt "Process $appName is running. Input Y to start a new process anyway"
+		}
+		Write-Host "'$startAnyway'"
+    if(!$processActive -or $startAnyway -eq "Y")
     {
         Write-Host $appPath
         if (test-path env:ConEmuDir) {
@@ -158,7 +164,7 @@ function Version-Nuspec ([string]$project) {
 
 function Copy-DllOutputs ([string] $projectName) {
   [string] $path = Join-Path (Join-Path "app/$projectName" "bin") $configuration
-  [string] $destPath = Join-Path $buildOutputDir $projectName
+  [string] $destPath = Join-Path $artifactsDir $projectName
   Copy-Item $path $destPath -recurse
 }
 
@@ -236,6 +242,94 @@ function Generate-ReleaseNotes([string]$version) {
   } finally {
     Pop-Location
   }
+}
+
+function Get-DnxVersion
+{
+    $globalJson = join-path $PSScriptRoot "global.json"
+    $jsonData = Get-Content -Path $globalJson -Raw | ConvertFrom-JSON
+    return $jsonData.sdk.version
+}
+
+function Restore-Packages
+{
+    Get-ChildItem -Path . -Filter *.xproj -Recurse | ForEach-Object { & dnu restore ("""" + $_.DirectoryName + """") }
+}
+
+function Build-Projects
+{
+  Get-ChildItem -Path .\src -Filter *.xproj -Recurse | ForEach-Object {
+    & dnu build ("""" + $_.DirectoryName + """") --configuration $configuration --out $artifactsDir
+    if($LASTEXITCODE -ne 0) {
+      throw "Build failed"
+    }
+  }
+}
+
+function Package-Project([string] $projectDirectoryName)
+{
+    & dnu pack ("""" + $projectDirectoryName + """") --configuration $configuration --out .\artifacts\packages; if($LASTEXITCODE -ne 0) { exit 1 }
+}
+
+function Publish-TestProject([string] $projectDirectoryName, [int]$index)
+{
+    # Publish to a numbered/indexed folder rather than the full test project name
+    # because the package paths get long and start exceeding OS limitations.
+    & dnu publish ("""" + $projectDirectoryName + """") --configuration $configuration --no-source --out .\artifacts\tests\$index; if($LASTEXITCODE -ne 0) { exit 2 }
+}
+
+function Invoke-Tests
+{
+    Get-ChildItem .\artifacts\tests -Filter test.cmd -Recurse | ForEach-Object { & $_.FullName; if($LASTEXITCODE -ne 0) { exit 3 } }
+}
+
+function Setup-Dnvm {
+	$dnxVersion = Get-DnxVersion
+  # Remove the installed DNVM from the path and force use of
+  # per-user DNVM (which we can upgrade as needed without admin permissions)
+  Remove-PathVariable "*Program Files\Microsoft DNX\DNVM*"
+  Install-Dnvm
+
+  # Install DNX
+  & dnvm install $dnxVersion -r CoreCLR -NoNative #-Unstable
+  & dnvm install $dnxVersion -r CLR -NoNative #-Unstable
+  & dnvm use $dnxVersion -r CLR -arch x64
+}
+
+function Use-Dnvm {
+	$dnxVersion = Get-DnxVersion
+  & dnvm use $dnxVersion -r CLR
+}
+
+function Install-Dnvm
+{
+    & where.exe dnvm 2>&1 | Out-Null
+    if(($LASTEXITCODE -ne 0) -Or ((Test-Path Env:\APPVEYOR) -eq $true))
+    {
+        Write-Host "DNVM not found"
+        &{$Branch='dev';iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.ps1'))}
+
+        # Normally this happens automatically during install but AppVeyor has
+        # an issue where you may need to manually re-run setup from within this process.
+        if($env:DNX_HOME -eq $NULL)
+        {
+            Write-Host "Initial DNVM environment setup failed; running manual setup"
+            $tempDnvmPath = Join-Path $env:TEMP "dnvminstall"
+            $dnvmSetupCmdPath = Join-Path $tempDnvmPath "dnvm.ps1"
+            & $dnvmSetupCmdPath setup
+        }
+    }
+}
+
+function Remove-PathVariable
+{
+    param([string] $VariableToRemove)
+    $path = [Environment]::GetEnvironmentVariable("PATH", "User")
+    $newItems = $path.Split(';') | Where-Object { $_.ToString() -inotlike $VariableToRemove }
+    [Environment]::SetEnvironmentVariable("PATH", [System.String]::Join(';', $newItems), "User")
+    $path = [Environment]::GetEnvironmentVariable("PATH", "Process")
+    $newItems = $path.Split(';') | Where-Object { $_.ToString() -inotlike $VariableToRemove }
+    [Environment]::SetEnvironmentVariable("PATH", [System.String]::Join(';', $newItems), "Process")
 }
 
 function Copy-ReleaseNotes([string]$version) {

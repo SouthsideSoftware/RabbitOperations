@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Autofac;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
 using RabbitOperations.Collector.Configuration;
 using Raven.Abstractions.Data;
