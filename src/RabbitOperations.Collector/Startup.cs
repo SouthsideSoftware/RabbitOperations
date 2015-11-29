@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using RabbitOperations.Collector.Configuration;
+using RabbitOperations.Collector.RavenDb;
+using Raven.Client;
 
 namespace RabbitOperations.Collector
 {
@@ -28,18 +31,18 @@ namespace RabbitOperations.Collector
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            services.Configure<RavenDbSettings>(Configuration.GetSection("RavenDbSettings"));
             services.AddMvc();
 
             var containerBuilder = new ContainerBuilder();
-            //containerBuilder.RegisterModule<DefaultModule>();
+            containerBuilder.RegisterModule<RavenDbModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             return container.Resolve<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDocumentStore docStore)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
