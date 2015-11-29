@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -75,6 +76,7 @@ namespace RabbitOperations.Collector
             logger.LogVerbose($"AppBase {applicationEnvironment.ApplicationBasePath}");
             logger.LogVerbose($"Framework {applicationEnvironment.RuntimeFramework}");
             logger.LogVerbose($"AppDomain {AppDomain.CurrentDomain.BaseDirectory}");
+            logger.LogVerbose($"Current Directory {Directory.GetCurrentDirectory()}");
 
         }
 

@@ -92,7 +92,13 @@ Task publish -Description "Publish artifacts" {
 
 task startCollector -Description "Starts the collector host" {
 	$dnxVersion = Get-DnxVersion
-  StartApp "dnvm use $dnxVersion -r CLR -arch x64;dnx --configuration $configuration --project src/RabbitOperations.Collector web ASPNET_ENV=Development" "dnx"
+	Push-Location 
+	try {
+		Set-Location "src/RabbitOperations.Collector"
+		StartApp "dnvm use $dnxVersion -r CLR -arch x64;dnx --configuration $configuration web ASPNET_ENV=Development" "dnx"
+	} finally {
+		Pop-Location
+	}
 }
 
 task ? -Description "Helper to display task info" {
