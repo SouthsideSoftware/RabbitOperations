@@ -40,6 +40,9 @@
     "**.vspscc"
   ],
   "scripts": {
-    "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ]
+    "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ],
+    "postbuild": [
+      "xcopy %project:Directory%/src/RabbitOperations.Collector/Raven.Studio.Html5.zip %project:BuildOutputDir%/"
+    ]
   }
 }
