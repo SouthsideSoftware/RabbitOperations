@@ -1,0 +1,12 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "RabbitOperations.Domain Class Library",
+  "authors": [ "tom" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "dnx46": { }
+  }
+}

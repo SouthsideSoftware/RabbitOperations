@@ -20,7 +20,9 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
-    "RavenDB.Database": "3.0.30000"
+    "RabbitOperations.Domain": "1.0.0-*",
+    "RavenDB.Database": "3.0.30000",
+    "SouthsideUtility.Core": "1.0.0-*"
   },
 
   "commands": {
@@ -28,7 +30,7 @@
   },
 
   "frameworks": {
-    "dnx451": { }
+    "dnx46": { }
   },
 
   "exclude": [

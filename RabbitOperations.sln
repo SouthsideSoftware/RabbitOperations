@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3541CCB6
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RabbitOperations.Collector", "src\RabbitOperations.Collector\RabbitOperations.Collector.xproj", "{824D7935-42EF-47BE-82EF-D3107BEDFE8E}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SouthsideUtility.Core", "src\SouthsideUtility.Core\SouthsideUtility.Core.xproj", "{F204839C-2419-4890-B1DC-E168287A8A32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SouthsideUtility", "SouthsideUtility", "{C8A2B369-354D-401E-977D-F4259CA2D4B7}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RabbitOperations.Domain", "src\RabbitOperations.Domain\RabbitOperations.Domain.xproj", "{307CC961-7575-4E03-A115-A6609476462C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,11 +30,22 @@ Global
 		{824D7935-42EF-47BE-82EF-D3107BEDFE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{824D7935-42EF-47BE-82EF-D3107BEDFE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{824D7935-42EF-47BE-82EF-D3107BEDFE8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F204839C-2419-4890-B1DC-E168287A8A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F204839C-2419-4890-B1DC-E168287A8A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F204839C-2419-4890-B1DC-E168287A8A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F204839C-2419-4890-B1DC-E168287A8A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{307CC961-7575-4E03-A115-A6609476462C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{307CC961-7575-4E03-A115-A6609476462C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{307CC961-7575-4E03-A115-A6609476462C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{307CC961-7575-4E03-A115-A6609476462C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{824D7935-42EF-47BE-82EF-D3107BEDFE8E} = {F49C6CC1-C3CC-4389-8025-8F71F9BF7AFA}
+		{F204839C-2419-4890-B1DC-E168287A8A32} = {C8A2B369-354D-401E-977D-F4259CA2D4B7}
+		{C8A2B369-354D-401E-977D-F4259CA2D4B7} = {F49C6CC1-C3CC-4389-8025-8F71F9BF7AFA}
+		{307CC961-7575-4E03-A115-A6609476462C} = {F49C6CC1-C3CC-4389-8025-8F71F9BF7AFA}
 	EndGlobalSection
 EndGlobal

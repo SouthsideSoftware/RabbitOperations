@@ -1,0 +1,17 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "SouthsideUtility.Core Class Library",
+  "authors": [ "tom" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "dnx46": { }
+  },
+
+  "dependencies": {
+    "Autofac": "4.0.0-rc1-1",
+    "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-1"
+  }
+}

@@ -16,6 +16,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
 using Raven.Client;
+using SouthsideUtility.Core.DependencyInjection;
 
 namespace RabbitOperations.Collector
 {
@@ -42,7 +43,8 @@ namespace RabbitOperations.Collector
             containerBuilder.RegisterModule<RavenDbModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
-            return container.Resolve<IServiceProvider>();
+            ServiceLocator.ServiceProvider = container.Resolve<IServiceProvider>();
+            return ServiceLocator.ServiceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
