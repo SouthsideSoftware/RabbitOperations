@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "compilationOptions": {
     "emitEntryPoint": true
@@ -20,9 +20,13 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
+    "RabbitMQ.Client": "3.5.6",
     "RabbitOperations.Domain": "1.0.0-*",
     "RavenDB.Database": "3.0.30000",
-    "SouthsideUtility.Core": "1.0.0-*"
+    "Serilog": "1.5.14",
+    "Serilog.Sinks.RavenDB": "1.5.4",
+    "SouthsideUtility.Core": "1.0.0-*",
+    "Serilog.Framework.Logging": "1.0.0-rc1-final-10071"
   },
 
   "commands": {

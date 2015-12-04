@@ -30,7 +30,7 @@ namespace RabbitOperations.Collector.RavenDB
         {
             Verify.RequireNotNull(documentStore, "documentStore");
 
-            indexCreationTask.Execute(documentStore.DatabaseCommands.ForDatabase(Settings.StaticDefaultRavenDBTenant),
+            indexCreationTask.Execute(documentStore.DatabaseCommands.ForDatabase(RavenDbSettings.Instance.DefaultTenant),
                 documentStore.Conventions);
         }
 
@@ -42,7 +42,7 @@ namespace RabbitOperations.Collector.RavenDB
             Verify.RequireNotNull(indexQuery, "indexQuery");
             Verify.RequireNotNull(patchRequests, "patchRequests");
 
-            documentStore.DatabaseCommands.ForDatabase(Settings.StaticDefaultRavenDBTenant)
+            documentStore.DatabaseCommands.ForDatabase(RavenDbSettings.Instance.DefaultTenant)
                 .UpdateByIndex(indexName, indexQuery, patchRequests);
         }
     }

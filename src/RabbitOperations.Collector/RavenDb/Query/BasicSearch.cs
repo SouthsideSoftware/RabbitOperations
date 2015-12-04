@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter.Xml;
-using NLog;
-using RabbitOperations.Collector.Models;
+using Microsoft.Extensions.Logging;
 using RabbitOperations.Collector.RavenDB.Indexes;
 using RabbitOperations.Collector.RavenDB.Query.Interfaces;
-using RabbitOperations.Collector.Web.Modules.Api.V1;
 using RabbitOperations.Domain;
+using Raven.Abstractions.Logging;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 
@@ -18,7 +16,7 @@ namespace RabbitOperations.Collector.RavenDB.Query
     public class BasicSearch : IBasicSearch
     {
         private readonly IDocumentStore store;
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Logger<> logger = LogManager.GetCurrentClassLogger();
 
         public BasicSearch(IDocumentStore store)
         {

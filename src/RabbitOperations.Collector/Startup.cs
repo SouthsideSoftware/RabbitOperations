@@ -16,6 +16,8 @@ using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
 using Raven.Client;
+using Serilog;
+using Serilog.Events;
 using SouthsideUtility.Core.DependencyInjection;
 
 namespace RabbitOperations.Collector
@@ -41,6 +43,7 @@ namespace RabbitOperations.Collector
 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<RavenDbModule>();
+            containerBuilder.RegisterModule<ConfigurationModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             ServiceLocator.ServiceProvider = container.Resolve<IServiceProvider>();
@@ -50,8 +53,15 @@ namespace RabbitOperations.Collector
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDocumentStore docStore, IApplicationEnvironment applicationEnvironment)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            var logLevel = Configuration["Logging:LogLevel:Default"];
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Trace()
+                .WriteTo.RavenDB(docStore)
+                .WriteTo.ColoredConsole()
+                .MinimumLevel.Is((LogEventLevel)Enum.Parse(typeof(LogEventLevel), logLevel))
+                .CreateLogger();
+
+            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {
@@ -75,6 +85,7 @@ namespace RabbitOperations.Collector
             });
 
             var logger = loggerFactory.CreateLogger("Application");
+            logger.LogInformation($"Minimum log level: {logLevel}");
             logger.LogVerbose($"AppBase {applicationEnvironment.ApplicationBasePath}");
             logger.LogVerbose($"Framework {applicationEnvironment.RuntimeFramework}");
             logger.LogVerbose($"AppDomain {AppDomain.CurrentDomain.BaseDirectory}");
