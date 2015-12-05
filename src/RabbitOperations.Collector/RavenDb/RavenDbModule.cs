@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
 using RabbitOperations.Collector.Configuration;
+using RabbitOperations.Collector.RavenDB;
+using RabbitOperations.Collector.RavenDB.Interfaces;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Database.Server;
 using SouthsideUtility.Core.DesignByContract;
+using Module = Autofac.Module;
 
 namespace RabbitOperations.Collector.RavenDb
 {
@@ -33,7 +37,8 @@ namespace RabbitOperations.Collector.RavenDb
                         UseEmbeddedHttpServer = true
                     };
                     (docStore as EmbeddableDocumentStore).Configuration.Port = port;
-                    (docStore as EmbeddableDocumentStore).Configuration.DataDirectory = settings.EmbeddedRavenDb.DataDirectory;
+                    (docStore as EmbeddableDocumentStore).Configuration.DataDirectory =
+                        settings.EmbeddedRavenDb.DataDirectory;
                 }
                 else
                 {
@@ -48,7 +53,17 @@ namespace RabbitOperations.Collector.RavenDb
                 CreateDefaultDatabaseWithExpirationBundleIfNotExists(docStore, settings);
 
                 return docStore;
-            }).SingleInstance();
+            }).As<IDocumentStore>().SingleInstance();
+
+            builder.RegisterType<SchemaUpdater>().As<ISchemaUpdater>().SingleInstance();
+            builder.RegisterType<QualifiedSchemaUpdatersFactory>()
+                .As<IQualifiedSchemaUpdatersFactory>()
+                .SingleInstance();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(t => typeof (IUpdateSchemaVersion).IsAssignableFrom(t))
+                .As<IUpdateSchemaVersion>()
+                .SingleInstance();
         }
 
         private static void CreateDefaultDatabaseWithExpirationBundleIfNotExists(IDocumentStore docStore, RavenDbSettings settings)

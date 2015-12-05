@@ -11,6 +11,7 @@ using Microsoft.Extensions.OptionsModel;
 using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
+using RabbitOperations.Collector.RavenDB.Interfaces;
 using Raven.Client;
 using Serilog;
 using SouthsideUtility.Core.DependencyInjection;
@@ -46,10 +47,10 @@ namespace RabbitOperations.Collector
             return container.Resolve<IServiceProvider>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Setup the HTTP Pipeline and startup background services
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
             IDocumentStore docStore, IApplicationEnvironment applicationEnvironment,
-            IOptions<AppSettings> appSettingsConfig)
+            IOptions<AppSettings> appSettingsConfig, ISchemaUpdater schemaUpdater)
         {
             var appSettings = appSettingsConfig.Value;
             Log.Logger = new LoggerConfiguration()
@@ -72,11 +73,18 @@ namespace RabbitOperations.Collector
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            StartupBackgroundServices(applicationEnvironment, appSettings, schemaUpdater);
+
             app.UseIISPlatformHandler();
 
             app.UseStaticFiles();
 
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+        }
+
+        private void StartupBackgroundServices(IApplicationEnvironment applicationEnvironment, AppSettings appSettings, ISchemaUpdater schemaUpdater)
+        {
+            Log.Logger.Information("Application Startup Begins...");
 
             Log.Logger.Information("Minimum log levels -- Serilog:{SerilogLevel} Microsoft:{MicrosoftLogLevel}",
                 appSettings.LogLevel, appSettings.MicrosoftLogLevel);
@@ -84,6 +92,13 @@ namespace RabbitOperations.Collector
                 "Application Base Path:{ApplicationBasePath} AppDomain Base Directory:{AppDomainBaseDirectory} Working Directory:{WorkingDirectory} Framework:{Framework}",
                 applicationEnvironment.ApplicationBasePath, AppDomain.CurrentDomain.BaseDirectory,
                 Directory.GetCurrentDirectory(), applicationEnvironment.RuntimeFramework);
+
+            UpdateSchemaIfNeeded(schemaUpdater);
+        }
+
+        private void UpdateSchemaIfNeeded(ISchemaUpdater schemaUpdater)
+        {
+            schemaUpdater.UpdateSchema();
         }
 
         // Entry point for the application.
