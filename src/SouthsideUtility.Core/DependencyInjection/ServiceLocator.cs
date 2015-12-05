@@ -1,21 +1,22 @@
 ﻿using System;
+using Autofac;
 using Autofac.Features.GeneratedFactories;
 
 namespace SouthsideUtility.Core.DependencyInjection
 {
     public static class ServiceLocator
     {
-        private static IServiceProvider internalServiceProvider;
+        private static IContainer internalContainer;
         public static object locker = new object();
 
-        public static IServiceProvider ServiceProvider
+        public static IContainer Container
         {
-            get { return internalServiceProvider;}
+            get { return internalContainer;}
             set
             {
                 lock (locker)
                 {
-                    internalServiceProvider = value;
+                    internalContainer = value;
                 }
             }
         }

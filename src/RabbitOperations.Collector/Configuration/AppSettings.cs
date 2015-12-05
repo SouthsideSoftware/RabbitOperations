@@ -2,16 +2,12 @@
 using Microsoft.Extensions.OptionsModel;
 using Serilog.Events;
 using SouthsideUtility.Core.DependencyInjection;
+using Autofac;
 
 namespace RabbitOperations.Collector.Configuration
 {
     public class AppSettings
     {
-        public static AppSettings Instance
-        {
-            get { return ServiceLocator.ServiceProvider.Resolve<IOptions<AppSettings>>().Value; }
-        }
-
         public LogEventLevel LogLevel { get; set; }
 
         public bool AllowDevelopmntMode { get; set; }

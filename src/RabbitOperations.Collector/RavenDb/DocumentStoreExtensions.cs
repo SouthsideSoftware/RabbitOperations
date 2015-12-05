@@ -23,14 +23,14 @@ namespace RabbitOperations.Collector.RavenDB
             Verify.RequireNotNull(documentStore, "documentStore");
 
 
-            return documentStore.OpenSession(RavenDbSettings.Instance.DefaultTenant);
+            return documentStore.OpenSession(RavenDbSettingsHelper.Instance.DefaultTenant);
         }
 
         public static void ExecuteIndexCreationOnDefaultTenant(this IDocumentStore documentStore, AbstractIndexCreationTask indexCreationTask)
         {
             Verify.RequireNotNull(documentStore, "documentStore");
 
-            indexCreationTask.Execute(documentStore.DatabaseCommands.ForDatabase(RavenDbSettings.Instance.DefaultTenant),
+            indexCreationTask.Execute(documentStore.DatabaseCommands.ForDatabase(RavenDbSettingsHelper.Instance.DefaultTenant),
                 documentStore.Conventions);
         }
 
@@ -42,7 +42,7 @@ namespace RabbitOperations.Collector.RavenDB
             Verify.RequireNotNull(indexQuery, "indexQuery");
             Verify.RequireNotNull(patchRequests, "patchRequests");
 
-            documentStore.DatabaseCommands.ForDatabase(RavenDbSettings.Instance.DefaultTenant)
+            documentStore.DatabaseCommands.ForDatabase(RavenDbSettingsHelper.Instance.DefaultTenant)
                 .UpdateByIndex(indexName, indexQuery, patchRequests);
         }
     }

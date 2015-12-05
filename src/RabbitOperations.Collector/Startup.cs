@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNet.Mvc.Internal;
 using Microsoft.Extensions.OptionsModel;
 using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
 using Raven.Client;
 using Serilog;
-using Serilog.Events;
 using SouthsideUtility.Core.DependencyInjection;
 
 namespace RabbitOperations.Collector
@@ -48,12 +42,14 @@ namespace RabbitOperations.Collector
             containerBuilder.RegisterModule<ConfigurationModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
-            ServiceLocator.ServiceProvider = container.Resolve<IServiceProvider>();
-            return ServiceLocator.ServiceProvider;
+            ServiceLocator.Container = container;
+            return container.Resolve<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDocumentStore docStore, IApplicationEnvironment applicationEnvironment, IOptions<AppSettings> appSettingsConfig)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            IDocumentStore docStore, IApplicationEnvironment applicationEnvironment,
+            IOptions<AppSettings> appSettingsConfig)
         {
             var appSettings = appSettingsConfig.Value;
             Log.Logger = new LoggerConfiguration()
@@ -80,20 +76,14 @@ namespace RabbitOperations.Collector
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
-            var logger = loggerFactory.CreateLogger("Application");
-            logger.LogInformation("Minimum log levels -- Serilog: {SerilogLevel} Microsoft: {MicrosoftLogLevel}", appSettings.LogLevel, appSettings.MicrosoftLogLevel);
-            logger.LogVerbose($"AppBase {applicationEnvironment.ApplicationBasePath}");
-            logger.LogVerbose($"Framework {applicationEnvironment.RuntimeFramework}");
-            logger.LogVerbose($"AppDomain {AppDomain.CurrentDomain.BaseDirectory}");
-            logger.LogVerbose($"Current Directory {Directory.GetCurrentDirectory()}");
-
+            Log.Logger.Information("Minimum log levels -- Serilog:{SerilogLevel} Microsoft:{MicrosoftLogLevel}",
+                appSettings.LogLevel, appSettings.MicrosoftLogLevel);
+            Log.Logger.Information(
+                "Application Base Path:{ApplicationBasePath} AppDomain Base Directory:{AppDomainBaseDirectory} Working Directory:{WorkingDirectory} Framework:{Framework}",
+                applicationEnvironment.ApplicationBasePath, AppDomain.CurrentDomain.BaseDirectory,
+                Directory.GetCurrentDirectory(), applicationEnvironment.RuntimeFramework);
         }
 
         // Entry point for the application.
