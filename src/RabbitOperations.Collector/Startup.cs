@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNet.Mvc.Internal;
+using Microsoft.Extensions.OptionsModel;
 using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
@@ -39,6 +40,7 @@ namespace RabbitOperations.Collector
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.Configure<RavenDbSettings>(Configuration.GetSection("RavenDbSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddMvc();
 
             var containerBuilder = new ContainerBuilder();
@@ -51,17 +53,18 @@ namespace RabbitOperations.Collector
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDocumentStore docStore, IApplicationEnvironment applicationEnvironment)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDocumentStore docStore, IApplicationEnvironment applicationEnvironment, IOptions<AppSettings> appSettingsConfig)
         {
-            var logLevel = Configuration["Logging:LogLevel:Default"];
+            var appSettings = appSettingsConfig.Value;
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Trace()
                 .WriteTo.RavenDB(docStore)
                 .WriteTo.ColoredConsole()
-                .MinimumLevel.Is((LogEventLevel)Enum.Parse(typeof(LogEventLevel), logLevel))
+                .MinimumLevel.Is(appSettings.LogLevel)
                 .CreateLogger();
 
             loggerFactory.AddSerilog();
+            loggerFactory.MinimumLevel = appSettings.MicrosoftLogLevel;
 
             if (env.IsDevelopment())
             {
@@ -85,7 +88,7 @@ namespace RabbitOperations.Collector
             });
 
             var logger = loggerFactory.CreateLogger("Application");
-            logger.LogInformation($"Minimum log level: {logLevel}");
+            logger.LogInformation("Minimum log levels -- Serilog: {SerilogLevel} Microsoft: {MicrosoftLogLevel}", appSettings.LogLevel, appSettings.MicrosoftLogLevel);
             logger.LogVerbose($"AppBase {applicationEnvironment.ApplicationBasePath}");
             logger.LogVerbose($"Framework {applicationEnvironment.RuntimeFramework}");
             logger.LogVerbose($"AppDomain {AppDomain.CurrentDomain.BaseDirectory}");

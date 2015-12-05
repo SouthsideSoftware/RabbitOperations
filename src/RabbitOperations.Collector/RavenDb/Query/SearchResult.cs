@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using RabbitOperations.Collector.Models;
-using RabbitOperations.Collector.Web.Modules.Api.V1;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 

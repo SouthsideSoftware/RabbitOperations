@@ -1,7 +1,7 @@
-﻿using NLog;
-using RabbitOperations.Collector.Configuration.Interfaces;
+﻿using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.RavenDB.Interfaces;
 using Raven.Client;
+using Serilog;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
@@ -10,7 +10,6 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
     {
         private readonly ISettings settings;
         private readonly IDocumentStore store;
-        public Logger logger = LogManager.GetCurrentClassLogger();
 
         public ToVersion0018(ISettings settings, IDocumentStore store)
         {
@@ -29,7 +28,7 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
         public void UpdateSchema()
         {
             //Update config document by saving
-            logger.Info("Updating structure of configuration document");
+            Log.Logger.Information("Updating structure of configuration document");
             settings.Save();
         }
     }

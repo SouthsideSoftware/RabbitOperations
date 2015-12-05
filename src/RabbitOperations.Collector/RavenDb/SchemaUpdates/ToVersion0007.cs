@@ -1,8 +1,9 @@
-﻿using NLog;
+﻿
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.RavenDB.Indexes;
 using RabbitOperations.Collector.RavenDB.Interfaces;
 using Raven.Client;
+using Serilog;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
@@ -11,7 +12,6 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
     {
         private readonly ISettings settings;
         private readonly IDocumentStore store;
-        public Logger logger = LogManager.GetCurrentClassLogger();
 
         public ToVersion0007(ISettings settings, IDocumentStore store)
         {
@@ -29,7 +29,7 @@ namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
 
         public void UpdateSchema()
         {
-            logger.Info("Updating MessageDocumentSearch index");
+            Log.Logger.Information("Updating MessageDocumentSearch index");
             store.ExecuteIndexCreationOnDefaultTenant(new MessageDocument_Search());
         }
     }

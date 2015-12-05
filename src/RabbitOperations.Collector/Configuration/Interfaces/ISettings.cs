@@ -13,7 +13,6 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         void Save();
         MessageTypeHandling MessageTypeHandlingFor(string type);
 
-        int WebPort { get; }
         bool AutoStartQueuePolling { get; set; }
 
         /// <summary>
