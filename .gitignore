@@ -70,3 +70,4 @@ UpgradeLo*
 *customLocalAddress.txt
 _NCrunch_*
 project.lock.json
+src/RabbitOperations.Collector/wwwroot/lib/**/*.*
