@@ -55,7 +55,13 @@ gulp.task("copy-libs", ['clean', 'bower'], function () {
         "jquery": "jquery/dist/jquery*.{js,map}",
         "jquery-validation": "jquery-validation/dist/jquery.validate*.{js,map}",
         "jquery-validation-unobtrusive": "jquery-validation-unobtrusive/jquery.validate.unobtrusive*.{js,map}",
-        "angular": "angular/angular*.{js,map}"
+        "angular": "angular/angular*.{js,map}",
+        "signalr": "signalr/jquery.signalR*.{js,map}",
+        'angular-bootstrap': 'angular-bootstrap/ui-bootstrap*.{js,map}',
+        'noty': 'noty/js/noty/jquery.noty*.{js,map}',
+        'noty/themes': 'noty/js/noty/themes/*',
+        'angular-highlightjs': 'angular-highlightjs/build/angular-highlightjs*.{js,map}',
+        'moment': 'moment/min/moment*{js,map}'
     }
 
     for (var destinationDir in bower) {

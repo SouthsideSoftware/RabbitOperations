@@ -1,0 +1,26 @@
+﻿<div class="modal-header">
+    <h1>Retry Results</h1>
+    <span>Press ESC to close</span>
+</div>
+<div class="modal-body">
+    <table class="table table-striped table-condensed">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Queue</td>
+                <td>Status</td>
+            </tr> 
+        </thead>
+        <tbody>
+        <tr ng-repeat="retryMessage in retryMessageItems">
+            <td>{{retryId}}</td>
+            <td>{{retryQueue}}</td>
+            <td>{{isRetrying}} {{additionalInfo != null ? '(' + additionalInfo + ')' : ''}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <h4>Headers:</h4>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>
