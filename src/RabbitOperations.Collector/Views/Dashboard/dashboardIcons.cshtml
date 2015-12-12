@@ -1,0 +1,115 @@
+﻿@using Nancy.ViewEngines.Razor
+@using Nancy.ViewEngines.Razor
+@using RabbitOperations.Collector.Web
+@using RabbitOperations.Collector.Web.Helpers
+<div class="row" ng-controller="dashboardController">
+    <h4>
+        Queues
+        <span ng-click="displayStats = true" ng-show="!displayStats" class="clickable">[+]</span>
+        <span ng-click="displayStats = false" ng-show="displayStats" class="clickable">[-]</span>
+    </h4>
+    <div collapse="!displayStats">
+        <div class="input-group">
+            <span>Message rates averaged over:&nbsp;</span>
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="displayRate" btn-radio="1">1 min</label>
+                <label class="btn btn-primary" ng-model="displayRate" btn-radio="5">5 min</label>
+                <label class="btn btn-primary" ng-model="displayRate" btn-radio="15">15 min</label>
+                <label class="btn btn-primary" ng-model="displayRate" btn-radio="mean">Lifetime</label>
+            </div>
+            <span style="margin-left: 5px">Tabular View (more compact):</span>
+            <input type="checkbox" ng-model="tabularDisplay" ng-change="tabularDisplaySettingChanged()">
+        </div>
+        <div ng-show="!tabularDisplay" ng-repeat="application in applications">
+            <div class="col-lg-2 col-sm-3 gauge linkNoUnderline" ng-click="quickSearch(application.applicationId, false)">
+                <div justgage
+                     title="{{application.applicationName}}" title-font-color="green"
+                     value="{{application.queues[0].displayRate}}" value-font-color="green"
+                     min="0" max="{{application.queues[0].maxRate > 0 ? application.queues[0].maxRate : 1}}"
+                     hide-min-max="true"
+                     gauge-width-scale="0.5" gauge-color="grey"
+                     show-inner-shadow="true" shadow-opacity="0.5"
+                     shadow-size="3" shadow-vertical-offset="10"
+                     level-colors="{{application.queues[0].gaugeColor}}" no-gradient="false"
+                     label="{{application.queues[0].shortName + '/sec'}}" label-font-color="green"
+                     start-animation-time="0"
+                     refresh-animation-time="0"
+                     donut="true"
+                     counter="true" decimals="2" symbol="" format-number="true"
+                     human-friendly="true" human-friendly-decimal="true">
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-3 gauge linkNoUnderline" ng-click="quickSearch(application.applicationId, true)">
+                <div justgage
+                     title="{{application.applicationName}}" title-font-color="red"
+                     value="{{application.queues[1].displayRate}}" value-font-color="red"
+                     min="0" max="{{application.queues[1].maxRate > 0 ? application.queues[1].maxRate : 1}}"
+                     hide-min-max="true"
+                     gauge-width-scale="0.5" gauge-color="grey"
+                     show-inner-shadow="true" shadow-opacity="0.5"
+                     shadow-size="3" shadow-vertical-offset="10"
+                     level-colors="{{application.queues[1].gaugeColor}}" no-gradient="false"
+                     label="{{application.queues[1].shortName + '/sec'}}" label-font-color="red"
+                     start-animation-time="0"
+                     refresh-animation-time="0"
+                     donut="true"
+                     counter="true" decimals="2" symbol="" format-number="true"
+                     human-friendly="true" human-friendly-decimal="true">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6" ng-show="tabularDisplay">
+            <table class="table table-striped table-condensed">
+                <thead>
+                <tr>
+                    <td>Application</td>
+                    <td>Audit Queue</td>
+                    <td>Error Queue</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="application in evenApplications">
+                    <td class="link" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.queues[0].count > application.queues[0].oldCount}">
+                        {{application.queues[0].displayRate}}/s
+                    </td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.queues[1].count > application.queues[1].oldCount}">
+                        {{application.queues[1].displayRate}}/s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-6 col-sm-6" ng-show="tabularDisplay">
+            <table class="table table-striped table-condensed">
+                <thead>
+                <tr>
+                    <td>Application</td>
+                    <td>Audit Queue</td>
+                    <td>Error Queue</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="application in oddApplications">
+                    <td class="link" ng-click="quickSearch(application.applicationId)">{{application.applicationName}}</td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, false)" ng-class="{'newAudits': application.queues[0].count > application.queues[0].oldCount}">
+                        {{application.queues[0].displayRate}}/s
+                    </td>
+                    <td class="link queueRate" ng-click="quickSearch(application.applicationId, true)" ng-class="{'newErrors': application.queues[1].count > application.queues[1].oldCount}">
+                        {{application.queues[1].displayRate}}/s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <table class="table table-striped table-condensed">
+        </table>
+        <div class="col-lg-2 col-xs-3 col-sm-2 placeholder" ng-repeat="queue in queues">
+            <div ng-class="{greenHolder: !queue.queueSettings.isqueues[1], redHolder: queue.queueSettings.isqueues[1]}" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isqueues[1])" alt="Generic placeholder thumbnail" holder-fix>
+                <span>{{queue.messageRate > 0 ? queue.messageRate : 0}}/sec</span>
+            </div>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId)"><h4>{{queue.queueSettings.applicationName}}</h4></span>
+            <span class="link" ng-click="quickSearch(queue.queueSettings.applicationId, queue.queueSettings.isqueues[1])" class="text-muted">{{queue.queueSettings.isqueues[1] ? 'Error' : 'Audit'}}</span>
+        </div>
+    </div>
+</div>

@@ -53,10 +53,9 @@ Ronaele.6.1.ReSharper
 app/Ronaele.UI.Web/Data/*
 Autobahn.RulesExecutionProduct.*.dll
 node_modules
+bower_modules
 ScriptsBuilt
 *.chw
-!tools/nodejs/node_modules/jshint/bin
-!tools/nodejs/node_modules/requirejs/bin
 UpgradeLo*
 
 # Stuff for Macs
@@ -70,4 +69,5 @@ UpgradeLo*
 *customLocalAddress.txt
 _NCrunch_*
 project.lock.json
+src/RabbitOperations.Collector/wwwroot/lib
 src/RabbitOperations.Collector/wwwroot/lib/**/*.*

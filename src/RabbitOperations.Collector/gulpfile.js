@@ -1,16 +1,19 @@
-﻿/// <binding Clean='clean' />
+﻿/// <binding Clean='copy-libs' />
 "use strict";
 
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify");
+    uglify = require("gulp-uglify"),
+    bower = require("gulp-bower");
 
 var paths = {
-    webroot: "./wwwroot/"
+    webroot: "./wwwroot/",
+    bower: "./bower_modules/"
 };
 
+paths.lib = "./" + paths.webroot + "/lib/";
 paths.js = paths.webroot + "js/**/*.js";
 paths.minJs = paths.webroot + "js/**/*.min.js";
 paths.css = paths.webroot + "css/**/*.css";
@@ -26,7 +29,11 @@ gulp.task("clean:css", function (cb) {
     rimraf(paths.concatCssDest, cb);
 });
 
-gulp.task("clean", ["clean:js", "clean:css"]);
+gulp.task('clean:lib', function(cb) {
+    rimraf(paths.lib, cb);
+});
+
+gulp.task('clean', ['clean:js', 'clean:css', 'clean:lib']);
 
 gulp.task("min:js", function () {
     return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
@@ -40,6 +47,29 @@ gulp.task("min:css", function () {
         .pipe(concat(paths.concatCssDest))
         .pipe(cssmin())
         .pipe(gulp.dest("."));
+});
+
+gulp.task("copy-libs", ['clean', 'bower'], function () {
+    var bower = {
+        "bootstrap": "bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,eot}",
+        "jquery": "jquery/dist/jquery*.{js,map}",
+        "jquery-validation": "jquery-validation/dist/jquery.validate*.{js,map}",
+        "jquery-validation-unobtrusive": "jquery-validation-unobtrusive/jquery.validate.unobtrusive*.{js,map}",
+        "angular": "angular/angular*.{js,map}"
+    }
+
+    for (var destinationDir in bower) {
+        gulp.src(paths.bower + bower[destinationDir])
+          .pipe(gulp.dest(paths.lib + destinationDir));
+    }
+});
+
+gulp.task('bower-prune', function () {
+    return bower({cmd: 'prune'});
+});
+
+gulp.task('bower', ['bower-prune'], function () {
+    return bower();
 });
 
 gulp.task("min", ["min:js", "min:css"]);
