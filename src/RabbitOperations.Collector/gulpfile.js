@@ -51,7 +51,7 @@ gulp.task("min:css", function () {
 
 gulp.task("copy-libs", ['clean', 'bower'], function () {
     var bower = {
-        "bootstrap": "bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,eot}",
+        "bootstrap": "bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,woff2,eot}",
         "jquery": "jquery/dist/jquery*.{js,map}",
         "jquery-validation": "jquery-validation/dist/jquery.validate*.{js,map}",
         "jquery-validation-unobtrusive": "jquery-validation-unobtrusive/jquery.validate.unobtrusive*.{js,map}",
