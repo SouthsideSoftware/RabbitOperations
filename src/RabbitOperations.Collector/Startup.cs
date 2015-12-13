@@ -80,6 +80,7 @@ namespace RabbitOperations.Collector
             app.UseStaticFiles();
 
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+
         }
 
         private void StartupBackgroundServices(IApplicationEnvironment applicationEnvironment, AppSettings appSettings, ISchemaUpdater schemaUpdater)
