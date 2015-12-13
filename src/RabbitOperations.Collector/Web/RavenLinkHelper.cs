@@ -32,7 +32,8 @@ namespace RabbitOperations.Collector.Web
 
             if (settings.UseEmbedded)
             {
-                return string.Format("http://{0}:{1}", contextAccessor.HttpContext.Request.Host,
+                var host = contextAccessor.HttpContext.Request.Host.ToString().Split(':')[0];
+                return string.Format("http://{0}:{1}", host,
                     settings.EmbeddedRavenDb.ManagementPort);
             }
 
