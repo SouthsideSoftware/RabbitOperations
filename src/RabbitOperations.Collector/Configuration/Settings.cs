@@ -4,9 +4,11 @@ using System.Configuration;
 using System.Linq;
 using Microsoft.Extensions.OptionsModel;
 using RabbitOperations.Collector.Configuration.Interfaces;
+using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB;
 using RabbitOperations.Domain.Configuration;
 using Raven.Client;
+using Raven.Imports.Newtonsoft.Json;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Configuration
@@ -63,6 +65,21 @@ namespace RabbitOperations.Collector.Configuration
             Verify.RequireStringNotNullOrWhitespace(type, "type");
 
             return GlobalMessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
+        }
+
+        [JsonIgnore]
+        public IList<RabbitServer> RabbitServers
+        {
+            get
+            {
+                return Applications.Select(
+                    x =>
+                        new RabbitServer
+                        {
+                            Name = x.ApplicationName,
+                            Url = $"http://{new Uri(x.RabbitConnectionString).Host}:{x.RabbitManagementPort}"
+                        }).OrderBy(x => x.Name).ToList();
+            }
         }
 
         public void Load()

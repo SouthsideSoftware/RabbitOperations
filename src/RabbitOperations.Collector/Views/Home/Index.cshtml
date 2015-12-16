@@ -1,4 +1,6 @@
 ﻿@using RabbitOperations.Collector.Web
+@using RabbitOperations.Collector.Configuration.Interfaces
+@inject ISettings settings
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -174,22 +176,16 @@
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="form_controls.html" class="nav-link ">
-                                    <span class="title">
-                                        Bootstrap Form
-                                        <br>Controls
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="form_controls_md.html" class="nav-link ">
-                                    <span class="title">
-                                        Material Design
-                                        <br>Form Controls
-                                    </span>
-                                </a>
-                            </li>
+                            @foreach(var rabbitServer in settings.RabbitServers)
+                            {
+                                <li class="nav-item  ">
+                                    <a href="@rabbitServer.Url" class="nav-link ">
+                                        <span class="title">
+                                           @rabbitServer.Name
+                                        </span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </li>
                 </ul>

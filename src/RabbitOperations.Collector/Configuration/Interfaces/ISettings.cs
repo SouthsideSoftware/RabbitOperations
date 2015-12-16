@@ -22,5 +22,6 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         bool AllowDevelopmentMode { get; }
 
         int DatabaseSchemaVersion { get; set; }
+        IList<RabbitServer> RabbitServers { get; } 
     }
 }
