@@ -23,5 +23,6 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
 
         int DatabaseSchemaVersion { get; set; }
         IList<RabbitServer> RabbitServers { get; } 
+        IList<string> Environments { get; }
     }
 }

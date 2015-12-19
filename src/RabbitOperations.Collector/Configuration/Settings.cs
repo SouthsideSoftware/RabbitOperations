@@ -82,6 +82,11 @@ namespace RabbitOperations.Collector.Configuration
             }
         }
 
+        public IList<string> Environments
+        {
+            get { return Applications.Select(x => x.Environment).Distinct().OrderBy(x => x).ToList(); }
+        }
+
         public void Load()
         {
             using (var session = documentStore.OpenSessionForDefaultTenant())

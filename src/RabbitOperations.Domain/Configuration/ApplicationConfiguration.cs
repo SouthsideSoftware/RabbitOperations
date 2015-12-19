@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RabbitOperations.Domain.Configuration
 {
@@ -17,6 +18,7 @@ namespace RabbitOperations.Domain.Configuration
             ErrorDocumentExpirationInHours = 14*24;
             RabbitManagementPort = 15672;
             Prefetch = 10;
+            Environment = "Production";
         }
 
 
@@ -24,6 +26,8 @@ namespace RabbitOperations.Domain.Configuration
         public string ApplicationName { get; set; }
         public string AuditQueue { get; set; }
         public string ErrorQueue { get; set; }
+
+        public string Environment { get; set; }
 
         public string RabbitConnectionString { get; set; }
 
