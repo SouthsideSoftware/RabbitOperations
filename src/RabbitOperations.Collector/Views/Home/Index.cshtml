@@ -70,10 +70,20 @@
             <!-- BEGIN LOGO -->
             <div class="page-logo">
                 <a href="index.html">
-                    <img src="~/images/logo.png" alt="logo" class="logo-default" />
+                    <img src="~/images/logo.png" alt="logo" class="logo-default"/>
                 </a>
                 <div class="menu-toggler sidebar-toggler"> </div>
             </div>
+            <form class="search-form " action="page_general_search_2.html" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search..." name="query">
+                    <span class="input-group-btn">
+                        <a href="javascript:;" class="btn submit">
+                            <i class="icon-magnifier"></i>
+                        </a>
+                    </span>
+                </div>
+            </form>
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
@@ -269,7 +279,33 @@
                 }
             </div>
                 <div class="clearfix"></div>
-                <!-- END DASHBOARD STATS 1-->
+            <!-- END DASHBOARD STATS 1-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <!-- BEGIN PORTLET-->
+                    <div class="portlet light bordered">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search font-green"></i>
+                                <span class="caption-subject font-green bold uppercase">Search</span>
+                                <span class="caption-helper">messages</span>
+                            </div>
+                            <div class="actions">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                    <button class="btn blue uppercase bold" type="button">Search</button>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            data
+                        </div>
+                    </div>
+                    <!-- END PORTLET-->   
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <!-- BEGIN PORTLET-->
