@@ -1,36 +1,18 @@
 ﻿@using RabbitOperations.Collector.Configuration.Interfaces
 @inject ISettings settings
 
-<!-- BEGIN CONTENT -->
-<div class="page-content-wrapper">
-<!-- BEGIN CONTENT BODY -->
-<div class="page-content">
-<!-- BEGIN PAGE HEADER-->
-<!-- BEGIN PAGE BAR -->
-<div class="page-bar">
-    <ul class="page-breadcrumb">
-        <li>
-            <a href="index.html">Home</a>
-            <i class="fa fa-circle"></i>
-        </li>
-        <li>
-            <span>Dashboard</span>
-        </li>
-    </ul>
-    <div class="page-toolbar">
-        <div id="dashboard-report-range" class="pull-right tooltips btn btn-sm" data-container="body" data-placement="bottom" data-original-title="Change dashboard date range">
-            <i class="icon-calendar"></i>&nbsp;
-            <span class="thin uppercase hidden-xs"></span>&nbsp;
-            <i class="fa fa-angle-down"></i>
-        </div>
-    </div>
-</div>
-<!-- END PAGE BAR -->
-<!-- BEGIN PAGE TITLE-->
-<h3 class="page-title">
-    Dashboard
-    <small>message search & statistics</small>
-</h3>
+@{
+    ViewBag.Title = "Search";
+    ViewBag.Subtitle = "Messages";
+}
+
+
+@section PageStyles {
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link href="~/assets/pages/css/search.min.css" rel="stylesheet" type="text/css" />
+<!-- END PAGE LEVEL STYLES -->
+}
+
 <div class="row">
 <div class="col-md-12 col-sm-12">
 <!-- BEGIN PORTLET-->
@@ -315,7 +297,3 @@
 <!-- END PORTLET-->
 </div>
 </div>
-</div>
-<!-- END CONTENT BODY -->
-</div>
-<!-- END CONTENT --
