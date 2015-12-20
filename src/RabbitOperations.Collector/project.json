@@ -24,7 +24,6 @@
     "RabbitOperations.Domain": "1.0.0-*",
     "RavenDB.Database": "3.0.30000",
     "Serilog": "1.5.14",
-    "Serilog.Sinks.RavenDB": "1.5.4",
     "SouthsideUtility.Core": "1.0.0-*",
     "Serilog.Framework.Logging": "1.0.0-rc1-final-10071"
   },

@@ -50,12 +50,13 @@ namespace RabbitOperations.Collector
         // Setup the HTTP Pipeline and startup background services
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
             IDocumentStore docStore, IApplicationEnvironment applicationEnvironment,
-            IOptions<AppSettings> appSettingsConfig, ISchemaUpdater schemaUpdater)
+            IOptions<AppSettings> appSettingsConfig, IOptions<RavenDbSettings> ravenDbSettingsConfig, ISchemaUpdater schemaUpdater)
         {
+            var ravenSettings = ravenDbSettingsConfig.Value;
             var appSettings = appSettingsConfig.Value;
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Trace()
-                .WriteTo.RavenDB(docStore)
+                .WriteTo.RavenDB(docStore, defaultDatabase:ravenSettings.DefaultTenant, expirationTimeSpan:appSettings.LogInRavenDbExpirationTimeSpan, errorExpirationTimeSpan:appSettings.LogErrorInRavenDbExpirationTimeSpan)
                 .WriteTo.ColoredConsole()
                 .MinimumLevel.Is(appSettings.LogLevel)
                 .CreateLogger();

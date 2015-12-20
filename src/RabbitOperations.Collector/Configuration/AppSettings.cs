@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
 using Serilog.Events;
 using SouthsideUtility.Core.DependencyInjection;
@@ -11,6 +12,15 @@ namespace RabbitOperations.Collector.Configuration
         public LogEventLevel LogLevel { get; set; }
 
         public bool AllowDevelopmntMode { get; set; }
+
+        /// <summary>
+        /// Setting this to zero ("00:00:00") in config will make the message never expire
+        /// </summary>
+        public TimeSpan LogInRavenDbExpirationTimeSpan { get; set; }
+        /// <summary>
+        /// Setting this to zero ("00:00:00") in config will make the error message never expire
+        /// </summary>
+        public TimeSpan LogErrorInRavenDbExpirationTimeSpan { get; set; }
 
         public LogLevel MicrosoftLogLevel
         {
