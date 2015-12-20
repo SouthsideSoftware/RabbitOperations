@@ -75,7 +75,7 @@
             </a>
             <div class="menu-toggler sidebar-toggler"> </div>
         </div>
-        <form class="search-form " action="page_general_search_2.html" method="GET">
+        <form class="search-form " action="~/Search" method="GET">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search..." name="query">
                 <span class="input-group-btn">
@@ -149,34 +149,68 @@
         <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
         <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
         <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
-            <li class="nav-item start active open">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-home"></i>
-                    <span class="title">Dashboard</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-            </li>
+            @if (ViewBag.Title == "Dashboard")
+            {
+                <li class="nav-item start active open">
+                    <a href="~/" class="nav-link nav-toggle">
+                        <i class="fa fa-home"></i>
+                        <span class="title">Dashboard</span>
+                        <span class="selected"></span>
+                        <span class="arrow open"></span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a href="~/" class="nav-link nav-toggle">
+                        <i class="icon-home"></i>
+                        <span class="title">Dashboard</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+            }
+            @if (ViewBag.Title == "Search")
+            {
+                <li class="nav-item active open">
+                    <a href="~/Search" class="nav-link nav-toggle">
+                        <i class="fa fa-search"></i>
+                        <span class="title">Search</span>
+                        <span class="selected"></span>
+                        <span class="arrow open"></span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a href="~/Search" class="nav-link nav-toggle">
+                        <i class="fa fa-search"></i>
+                        <span class="title">Search</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+            }
             <li class="heading">
                 <h3 class="uppercase">Extras</h3>
             </li>
             <li class="nav-item  ">
                 <a href="@RavenLinkHelper.RavenStudioUrl()" target="_blank" class="nav-link nav-toggle">
-                    <i class="icon-diamond"></i>
+                    <i class="fa fa-database"></i>
                     <span class="title">RavenDB Studio</span>
                     <span class="arrow"></span>
                 </a>
             </li>
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-puzzle"></i>
+                    <i class="fa fa-line-chart"></i>
                     <span class="title">Metrics</span>
                     <span class="arrow"></span>
                 </a>
             </li>
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-settings"></i>
+                    <i class="fa fa-desktop"></i>
                     <span class="title">Rabbit Console</span>
                     <span class="arrow"></span>
                 </a>
