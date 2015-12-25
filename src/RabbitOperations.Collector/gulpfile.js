@@ -61,7 +61,8 @@ gulp.task("copy-libs", ['clean', 'bower'], function () {
         'noty': 'noty/js/noty/jquery.noty*.{js,map}',
         'noty/themes': 'noty/js/noty/themes/*',
         'angular-highlightjs': 'angular-highlightjs/build/angular-highlightjs*.{js,map}',
-        'moment': 'moment/min/moment*{js,map}'
+        'moment': 'moment/min/moment*{js,map}',
+        'showdown': 'showdown/dist/showdown*.{js,map}'
     }
 
     for (var destinationDir in bower) {

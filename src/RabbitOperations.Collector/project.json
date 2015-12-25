@@ -25,7 +25,8 @@
     "RavenDB.Database": "3.0.30000",
     "Serilog": "1.5.14",
     "SouthsideUtility.Core": "1.0.0-*",
-    "Serilog.Framework.Logging": "1.0.0-rc1-final-10071"
+    "Serilog.Framework.Logging": "1.0.0-rc1-final-10071",
+    "React.AspNet": "2.1.2"
   },
 
   "commands": {

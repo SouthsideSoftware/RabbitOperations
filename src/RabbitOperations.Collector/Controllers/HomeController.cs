@@ -31,5 +31,10 @@ namespace RabbitOperations.Collector.Controllers
         {
             return View();
         }
+
+        public IActionResult React()
+        {
+            return View();
+        }
     }
 }
