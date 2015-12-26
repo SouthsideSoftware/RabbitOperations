@@ -58,7 +58,7 @@ namespace RabbitOperations.Collector
             var appSettings = appSettingsConfig.Value;
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Trace()
-                .WriteTo.RavenDB(docStore, defaultDatabase:ravenSettings.DefaultTenant, expirationTimeSpan:appSettings.LogInRavenDbExpirationTimeSpan, errorExpirationTimeSpan:appSettings.LogErrorInRavenDbExpirationTimeSpan)
+                .WriteTo.RavenDB(docStore, defaultDatabase:ravenSettings.DefaultTenant, expiration:appSettings.LogInRavenDbExpirationTimeSpan, errorExpiration:appSettings.LogErrorInRavenDbExpirationTimeSpan)
                 .WriteTo.ColoredConsole()
                 .MinimumLevel.Is(appSettings.LogLevel)
                 .CreateLogger();

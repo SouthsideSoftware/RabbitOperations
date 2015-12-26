@@ -6,7 +6,8 @@ var gulp = require("gulp"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify"),
-    bower = require("gulp-bower");
+    bower = require("gulp-bower"),
+    dnx = require('gulp-dnx');
 
 var paths = {
     webroot: "./wwwroot/",
@@ -80,3 +81,5 @@ gulp.task('bower', ['bower-prune'], function () {
 });
 
 gulp.task("min", ["min:js", "min:css"]);
+
+gulp.task('build', ['copy-libs'], dnx('dnu', {build:true, restore: true, run: false}));
