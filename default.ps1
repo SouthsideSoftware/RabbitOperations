@@ -11,6 +11,8 @@ properties {
     $nugetOutputDir = Join-Path $artifactsDir "nuget"
     $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
+    $sourceDir = "src"
+    $testDir = "test"
 }
 
 task validateProperties -Description "Validate the build script properties." -action {
@@ -48,12 +50,14 @@ task test -Description "Runs tests" {
 Task compile -Description "Build application only" {
   Push-Location $PSScriptRoot
   try {
-      Setup-Dnvm
-      Restore-Packages
-      Build-Projects
+
   } finally {
     Pop-Location
   }
+}
+
+task prepDevEnvironment -Description "Installs npm dependencies etc. used in the development environment (assumes node is installed)"{
+    Get-SourceDirectories($sourceDir) | % { Invoke-CommandInDirectory (Join-Path $sourceDir $_) "npm install" }
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build
@@ -92,7 +96,7 @@ Task publish -Description "Publish artifacts" {
 
 task startCollector -Description "Starts the collector host" {
 	$dnxVersion = Get-DnxVersion
-	Push-Location 
+	Push-Location
 	try {
 		Set-Location "src/RabbitOperations.Collector"
 		StartApp "dnvm use $dnxVersion -r CLR -arch x64;dnx --configuration $configuration web ASPNET_ENV=Development" "dnx"
@@ -343,4 +347,18 @@ function Copy-ReleaseNotes([string]$version) {
   $fileName = "Rabbit_Operations_$fileVersion.markdown"
   $item = "node_modules/trello-releasenotes/export/$fileName"
   Move-Item $item -Destination ReleaseNotes -Force
+}
+
+function Get-SourceDirectories($dir){
+  return Get-ChildItem $dir
+}
+
+function Invoke-CommandInDirectory($dir, $cmd) {
+  Write-Host "Running $cmd in $dir"
+  Push-Location $dir
+  try {
+    iex $cmd
+  } finally {
+    Pop-Location
+  }
 }
