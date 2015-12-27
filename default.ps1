@@ -58,6 +58,7 @@ Task compile -Description "Build application only" {
 
 task prepDevEnvironment -Description "Installs npm dependencies etc. used in the development environment (assumes node is installed)"{
     Get-SourceDirectories($sourceDir) | % { Invoke-CommandInDirectory (Join-Path $sourceDir $_) "npm install" }
+    Get-SourceDirectories($testDir) | % { Invoke-CommandInDirectory (Join-Path $testDir $_) "npm install" }
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build

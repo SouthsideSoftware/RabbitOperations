@@ -26,7 +26,8 @@
     "Serilog": "1.5.14",
     "SouthsideUtility.Core": "1.0.0-*",
     "Serilog.Framework.Logging": "1.0.0-rc1-final-10071",
-    "React.AspNet": "2.1.2"
+    "React.AspNet": "2.1.2",
+    "Serilog.Sinks.RavenDB": "1.5.10"
   },
 
   "commands": {
@@ -39,7 +40,6 @@
         "System.Transactions": "4.0.0.0"
       },
       "dependencies": {
-        "Serilog.Sinks.RavenDB": "1.0.0-*"
       }
     }
   },
