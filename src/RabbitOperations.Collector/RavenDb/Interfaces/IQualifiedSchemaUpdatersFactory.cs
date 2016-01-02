@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RabbitOperations.Collector.RavenDB.Interfaces
+namespace RabbitOperations.Collector.RavenDb.Interfaces
 {
     public interface IQualifiedSchemaUpdatersFactory
     {

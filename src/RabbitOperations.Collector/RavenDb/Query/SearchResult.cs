@@ -3,7 +3,7 @@ using RabbitOperations.Collector.Models;
 using Raven.Client;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB.Query
+namespace RabbitOperations.Collector.RavenDb.Query
 {
     public class SearchResult<T>
     {

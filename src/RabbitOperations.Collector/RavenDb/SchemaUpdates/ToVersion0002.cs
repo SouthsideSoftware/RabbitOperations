@@ -2,16 +2,15 @@
 using Microsoft.Extensions.OptionsModel;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Collector.RavenDB.Indexes;
-using RabbitOperations.Collector.RavenDB.Interfaces;
+using RabbitOperations.Collector.RavenDb.Indexes;
+using RabbitOperations.Collector.RavenDb.Interfaces;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Raven.Client.Indexes;
 using Raven.Json.Linq;
 using Serilog;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
+namespace RabbitOperations.Collector.RavenDb.SchemaUpdates
 {
     public class ToVersion0002 : IUpdateSchemaVersion
     {

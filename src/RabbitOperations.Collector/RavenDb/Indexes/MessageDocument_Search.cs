@@ -4,7 +4,7 @@ using RabbitOperations.Domain;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
-namespace RabbitOperations.Collector.RavenDB.Indexes
+namespace RabbitOperations.Collector.RavenDb.Indexes
 {
     public class MessageDocument_Search : AbstractIndexCreationTask<MessageDocument>
     {

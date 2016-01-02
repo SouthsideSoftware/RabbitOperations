@@ -22,6 +22,10 @@
     "test": "xunit.runner.dnx"
   },
   "frameworks": {
-    "dnx46": { }
+    "dnx46": {
+      "dependencies": {
+        "System.Linq": "4.0.0"
+      }
+    }
   }
 }

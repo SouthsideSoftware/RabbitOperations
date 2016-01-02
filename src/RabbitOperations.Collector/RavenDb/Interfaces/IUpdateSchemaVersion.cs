@@ -1,4 +1,4 @@
-namespace RabbitOperations.Collector.RavenDB.Interfaces
+namespace RabbitOperations.Collector.RavenDb.Interfaces
 {
     public interface IUpdateSchemaVersion
     {

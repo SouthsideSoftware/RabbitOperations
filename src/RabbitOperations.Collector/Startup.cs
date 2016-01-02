@@ -11,7 +11,7 @@ using Microsoft.Extensions.OptionsModel;
 using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
-using RabbitOperations.Collector.RavenDB.Interfaces;
+using RabbitOperations.Collector.RavenDb.Interfaces;
 using Raven.Client;
 using React.AspNet;
 using Serilog;

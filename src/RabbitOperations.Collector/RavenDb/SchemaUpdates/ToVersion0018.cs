@@ -1,10 +1,10 @@
 ﻿using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Collector.RavenDB.Interfaces;
+using RabbitOperations.Collector.RavenDb.Interfaces;
 using Raven.Client;
 using Serilog;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB.SchemaUpdates
+namespace RabbitOperations.Collector.RavenDb.SchemaUpdates
 {
     public class ToVersion0018 : IUpdateSchemaVersion
     {

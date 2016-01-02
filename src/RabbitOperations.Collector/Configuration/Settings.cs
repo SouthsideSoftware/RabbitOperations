@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.OptionsModel;
 using RabbitOperations.Collector.Configuration.Interfaces;
 using RabbitOperations.Collector.Models;
-using RabbitOperations.Collector.RavenDB;
+using RabbitOperations.Collector.RavenDb;
 using RabbitOperations.Domain.Configuration;
 using Raven.Client;
 using Raven.Imports.Newtonsoft.Json;

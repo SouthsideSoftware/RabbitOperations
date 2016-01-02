@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.OptionsModel;
-using RabbitOperations.Collector.Configuration;
+﻿using RabbitOperations.Collector.Configuration;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Indexes;
-using SouthsideUtility.Core;
-using SouthsideUtility.Core.DependencyInjection;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB
+namespace RabbitOperations.Collector.RavenDb
 {
     public static class DocumentStoreExtensions
     {

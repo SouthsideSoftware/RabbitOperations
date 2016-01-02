@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Autofac;
 using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Collector.RavenDB.Interfaces;
-using SouthsideUtility.Core.DependencyInjection;
+using RabbitOperations.Collector.RavenDb.Interfaces;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB
+namespace RabbitOperations.Collector.RavenDb
 {
     public class QualifiedSchemaUpdatersFactory : IQualifiedSchemaUpdatersFactory
     {

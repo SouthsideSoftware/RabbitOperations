@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Collector.RavenDB.Interfaces;
+using RabbitOperations.Collector.RavenDb.Interfaces;
 using Serilog;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB
+namespace RabbitOperations.Collector.RavenDb
 {
     public class SchemaUpdater : ISchemaUpdater
     {

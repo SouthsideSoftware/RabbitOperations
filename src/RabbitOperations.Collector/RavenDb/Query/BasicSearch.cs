@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using RabbitOperations.Collector.Models;
-using RabbitOperations.Collector.RavenDB.Indexes;
-using RabbitOperations.Collector.RavenDB.Query.Interfaces;
+using RabbitOperations.Collector.RavenDb.Indexes;
+using RabbitOperations.Collector.RavenDb.Query.Interfaces;
 using RabbitOperations.Domain;
 using Raven.Client;
 using Serilog;
 using SouthsideUtility.Core.DesignByContract;
 
-namespace RabbitOperations.Collector.RavenDB.Query
+namespace RabbitOperations.Collector.RavenDb.Query
 {
     public class BasicSearch : IBasicSearch
     {
