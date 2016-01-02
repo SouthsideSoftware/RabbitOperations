@@ -1,0 +1,28 @@
+﻿{
+  "Headers": {
+    "NServiceBus.MessageId": "33db72af-be36-4773-8c95-a41200279462",
+    "NServiceBus.CorrelationId": "33db72af-be36-4773-8c95-a41200279462",
+    "NServiceBus.MessageIntent": "Send",
+    "NServiceBus.Version": "5.0.3",
+    "NServiceBus.TimeSent": "2014-12-31 02:24:06:300190 Z",
+    "NServiceBus.ContentType": "application/json",
+    "NServiceBus.EnclosedMessageTypes": "Autobahn.Fulfillment.Contracts.Ordering.NotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;Autobahn.Fulfillment.Contracts.Ordering.INotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;Veyron.Messages.Commands.ICommand, Veyron.Messages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "WinIdName": "GCC-DEV\\developer",
+    "NServiceBus.ConversationId": "84383232-6efc-4ca0-a304-a412002794da",
+    "NServiceBus.OriginatingMachine": "QA-1-WEB-1",
+    "NServiceBus.OriginatingEndpoint": "Ronaele.UI.Web",
+    "$.diagnostics.originating.hostid": "6da45a72687753278b930fe38a91a4ad",
+    "NServiceBus.RabbitMQ.CallbackQueue": "Autobahn.Fulfillment.Host.QA-1-WEB-1",
+    "NServiceBus.ReplyToAddress": "Ronaele.UI.Web",
+    "$.diagnostics.hostid": "0ba7c10aa289498b4d9d6936935f51f7",
+    "$.diagnostics.hostdisplayname": "QA-1-WEB-1",
+    "$.diagnostics.license.expired": "false",
+    "NServiceBus.InvokedSagas": "Autobahn.Fulfillment.Tasks.Sagas.FulfillmentSaga:3b654483-a8ea-470b-8c78-a4110184fa8c",
+    "NServiceBus.ProcessingStarted": "2014-12-31 02:24:06:794413 Z",
+    "NServiceBus.ProcessingEnded": "2014-12-31 02:24:07:074692 Z",
+    "NServiceBus.ProcessingMachine": "QA-1-WEB-1",
+    "NServiceBus.ProcessingEndpoint": "Autobahn.Fulfillment.Host",
+    "NServiceBus.OriginatingAddress": "Ronaele.UI.Web@QA-1-WEB-1"
+  },
+  "Body": "{\"CorrelationGuid\":\"f349702d-1be6-4c65-8f74-de8457ed4ccf\"}"
+}
