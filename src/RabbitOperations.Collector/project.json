@@ -24,10 +24,10 @@
     "RabbitOperations.Domain": "1.0.0-*",
     "RavenDB.Database": "3.0.30000",
     "Serilog": "1.5.14",
-    "SouthsideUtility.Core": "1.0.0-*",
     "Serilog.Framework.Logging": "1.0.0-rc1-final-10071",
     "React.AspNet": "2.1.2",
-    "Serilog.Sinks.RavenDB": "1.5.12"
+    "Serilog.Sinks.RavenDB": "1.5.12",
+    "SouthsideUtility.Core": "1.0.0-*"
   },
 
   "commands": {
@@ -35,7 +35,7 @@
   },
 
   "frameworks": {
-    "dnx451": {
+    "dnx46": {
       "frameworkAssemblies": {
         "System.Transactions": "4.0.0.0"
       },

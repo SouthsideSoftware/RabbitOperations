@@ -11,7 +11,6 @@
     "RabbitOperations.Collector": "1.0.0-*",
     "RabbitOperations.Domain": "1.0.0-*",
     "SouthsideUtility.Core": "1.0.0-*",
-    "SouthsideUtility.Testing": "1.0.0-*",
     "xunit": "2.1.0",
     "xunit.runner.dnx": "2.1.0-rc1-build204",
     "Moq": "4.2.1510.2205",
