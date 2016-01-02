@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "SouthsideUtility.Core Class Library",
+  "description": "SouthsideUtility.Testing Class Library",
   "authors": [ "tom" ],
   "tags": [ "" ],
   "projectUrl": "",
@@ -11,6 +11,6 @@
   },
 
   "dependencies": {
-    "Autofac": "4.0.0-rc1-177"
+    "RavenDB.Database": "3.0.30000"
   }
 }

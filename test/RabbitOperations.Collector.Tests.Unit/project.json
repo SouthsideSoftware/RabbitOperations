@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "RabbitOperations.Collector.Tests.Unit Class Library",
+  "authors": [ "tom" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "FluentAssertions": "4.1.1",
+    "RabbitOperations.Collector": "1.0.0-*",
+    "RabbitOperations.Domain": "1.0.0-*",
+    "SouthsideUtility.Core": "1.0.0-*",
+    "SouthsideUtility.Testing": "1.0.0-*",
+    "xunit": "2.1.0",
+    "xunit.runner.dnx": "2.1.0-rc1-build204",
+    "Moq": "4.2.1510.2205",
+    "Autofac": "4.0.0-rc1-177",
+    "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-177"
+  },
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+  "frameworks": {
+    "dnx46": { }
+  }
+}

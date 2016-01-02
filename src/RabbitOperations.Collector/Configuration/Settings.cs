@@ -48,23 +48,10 @@ namespace RabbitOperations.Collector.Configuration
             set { configurationDocument.AutoStartQueuePolling = value; }
         }
 
-        public IList<MessageTypeHandling> GlobalMessageHandlingInstructions
-        {
-            get { return configurationDocument.GlobalMessageHandlingInstructions; }
-            set { configurationDocument.GlobalMessageHandlingInstructions = value; }
-        }
-
         public IList<ApplicationConfiguration> Applications
         {
             get { return configurationDocument.Applications; }
             set { configurationDocument.Applications = value; }
-        }
-
-        public MessageTypeHandling MessageTypeHandlingFor(string type)
-        {
-            Verify.RequireStringNotNullOrWhitespace(type, "type");
-
-            return GlobalMessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
         }
 
         [JsonIgnore]

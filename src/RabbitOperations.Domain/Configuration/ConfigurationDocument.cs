@@ -10,14 +10,11 @@ namespace RabbitOperations.Domain.Configuration
     {
         public ConfigurationDocument()
         {
-            GlobalMessageHandlingInstructions = new List<MessageTypeHandling>();
             Id = 1;
             Applications = new List<ApplicationConfiguration>();
             AutoStartQueuePolling = false;
         }
         public int Id { get; set; }
-
-        public IList<MessageTypeHandling> GlobalMessageHandlingInstructions { get; set; } 
 
         public IList<ApplicationConfiguration> Applications { get; set; }
 

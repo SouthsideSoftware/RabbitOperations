@@ -6,6 +6,19 @@ namespace RabbitOperations.Collector.Configuration
 {
     public class RavenDbSettingsHelper
     {
-        public static RavenDbSettings Instance => ServiceLocator.Container.Resolve<IOptions<RavenDbSettings>>().Value;
+        public static RavenDbSettings TestInstance;
+
+        public static RavenDbSettings Instance
+        {
+            get
+            {
+                if (TestInstance != null)
+                {
+                    return TestInstance;
+                }
+
+                return ServiceLocator.Container.Resolve<IOptions<RavenDbSettings>>().Value;
+            }
+        } 
     }
 }

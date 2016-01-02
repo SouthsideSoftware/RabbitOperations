@@ -5,13 +5,10 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
 {
     public interface ISettings
     {  
-        IList<MessageTypeHandling> GlobalMessageHandlingInstructions { get; set; }
-
         IList<ApplicationConfiguration> Applications { get; set; } 
 
         void Load();
         void Save();
-        MessageTypeHandling MessageTypeHandlingFor(string type);
 
         bool AutoStartQueuePolling { get; set; }
 

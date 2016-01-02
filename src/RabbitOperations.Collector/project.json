@@ -5,8 +5,8 @@
   },
 
   "dependencies": {
-    "Autofac": "4.0.0-rc1-1",
-    "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-1",
+    "Autofac": "4.0.0-rc1-177",
+    "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-177",
     "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
     "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
     "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
@@ -27,7 +27,7 @@
     "SouthsideUtility.Core": "1.0.0-*",
     "Serilog.Framework.Logging": "1.0.0-rc1-final-10071",
     "React.AspNet": "2.1.2",
-    "Serilog.Sinks.RavenDB": "1.5.10"
+    "Serilog.Sinks.RavenDB": "1.5.12"
   },
 
   "commands": {
@@ -35,7 +35,7 @@
   },
 
   "frameworks": {
-    "dnx46": {
+    "dnx451": {
       "frameworkAssemblies": {
         "System.Transactions": "4.0.0.0"
       },
