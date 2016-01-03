@@ -17,7 +17,8 @@
     "Autofac": "4.0.0-rc1-177",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-177",
     "Autofac.Extras.Moq": "4.0.0",
-    "Serilog": "1.5.14"
+    "Serilog": "1.5.14",
+    "Rx-Main": "2.2.5"
   },
   "commands": {
     "test": "xunit.runner.dnx"
