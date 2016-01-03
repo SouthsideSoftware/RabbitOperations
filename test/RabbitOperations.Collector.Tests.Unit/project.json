@@ -16,7 +16,8 @@
     "Moq": "4.2.1510.2205",
     "Autofac": "4.0.0-rc1-177",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-177",
-    "Autofac.Extras.Moq": "4.0.0"
+    "Autofac.Extras.Moq": "4.0.0",
+    "Serilog": "1.5.14"
   },
   "commands": {
     "test": "xunit.runner.dnx"

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "SouthsideUtility.Core Class Library",
   "authors": [ "tom" ],
@@ -11,6 +11,7 @@
   },
 
   "dependencies": {
-    "Autofac": "4.0.0-rc1-177"
+    "Autofac": "4.0.0-rc1-177",
+    "Polly": "2.2.7"
   }
 }
