@@ -9,8 +9,8 @@
     "dnx46": { }
   },
   "dependencies": {
-    "Newtonsoft.Json": "7.0.1",
-    "RabbitMQ.Client": "3.5.6",
+    "Newtonsoft.Json": "8.0.2",
+    "RabbitMQ.Client": "3.6.0",
     "SouthsideUtility.Core": "1.0.0-*"
   }
 }

@@ -22,6 +22,8 @@ namespace RabbitOperations.Collector.Configuration
         /// </summary>
         public TimeSpan LogErrorInRavenDbExpirationTimeSpan { get; set; }
 
+        public string LogFile { get; set; }
+
         public LogLevel MicrosoftLogLevel
         {
             get

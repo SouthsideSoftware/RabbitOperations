@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "RabbitOperations.Collector.Tests.Unit Class Library",
   "authors": [ "tom" ],
@@ -7,7 +7,6 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "FluentAssertions": "4.1.1",
     "RabbitOperations.Collector": "1.0.0-*",
     "RabbitOperations.Domain": "1.0.0-*",
     "SouthsideUtility.Core": "1.0.0-*",
@@ -18,7 +17,8 @@
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-177",
     "Autofac.Extras.Moq": "4.0.0",
     "Serilog": "1.5.14",
-    "Rx-Main": "2.2.5"
+    "Rx-Main": "2.2.5",
+    "FluentAssertions": "4.2.0"
   },
   "commands": {
     "test": "xunit.runner.dnx"

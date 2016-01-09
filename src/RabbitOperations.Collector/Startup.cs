@@ -15,6 +15,7 @@ using RabbitOperations.Collector.RavenDb.Interfaces;
 using Raven.Client;
 using React.AspNet;
 using Serilog;
+using Serilog.Events;
 using SouthsideUtility.Core.DependencyInjection;
 
 namespace RabbitOperations.Collector
@@ -52,13 +53,14 @@ namespace RabbitOperations.Collector
         // Setup the HTTP Pipeline and startup background services
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
             IDocumentStore docStore, IApplicationEnvironment applicationEnvironment,
-            IOptions<AppSettings> appSettingsConfig, IOptions<RavenDbSettings> ravenDbSettingsConfig, ISchemaUpdater schemaUpdater)
+            IOptions<AppSettings> appSettingsConfig, IOptions<RavenDbSettings> ravenDbSettingsConfig, ISchemaUpdater schemaUpdater, IApplicationLifetime lifetime)
         {
             var ravenSettings = ravenDbSettingsConfig.Value;
             var appSettings = appSettingsConfig.Value;
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Trace()
-                .WriteTo.RavenDB(docStore, defaultDatabase:ravenSettings.DefaultTenant, expiration:appSettings.LogInRavenDbExpirationTimeSpan, errorExpiration:appSettings.LogErrorInRavenDbExpirationTimeSpan)
+                .WriteTo.RavenDB(docStore, defaultDatabase:ravenSettings.DefaultTenant, expiration:appSettings.LogInRavenDbExpirationTimeSpan, errorExpiration:appSettings.LogErrorInRavenDbExpirationTimeSpan, restrictedToMinimumLevel:LogEventLevel.Error)
+                .WriteTo.RollingFile(appSettings.LogFile)
                 .WriteTo.ColoredConsole()
                 .MinimumLevel.Is(appSettings.LogLevel)
                 .CreateLogger();
@@ -104,6 +106,8 @@ namespace RabbitOperations.Collector
 
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
+            lifetime.ApplicationStopping.Register(()=> Shutdown(docStore));
+
         }
 
         private void StartupBackgroundServices(IApplicationEnvironment applicationEnvironment, AppSettings appSettings, ISchemaUpdater schemaUpdater)
@@ -123,6 +127,12 @@ namespace RabbitOperations.Collector
         private void UpdateSchemaIfNeeded(ISchemaUpdater schemaUpdater)
         {
             schemaUpdater.UpdateSchema();
+        }
+
+        public void Shutdown(IDocumentStore docStore)
+        {
+            Log.Information("Shutting down");
+            docStore.Dispose();
         }
 
         // Entry point for the application.

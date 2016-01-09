@@ -20,14 +20,14 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
-    "RabbitMQ.Client": "3.5.6",
     "RabbitOperations.Domain": "1.0.0-*",
-    "RavenDB.Database": "3.0.30000",
     "Serilog": "1.5.14",
     "Serilog.Framework.Logging": "1.0.0-rc1-final-10071",
     "React.AspNet": "2.1.2",
     "Serilog.Sinks.RavenDB": "1.5.12",
-    "SouthsideUtility.Core": "1.0.0-*"
+    "SouthsideUtility.Core": "1.0.0-*",
+    "RabbitMQ.Client": "3.6.0",
+    "RavenDB.Database": "3.0.30037"
   },
 
   "commands": {
