@@ -85,6 +85,8 @@ namespace RabbitOperations.Collector
             // Initialise ReactJS.NET. Must be before static files.
             app.UseReact(config =>
             {
+                config.AddScript("~/lib/showdown/showdown.min.js")
+                    .AddScript("~/js/Tutorial.jsx");
                 // If you want to use server-side rendering of React components,
                 // add all the necessary JavaScript files here. This includes
                 // your components as well as all of their dependencies.

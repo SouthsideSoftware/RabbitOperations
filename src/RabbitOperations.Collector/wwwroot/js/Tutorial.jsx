@@ -15,6 +15,10 @@ var CommentBox = React.createClass({
     xhr.send();
   },
   handleCommentSubmit: function(comment) {
+    var comments = this.state.data;
+    var newComments = comments.concat([comment]);
+    this.setState({data: newComments});
+
     var data = new FormData();
     data.append('Author', comment.Author);
     data.append('Text', comment.Text);
@@ -27,10 +31,9 @@ var CommentBox = React.createClass({
     xhr.send(data);
   },
   getInitialState: function() {
-    return {data: []};
+    return { data: this.props.initialData };
   },
   componentDidMount: function() {
-    this.loadCommentsFromServer();
     window.setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
@@ -97,8 +100,3 @@ var CommentForm = React.createClass({
     );
   }
 });
-
-ReactDOM.render(
-  <CommentBox url="/home/comments" submitUrl="/home/AddComment" pollInterval={2000}/>,
-  document.getElementById('content')
-);

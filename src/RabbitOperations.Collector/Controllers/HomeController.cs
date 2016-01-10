@@ -44,7 +44,7 @@ namespace RabbitOperations.Collector.Controllers
 
         public IActionResult React()
         {
-            return View();
+            return View(comments);
         }
 
         [ResponseCache(NoStore = true, Duration = 0)]
