@@ -7,7 +7,7 @@ param(
 
 Push-Location $scriptDirectory\..\node_modules\trello-releasenotes
 try {
-  & node index.js -g "Ready to Release $version" -v $version
+  & node index.js -g "$version" -v $version
 } finally {
   Pop-Location
 }

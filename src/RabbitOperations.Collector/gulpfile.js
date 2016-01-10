@@ -1,13 +1,13 @@
 ﻿/// <binding Clean='copy-libs' />
 "use strict";
 
-var gulp = require("gulp"),
-    rimraf = require("rimraf"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify"),
-    bower = require("gulp-bower"),
-    dnx = require('gulp-dnx');
+var gulp = require("../../node_modules/gulp"),
+    rimraf = require("../../node_modules/rimraf"),
+    concat = require("../../node_modules/gulp-concat"),
+    cssmin = require("../../node_modules/gulp-cssmin"),
+    uglify = require("../../node_modules/gulp-uglify"),
+    bower = require("../../node_modules/gulp-bower"),
+    dnx = require('../../node_modules/gulp-dnx');
 
 var paths = {
     webroot: "./wwwroot/",

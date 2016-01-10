@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB8BA1D9-B01B-491E-A41E-0C2F5F481507}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		gulpfile.js = gulpfile.js
+		package.json = package.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3541CCB6-B6C4-47B0-AE0D-CA5FD1075CE3}"
