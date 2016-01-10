@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using RabbitOperations.Collector.Models;
 
 namespace RabbitOperations.Collector.Controllers
 {
     public class HomeController : Controller
-    {
+    { 
+        private static List<CommentModel> comments;
+
+        static HomeController()
+        {
+            comments = new List<CommentModel>
+            {
+                new CommentModel {Author = "Tom", Text = "This is the first comment -- "},
+                new CommentModel {Author = "Phil", Text = "This is *another* comment"}
+            };
+        }
+   
         public IActionResult Index()
         {
             return View();
@@ -35,6 +45,20 @@ namespace RabbitOperations.Collector.Controllers
         public IActionResult React()
         {
             return View();
+        }
+
+        [ResponseCache(NoStore = true, Duration = 0)]
+        public ActionResult Comments()
+        {
+            comments[0].Text += ".";
+            return Json(comments);
+        }
+
+        [HttpPost]
+        public ActionResult AddComment(CommentModel comment)
+        {
+            comments.Add(comment);
+            return Content("Success :)");
         }
     }
 }
