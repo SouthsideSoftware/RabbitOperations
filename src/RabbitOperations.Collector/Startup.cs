@@ -12,6 +12,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.RavenDb;
 using RabbitOperations.Collector.RavenDb.Interfaces;
+using RabbitOperations.Collector.RavenDb.Query;
 using Raven.Client;
 using React.AspNet;
 using Serilog;
@@ -44,6 +45,7 @@ namespace RabbitOperations.Collector
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<RavenDbModule>();
             containerBuilder.RegisterModule<ConfigurationModule>();
+            containerBuilder.RegisterModule<QueryModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             ServiceLocator.Container = container;

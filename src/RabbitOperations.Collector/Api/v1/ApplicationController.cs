@@ -8,8 +8,8 @@ using Microsoft.AspNet.Mvc;
 
 namespace RabbitOperations.Collector.Api.v1
 {
-    [Route("api/[controller]", Name = "default")]
-    [Route("api/v1/[controller]", Name = "versioned")]
+    [Route("api/[controller]", Name = "defaultApplication")]
+    [Route("api/v1/[controller]", Name = "version1Application")]
     public class ApplicationController : Controller
     {
         // GET: api/values

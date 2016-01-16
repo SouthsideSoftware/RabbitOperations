@@ -12,7 +12,7 @@ using RabbitOperations.Domain.Configuration;
 namespace RabbitOperations.Collector.Api.v1
 {
     [Route("api/[controller]", Name = "defaultRabbitServer")]
-    [Route("api/v1/[controller]", Name = "versionedRabbitServer")]
+    [Route("api/v1/[controller]", Name = "version1RabbitServer")]
     public class RabbitServerController : Controller
     {
         // GET: api/values
