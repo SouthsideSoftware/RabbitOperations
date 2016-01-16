@@ -12,6 +12,6 @@
 
   "dependencies": {
     "Autofac": "4.0.0-rc1-177",
-    "Polly": "2.2.7"
+    "Polly": "3.0.0"
   }
 }

@@ -18,7 +18,7 @@
     "Autofac.Extras.Moq": "4.0.0",
     "Serilog": "1.5.14",
     "Rx-Main": "2.2.5",
-    "FluentAssertions": "4.2.0"
+    "FluentAssertions": "4.2.1"
   },
   "commands": {
     "test": "xunit.runner.dnx"
