@@ -1,7 +1,7 @@
 ﻿/// <binding Clean='copy-libs' />
 "use strict";
 
-var gulp = require('gulp'),
+var gulp = require('gulp-help')(require('gulp')),
     dnx = require('gulp-dnx');
 
 var paths = {

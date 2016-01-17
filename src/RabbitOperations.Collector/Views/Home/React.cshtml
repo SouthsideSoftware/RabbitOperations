@@ -1,12 +1,11 @@
 ﻿@using System.Threading.Tasks
-@using RabbitOperations.Collector.Models
 @model IEnumerable<RabbitOperations.Collector.Models.CommentModel>
 @{
-    Layout = null;
+  Layout = null;
 }
 <html>
 <head>
-    <title>Hello React</title>
+  <title>Hello React</title>
 </head>
 <body>
 @Html.React("CommentBox", new
@@ -14,12 +13,19 @@
   initialData = Model,
   url = Url.Action("Comments"),
   submitUrl = Url.Action("AddComment"),
-  pollInterval = 2000,
+  pollInterval = 2000
 })
 <div id="content"></div>
-<script src="https://fb.me/react-0.14.0.min.js"></script>
-<script src="https://fb.me/react-dom-0.14.0.min.js"></script>
+
 <script src="@Url.Content("~/lib/showdown/showdown.min.js")"></script>
+<environment names="Staging,Production">
+  <script src="https://fb.me/react-0.14.6.min.js"></script>
+  <script src="https://fb.me/react-dom-0.14.6.min.js"></script>  
+</environment>
+<environment names="Development">
+  <script src="@Url.Content("~/lib/react/react.min.js")"></script>
+  <script src="@Url.Content("~/lib/react/react-dom.min.js")"></script>
+</environment>
 <script src="@Url.Content("~/js/Tutorial.jsx")"></script>
 @Html.ReactInitJavaScript()
 </body>
