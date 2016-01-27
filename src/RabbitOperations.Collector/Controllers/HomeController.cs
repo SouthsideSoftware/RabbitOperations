@@ -47,6 +47,11 @@ namespace RabbitOperations.Collector.Controllers
             return View(comments);
         }
 
+        public IActionResult Superman()
+        {
+            return View(comments);
+        }
+
         [ResponseCache(NoStore = true, Duration = 0)]
         public ActionResult Comments()
         {
