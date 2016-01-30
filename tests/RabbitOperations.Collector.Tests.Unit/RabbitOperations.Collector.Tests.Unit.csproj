@@ -165,9 +165,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Raven.Studio.Html5.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="TestData\EmptyBody.json" />
     <None Include="TestData\Audit.json" />
     <None Include="TestData\Error.json" />
