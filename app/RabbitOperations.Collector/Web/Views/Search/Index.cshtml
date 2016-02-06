@@ -1,0 +1,299 @@
+﻿@using RabbitOperations.Collector.Configuration.Interfaces
+@inject ISettings settings
+
+@{
+    ViewBag.Title = "Search";
+    ViewBag.Subtitle = "Messages";
+}
+
+
+@section PageStyles {
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link href="~/assets/pages/css/search.min.css" rel="stylesheet" type="text/css" />
+<!-- END PAGE LEVEL STYLES -->
+}
+
+<div class="row">
+<div class="col-md-12 col-sm-12">
+<!-- BEGIN PORTLET-->
+<div class="portlet light bordered">
+<div class="portlet-title">
+    <div class="caption">
+        <i class="fa fa-search font-green"></i>
+        <span class="caption-subject font-green bold uppercase">Search</span>
+        <span class="caption-helper">messages</span>
+    </div>
+    <div class="actions">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+                                    <button class="btn blue uppercase bold" type="button">Search</button>
+                                </span>
+        </div>
+    </div>
+</div>
+<div class="search-page search-content-4">
+<div class="search-table table-responsive">
+<table class="table table-bordered table-striped table-condensed">
+<thead class="bg-blue">
+<tr>
+    <th>
+        <a href="javascript:;">Status</a>
+    </th>
+    <th>
+        <a href="javascript:;">Date</a>
+    </th>
+    <th>
+        <a href="javascript:;">Title & Author</a>
+    </th>
+    <th>
+        <a href="javascript:;">Description</a>
+    </th>
+    <th>
+        <a href="javascript:;">Download</a>
+    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-arrow-right font-blue"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 17, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Metronic Admin Reborn</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-arrow-right font-blue"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 17, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Lorem ipsum dolor</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-check font-grey"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 15, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Typi non habent</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-arrow-right font-blue"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 12, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Metronic Admin Search Result</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-arrow-right font-blue"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 11, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Mirum est notare</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-check font-grey"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 9, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Metronic Admin Reborn</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-check font-grey"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 9, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Metronic Admin Reborn</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-arrow-right font-blue"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 6, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Metronic Admin Reborn Progress</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="table-status">
+        <a href="javascript:;">
+            <i class="icon-arrow-right font-blue"></i>
+        </a>
+    </td>
+    <td class="table-date font-blue">
+        <a href="javascript:;">October 3, 2015</a>
+    </td>
+    <td class="table-title">
+        <h3>
+            <a href="javascript:;">Metronic Search Page 5</a>
+        </h3>
+        <p>
+            Last Activity:
+            <a href="javascript:;">Bob Robson</a> -
+            <span class="font-grey-cascade">25 mins ago</span>
+        </p>
+    </td>
+    <td class="table-desc"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy sead euismod dolore tincidunt ut laoreet dolore dolor sit amet </td>
+    <td class="table-download">
+        <a href="javascript:;">
+            <i class="icon-doc font-green-soft"></i>
+        </a>
+    </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- END PORTLET-->
+</div>
+</div>
