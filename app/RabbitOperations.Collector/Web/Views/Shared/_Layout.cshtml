@@ -1,6 +1,6 @@
 ﻿@using RabbitOperations.Collector.Configuration.Interfaces
 @using RabbitOperations.Collector.Web
-@inject ISettings settings
+@using RabbitOperations.Collector.Web.Helpers
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -195,7 +195,7 @@
         <h3 class="uppercase">Extras</h3>
       </li>
       <li class="nav-item  ">
-        <a href="@RavenLinkHelper.RavenStudioUrl()" target="_blank" class="nav-link nav-toggle">
+        <a href="@Html.RavenStudioUrl()" target="_blank" class="nav-link nav-toggle">
           <i class="fa fa-database"></i>
           <span class="title">RavenDB Studio</span>
           <span class="arrow"></span>
@@ -215,16 +215,14 @@
           <span class="arrow"></span>
         </a>
         <ul class="sub-menu">
-          @foreach (var rabbitServer in settings.RabbitServers)
+          @*@foreach (var rabbitServer in settings.RabbitServers)
           {
             <li class="nav-item  ">
               <a href="@rabbitServer.Url" target="_blank" class="nav-link ">
-                <span class="title">
-                                            @rabbitServer.Name
-                                        </span>
+                <span class="title">@rabbitServer.Name</span>
               </a>
             </li>
-          }
+          }*@
         </ul>
       </li>
     </ul>
