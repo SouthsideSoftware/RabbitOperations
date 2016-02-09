@@ -12,23 +12,7 @@ namespace RabbitOperations.Collector.Web.Modules
                 return View["search.cshtml"];
             };
 
-            Get["/Search"] = parameters =>
-            {
-
-                return View["Search/index.cshtml"];
-            };
-
-            Get["/Tail"] = parameters =>
-            {
-
-                return View["tail.cshtml"];
-            };
-
-            Get["/Home"] = parameters =>
-            {
-
-                return View["Home/Index.cshtml"];
-            };
+            
         }
 
     }
