@@ -21,7 +21,7 @@ namespace RabbitOperations.Collector.Web.Startup
             }
             catch (Exception err)
             {
-                logger.Error("Failed to start web.", err);
+                logger.Error(err, "Failed to start web.");
                 throw;
             }
         }
