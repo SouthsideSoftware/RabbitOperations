@@ -11,6 +11,13 @@ namespace RabbitOperations.Collector.Web.Modules
 
                 return View["index.cshtml"];
             };
+
+            Get["/angular"] = parameters =>
+            {
+
+                return View["angular.cshtml"];
+            };
+
         }
     }
 }

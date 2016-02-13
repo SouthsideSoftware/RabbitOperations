@@ -70,3 +70,6 @@ UpgradeLo*
 *.css.map
 *customLocalAddress.txt
 _NCrunch_*
+.idea
+typings
+ts-build
