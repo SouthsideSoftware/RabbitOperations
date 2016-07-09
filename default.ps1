@@ -164,8 +164,9 @@ function Copy-DllOutputs ([string] $projectName) {
 
 function Create-NugetPackage ([string] $projectName) {
   Version-Nuspec $projectName
-  [string] $input = Join-Path -Path "nuspec" -ChildPath ($projectName + ".nuspec")
-  & .nuget\nuget pack $input -OutputDirectory $nugetOutputDir
+  $fn = $projectName + ".nuspec"
+  [string] $source = Join-Path -Path "nuspec" -ChildPath $fn
+  & .nuget\nuget pack $source -OutputDirectory $nugetOutputDir
   if ($LastExitCode -ne 0) { throw "Failed to create nuget package for $projectName"}
 }
 
