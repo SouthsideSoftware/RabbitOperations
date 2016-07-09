@@ -30,7 +30,7 @@ namespace RabbitOperations.Collector.Host
             }
             catch (Exception err)
             {
-                logger.Error("Error getting host name {0}", err);
+                logger.Error(err, "Error getting host name {0}");
                 hostName = "127.0.0.1";
             }
         }

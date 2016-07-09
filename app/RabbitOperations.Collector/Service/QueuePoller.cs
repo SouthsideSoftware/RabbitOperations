@@ -82,7 +82,7 @@ namespace RabbitOperations.Collector.Service
                 .Handle<Exception>()
                 .WaitAndRetry(10000, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>
                 {
-                    logger.ErrorException($"Retry #{consecutiveRetryCount} with delay {retryDelay} on {QueueSettings.LogInfo} after exception", exception);
+                    logger.Error(exception, $"Retry #{consecutiveRetryCount} with delay {retryDelay} on {QueueSettings.LogInfo} after exception");
                 });
             retryPolicy.Execute(InnerPoll);
             logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
@@ -136,7 +136,7 @@ namespace RabbitOperations.Collector.Service
                             }
                             catch (Exception err)
                             {
-                                logger.ErrorException("Dequeue error ", err);
+                                logger.Error(err, "Dequeue error ");
                                 throw;
                             }
                             logger.Trace("Dequeue completed for {0}{1}", QueueSettings.LogInfo,
@@ -170,7 +170,7 @@ namespace RabbitOperations.Collector.Service
             }
             catch (EndOfStreamException err)
             {
-                logger.ErrorException($"Error on {QueueSettings.LogInfo}", err);
+                logger.Error(err, $"Error on {QueueSettings.LogInfo}");
                 throw;
             }
         }
