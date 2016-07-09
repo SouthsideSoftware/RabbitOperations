@@ -34,6 +34,7 @@ using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Database.Server;
+using SouthsideUtility.Core.DesignByContract;
 using SouthsideUtility.Core.TestableSystem;
 using SouthsideUtility.Core.TestableSystem.Interfaces;
 
@@ -41,6 +42,12 @@ namespace RabbitOperations.Collector.CastleWindsor
 {
     public class Installer : IWindsorInstaller
     {
+	    private readonly IDocumentStore store;
+
+	    public Installer(IDocumentStore store = null)
+	    {
+		    this.store = store;
+	    }
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
 #pragma warning disable 618
@@ -90,31 +97,38 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<ICreateBasicProperties>().ImplementedBy<CreateBasicPropertiesService>().LifestyleSingleton(),
                 Component.For<IDocumentStore>().UsingFactoryMethod(x =>
                 {
-                    IDocumentStore docStore = null;
-                    if (Settings.StaticEmbedRavenDB)
-                    {
-                        var port = Settings.StaticEmbeddedRavenDBManagementPort;
-                        NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(port);
-                        docStore = new EmbeddableDocumentStore
-                        {
-                            UseEmbeddedHttpServer = true,
-                            ConnectionStringName = "RavenDB"
-                        };
-                        (docStore as EmbeddableDocumentStore).Configuration.Port = port;
-                    }
-                    else
-                    {
-                        docStore = new DocumentStore
-                        {
-                            ConnectionStringName = "RavenDB"
-                        };
-                    }
-                    docStore.Conventions.DisableProfiling = true;
-                    docStore.Initialize();
+	                if (this.store != null)
+	                {
+		                return this.store;
+	                }
+	                else
+	                {
+		                IDocumentStore docStore = null;
+		                if (Settings.StaticEmbedRavenDB)
+		                {
+			                var port = Settings.StaticEmbeddedRavenDBManagementPort;
+			                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(port);
+			                docStore = new EmbeddableDocumentStore
+			                {
+				                UseEmbeddedHttpServer = true,
+				                ConnectionStringName = "RavenDB"
+			                };
+			                (docStore as EmbeddableDocumentStore).Configuration.Port = port;
+		                }
+		                else
+		                {
+			                docStore = new DocumentStore
+			                {
+				                ConnectionStringName = "RavenDB"
+			                };
+		                }
+		                docStore.Conventions.DisableProfiling = true;
+		                docStore.Initialize();
 
-                    CreateDefaultDatabaseWithExpirationBundleIfNotExists(docStore);
+		                CreateDefaultDatabaseWithExpirationBundleIfNotExists(docStore);
 
-                    return docStore;
+		                return docStore;
+	                }
                 }).LifestyleSingleton());
         }
 

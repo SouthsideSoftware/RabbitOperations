@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RabbitOperations.Tests.Unit</RootNamespace>
     <AssemblyName>RabbitOperations.Tests.Unit</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\RabbitOperations\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -83,28 +83,28 @@
       <HintPath>..\..\packages\RabbitMQ.Client.3.6.1\lib\net45\RabbitMQ.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.0.30000\lib\net45\Raven.Abstractions.dll</HintPath>
+    <Reference Include="Raven.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.5.35142-Unstable\lib\net45\Raven.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Client.3.0.30000\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    <Reference Include="Raven.Client.Lightweight, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Client.3.5.35142-Unstable\lib\net45\Raven.Client.Lightweight.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.0.30000\lib\net45\Raven.Database.dll</HintPath>
+    <Reference Include="Raven.Database, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.5.35142-Unstable\lib\net45\Raven.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.19.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.19.0.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+    <Reference Include="SouthsideUtility.Core, Version=0.20.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.20.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.RavenDB, Version=0.19.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.RavenDB.0.19.0.0\lib\net45\SouthsideUtility.RavenDB.dll</HintPath>
+    <Reference Include="SouthsideUtility.RavenDB, Version=0.20.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.RavenDB.0.20.0\lib\net45\SouthsideUtility.RavenDB.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.Testing, Version=0.19.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.Testing.0.19.0.0\lib\net45\SouthsideUtility.Testing.dll</HintPath>
+    <Reference Include="SouthsideUtility.Testing, Version=0.20.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.Testing.0.20.0\lib\net45\SouthsideUtility.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -130,6 +130,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Raven.Studio.Html5.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\Audit.json" />
     <None Include="TestData\Error.json" />
   </ItemGroup>
