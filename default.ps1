@@ -12,7 +12,7 @@ properties {
     $BuildRoot = Resolve-Path .
     $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
     $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-    $version = "0.9.0"
+    $version = "0.10.0"
     $configuration = "Debug"
     $platform = "Any CPU"
     $buildOutputDir = "./BuildOutput"
@@ -54,7 +54,6 @@ task test -Description "Runs tests" {
 }
 
 Task compile -Description "Build application only" {
-    Write-Host "Hello"
     # programFilesDir = ProgramFiles(x86) ?? ProgramFiles
     $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
     $msbuild = Join-Path -Path $programFilesDir -ChildPath "MSBuild\14.0\Bin\msbuild.exe"
