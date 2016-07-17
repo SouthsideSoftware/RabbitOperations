@@ -7,8 +7,21 @@
     $scope.allowRetry = false;
 
     $scope.searchFields = [
-      "AdditionalErrorStatus:", "Any:", "ApplicationId:", "ClassName:", "Header:", "IsError:", "TimeSent:"
+      "AdditionalErrorStatus:", "Any:", "ApplicationId:", "ClassName:", "DocId:", "Header:", "IsError:", "TimeSent:"
     ];
+
+    $scope.tips = [
+      '"DocId:[123456 TO 200000]" to search on a range of document ids',
+      '"DocId:123456" to search for a particular document',
+      'add "AND ApplicationId:real-prod" to limit the search by application',
+      '"TimeSent:[NULL TO 2016-07-15T05:00:00Z]" finds all records up to the time specfied (UTC -- display time is local)',
+      'The default search field includes all data',
+      '"ClassName:class" searches for all messages of a particular class type',
+      '"Header:text" searches only the message headers for the specified text',
+      'Add "AND IsError:true" to only search for errors'
+    ];
+
+    $scope.currentTip = $scope.tips[Math.floor(Math.random() * $scope.tips.length)];
 
     $scope.$watch(function() { return searchService.searchResults },
       function(searchResults) {

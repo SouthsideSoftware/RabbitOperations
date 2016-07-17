@@ -17,7 +17,7 @@
             <input type="text" class="form-control" ng-model="pageInfo.searchString" placeholder="Search for messages..." typeahead="searchField for searchField in searchFields | filter:$viewValue">
             <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="newSearch()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                            <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use AdditionalErrorStatus, ApplicationId, ClassName, IsError, TimeSent. (e.g. IsError:false AND ApplicationId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
+                            <button class="btn btn-default" popover-title="Fields" popover="Any (default) incudes all fields + body or use AdditionalErrorStatus, ApplicationId, ClassName, DocId, IsError, TimeSent. (e.g. IsError:false AND ApplicationId:real-prod)" type="submit"><i class="glyphicon glyphicon-question-sign"></i></button>
                         </span>
           </div>
         </div>
@@ -35,10 +35,13 @@
       </div>
     </form>
     <div class="row toolbar">
-      <div class="col-lg-8 col-sm-8 col-xs-8">
+      <div class="col-lg-1 col-sm-1 col-xs-1">
         <div class="btn-toolbar">
           <button class="btn btn-default btn-primary" type="submit" ng-click="retry()" ng-disabled="!allowRetry">Retry</button>
         </div>
+      </div>
+      <div class="col-lg-7 col-sm-7 col-xs-7">
+        TIP: {{currentTip}}
       </div>
       <div class="col-lg-4 col-sm-4 col-xs-4" ng-show="pageInfo.totalPages > 1">
         <form ng-submit="goToPage()">
@@ -50,7 +53,11 @@
       <table class="table table-striped table-condensed table-hover">
         <thead>
         <tr>
-          <th>#</th>
+          <th ng-click="toggleSort('DocId')" class="clickable">
+            <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'DocId' && pageInfo.sortAscending"></i>
+            <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'DocId' && !pageInfo.sortAscending"></i>
+            DocId
+          </th>
           <th ng-click="toggleSort('ApplicationId')" class="clickable">
             <i class="glyphicon glyphicon-chevron-up" ng-show="pageInfo.sortField === 'ApplicationId' && pageInfo.sortAscending"></i>
             <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'ApplicationId' && !pageInfo.sortAscending"></i>
