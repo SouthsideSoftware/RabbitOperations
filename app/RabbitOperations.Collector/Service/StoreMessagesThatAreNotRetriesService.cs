@@ -40,7 +40,7 @@ namespace RabbitOperations.Collector.Service
             //deal with rare transients that happen under load
             var policy = Policy.Handle<Exception>().WaitAndRetry(new TimeSpan[] {TimeSpan.FromMilliseconds(5), TimeSpan.FromMilliseconds(10)}, (exception, retryDelay, context) =>
             {
-                logger.ErrorException($"Retrying storage of message document with delay {retryDelay} after exception", exception);
+                logger.Error(exception, $"Retrying storage of message document with delay {retryDelay} after exception");
             });
             policy.Execute(() => SaveDocument(queueSettings, document, expiry));
 

@@ -39,5 +39,17 @@ namespace RabbitOperations.Collector.RavenDB
             documentStore.DatabaseCommands.ForDatabase(Settings.StaticDefaultRavenDBTenant)
                 .UpdateByIndex(indexName, indexQuery, patchRequests);
         }
-    }
+
+		public static void ExecuteUpdateByIndexOnDefaultTenant(this IDocumentStore documentStore, string indexName,
+			IndexQuery indexQuery, ScriptedPatchRequest patchRequest)
+		{
+			Verify.RequireNotNull(documentStore, "documentStore");
+			Verify.RequireStringNotNullOrWhitespace(indexName, "indexName");
+			Verify.RequireNotNull(indexQuery, "indexQuery");
+			Verify.RequireNotNull(patchRequest, "patchRequest");
+
+			documentStore.DatabaseCommands.ForDatabase(Settings.StaticDefaultRavenDBTenant)
+				.UpdateByIndex(indexName, indexQuery, patchRequest);
+		}
+	}
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using RabbitOperations.Domain;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
+using Raven.Database.Storage;
 
 namespace RabbitOperations.Collector.RavenDB.Indexes
 {
@@ -20,9 +21,9 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
                         messageDocument.Headers.Select(x => x.Value),
                         messageDocument.AdditionalErrorStatus,
                         messageDocument.ApplicationId,
-                        messageDocument.Id
+						messageDocument.DocId
                     },
-                    messageDocument.Id,
+                    messageDocument.DocId,
                     messageDocument.TimeSent,
                     ClassName = messageDocument.MessageTypes.Select(x => x.ClassName),
                     messageDocument.IsError,
@@ -31,8 +32,8 @@ namespace RabbitOperations.Collector.RavenDB.Indexes
                     messageDocument.AdditionalErrorStatus
                 };
 
-            Sort(x => x.Id, SortOptions.String);
-            Index(x => x.Any, FieldIndexing.Analyzed);
+            Sort(x => x.DocId, SortOptions.Long);
+			Index(x => x.Any, FieldIndexing.Analyzed);
             Analyzers.Add(x => x.Any, "StandardAnalyzer");
         }
     }

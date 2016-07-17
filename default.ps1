@@ -1,14 +1,23 @@
+. .\tools\psake\scripts\Find-MSBuild.ps1
+. .\tools\psake\scripts\Find-Tool.ps1
+. .\tools\psake\scripts\MSSQLDB-Helper.ps1
+. .\tools\psake\scripts\Find-NugetTool.ps1
+. .\tools\psake\scripts\Invoke-Migrations.ps1
+. .\tools\psake\scripts\Test-InTeamCity.ps1
+
 properties {
     #can override these from command line with invoke-psake -properties @{}
     #for example, invoke-psake -properties @{configuration="debug2";platform="all"}
     #would override both configuration and platform
+    $BuildRoot = Resolve-Path .
     $revision =  if ("$env:BUILD_NUMBER".length -gt 0) { "$env:BUILD_NUMBER" } else { "0" }
     $inTeamCity = if ("$env:BUILD_NUMBER".length -gt 0) { $true } else { $false }
-    $version = "0.9.0"
+    $version = "0.10.0"
     $configuration = "Debug"
     $platform = "Any CPU"
     $buildOutputDir = "./BuildOutput"
     $nugetOutputDir = Join-Path $buildOutputDir "nuget"
+    $NugetPackagesDirectory = Join-Path $BuildRoot "packages"
     $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
@@ -30,23 +39,21 @@ task quickBuild -Description "Build application no tests" -depends cleanBuildOut
 }
 
 task test -Description "Runs tests" {
-  [string]$nunitVersion = Get-NunitVersion
-  if ($inTeamCity) {
-    Write-Host "Running Tests In TeamCity"
-    [string] $nunit = "NUnit-" + $nunitVersion
-    Write-Host "Running " $env:NUNIT_LAUNCHER v4.0 x64 $nunit $testAssemblies
-    & $env:NUNIT_LAUNCHER v4.5 x64 $nunit $testAssemblies
-  } else {
-    Write-Host "Running Tests Outside TeamCity"
-    [string] $nunitPath = Get-NunitPath
-    & $nunitPath $testAssemblies "/framework:net-4.5"
-  }
+    $NUnitConsoleExe = Find-Tool -ToolName nunit3-console.exe -PackagesFolder $NugetPackagesDirectory
 
-  if ($LastExitCode -ne 0) { throw "Tests failed"}
+   	if ($NUnitConsoleExe -eq $null) {
+   		throw "Nunit test runner (nunit3-console.exe) cannot be found in packages folder. "
+   	}
+
+    ForEach($testAssembly in $TestAssemblies)
+    {
+    	Exec {
+    		&  $NUnitConsoleExe $testAssembly --noresult --labels=On $(if (Test-InTeamcity -eq $True) { "--teamcity" } else { "" })
+    	}
+    }
 }
 
 Task compile -Description "Build application only" {
-    Write-Host "Hello"
     # programFilesDir = ProgramFiles(x86) ?? ProgramFiles
     $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
     $msbuild = Join-Path -Path $programFilesDir -ChildPath "MSBuild\14.0\Bin\msbuild.exe"
@@ -210,21 +217,8 @@ function Start-Raven {
   }
 }
 
-function Get-NunitVersion {
-  #Find the correct version of NUnit by looking at the referenced
-  #package in the packages.config file of the solution
-  [xml]$packages = Get-Content ".\.nuget\Packages.config"
-  $server = $packages.SelectSingleNode("//package[@id='NUnit.Console']")
-  $version = $server.GetAttribute("version")
-
-  return $version
-}
-
 function Get-NunitPath {
-  [string] $version = Get-NunitVersion
-  [string] $path = ".\packages\Nunit.Console.$version\tools\nunit3-console.exe"
-
-  return $path
+    return Find-Tool -ToolName nunit3-console.exe -PackagesFolder $NugetPackagesDirectory
 }
 
 function Generate-ReleaseNotes([string]$version) {

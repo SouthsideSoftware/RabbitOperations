@@ -16,16 +16,17 @@ using RabbitOperations.Collector.MessageRetry;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
 using SouthsideUtility.Core.CastleWindsor;
+using SouthsideUtility.RavenDB.Testing;
 
 namespace RabbitOperations.Collector.Tests.Unit.Service
 {
     [TestFixture]
-    public class StoreMessageFactoryTests
+    public class StoreMessageFactoryTests : RavenDbTest
     {
         [OneTimeSetUp]
         public void Setup()
         {
-            ServiceLocator.Container.Install(new Installer());
+            ServiceLocator.Container.Install(new Installer(Store));
         }
 
         [OneTimeTearDown]

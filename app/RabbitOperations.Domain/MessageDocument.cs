@@ -23,6 +23,8 @@ namespace RabbitOperations.Domain
             Body = "";
         }
 
+		public long DocId { get { return Id; } }
+
         public long Id { get; set; }
         public string ApplicationId { get; set; }
         public IDictionary<string, string> BusinessKeys { get; set; }

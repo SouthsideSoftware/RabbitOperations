@@ -20,32 +20,20 @@ Your application should send successfully processed messages to the audit queue 
 
 _You must have Visual Studio 2015 or Microsoft Build Tools 2015 installed to build the application._
 
-Install node.js on your machine. You can get it from the [node.js site](http://nodejs.org).  After that, install the necessary node
+* Install node.js on your machine. You can get it from the [node.js site](http://nodejs.org).  After that, install the necessary node
 modules using npm:
 
 ````
 npm install
 ````
 
-Install psake on your machine.  You can get it from the [psake repository](https://github.com/psake/psake) or install it via [Choclatey](https://chocolatey.org/packages/psake):
+* Open a Powershell window and issue the command to build and run tests.  If you installed psake from the repository:
 
 ````
-choco install psake
+./psake
 ````
 
-Open a Powershell window and issue the command to build and run tests.  If you installed psake from the repository:
-
-````
-invoke-psake
-````
-
-Or, if you installed it via Choclatey:
-
-````
-psake
-````
-
-If you want to build from Visual Studio, you will need to add the following to your nuget.config file:
+* If you want to build from Visual Studio, you will need to add the following to your nuget.config file:
 
 ````
 <packageSources>
@@ -55,15 +43,10 @@ If you want to build from Visual Studio, you will need to add the following to y
 
 Check out the [nuget docs](https://docs.nuget.org/consume/nuget-config-file) for more information on editing the nuget.config file.
 
-You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake.  If you installed psake via the repository, use:
+* You can start the application either by running RabbitOperations.Collector from Visual Studio or from a Powershell command prompt via psake.  If you installed psake via the repository, use:
 
 ````
-invoke-psake startCollector
-````
-Or, if you installed it from Choclatey:
-
-````
-psake startCollector
+./psake startCollector
 ````
 
 ## Documentation and Release Notes

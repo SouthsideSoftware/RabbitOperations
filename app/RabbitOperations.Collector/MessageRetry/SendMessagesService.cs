@@ -64,7 +64,7 @@ namespace RabbitOperations.Collector.MessageRetry
             }
             catch (Exception err)
             {
-                logger.ErrorException("Failed to send message for retry", err);
+                logger.Error(err, "Failed to send message for retry");
                 return string.Format("Failed to send message for retry.  Error is {0}.  See error log for details",
                     err.Message);
             }
