@@ -17,6 +17,8 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         bool EmbedRavenDB { get; }
         string DefaultRavenDBTenant { get; }
 
+		bool SuppressPolling { get; }
+
         int WebPort { get; }
         bool AutoStartQueuePolling { get; set; }
 

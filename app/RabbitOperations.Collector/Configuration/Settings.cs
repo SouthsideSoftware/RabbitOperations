@@ -10,231 +10,241 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Configuration
 {
-    public class Settings : ISettings
-    {
-        private readonly IDocumentStore documentStore;
-        private ConfigurationDocument configurationDocument;
+	public class Settings : ISettings
+	{
+		private readonly IDocumentStore documentStore;
+		private ConfigurationDocument configurationDocument;
 
-        public Settings(IDocumentStore documentStore)
-        {
-            Verify.RequireNotNull(documentStore, "documentStore");
-            configurationDocument = new ConfigurationDocument();
+		public Settings(IDocumentStore documentStore)
+		{
+			Verify.RequireNotNull(documentStore, "documentStore");
+			configurationDocument = new ConfigurationDocument();
 
-            this.documentStore = documentStore;
-            Load();
-        }
+			this.documentStore = documentStore;
+			Load();
+		}
 
-        /// <summary>
-        /// Returns true if the application should use views and other web client side components
-        /// from development directories if present.
-        /// </summary>
-        public static bool StaticAllowDevelopmentMode
-        {
-            get { return GetBoolean("AllowDevelopmentMode", true); }
-        }
+		/// <summary>
+		///     Returns true if the application should use views and other web client side components
+		///     from development directories if present.
+		/// </summary>
+		public static bool StaticAllowDevelopmentMode
+		{
+			get { return GetBoolean("AllowDevelopmentMode", true); }
+		}
 
-        /// <summary>
-        /// Returns true if the application should use views and other web client side components
-        /// from development directories if present.
-        /// </summary>
-        public bool AllowDevelopmentMode
-        {
-            get { return StaticAllowDevelopmentMode; }
-        }
-
-        public int DatabaseSchemaVersion
-        {
-            get { return configurationDocument.DatabaseSchemaVersion; }
-            set { configurationDocument.DatabaseSchemaVersion = value; }
-        }
-
-        public static string StaticRavenDBConnectionString
-        {
-            get { return ConfigurationManager.ConnectionStrings["RavenDB"].ToString(); }
-        }
-
-        public string RavenDBConnectionString
-        {
-            get {  return StaticRavenDBConnectionString; }
-        }
+		public static string StaticRavenDBConnectionString
+		{
+			get { return ConfigurationManager.ConnectionStrings["RavenDB"].ToString(); }
+		}
 
 
-        public static string StaticDefaultRavenDBTenant
-        {
-            get { return GetString("DefaultRavenDBTenant", "RabbitOperations"); }
-        }
+		public static string StaticDefaultRavenDBTenant
+		{
+			get { return GetString("DefaultRavenDBTenant", "RabbitOperations"); }
+		}
 
-        public static bool StaticEmbedRavenDB
-        {
-            get { return GetBoolean("EmbedRavenDB", true); }
-        }
+		public static bool StaticEmbedRavenDB
+		{
+			get { return GetBoolean("EmbedRavenDB", true); }
+		}
 
-        public static int StaticEmbeddedRavenDBManagementPort
-        {
-            get { return GetInt("EmbeddedRavenDBManagementPort", 8080).Value; }
-        }
+		public static int StaticEmbeddedRavenDBManagementPort
+		{
+			get { return GetInt("EmbeddedRavenDBManagementPort", 8080).Value; }
+		}
 
-        public static int StaticEmbeddedWebPort
-        {
-            get { return GetInt("WebPort", 8082).Value; }
-        }
+		public static int StaticEmbeddedWebPort
+		{
+			get { return GetInt("WebPort", 8082).Value; }
+		}
 
-        public bool AutoStartQueuePolling
-        {
-            get { return configurationDocument.AutoStartQueuePolling; }
-            set { configurationDocument.AutoStartQueuePolling = value; }
-        }
+		public static bool StaticSuppressPolling
+		{
+			get { return GetBoolean("SuppressPolling"); }
+		}
 
-        public string DefaultRavenDBTenant
-        {
-            get { return StaticDefaultRavenDBTenant; }
-        }
+		/// <summary>
+		///     Returns true if the application should use views and other web client side components
+		///     from development directories if present.
+		/// </summary>
+		public bool AllowDevelopmentMode
+		{
+			get { return StaticAllowDevelopmentMode; }
+		}
 
-        public bool EmbedRavenDB
-        {
-            get { return StaticEmbedRavenDB; }
-        }
+		public int DatabaseSchemaVersion
+		{
+			get { return configurationDocument.DatabaseSchemaVersion; }
+			set { configurationDocument.DatabaseSchemaVersion = value; }
+		}
 
-        public int EmbeddedRavenDBManagementPort
-        {
-            get { return StaticEmbeddedRavenDBManagementPort; }
-        }
+		public string RavenDBConnectionString
+		{
+			get { return StaticRavenDBConnectionString; }
+		}
 
-        public int WebPort
-        {
-            get { return StaticEmbeddedWebPort; }
-        }
+		public bool AutoStartQueuePolling
+		{
+			get { return configurationDocument.AutoStartQueuePolling; }
+			set { configurationDocument.AutoStartQueuePolling = value; }
+		}
 
-        public IList<MessageTypeHandling> GlobalMessageHandlingInstructions
-        {
-            get { return configurationDocument.GlobalMessageHandlingInstructions; }
-            set { configurationDocument.GlobalMessageHandlingInstructions = value; }
-        }
+		public string DefaultRavenDBTenant
+		{
+			get { return StaticDefaultRavenDBTenant; }
+		}
 
-        public IList<ApplicationConfiguration> Applications
-        {
-            get { return configurationDocument.Applications; }
-            set { configurationDocument.Applications = value; }
-        }
+		public bool EmbedRavenDB
+		{
+			get { return StaticEmbedRavenDB; }
+		}
 
-        public MessageTypeHandling MessageTypeHandlingFor(string type)
-        {
-            Verify.RequireStringNotNullOrWhitespace(type, "type");
+		public int EmbeddedRavenDBManagementPort
+		{
+			get { return StaticEmbeddedRavenDBManagementPort; }
+		}
 
-            return GlobalMessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
-        }
+		public int WebPort
+		{
+			get { return StaticEmbeddedWebPort; }
+		}
 
-        public void Load()
-        {
-            using (var session = documentStore.OpenSessionForDefaultTenant())
-            {
-                configurationDocument = session.Load<ConfigurationDocument>(1);
-                if (configurationDocument == null)
-                {
-                    configurationDocument = new ConfigurationDocument();
-                    session.Store(configurationDocument);
-                    session.SaveChanges();
-                }
-            }
-        }
+		public bool SuppressPolling
+		{
+			get { return StaticSuppressPolling; }
+		}
 
-        public void Save()
-        {
-            using (var session = documentStore.OpenSessionForDefaultTenant())
-            {
-                session.Store(configurationDocument);
-                session.SaveChanges();
-            }
-        }
+		public IList<MessageTypeHandling> GlobalMessageHandlingInstructions
+		{
+			get { return configurationDocument.GlobalMessageHandlingInstructions; }
+			set { configurationDocument.GlobalMessageHandlingInstructions = value; }
+		}
 
-        protected static bool GetBoolean(string key, bool defaultValue = false, bool throwExceptionIfNotFound = false)
-        {
-            Verify.RequireStringNotNullOrWhitespace(key, "key");
+		public IList<ApplicationConfiguration> Applications
+		{
+			get { return configurationDocument.Applications; }
+			set { configurationDocument.Applications = value; }
+		}
 
-            var val = defaultValue;
-            var rawValue = ConfigurationManager.AppSettings.Get(key);
-            if (rawValue != null)
-            {
-                bool.TryParse(rawValue, out val);
-            }
-            else if (throwExceptionIfNotFound)
-            {
-                throw new ConfigurationErrorsException(
-                    string.Format("appsetting value required in application configuration file for key {0}", key));
-            }
+		public MessageTypeHandling MessageTypeHandlingFor(string type)
+		{
+			Verify.RequireStringNotNullOrWhitespace(type, "type");
 
-            return val;
-        }
+			return GlobalMessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
+		}
 
-        protected static decimal? GetDecimal(string key, decimal? defaultValue = null,
-            bool throwExceptionIfNotFound = false)
-        {
-            Verify.RequireStringNotNullOrWhitespace(key, "key");
+		public void Load()
+		{
+			using (var session = documentStore.OpenSessionForDefaultTenant())
+			{
+				configurationDocument = session.Load<ConfigurationDocument>(1);
+				if (configurationDocument == null)
+				{
+					configurationDocument = new ConfigurationDocument();
+					session.Store(configurationDocument);
+					session.SaveChanges();
+				}
+			}
+		}
 
-            var val = decimal.MinValue;
-            var rawValue = ConfigurationManager.AppSettings.Get(key);
-            if (rawValue != null)
-            {
-                decimal.TryParse(rawValue, out val);
-            }
-            else if (throwExceptionIfNotFound)
-            {
-                throw new ConfigurationErrorsException(
-                    string.Format("appsetting value required in application configuration file for key {0}", key));
-            }
+		public void Save()
+		{
+			using (var session = documentStore.OpenSessionForDefaultTenant())
+			{
+				session.Store(configurationDocument);
+				session.SaveChanges();
+			}
+		}
 
-            return val != decimal.MinValue ? val : defaultValue;
-        }
+		protected static bool GetBoolean(string key, bool defaultValue = false, bool throwExceptionIfNotFound = false)
+		{
+			Verify.RequireStringNotNullOrWhitespace(key, "key");
 
-        protected static int? GetInt(string key, int? defaultValue, bool throwExceptionIfNotFound = false)
-        {
-            Verify.RequireStringNotNullOrWhitespace(key, "key");
+			var val = defaultValue;
+			var rawValue = ConfigurationManager.AppSettings.Get(key);
+			if (rawValue != null)
+			{
+				bool.TryParse(rawValue, out val);
+			}
+			else if (throwExceptionIfNotFound)
+			{
+				throw new ConfigurationErrorsException(
+					string.Format("appsetting value required in application configuration file for key {0}", key));
+			}
 
-            var val = int.MinValue;
-            var rawValue = ConfigurationManager.AppSettings.Get(key);
-            if (rawValue != null)
-            {
-                int.TryParse(rawValue, out val);
-            }
-            else if (throwExceptionIfNotFound)
-            {
-                throw new ConfigurationErrorsException(
-                    string.Format("appsetting value required in application configuration file for key {0}", key));
-            }
+			return val;
+		}
 
-            return val != int.MinValue ? val : defaultValue;
-        }
+		protected static decimal? GetDecimal(string key, decimal? defaultValue = null,
+			bool throwExceptionIfNotFound = false)
+		{
+			Verify.RequireStringNotNullOrWhitespace(key, "key");
 
-        protected static string GetString(string key, string defaultValue = null, bool throwExceptionIfNotFound = false)
-        {
-            var val = ConfigurationManager.AppSettings[key];
+			var val = decimal.MinValue;
+			var rawValue = ConfigurationManager.AppSettings.Get(key);
+			if (rawValue != null)
+			{
+				decimal.TryParse(rawValue, out val);
+			}
+			else if (throwExceptionIfNotFound)
+			{
+				throw new ConfigurationErrorsException(
+					string.Format("appsetting value required in application configuration file for key {0}", key));
+			}
 
-            if (val == null && throwExceptionIfNotFound)
-            {
-                throw new ConfigurationErrorsException(
-                    string.Format("appsetting value required in application configuration file for key {0}", key));
-            }
+			return val != decimal.MinValue ? val : defaultValue;
+		}
 
-            return !string.IsNullOrWhiteSpace(val) ? val : defaultValue;
-        }
+		protected static int? GetInt(string key, int? defaultValue, bool throwExceptionIfNotFound = false)
+		{
+			Verify.RequireStringNotNullOrWhitespace(key, "key");
 
-        protected static double? GetDouble(string key, double? defaultValue, bool throwExceptionIfNotFound = false)
-        {
-            Verify.RequireStringNotNullOrWhitespace(key, "key");
+			var val = int.MinValue;
+			var rawValue = ConfigurationManager.AppSettings.Get(key);
+			if (rawValue != null)
+			{
+				int.TryParse(rawValue, out val);
+			}
+			else if (throwExceptionIfNotFound)
+			{
+				throw new ConfigurationErrorsException(
+					string.Format("appsetting value required in application configuration file for key {0}", key));
+			}
 
-            var val = 0d;
-            var rawValue = ConfigurationManager.AppSettings.Get(key);
-            if (rawValue != null)
-            {
-                double.TryParse(rawValue, out val);
-            }
-            else if (throwExceptionIfNotFound)
-            {
-                throw new ConfigurationErrorsException(
-                    string.Format("appsetting value required in application configuration file for key {0}", key));
-            }
+			return val != int.MinValue ? val : defaultValue;
+		}
 
-            return Math.Abs(val - double.MinValue) > .000001 ? val : defaultValue;
-        }
-    }
+		protected static string GetString(string key, string defaultValue = null, bool throwExceptionIfNotFound = false)
+		{
+			var val = ConfigurationManager.AppSettings[key];
+
+			if (val == null && throwExceptionIfNotFound)
+			{
+				throw new ConfigurationErrorsException(
+					string.Format("appsetting value required in application configuration file for key {0}", key));
+			}
+
+			return !string.IsNullOrWhiteSpace(val) ? val : defaultValue;
+		}
+
+		protected static double? GetDouble(string key, double? defaultValue, bool throwExceptionIfNotFound = false)
+		{
+			Verify.RequireStringNotNullOrWhitespace(key, "key");
+
+			var val = 0d;
+			var rawValue = ConfigurationManager.AppSettings.Get(key);
+			if (rawValue != null)
+			{
+				double.TryParse(rawValue, out val);
+			}
+			else if (throwExceptionIfNotFound)
+			{
+				throw new ConfigurationErrorsException(
+					string.Format("appsetting value required in application configuration file for key {0}", key));
+			}
+
+			return Math.Abs(val - double.MinValue) > .000001 ? val : defaultValue;
+		}
+	}
 }

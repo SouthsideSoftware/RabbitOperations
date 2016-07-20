@@ -40,13 +40,22 @@ namespace RabbitOperations.Collector.Host
             logger.Info("Collector starting...");
 
             queuePollerHost = subHostFactory.CreatePollerHost();
-            if (settings.AutoStartQueuePolling)
+            if (settings.AutoStartQueuePolling && !settings.SuppressPolling)
             {
                 queuePollerHost.Start();
             }
             else
             {
-                logger.Info("Polling of queues is not set for autostart. See the web application to start manually or to change this setting");
+	            if (settings.SuppressPolling)
+	            {
+					logger.Info(
+						"Polling of queues is suppressed because SuppressPolling is set to true in the configuration file. Change the configuration file setting and restart if you want to poll queues.");
+				}
+	            else
+	            {
+		            logger.Info(
+			            "Polling of queues is not set for autostart. See the web application to start manually or to change this setting");
+	            }
             }
 
             webHost = subHostFactory.CreateWebHost();
