@@ -83,28 +83,28 @@
       <HintPath>..\..\packages\RabbitMQ.Client.3.6.1\lib\net45\RabbitMQ.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.0.30150-Hotfix\lib\net45\Raven.Abstractions.dll</HintPath>
+    <Reference Include="Raven.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.5.0-rc-35162\lib\net45\Raven.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Client.3.0.30150-Hotfix\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    <Reference Include="Raven.Client.Lightweight, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Client.3.5.0-rc-35162\lib\net45\Raven.Client.Lightweight.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.0.30150-Hotfix\lib\net45\Raven.Database.dll</HintPath>
+    <Reference Include="Raven.Database, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.5.0-rc-35162\lib\net45\Raven.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.23.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+    <Reference Include="SouthsideUtility.Core, Version=0.24.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.24.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.RavenDB, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.RavenDB.0.23.0\lib\net45\SouthsideUtility.RavenDB.dll</HintPath>
+    <Reference Include="SouthsideUtility.RavenDB, Version=0.24.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.RavenDB.0.24.0\lib\net45\SouthsideUtility.RavenDB.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.Testing, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.Testing.0.23.0\lib\net45\SouthsideUtility.Testing.dll</HintPath>
+    <Reference Include="SouthsideUtility.Testing, Version=0.24.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.Testing.0.24.0\lib\net45\SouthsideUtility.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
