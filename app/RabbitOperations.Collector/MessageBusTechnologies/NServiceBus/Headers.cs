@@ -14,5 +14,7 @@ namespace RabbitOperations.Collector.MessageBusTechnologies.NServiceBus
         public const string ProcessingEnded = "NServiceBus.ProcessingEnded";
         public const string TimeOfFailure = "NServiceBus.TimeOfFailure";
         public const string ExceptionType = "NServiceBus.ExceptionInfo.ExceptionType";
+	    public const string FailedQ = "NServiceBus.FailedQ";
+	    public const string ProcessingEndpoint = "NServiceBus.ProcessingEndpoint";
     }
 }

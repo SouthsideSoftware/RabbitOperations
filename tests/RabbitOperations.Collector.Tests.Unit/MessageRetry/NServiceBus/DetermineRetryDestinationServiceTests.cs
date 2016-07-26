@@ -26,7 +26,21 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             destination.Should().Be("Autobahn.Configuration.Host");
         }
 
-        [Test]
+		public void CanGetProperRetryDestinationFromSuccess()
+		{
+			//arrange
+			var rawMessage = MessageTestHelpers.GetAuditMessage();
+
+			var destinationFinder = new DetermineRetryDestinationService();
+
+			//act
+			var destination = destinationFinder.GetRetryDestination(rawMessage, null);
+
+			//assert
+			destination.Should().Be("Autobahn.Fulfillment.Host");
+		}
+
+		[Test]
         public void ReturnsProperRetryDestinationFromErrorWhenUserSuppliedIsWhitespace()
         {
             //arrange
@@ -47,9 +61,10 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
             //arrange
             string userSupplied = "userQueue";
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Remove("NServiceBus.FailedQ");
+            rawMessage.Headers.Remove(Headers.FailedQ);
+			rawMessage.Headers.Remove(Headers.ProcessingEndpoint);
 
-            var destinationFinder = new DetermineRetryDestinationService();
+			var destinationFinder = new DetermineRetryDestinationService();
 
             //act
             var destination = destinationFinder.GetRetryDestination(rawMessage, userSupplied);
@@ -59,11 +74,12 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         }
 
         [Test]
-        public void ReturnsNullIfFailedQHeaderNotPresent()
+        public void ReturnsNullIfFailedQHeadersNotPresent()
         {
             //arrange
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers.Remove("NServiceBus.FailedQ");
+            rawMessage.Headers.Remove(Headers.FailedQ);
+	        rawMessage.Headers.Remove(Headers.ProcessingEndpoint);
 
             var destinationFinder = new DetermineRetryDestinationService();
 
@@ -79,7 +95,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry.NServiceBus
         {
             //arrange
             var rawMessage = MessageTestHelpers.GetErrorMessage();
-            rawMessage.Headers["NServiceBus.FailedQ"] = "simpleQueue";
+            rawMessage.Headers[Headers.FailedQ] = "simpleQueue";
 
             var destinationFinder = new DetermineRetryDestinationService();
 
