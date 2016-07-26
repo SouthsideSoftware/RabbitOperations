@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RabbitMQ.Client.Apigen.Attributes;
 
 namespace RabbitOperations.Collector.Models
 {
@@ -11,5 +12,6 @@ namespace RabbitOperations.Collector.Models
         }
 
         public IList<long> RetryIds { get; set; } 
+		public bool ForceRetry { get; set; }
     }
 }

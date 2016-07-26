@@ -100,7 +100,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
             }
         }
 
-        public void ShouldLeaveStatusOfOriginalMessageUnchangedWhenRetryIsNotAllowed()
+        public void ShouldLeaveStatusOfOriginalMessageUnchangedWhenRetryIsNotAllowedAndForceNotSet()
         {
             //arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
@@ -130,7 +130,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         }
 
         [Test]
-        public void ShouldNotRetryWhenOriginalMessageIsResolved()
+        public void ShouldNotRetryWhenOriginalMessageIsResolvedAndForceNotSet()
         {
             //arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
@@ -156,7 +156,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         }
 
         [Test]
-        public void ShouldNotRetryWhenOriginalMessageIsNotAnError()
+        public void ShouldNotRetryWhenOriginalMessageIsNotAnErrorAndForceNotSet()
         {
             //arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
@@ -182,7 +182,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
         }
 
         [Test]
-        public void ShouldNotRetryWhenOriginalMessageIsClosed()
+        public void ShouldNotRetryWhenOriginalMessageIsClosedAndForceNotSet()
         {
             //arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());

@@ -145,6 +145,7 @@
     <Compile Include="MessageRetry\NServiceBus\CreateBasicPropertiesServiceTests.cs" />
     <Compile Include="MessageRetry\NServiceBus\CreateRetryMessageFromOriginalServiceTests.cs" />
     <Compile Include="MessageRetry\NServiceBus\DetermineRetryDestinationServiceTests.cs" />
+    <Compile Include="MessageRetry\RetryMessagesServiceTestsWithForceSet.cs" />
     <Compile Include="MessageTestHelpers.cs" />
     <Compile Include="MessageRetry\RetryMessagesServiceTests.cs" />
     <Compile Include="Service\StoreMessagesThatAreNotRetriesServiceTests.cs" />
