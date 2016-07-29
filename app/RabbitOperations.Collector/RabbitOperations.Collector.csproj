@@ -94,6 +94,10 @@
       <HintPath>..\..\packages\Nancy.Owin.1.4.1\lib\net40\Nancy.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nancy.Serialization.JsonNet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.Serialization.JsonNet.1.4.1\lib\net40\Nancy.Serialization.JsonNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nancy.ViewEngines.Razor, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nancy.Viewengines.Razor.1.4.3\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
       <Private>True</Private>
@@ -224,6 +228,7 @@
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Web\SignalR\MessagePulseHub.cs" />
+    <Compile Include="Web\Startup\CamelCaseSerializer.cs" />
     <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
     <Compile Include="Web\Modules\DashboardModule.cs" />
     <Compile Include="Service\Interfaces\IQueueSettings.cs" />

@@ -8,6 +8,8 @@ using SouthsideUtility.Core.CastleWindsor;
 using System.Web.Routing;
 using Metrics;
 using Metrics.Reports;
+using Nancy.TinyIoc;
+using Newtonsoft.Json;
 using RabbitOperations.Collector.Web.SignalR;
 
 namespace RabbitOperations.Collector.Web.Startup
@@ -26,9 +28,10 @@ namespace RabbitOperations.Collector.Web.Startup
         {
             get { return new CustomRootPathProvider(); }
         }
-        protected override IWindsorContainer GetApplicationContainer()
-        {
-            return ServiceLocator.Container;
-        }
+
+	    protected override IWindsorContainer GetApplicationContainer()
+	    {
+		    return ServiceLocator.Container;
+	    }
     }
 }
