@@ -3,11 +3,11 @@
     $scope.displayBody = true;
     $scope.displayRetries = true;
     $scope.displayStackTrace = false;
-    $scope.title = item.id > 0 ? "Message " + item.id : "Retry of Message " + item.originalId;
+    $scope.title = item.Id > 0 ? "Message " + item.Id : "Retry of Message " + item.OriginalId;
     $scope.toDisplayDuration = function (duration) {
         if (duration !== undefined) {
-            var hours = duration.days * 24 + duration.hours;
-            return hours + ":" + duration.minutes + ":" + duration.seconds + "." + duration.milliseconds;
+            var hours = duration.Days * 24 + duration.Hours;
+            return hours + ":" + duration.Minutes + ":" + duration.Seconds + "." + duration.Milliseconds;
         } else {
             return "UNK";
         }
@@ -23,34 +23,34 @@
 
     $scope.message = {
         item: item,
-        body: item !== undefined && item.body !== undefined ? JSON.stringify($scope.parseBody(item.body), null, 2) : '',
-        headers: item !== undefined && item.headers !== undefined ? JSON.stringify(item.headers, null, 2) : '',
-        timeSent: item !== undefined && item.timeSent !== undefined ? moment(item.timeSent).format('MM/DD/YYYY HH:mm:ss') : '',
-        processingTime: item !== undefined ? $scope.toDisplayDuration(item.processingTime) : 'UNK',
-        totalTime: item !== undefined ? $scope.toDisplayDuration(item.totalTime) : 'UNK'
+        body: item !== undefined && item.Body !== undefined ? JSON.stringify($scope.parseBody(item.Body), null, 2) : '',
+        headers: item !== undefined && item.Headers !== undefined ? JSON.stringify(item.Headers, null, 2) : '',
+        timeSent: item !== undefined && item.TimeSent !== undefined ? moment(item.TimeSent).format('MM/DD/YYYY HH:mm:ss') : '',
+        processingTime: item !== undefined ? $scope.toDisplayDuration(item.ProcessingTime) : 'UNK',
+        totalTime: item !== undefined ? $scope.toDisplayDuration(item.TotalTime) : 'UNK'
     };
 
     $scope.message.stackTrace = undefined;
     $scope.message.errorMessage = undefined;
-    if (item !== undefined && item.headers !== undefined) {
-        if ($scope.message.item.headers["nServiceBus.ExceptionInfo.StackTrace"] !== undefined){
-            $scope.message.stackTrace = $scope.message.item.headers["nServiceBus.ExceptionInfo.StackTrace"];
+    if (item !== undefined && item.Headers !== undefined) {
+        if ($scope.message.item.Headers["NServiceBus.ExceptionInfo.StackTrace"] !== undefined){
+            $scope.message.stackTrace = $scope.message.item.Headers["NServiceBus.ExceptionInfo.StackTrace"];
         }
-        if ($scope.message.item.headers["nServiceBus.ExceptionInfo.Message"] !== undefined) {
-            $scope.message.errorMessage = $scope.message.item.headers["nServiceBus.ExceptionInfo.Message"];
+        if ($scope.message.item.Headers["NServiceBus.ExceptionInfo.Message"] !== undefined) {
+            $scope.message.errorMessage = $scope.message.item.Headers["NServiceBus.ExceptionInfo.Message"];
         }
     }
 
     $scope.retries = [];
-    if (item.retries.length > 0) {
-        _.each(item.retries, function (retry) {
+    if (item.Retries.length > 0) {
+        _.each(item.Retries, function (retry) {
             $scope.retries.push({
-                item: _.extend(retry, {originalId: $scope.message.item.id}),
-                isError: retry.isError,
-                timeSent: retry.timeSent !== undefined ? moment(retry.timeSent).format('MM/DD/YYYY HH:mm:ss') : '',
-                processingTime: $scope.toDisplayDuration(retry.processingTime),
-                totalTime: $scope.toDisplayDuration(retry.totalTime),
-                additionalErrorStatusString: retry.additionalErrorStatusString
+                item: _.extend(retry, {originalId: $scope.message.item.Id}),
+                isError: retry.IsError,
+                timeSent: retry.TimeSent !== undefined ? moment(retry.TimeSent).format('MM/DD/YYYY HH:mm:ss') : '',
+                processingTime: $scope.toDisplayDuration(retry.ProcessingTime),
+                totalTime: $scope.toDisplayDuration(retry.TotalTime),
+                additionalErrorStatusString: retry.AdditionalErrorStatusString
             });
         });
     };

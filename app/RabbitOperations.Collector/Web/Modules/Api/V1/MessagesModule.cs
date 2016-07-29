@@ -1,5 +1,9 @@
+using System.IO;
+using System.Text;
 using Nancy;
 using Nancy.ModelBinding;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Collector.Models;
 using RabbitOperations.Collector.RavenDB.Query.Interfaces;
@@ -8,8 +12,8 @@ using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Web.Modules.Api.V1
-{
-    public class MessagesModule : NancyModule
+{ 
+	public class MessagesModule : NancyModule
     {
         private readonly IBasicSearch basicSearch;
         private readonly IRetryMessages retryMessagesService;
@@ -35,7 +39,16 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
             };
 
             Get["/{id}"] = parameters => {
-                return basicSearch.Get(parameters.id);
+				var serializer = new JsonSerializer();
+	            var data = JObject.FromObject(basicSearch.Get(parameters.id), serializer).ToString();
+	            byte [] bytes = Encoding.UTF8.GetBytes(data);
+
+				return new Response
+	            {
+		            ContentType = "application/json",
+		            StatusCode = HttpStatusCode.OK,
+		            Contents = (stream) => stream.Write(bytes, 0, bytes.Length)
+	            };
             };
         }
     }

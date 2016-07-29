@@ -224,6 +224,7 @@
     <Compile Include="Service\StoreMessagesThatAreRetriesService.cs" />
     <Compile Include="Service\StoreMessagesThatAreNotRetriesService.cs" />
     <Compile Include="Web\Helpers\LinkHelper.cs" />
+    <Compile Include="Web\Helpers\SerializationHelper.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
     <Compile Include="Models\SearchModel.cs" />
