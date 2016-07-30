@@ -262,6 +262,7 @@
   <ItemGroup>
     <None Include="..\..\packages\RavenDB.Database.3.5.0-rc-35165\content\Raven.Studio.Html5.zip">
       <Link>Raven.Studio.Html5.zip</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>

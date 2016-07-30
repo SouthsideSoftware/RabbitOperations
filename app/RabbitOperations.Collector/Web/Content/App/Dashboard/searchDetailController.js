@@ -40,8 +40,8 @@
                 item: _.extend(retry, {originalId: $scope.message.item.Id}),
                 isError: retry.IsError,
                 timeSent: retry.TimeSent !== undefined ? moment(retry.TimeSent).format('MM/DD/YYYY HH:mm:ss') : '',
-                processingTime: $scope.toDisplayDuration(retry.ProcessingTime),
-                totalTime: $scope.toDisplayDuration(retry.TotalTime),
+                processingTime: retry.ProcessingTime,
+                totalTime: retry.TotalTime,
                 additionalErrorStatusString: retry.AdditionalErrorStatusString
             });
         });
