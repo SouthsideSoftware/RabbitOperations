@@ -45,10 +45,10 @@
                 </thead>
                 <tbody>
                     <tr class="clickable" ng-repeat="retry in retries">
-                        <td ng-click="showRetryDetails(retry.Item)">{{retry.timeSent}}</td>
-                        <td ng-click="showRetryDetails(retry.Item)">{{retry.processingTime}}</td>
-                        <td ng-click="showRetryDetails(retry.Item)">{{retry.totalTime}}</td>
-                        <td ng-click="showRetryDetails(retry.Item)">{{retry.isError}} ({{retry.additionalErrorStatusString}})</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.timeSent}}</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.processingTime}}</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.totalTime}}</td>
+                        <td ng-click="showRetryDetails(retry.item)">{{retry.isError}} ({{retry.additionalErrorStatusString}})</td>
                     </tr>
                 </tbody>
             </table>
