@@ -4,14 +4,6 @@
     $scope.displayRetries = true;
     $scope.displayStackTrace = false;
     $scope.title = item.Id > 0 ? "Message " + item.Id : "Retry of Message " + item.OriginalId;
-    $scope.toDisplayDuration = function (duration) {
-        if (duration !== undefined) {
-            var hours = duration.Days * 24 + duration.Hours;
-            return hours + ":" + duration.Minutes + ":" + duration.Seconds + "." + duration.Milliseconds;
-        } else {
-            return "UNK";
-        }
-    };
 
     $scope.parseBody = function (body) {
         try {
@@ -26,8 +18,8 @@
         body: item !== undefined && item.Body !== undefined ? JSON.stringify($scope.parseBody(item.Body), null, 2) : '',
         headers: item !== undefined && item.Headers !== undefined ? JSON.stringify(item.Headers, null, 2) : '',
         timeSent: item !== undefined && item.TimeSent !== undefined ? moment(item.TimeSent).format('MM/DD/YYYY HH:mm:ss') : '',
-        processingTime: item !== undefined ? $scope.toDisplayDuration(item.ProcessingTime) : 'UNK',
-        totalTime: item !== undefined ? $scope.toDisplayDuration(item.TotalTime) : 'UNK'
+        processingTime: item !== undefined ? item.ProcessingTime : 'UNK',
+        totalTime: item !== undefined ? item.TotalTime : 'UNK'
     };
 
     $scope.message.stackTrace = undefined;
