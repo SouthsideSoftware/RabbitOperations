@@ -3,7 +3,7 @@
     $scope.displayBody = true;
     $scope.displayRetries = true;
     $scope.displayStackTrace = false;
-    $scope.title = item.Id > 0 ? "Message " + item.Id : "Retry of Message " + item.OriginalId;
+    $scope.title = item.Id > 0 ? "Message " + item.Id : "Retry of Message " + item.originalId;
 
     $scope.parseBody = function (body) {
         try {
