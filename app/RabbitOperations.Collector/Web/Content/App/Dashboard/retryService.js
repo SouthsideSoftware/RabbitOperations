@@ -1,17 +1,22 @@
 ﻿rabbitOperationsApp.service('retryService', function ($http, $q, searchService, notificationService) {
     var self = this;
 
-    this.retry = function (items) {
+    this.retry = function (items, forceRetry) {
+        if (forceRetry === undefined) forceRetry = false;
         var func = this;
         var deferred = $q.defer();
         var promise = deferred.promise;
         self.modalNoty = notificationService.modal("Retrying...");
         var updatedItems = [];
         var retryIds = [];
-        _.each(items, function(retryItem) {
+        _.each(items, function (retryItem) {
+          if (retryItem.id) {
             retryIds.push(retryItem.id);
+          } else {
+            retryIds.push(retryItem.Id);
+          }
         });
-        $http.put('/api/v1/messages/retry', { retryIds: retryIds }).success(function(data, status, headers, config) {
+        $http.put('/api/v1/messages/retry', { retryIds: retryIds, forceRetry: forceRetry }).success(function(data, status, headers, config) {
             var failures = _.filter(data.retryMessageItems, function(retryMessageItem) {
                 return !retryMessageItem.isRetrying;
             });

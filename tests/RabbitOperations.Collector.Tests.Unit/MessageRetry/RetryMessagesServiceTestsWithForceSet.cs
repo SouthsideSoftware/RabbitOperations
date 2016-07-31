@@ -178,7 +178,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 		}
 
 		[Test]
-		public void ShouldNotRetryWhenOriginalMessageIsRetryPendingAndForceSet()
+		public void ShouldRetryWhenOriginalMessageIsRetryPendingAndForceSet()
 		{
 			//arrange
 			var fixture = new Fixture().Customize(new AutoMoqCustomization());
@@ -201,7 +201,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 			});
 
 			//assert
-			result.RetryMessageItems.First().IsRetrying.Should().BeFalse();
+			result.RetryMessageItems.First().IsRetrying.Should().BeTrue();
 		}
 
 		[Test]

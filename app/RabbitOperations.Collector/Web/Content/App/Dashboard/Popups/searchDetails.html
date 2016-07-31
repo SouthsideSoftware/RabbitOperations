@@ -86,6 +86,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-disabled="!message.item.canRetry" ng-click="retry()">Retry</button>
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-disabled="!message.item.CanRetry && !forceRetry" ng-click="retry()">Retry</button>
+  <button class="btn btn-primary" ng-click="ok()">OK</button><br/>
+  <label>Allow retry of any message (no safety checks)<input type="checkbox" ng-model="forceRetry"></label>
 </div>
