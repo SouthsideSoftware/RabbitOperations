@@ -17,17 +17,17 @@
             </thead>
             <tbody>
             <tr>
-                <td>{{message.item.applicationId}}</td>
+                <td>{{message.item.ApplicationId}}</td>
                 <td>{{message.timeSent}}</td>
                 <td>{{message.processingTime}}</td>
                 <td>{{message.totalTime}}</td>
-                <td>{{message.item.isError}} ({{message.item.additionalErrorStatusString}})</td>
-                <td>{{message.item.canRetry}}</td>
+                <td>{{message.item.IsError}} ({{message.item.AdditionalErrorStatusString}})</td>
+                <td>{{message.item.CanRetry}}</td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div ng-show="message.item.retries.length > 0">
+    <div ng-show="message.item.Retries.length > 0">
         <h4>
             Retries
             <span ng-click="displayRetries = true" ng-show="!displayRetries" class="clickable">[+]</span>
@@ -86,6 +86,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-disabled="!message.item.canRetry" ng-click="retry()">Retry</button>
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-disabled="!message.item.CanRetry && !forceRetry" ng-click="retry()">Retry</button>
+  <button class="btn btn-primary" ng-click="ok()">OK</button><br/>
+  <label>Allow retry of any message (no safety checks)<input type="checkbox" ng-model="forceRetry"></label>
 </div>

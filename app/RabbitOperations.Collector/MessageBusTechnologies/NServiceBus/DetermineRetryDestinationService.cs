@@ -16,11 +16,15 @@ namespace RabbitOperations.Collector.MessageBusTechnologies.NServiceBus
                 return userSuppliedRetryDestination;
             }
 
-            if (rawMessage.Headers.ContainsKey("NServiceBus.FailedQ"))
-            {
-                var failedQ = rawMessage.Headers["NServiceBus.FailedQ"];
-                return failedQ.Split('@')[0];
-            }
+	        if (rawMessage.Headers.ContainsKey(Headers.FailedQ))
+	        {
+		        var failedQ = rawMessage.Headers[Headers.FailedQ];
+		        return failedQ.Split('@')[0];
+	        }
+	        if (rawMessage.Headers.ContainsKey(Headers.ProcessingEndpoint))
+	        {
+		        return rawMessage.Headers[Headers.ProcessingEndpoint];
+	        }
             return null;
         }
     }

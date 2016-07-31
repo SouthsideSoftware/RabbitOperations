@@ -5,6 +5,7 @@
     $scope.searchProgress = searchService.searchProgress;
     $scope.targetPage = undefined;
     $scope.allowRetry = false;
+    $scope.forceRetry = false;
 
     $scope.searchFields = [
       "AdditionalErrorStatus:", "Any:", "ApplicationId:", "ClassName:", "DocId:", "Header:", "IsError:", "TimeSent:"
@@ -59,7 +60,7 @@
         function(item) {
           return item.canRetry;
         });
-      $scope.allowRetry = selected.length > 0 && allSelectedAllowRetry;
+      $scope.allowRetry = selected.length > 0 && (allSelectedAllowRetry || $scope.forceRetry);
     };
 
     $scope.$watch("pageInfo.take",
@@ -99,7 +100,7 @@
         function(item) {
           return item.isSelected;
         });
-      retryService.retry(selected)
+      retryService.retry(selected, $scope.forceRetry)
         .then(function(updatedItems) {
           $scope.selectionChanged();
         });

@@ -94,6 +94,10 @@
       <HintPath>..\..\packages\Nancy.Owin.1.4.1\lib\net40\Nancy.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nancy.Serialization.JsonNet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.Serialization.JsonNet.1.4.1\lib\net40\Nancy.Serialization.JsonNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nancy.ViewEngines.Razor, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nancy.Viewengines.Razor.1.4.3\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
       <Private>True</Private>
@@ -118,19 +122,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.5.0-rc-35162\lib\net45\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\RavenDB.Database.3.5.0-rc-35165\lib\net45\Raven.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Client.3.5.0-rc-35162\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\..\packages\RavenDB.Client.3.5.0-rc-35165\lib\net45\Raven.Client.Lightweight.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Raven.Database, Version=3.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.5.0-rc-35162\lib\net45\Raven.Database.dll</HintPath>
+      <HintPath>..\..\packages\RavenDB.Database.3.5.0-rc-35165\lib\net45\Raven.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SouthsideUtility.Core, Version=0.24.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SouthsideUtility.Core.0.24.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
+    <Reference Include="SouthsideUtility.Core, Version=0.25.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SouthsideUtility.Core.0.25.0\lib\net45\SouthsideUtility.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -220,10 +224,12 @@
     <Compile Include="Service\StoreMessagesThatAreRetriesService.cs" />
     <Compile Include="Service\StoreMessagesThatAreNotRetriesService.cs" />
     <Compile Include="Web\Helpers\LinkHelper.cs" />
+    <Compile Include="Web\Helpers\SerializationHelper.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Web\SignalR\MessagePulseHub.cs" />
+    <Compile Include="Web\Startup\CamelCaseSerializer.cs" />
     <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
     <Compile Include="Web\Modules\DashboardModule.cs" />
     <Compile Include="Service\Interfaces\IQueueSettings.cs" />
@@ -254,7 +260,7 @@
     <Compile Include="Web\VersionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\packages\RavenDB.Database.3.5.0-rc-35162\content\Raven.Studio.Html5.zip">
+    <None Include="..\..\packages\RavenDB.Database.3.5.0-rc-35165\content\Raven.Studio.Html5.zip">
       <Link>Raven.Studio.Html5.zip</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

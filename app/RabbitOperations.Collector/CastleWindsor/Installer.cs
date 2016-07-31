@@ -11,6 +11,7 @@ using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Nancy.ViewEngines;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.Configuration.Interfaces;
@@ -28,6 +29,7 @@ using RabbitOperations.Collector.RavenDB.Query.Interfaces;
 using RabbitOperations.Collector.RavenDB.SchemaUpdates;
 using RabbitOperations.Collector.Service;
 using RabbitOperations.Collector.Service.Interfaces;
+using RabbitOperations.Collector.Web.Startup;
 using RabbitOperations.Domain;
 using Raven.Abstractions.Data;
 using Raven.Client;
@@ -56,7 +58,8 @@ namespace RabbitOperations.Collector.CastleWindsor
             container.Kernel.AddFacility<TypedFactoryFacility>();
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
             container.Register(Component.For<IQueuePoller>().ImplementedBy<QueuePoller>().LifestyleTransient(),
-                Component.For<IQueuePollerFactory>().AsFactory(),
+				Component.For<JsonSerializer>().ImplementedBy<CamelCaseSerializer>().LifestyleTransient(),
+				Component.For<IQueuePollerFactory>().AsFactory(),
                 Component.For<IRabbitConnectionFactory>().ImplementedBy<RabbitConnectionFactory>().LifestyleSingleton(),
                 Component.For<IRawMessage>().ImplementedBy<RawMessage>().LifestyleTransient(),
                 Component.For<IHost>().ImplementedBy<Host.Host>().LifestyleSingleton(),

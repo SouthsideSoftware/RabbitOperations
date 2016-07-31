@@ -3,6 +3,12 @@
     <span>Press ESC to close</span>
 </div>
 <div class="modal-body">
+  <h2>0.11.0 (July 31, 2016)</h2>
+  <ul>
+    <li>Upgrade to RavenDB 3.5.0-rc-35165</li>
+    <li>Can replay any message by checking an option to turn off safety checks</li>
+    <li>BUG FIX: When viewing headers of message details, the first letter of the key gets lowercased.</li>
+  </ul>
   <h2>0.10.0 (July, 23 2016)</h2>
   <ul>
     <li>Upgrade to RavenDB 3.5.0-rc-35162</li>
@@ -16,14 +22,6 @@
     <li>Allow different expiration time for error messages</li>
     <li>Upgrade to latest RavenDB 3.0 stable (build 30000)</li>
     <li>BUG FIX: Indexing of ID field has wrong sort option set.</li>
-  </ul>
-  <h2>0.8.0 (May 23, 2015)</h2>
-  <ul>
-    <li>Nicely formatted stack dump shown on details view of error message</li>
-    <li>Ability to view queue stats as a gauge</li>
-    <li>Improve performance of search screen especially when bringing back large sets of large messages</li>
-    <li>BUG FIX: Small memory leak in poller due to RavenDB profiler stats</li>
-    <li>BUG FIX: Retry to overcome RavenDB transients under high loads when there are more than 40 active queue pollers</li>
   </ul>
 </div>
 <div class="modal-footer">

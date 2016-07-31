@@ -46,7 +46,7 @@ namespace RabbitOperations.Collector.MessageRetry
                 var originalMessage = GetOriginalMessageIfExists(retryId, result);
                 if (originalMessage == null) continue;
 
-                if (originalMessage.AdditionalErrorStatus != AdditionalErrorStatus.Unresolved)
+                if (originalMessage.AdditionalErrorStatus != AdditionalErrorStatus.Unresolved && !retryMessageModel.ForceRetry)
                 {
                     result.RetryMessageItems.Add(new RetryMessageItem
                     {
