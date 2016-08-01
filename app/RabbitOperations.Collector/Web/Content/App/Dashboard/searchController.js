@@ -95,14 +95,11 @@
       }
     };
 
-    $scope.retry = function() {
+    $scope.prepareRetry = function() {
       var selected = _.filter($scope.searchResults.results,
         function(item) {
           return item.isSelected;
         });
-      retryService.retry(selected, $scope.forceRetry)
-        .then(function(updatedItems) {
-          $scope.selectionChanged();
-        });
+      retryService.prepareRetry(selected, $scope.forceRetry, $scope.selectionChanged);
     };
   });
