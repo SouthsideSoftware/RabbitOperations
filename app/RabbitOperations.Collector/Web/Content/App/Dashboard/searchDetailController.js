@@ -66,10 +66,12 @@
     };
 
     $scope.retry = function () {
-        retryService.retry([$scope.message.item], $scope.forceRetry).then(function(updatedItems) {
-            if (updatedItems.length > 0) {
-                $scope.message.item = updatedItems[0];
-            }
-        });
+      retryService.prepareRetry([$scope.message.item], $scope.forceRetry, $scope.update);
     };
+
+    $scope.update = function(updatedItems) {
+      if (updatedItems.length > 0) {
+        $scope.message.item = updatedItems[0];
+      }
+    }
 })
