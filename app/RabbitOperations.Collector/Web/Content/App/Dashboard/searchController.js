@@ -6,6 +6,7 @@
     $scope.targetPage = undefined;
     $scope.allowRetry = false;
     $scope.forceRetry = false;
+    $scope.selectAll = false;
 
     $scope.searchFields = [
       "AdditionalErrorStatus:", "Any:", "ApplicationId:", "ClassName:", "DocId:", "Header:", "IsError:", "TimeSent:"
@@ -23,6 +24,14 @@
     ];
 
     $scope.currentTip = $scope.tips[Math.floor(Math.random() * $scope.tips.length)];
+
+    $scope.processSelectAll = function() {
+      _.each($scope.searchResults.results,
+        function(item) {
+          item.isSelected = $scope.selectAll;
+        });
+      $scope.selectionChanged();
+    }
 
     $scope.$watch(function() { return searchService.searchResults },
       function(searchResults) {

@@ -87,7 +87,7 @@
             <i class="glyphicon glyphicon-chevron-down" ng-show="pageInfo.sortField === 'AdditionalErrorStatus' && !pageInfo.sortAscending"></i>
             Additional<br/>Error Status
           </th>
-          <th>Select</th>
+          <th>Select <input type="checkbox" ng-model="selectAll" ng-change="processSelectAll()"/></th>
         </tr>
         </thead>
         <tbody>
