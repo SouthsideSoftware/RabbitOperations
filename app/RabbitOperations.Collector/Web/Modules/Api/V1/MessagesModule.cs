@@ -41,7 +41,7 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
 	        Post["/retryDestinations"] = parameters =>
 	        {
 				var retryModel = this.Bind<RetryMessageModel>();
-				return "OK";
+		        return retryMessagesService.GetRetryDestinations(retryModel);
 	        };
 
             Get["/{id}"] = parameters => {
