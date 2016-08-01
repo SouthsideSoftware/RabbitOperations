@@ -187,6 +187,7 @@
     <Compile Include="MessageRetry\Interfaces\IRetryMessages.cs" />
     <Compile Include="MessageBusTechnologies\NServiceBus\CreateRetryMessageFromOriginalService.cs" />
     <Compile Include="MessageRetry\RetryMessagesService.cs" />
+    <Compile Include="Models\RetryDestinationResult.cs" />
     <Compile Include="Models\RetryMessageItem.cs" />
     <Compile Include="Models\RetryMessageModel.cs" />
     <Compile Include="Models\RetryMessageResult.cs" />
