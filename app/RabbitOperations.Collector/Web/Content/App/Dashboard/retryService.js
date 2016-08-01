@@ -41,6 +41,7 @@
     };
 
     this.prepareRetry = function (items, forceRetry, callback) {
+      self.callback = callback;
       if (forceRetry === undefined) forceRetry = false;
       var retryIds = [];
       _.each(items, function (retryItem) {
@@ -60,7 +61,7 @@
             size: "lg",
             resolve: {
               item: function () {
-                return data;
+                return { data: data, callback: self.callback };
               }
             }
           });
