@@ -11,7 +11,9 @@
       var updatedItems = [];
       $http.put('/api/v1/messages/retry', { retryIds: item.data.retryIds, forceRetry: item.data.forceRetry, userSuppliedRetryDestination : $scope.overrideDestination }).success(function (data, status, headers, config) {
         var failures = _.filter(data.retryMessageItems, function (retryMessageItem) {
-          return retryMessageItem.additionalInfo !== undefined && retryMessageItem.additionalInfo !== null && retryMessageItem.additionalInfo.length > 0 
+          return retryMessageItem.additionalInfo !== undefined &&
+            retryMessageItem.additionalInfo !== null &&
+            retryMessageItem.additionalInfo.length > 0;
         });
         var messagePrefix = data.retryMessageItems.length > 0 ? "Messages" : "Message";
         _.each(data.retryMessageItems, function (retryMessageItem) {
@@ -21,7 +23,10 @@
         if (failures.length === 0) {
           notificationService.success(messagePrefix + " retrying");
         } else {
-          notificationService.error("Some or all of the selected messages failed retry. Check the status of the selected messages for more details");
+          _.each(failures,
+            function(failure) {
+              notificationService.error("Error on retry " + failure.retryId + " error is " + failure.additionalInfo);
+            });
         }
         $scope.completed(updatedItems);
       }).error(function (jqXHR, textStatus, errorThrown) {
