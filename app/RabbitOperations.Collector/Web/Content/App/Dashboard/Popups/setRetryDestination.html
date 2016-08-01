@@ -5,14 +5,30 @@
 <div class="modal-body">
   <form>
     <div class="row">
+      <div class="col-lg-4 col-sm-4 col-xs-4">
+        <label>Number of Messages:</label>
+        <div>{{numberOfMessages}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-sm-4 col-xs-4">
+        <label>Destinations:</label>
+        <div>{{destinations}}</div>
+      </div>
+    </div>
+    <div class="row"><hr/></div>
+    <div class="row">
       <div class="col-lg-8 col-sm-8 col-xs-8">
         <div class="input-group">
-          <input type="text" class="form-control" ng-model="exchange">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" ng-click="retry()" type="submit">Retry</button>
-            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
-          </span>
+          <label>Override Destination:<input type="text" class="form-control" ng-model="exchange"></label>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class ="col-lg-8 col-sm-8 col-xs-8">Use caution when overriding destination.</div>
+      <div class="col-lg-4 col-sm-4 col-xs-4">
+        <button class="btn btn-primary" ng-click="retry()" type="submit">Retry</button>
+        <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
       </div>
     </div>
   </form>
