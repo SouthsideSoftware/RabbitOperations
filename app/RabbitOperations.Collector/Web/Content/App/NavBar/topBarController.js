@@ -1,7 +1,7 @@
 ﻿rabbitOperationsApp.controller('topBarController', function ($scope, $modal) {
     $scope.showWhatsNew = function () {
         var modalInstance = $modal.open({
-            templateUrl: '/Content/App/Dashboard/Popups/whatsNew.html?version=11',
+            templateUrl: '/Content/App/Dashboard/Popups/whatsNew.html?version=0.12.0',
             controller: 'whatsNewController',
             size: 'lg'
         });
