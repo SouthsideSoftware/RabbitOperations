@@ -73,5 +73,6 @@
       if (updatedItems.length > 0) {
         $scope.message.item = updatedItems[0];
       }
+      $modalInstance.close();
     }
 })

@@ -11,7 +11,7 @@
       var updatedItems = [];
       $http.put('/api/v1/messages/retry', { retryIds: item.data.retryIds, forceRetry: item.data.forceRetry, userSuppliedRetryDestination : $scope.overrideDestination }).success(function (data, status, headers, config) {
         var failures = _.filter(data.retryMessageItems, function (retryMessageItem) {
-          return !retryMessageItem.isRetrying;
+          return retryMessageItem.additionalInfo !== undefined && retryMessageItem.additionalInfo !== null && retryMessageItem.additionalInfo.length > 0 
         });
         var messagePrefix = data.retryMessageItems.length > 0 ? "Messages" : "Message";
         _.each(data.retryMessageItems, function (retryMessageItem) {
