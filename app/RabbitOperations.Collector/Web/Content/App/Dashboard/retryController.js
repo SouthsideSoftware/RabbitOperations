@@ -23,9 +23,16 @@
         if (failures.length === 0) {
           notificationService.success(messagePrefix + " retrying");
         } else {
+          var cnt = 0;
           _.each(failures,
-            function(failure) {
-              notificationService.error("Error on retry " + failure.retryId + " error is " + failure.additionalInfo);
+            function (failure) {
+              if (cnt < 4) {
+                notificationService.error("Error on retry " + failure.retryId + " error is " + failure.additionalInfo);
+              }
+              if (cnt === 4) {
+                notificationService.error("Too many errors to display. There were " + failures.length);
+              }
+              cnt++;
             });
         }
         $scope.completed(updatedItems);
