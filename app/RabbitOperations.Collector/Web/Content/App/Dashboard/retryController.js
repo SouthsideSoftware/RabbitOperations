@@ -1,7 +1,7 @@
 ﻿rabbitOperationsApp.controller('retryController',
   function ($scope, $modalInstance, item, $http, retryService, notificationService, searchService) {
     $scope.retryDestinationInfo = item.data;
-    $scope.destinations = item.data.retryDestinations.join(',');
+    $scope.destinations = item.data.retryDestinations.join(', ');
     $scope.numberOfMessages = item.data.retryIds.length;
     $scope.callback = item.callback;
     $scope.overrideDestination = undefined;
