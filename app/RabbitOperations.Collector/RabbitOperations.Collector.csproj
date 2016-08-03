@@ -187,6 +187,7 @@
     <Compile Include="MessageRetry\Interfaces\IRetryMessages.cs" />
     <Compile Include="MessageBusTechnologies\NServiceBus\CreateRetryMessageFromOriginalService.cs" />
     <Compile Include="MessageRetry\RetryMessagesService.cs" />
+    <Compile Include="Models\RetryDestinationResult.cs" />
     <Compile Include="Models\RetryMessageItem.cs" />
     <Compile Include="Models\RetryMessageModel.cs" />
     <Compile Include="Models\RetryMessageResult.cs" />
@@ -315,10 +316,16 @@
     <Content Include="Web\Content\App\Dashboard\Popups\retryResults.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Web\Content\App\Dashboard\Popups\setRetryDestination.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web\Content\App\Dashboard\Popups\whatsNew.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\Dashboard\retryService.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\App\Dashboard\retryController.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\App\notificationService.js">

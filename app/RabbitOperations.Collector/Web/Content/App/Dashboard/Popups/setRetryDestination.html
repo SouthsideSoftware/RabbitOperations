@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <h1>Set Retry Destination</h1>
+    <span>Press ESC to cancel</span>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="row">
+      <div class="col-lg-4 col-sm-4 col-xs-4">
+        <label>Number of Messages:</label>
+        <div>{{numberOfMessages}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-sm-4 col-xs-4">
+        <label>Destinations:</label>
+        <div>{{destinations}}</div>
+      </div>
+    </div>
+    <div class="row"><hr/></div>
+    <div class="row">
+      <div class="col-lg-8 col-sm-8 col-xs-8">
+        <div class="input-group">
+          <label>Override Destination:<input type="text" class="form-control" ng-model="overrideDestination"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class ="col-lg-9 col-sm-9 col-xs-9">Use caution when overriding destination. Destination is an exchange.</div>
+      <div class="col-lg-3 col-sm-3 col-xs-3">
+        <button class="btn btn-primary" ng-click="retry()" type="submit">Retry</button>
+        <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

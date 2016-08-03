@@ -55,6 +55,7 @@ namespace RabbitOperations.Collector.MessageRetry
                 {
                     using (var channel = connection.CreateModel())
                     {
+						channel.ExchangeDeclarePassive(queueName);
                         var sendData = message.GetEelementsForRabbitPublish();
                         basicProperties.Headers = sendData.Item2;
                         channel.BasicPublish(queueName, "", basicProperties, sendData.Item1);

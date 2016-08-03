@@ -38,6 +38,12 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
                 return retryMessagesService.Retry(retryModel);
             };
 
+	        Post["/retryDestinations"] = parameters =>
+	        {
+				var retryModel = this.Bind<RetryMessageModel>();
+		        return retryMessagesService.GetRetryDestinations(retryModel);
+	        };
+
             Get["/{id}"] = parameters => {
 				var serializer = new JsonSerializer();
 	            var data = JObject.FromObject(basicSearch.Get(parameters.id), serializer).ToString();

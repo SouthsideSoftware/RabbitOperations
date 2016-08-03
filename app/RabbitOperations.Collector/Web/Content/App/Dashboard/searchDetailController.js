@@ -50,7 +50,7 @@
 
     $scope.showRetryDetails = function (retryItem) {
         $modal.open({
-            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=3',
+            templateUrl: '/Content/App/Dashboard/Popups/searchDetails.html?version=0.12.0',
             controller: 'searchDetailController',
             size: 'lg',
             resolve: {
@@ -66,10 +66,13 @@
     };
 
     $scope.retry = function () {
-        retryService.retry([$scope.message.item], $scope.forceRetry).then(function(updatedItems) {
-            if (updatedItems.length > 0) {
-                $scope.message.item = updatedItems[0];
-            }
-        });
+      retryService.prepareRetry([$scope.message.item], $scope.forceRetry, $scope.update);
     };
+
+    $scope.update = function(updatedItems) {
+      if (updatedItems.length > 0) {
+        $scope.message.item = updatedItems[0];
+      }
+      $modalInstance.close();
+    }
 })

@@ -13,5 +13,6 @@ namespace RabbitOperations.Collector.Models
             RetryMessageItems = new List<RetryMessageItem>();
         }
         public IList<RetryMessageItem> RetryMessageItems { get; set; } 
+		public string UserSuppliedRetryDestination { get; set; }
     }
 }

@@ -38,9 +38,38 @@ namespace RabbitOperations.Collector.MessageRetry
             this.createBasicPropertiesService = createBasicPropertiesService;
         }
 
-        public RetryMessageResult Retry(RetryMessageModel retryMessageModel)
+	    public RetryDestinationResult GetRetryDestinations(RetryMessageModel retryMessageModel)
+	    {
+		    var result = new RetryDestinationResult
+		    {
+			    ForceRetry = retryMessageModel.ForceRetry
+		    };
+
+		    foreach (var retryId in retryMessageModel.RetryIds)
+		    {
+			    MessageDocument originalMessage = null;
+			    using (var session = documentStore.OpenSessionForDefaultTenant())
+			    {
+				    originalMessage = session.Load<MessageDocument>(retryId);
+			    }
+			    if (originalMessage == null) continue;
+			    var rawMessage = new RawMessage(originalMessage);
+			    var destination = determineRetryDestinationService.GetRetryDestination(rawMessage, null);
+			    result.RetryIds.Add(retryId);
+			    if (destination != null && !result.RetryDestinations.Contains(destination))
+			    {
+				    result.RetryDestinations.Add(destination);
+			    }
+		    }
+		    return result;
+	    }
+
+	    public RetryMessageResult Retry(RetryMessageModel retryMessageModel)
         {
-            var result = new RetryMessageResult();
+	        var result = new RetryMessageResult
+	        {
+		        UserSuppliedRetryDestination = retryMessageModel.UserSuppliedRetryDestination
+	        };
             foreach (var retryId in retryMessageModel.RetryIds)
             {
                 var originalMessage = GetOriginalMessageIfExists(retryId, result);

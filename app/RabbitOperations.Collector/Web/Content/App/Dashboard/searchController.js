@@ -6,6 +6,7 @@
     $scope.targetPage = undefined;
     $scope.allowRetry = false;
     $scope.forceRetry = false;
+    $scope.selectAll = false;
 
     $scope.searchFields = [
       "AdditionalErrorStatus:", "Any:", "ApplicationId:", "ClassName:", "DocId:", "Header:", "IsError:", "TimeSent:"
@@ -23,6 +24,14 @@
     ];
 
     $scope.currentTip = $scope.tips[Math.floor(Math.random() * $scope.tips.length)];
+
+    $scope.processSelectAll = function() {
+      _.each($scope.searchResults.results,
+        function(item) {
+          item.isSelected = $scope.selectAll;
+        });
+      $scope.selectionChanged();
+    }
 
     $scope.$watch(function() { return searchService.searchResults },
       function(searchResults) {
@@ -77,7 +86,7 @@
         $http.get(url)
           .success(function(data, status, headers, config) {
             var modalInstance = $modal.open({
-              templateUrl: "/Content/App/Dashboard/Popups/searchDetails.html?version=3",
+              templateUrl: "/Content/App/Dashboard/Popups/searchDetails.html?version=0.12.0",
               controller: "searchDetailController",
               size: "lg",
               resolve: {
@@ -95,14 +104,11 @@
       }
     };
 
-    $scope.retry = function() {
+    $scope.prepareRetry = function() {
       var selected = _.filter($scope.searchResults.results,
         function(item) {
           return item.isSelected;
         });
-      retryService.retry(selected, $scope.forceRetry)
-        .then(function(updatedItems) {
-          $scope.selectionChanged();
-        });
+      retryService.prepareRetry(selected, $scope.forceRetry, $scope.selectionChanged);
     };
   });
