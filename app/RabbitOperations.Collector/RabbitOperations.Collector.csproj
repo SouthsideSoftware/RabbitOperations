@@ -168,11 +168,11 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CastleWindsor\Installer.cs" />
-    <Compile Include="Host\Interfaces\IQueuePollerHost.cs" />
+    <Compile Include="Host\Interfaces\IApplicationListenerHost.cs" />
     <Compile Include="Host\Interfaces\ISubHost.cs" />
     <Compile Include="Host\Interfaces\ISubHostFactory.cs" />
     <Compile Include="Host\Interfaces\IWebHost.cs" />
-    <Compile Include="Host\QueuePollerHost.cs" />
+    <Compile Include="Host\ApplicationListenerHost.cs" />
     <Compile Include="Host\WebHost.cs" />
     <Compile Include="MessageBusTechnologies\Common\Headers.cs" />
     <Compile Include="MessageBusTechnologies\NServiceBus\Headers.cs" />
@@ -194,8 +194,8 @@
     <Compile Include="Models\RetryMessageModel.cs" />
     <Compile Include="Models\RetryMessageResult.cs" />
     <Compile Include="Poller\Interfaces\IPoller.cs" />
-    <Compile Include="Poller\Interfaces\IPollerHost.cs" />
-    <Compile Include="Poller\PollerHost.cs" />
+    <Compile Include="Poller\Interfaces\IApplicationListener.cs" />
+    <Compile Include="Poller\ApplicationListener.cs" />
     <Compile Include="Poller\PollerStatus.cs" />
     <Compile Include="RavenDB\Indexes\MessageDocument_Search.cs" />
     <Compile Include="RavenDB\Interfaces\IUpdateSchemaVersion.cs" />

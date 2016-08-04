@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RabbitOperations.Collector.Poller.Interfaces
 {
-    public interface IPollerHost
+    public interface IApplicationListener
     {
         void Start();
         void Stop();

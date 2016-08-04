@@ -17,7 +17,7 @@ using SouthsideUtility.Core.TestableSystem.Interfaces;
 
 namespace RabbitOperations.Collector.Host
 {
-    public class QueuePollerHost : IQueuePollerHost
+    public class ApplicationListenerHost : IApplicationListenerHost
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
         private IList<Task> queuePollers = new List<Task>();
@@ -28,7 +28,7 @@ namespace RabbitOperations.Collector.Host
         private CancellationToken cancellationToken;
         private readonly ISettings settings;
 
-        public QueuePollerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
+        public ApplicationListenerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
         {
             Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");

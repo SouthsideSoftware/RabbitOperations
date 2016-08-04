@@ -8,7 +8,7 @@ namespace RabbitOperations.Collector.Host.Interfaces
 {
     public interface ISubHostFactory
     {
-        IQueuePollerHost CreatePollerHost();
+        IApplicationListenerHost CreatePollerHost();
         IWebHost CreateWebHost();
     }
 }

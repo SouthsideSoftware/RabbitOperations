@@ -63,7 +63,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IRabbitConnectionFactory>().ImplementedBy<RabbitConnectionFactory>().LifestyleSingleton(),
                 Component.For<IRawMessage>().ImplementedBy<RawMessage>().LifestyleTransient(),
                 Component.For<IHost>().ImplementedBy<Host.Host>().LifestyleSingleton(),
-                Component.For<IQueuePollerHost>().ImplementedBy<QueuePollerHost>().LifestyleTransient(),
+                Component.For<IApplicationListenerHost>().ImplementedBy<ApplicationListenerHost>().LifestyleTransient(),
                 Component.For<IWebHost>().ImplementedBy<WebHost>().LifestyleTransient(),
                 Component.For<ISubHostFactory>().AsFactory().LifestyleSingleton(),
                 Component.For<ISchemaUpdater>().ImplementedBy<SchemaUpdater>().LifestyleTransient(),

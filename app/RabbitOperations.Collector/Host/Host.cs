@@ -13,7 +13,7 @@ namespace RabbitOperations.Collector.Host
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly ISettings settings;
         private readonly ISubHostFactory subHostFactory;
-        private IQueuePollerHost queuePollerHost;
+        private IApplicationListenerHost applicationListenerHost;
         private IWebHost webHost;
 
         public Host(ISubHostFactory subHostFactory, ISettings settings)
@@ -39,10 +39,10 @@ namespace RabbitOperations.Collector.Host
         {
             logger.Info("Collector starting...");
 
-            queuePollerHost = subHostFactory.CreatePollerHost();
+            applicationListenerHost = subHostFactory.CreatePollerHost();
             if (settings.AutoStartQueuePolling && !settings.SuppressPolling)
             {
-                queuePollerHost.Start();
+                applicationListenerHost.Start();
             }
             else
             {
@@ -73,7 +73,7 @@ namespace RabbitOperations.Collector.Host
         public void Stop()
         {
             logger.Info("Collector stopping...");
-            queuePollerHost.Stop();
+            applicationListenerHost.Stop();
             webHost.Stop();
             logger.Info("Collector stopped");
         }

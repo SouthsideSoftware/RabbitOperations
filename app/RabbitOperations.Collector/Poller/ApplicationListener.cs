@@ -13,13 +13,13 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Poller
 {
-    public class PollerHost : IPollerHost
+    public class ApplicationListener : IApplicationListener
     {
         private NLog.Logger logger = LogManager.GetCurrentClassLogger();
         private IList<PollerTaskInfo> runningPollerTasks;
         private IList<IPoller> pollers;
 
-        public PollerHost(string name, IList<IPoller> pollersToStart = null)
+        public ApplicationListener(string name, IList<IPoller> pollersToStart = null)
         {
             Name = name;
             this.pollers = pollersToStart != null ? new List<IPoller>(pollersToStart) : new List<IPoller>();
