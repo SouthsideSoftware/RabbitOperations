@@ -67,7 +67,9 @@ namespace RabbitOperations.Tests.Unit
                     openingCount = channel.QueueDeclare("audit", true, false, false, null).MessageCount;
 
                     channel.BasicQos(0, 1, false);
+#pragma warning disable 618
                     var consumer = new QueueingBasicConsumer(channel);
+#pragma warning restore 618
                     channel.BasicConsume("audit", false, consumer);
 
                     Console.WriteLine(" [*] Waiting for messages. " +
@@ -115,7 +117,9 @@ namespace RabbitOperations.Tests.Unit
                     openingCount = channel.QueueDeclare("audit", true, false, false, null).MessageCount;
 
                     channel.BasicQos(0, 1, false);
+#pragma warning disable 618
                     var consumer = new QueueingBasicConsumer(channel);
+#pragma warning restore 618
                     channel.BasicConsume("audit", false, consumer);
 
                     Console.WriteLine(" [*] Waiting for messages. " +

@@ -119,7 +119,9 @@ namespace RabbitOperations.Collector.Service
                     using (var channel = connection.CreateModel())
                     {
                         channel.BasicQos(0, QueueSettings.Prefetch, false);
+#pragma warning disable 618
                         var consumer = new QueueingBasicConsumer(channel);
+#pragma warning restore 618
                         channel.BasicConsume(QueueSettings.QueueName, false, consumer);
                         logger.Info("Begin polling {0}{1}", QueueSettings.LogInfo,
                             QueueSettings.MaxMessagesPerRun > 0
