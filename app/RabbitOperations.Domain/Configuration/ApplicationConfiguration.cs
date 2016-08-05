@@ -3,7 +3,7 @@ using Microsoft.SqlServer.Server;
 
 namespace RabbitOperations.Domain.Configuration
 {
-    public class ApplicationConfiguration
+    public class ApplicationConfiguration : IApplicationConfiguration
     {
         public ApplicationConfiguration()
         {
@@ -12,7 +12,6 @@ namespace RabbitOperations.Domain.Configuration
             RabbitConnectionString = "amqp://localhost";
             PollingTimeoutMilliseconds = 500;
             HeartbeatIntervalSeconds = 10;
-            MessageHandlingInstructions = new List<MessageTypeHandling>();
             AutoStartQueuePolling = false;
             DocumentExpirationInHours = 7*24;
             ErrorDocumentExpirationInHours = 14*24;
@@ -42,7 +41,6 @@ namespace RabbitOperations.Domain.Configuration
         /// they use a relatively short timeout.
         /// </summary>
         public int HeartbeatIntervalSeconds { get; set; }
-        public IList<MessageTypeHandling> MessageHandlingInstructions { get; set; }
 
         public bool AutoStartQueuePolling { get; set; }
 

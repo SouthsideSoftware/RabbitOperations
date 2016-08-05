@@ -3,11 +3,15 @@ using System.Security.Cryptography.X509Certificates;
 using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Domain;
 using RabbitOperations.Domain.Configuration;
+using Topshelf.Builders;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IApplicationPoller
     {
+		IApplicationConfiguration Application { get; }
+	    void Start();
+	    void Stop();
         /// <summary>
         /// Gets the queue name for this poller
         /// </summary>

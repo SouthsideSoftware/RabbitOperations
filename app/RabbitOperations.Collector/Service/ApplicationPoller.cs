@@ -70,7 +70,18 @@ namespace RabbitOperations.Collector.Service
             messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, TimeUnit.Seconds, tags:new MetricTags("QueuePoller"));
         }
 
-        public IQueueSettings QueueSettings { get; protected set; }
+	    public IApplicationConfiguration Application { get; }
+	    public void Start()
+	    {
+		    throw new NotImplementedException();
+	    }
+
+	    public void Stop()
+	    {
+		    throw new NotImplementedException();
+	    }
+
+	    public IQueueSettings QueueSettings { get; protected set; }
 
         public Guid Key { get; protected set; }
 

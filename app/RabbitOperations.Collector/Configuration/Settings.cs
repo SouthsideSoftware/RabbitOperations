@@ -115,24 +115,12 @@ namespace RabbitOperations.Collector.Configuration
 			get { return StaticSuppressPolling; }
 		}
 
-		public IList<MessageTypeHandling> GlobalMessageHandlingInstructions
+		public IList<IApplicationConfiguration> Applications
 		{
-			get { return configurationDocument.GlobalMessageHandlingInstructions; }
-			set { configurationDocument.GlobalMessageHandlingInstructions = value; }
+			get { return configurationDocument.Applications.Select(x => x as IApplicationConfiguration).ToList(); }
+			set { configurationDocument.Applications = value.Select(x => x as ApplicationConfiguration).ToList(); }
 		}
 
-		public IList<ApplicationConfiguration> Applications
-		{
-			get { return configurationDocument.Applications; }
-			set { configurationDocument.Applications = value; }
-		}
-
-		public MessageTypeHandling MessageTypeHandlingFor(string type)
-		{
-			Verify.RequireStringNotNullOrWhitespace(type, "type");
-
-			return GlobalMessageHandlingInstructions.FirstOrDefault(x => x.MessageTypes.Contains(type));
-		}
 
 		public void Load()
 		{

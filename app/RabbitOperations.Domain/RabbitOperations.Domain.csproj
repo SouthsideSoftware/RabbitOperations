@@ -71,9 +71,9 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Configuration\ApplicationConfiguration.cs" />
+    <Compile Include="Configuration\IApplicationConfiguration.cs" />
     <Compile Include="Configuration\JsonPath.cs" />
     <Compile Include="Configuration\ConfigurationDocument.cs" />
-    <Compile Include="Configuration\MessageTypeHandling.cs" />
     <Compile Include="AdditionalErrorStatus.cs" />
     <Compile Include="IRawMessage.cs" />
     <Compile Include="MessageDocument.cs" />

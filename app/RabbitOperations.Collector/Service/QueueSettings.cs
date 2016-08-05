@@ -7,7 +7,7 @@ namespace RabbitOperations.Collector.Service
 {
     public class QueueSettings : IQueueSettings
     {
-        public QueueSettings(string queueName, ApplicationConfiguration application)
+        public QueueSettings(string queueName, IApplicationConfiguration application)
         {
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
             Verify.RequireNotNull(application, "application");

@@ -7,13 +7,11 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
     {
         int EmbeddedRavenDBManagementPort { get; }
        
-        IList<MessageTypeHandling> GlobalMessageHandlingInstructions { get; set; }
 
-        IList<ApplicationConfiguration> Applications { get; set; } 
+        IList<IApplicationConfiguration> Applications { get; set; } 
 
         void Load();
         void Save();
-        MessageTypeHandling MessageTypeHandlingFor(string type);
         bool EmbedRavenDB { get; }
         string DefaultRavenDBTenant { get; }
 

@@ -240,7 +240,6 @@
     <Compile Include="MessageParser\Interfaces\IBodyParser.cs" />
     <Compile Include="MessageParser\Interfaces\IHeaderParser.cs" />
     <Compile Include="MessageParser\Interfaces\IKeyExtractor.cs" />
-    <Compile Include="MessageParser\KeyExtractor.cs" />
     <Compile Include="MessageBusTechnologies\NServiceBus\HeaderParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
