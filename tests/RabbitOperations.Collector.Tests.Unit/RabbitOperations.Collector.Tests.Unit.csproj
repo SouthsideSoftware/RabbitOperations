@@ -151,7 +151,6 @@
     <Compile Include="MessageRetry\RetryMessagesServiceTests.cs" />
     <Compile Include="Service\StoreMessagesThatAreNotRetriesServiceTests.cs" />
     <Compile Include="Models\SearchModelTests.cs" />
-    <Compile Include="Poller\PollerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RavenDB\QualifiedSchemaUpdatersFactoryTests.cs" />
     <Compile Include="Service\ActiveQueuePollersTests.cs" />

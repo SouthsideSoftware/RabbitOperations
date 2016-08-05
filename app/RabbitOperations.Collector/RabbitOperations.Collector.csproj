@@ -193,10 +193,6 @@
     <Compile Include="Models\RetryMessageItem.cs" />
     <Compile Include="Models\RetryMessageModel.cs" />
     <Compile Include="Models\RetryMessageResult.cs" />
-    <Compile Include="Poller\Interfaces\IPoller.cs" />
-    <Compile Include="Poller\Interfaces\IApplicationListener.cs" />
-    <Compile Include="Poller\ApplicationListener.cs" />
-    <Compile Include="Poller\PollerStatus.cs" />
     <Compile Include="RavenDB\Indexes\MessageDocument_Search.cs" />
     <Compile Include="RavenDB\Interfaces\IUpdateSchemaVersion.cs" />
     <Compile Include="RavenDB\Interfaces\ISchemaUpdater.cs" />
