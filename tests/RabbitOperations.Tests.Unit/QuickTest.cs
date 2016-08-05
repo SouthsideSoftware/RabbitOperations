@@ -50,7 +50,7 @@ namespace RabbitOperations.Tests.Unit
         public void FactorySpike()
         {
             ServiceLocator.Container.Install(new RabbitOperations.Collector.CastleWindsor.Installer());
-            var factory = ServiceLocator.Container.Resolve<IQueuePollerFactory>();
+            var factory = ServiceLocator.Container.Resolve<IApplicationPollerFactory>();
             var poller = factory.Create(new QueueSettings("Test", new ApplicationConfiguration()), new CancellationToken());
             poller.QueueSettings.QueueName.Should().Be("Test");
         }

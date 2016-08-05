@@ -6,7 +6,7 @@ using RabbitOperations.Domain.Configuration;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
-    public interface IQueuePoller
+    public interface IApplicationPoller
     {
         /// <summary>
         /// Gets the queue name for this poller

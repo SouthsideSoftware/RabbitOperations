@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
-    public interface IQueuePollerFactory
+    public interface IApplicationPollerFactory
     {
-        IQueuePoller Create(IQueueSettings queueSettings, CancellationToken cancellationToken);
+        IApplicationPoller Create(IQueueSettings queueSettings, CancellationToken cancellationToken);
     }
 }

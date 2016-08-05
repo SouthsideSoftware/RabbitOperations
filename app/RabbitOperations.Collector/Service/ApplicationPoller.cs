@@ -26,7 +26,7 @@ using Raven.Json.Linq;
 
 namespace RabbitOperations.Collector.Service
 {
-    public class QueuePoller : IQueuePoller
+    public class ApplicationPoller : IApplicationPoller
     {
         private readonly CancellationToken cancellationToken;
         private readonly IRabbitConnectionFactory rabbitConnectionFactory;
@@ -38,7 +38,7 @@ namespace RabbitOperations.Collector.Service
         private readonly Meter messageMeter;
         private int consecutiveRetryCount;
 
-        internal QueuePoller(Guid key, IQueueSettings queueSettings)
+        internal ApplicationPoller(Guid key, IQueueSettings queueSettings)
         {
             Verify.RequireNotNull(key, "key");
             Verify.RequireNotNull(queueSettings, "queueSettings");
@@ -47,7 +47,7 @@ namespace RabbitOperations.Collector.Service
             Key = key;
         }
 
-        public QueuePoller(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
+        public ApplicationPoller(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
             IHeaderParser headerParser, IDocumentStore documentStore, IActiveQueuePollers activeQueuePollers, IStoreMessagesFactory storeMessagesFactory)
         {
             Verify.RequireNotNull(queueSettings, "queueSettings");

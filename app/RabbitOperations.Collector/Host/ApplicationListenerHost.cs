@@ -21,24 +21,24 @@ namespace RabbitOperations.Collector.Host
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
         private IList<Task> queuePollers = new List<Task>();
-        private readonly IQueuePollerFactory queuePollerFactory;
+        private readonly IApplicationPollerFactory applicationPollerFactory;
         private readonly IDocumentStore documentStore;
         private readonly ISchemaUpdater schemaUpdater;
         private readonly ICancellationTokenSource cancellationTokenSource;
         private CancellationToken cancellationToken;
         private readonly ISettings settings;
 
-        public ApplicationListenerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IQueuePollerFactory queuePollerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
+        public ApplicationListenerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IApplicationPollerFactory applicationPollerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
         {
             Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");
-            Verify.RequireNotNull(queuePollerFactory, "queuePollerFactory");
+            Verify.RequireNotNull(applicationPollerFactory, "queuePollerFactory");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(schemaUpdater, "SchemaUpdater");
 
             this.cancellationTokenSource = cancellationTokenSource;
             this.settings = settings;
-            this.queuePollerFactory = queuePollerFactory;
+            this.applicationPollerFactory = applicationPollerFactory;
             this.documentStore = documentStore;
             this.schemaUpdater = schemaUpdater;
 
@@ -105,7 +105,7 @@ namespace RabbitOperations.Collector.Host
                     queueSettings.ApplicationName, queueSettings.ApplicationId);
                 try
                 {
-                    var queuePoller = queuePollerFactory.Create(queueSettings, cancellationToken);
+                    var queuePoller = applicationPollerFactory.Create(queueSettings, cancellationToken);
                     queuePoller.Poll();
                 }
                 catch (Exception err)

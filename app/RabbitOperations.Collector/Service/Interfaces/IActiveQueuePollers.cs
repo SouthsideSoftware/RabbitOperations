@@ -6,8 +6,8 @@ namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IActiveQueuePollers
     {
-        IReadOnlyCollection<IQueuePoller> ActivePollers { get; }
-        void Add(IQueuePoller queuePoller);
-        void Remove(IQueuePoller queuePoller);
+        IReadOnlyCollection<IApplicationPoller> ActivePollers { get; }
+        void Add(IApplicationPoller applicationPoller);
+        void Remove(IApplicationPoller applicationPoller);
     }
 }

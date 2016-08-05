@@ -19,7 +19,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller = new ApplicationPoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
@@ -38,7 +38,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller = new ApplicationPoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
@@ -58,14 +58,14 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller = new ApplicationPoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
             activeQueuePollers.Add(queuePoller);
 
             var key2 = Guid.NewGuid();
-            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller2 = new ApplicationPoller(key2, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
@@ -75,7 +75,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             activeQueuePollers.Remove(queuePoller2);
 
             //assert 
-            activeQueuePollers.ActivePollers.Should().BeEquivalentTo(new List<IQueuePoller> {queuePoller});
+            activeQueuePollers.ActivePollers.Should().BeEquivalentTo(new List<IApplicationPoller> {queuePoller});
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller = new ApplicationPoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
@@ -106,12 +106,12 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller1 = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller1 = new ApplicationPoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
             var key2 = Guid.NewGuid();
-            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller2 = new ApplicationPoller(key2, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
@@ -131,12 +131,12 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var activeQueuePollers = new ActiveQueuePollers();
 
             var key1 = Guid.NewGuid();
-            var queuePoller1 = new QueuePoller(key1, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller1 = new ApplicationPoller(key1, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
             var key2 = Guid.NewGuid();
-            var queuePoller2 = new QueuePoller(key2, new QueueSettings("audit", new ApplicationConfiguration
+            var queuePoller2 = new ApplicationPoller(key2, new QueueSettings("audit", new ApplicationConfiguration
             {
                 ApplicationId = "test"
             }));
