@@ -73,8 +73,8 @@ namespace RabbitOperations.Collector.Service
 	    public IApplicationConfiguration Application { get; }
 	    public void Start()
 	    {
-		    throw new NotImplementedException();
-	    }
+			Listen();
+		}
 
 	    public void Stop()
 	    {
@@ -114,6 +114,64 @@ namespace RabbitOperations.Collector.Service
             }
             return TimeSpan.FromSeconds(Math.Pow(2, 6));
         }
+
+	    private void Listen()
+	    {
+			logger.Info("Started application listener for {0} with audit expiration of {1} hours and error expiration of {2} hours", QueueSettings.LogInfo,
+				QueueSettings.DocumentExpirationInHours, QueueSettings.ErrorDocumentExpirationInHours);
+			try
+			{
+				using (
+					var connection =
+						rabbitConnectionFactory.Create(QueueSettings.RabbitConnectionString,
+							(ushort)QueueSettings.HeartbeatIntervalSeconds).CreateConnection())
+				{
+					using (var channel = connection.CreateModel())
+					{
+						channel.BasicQos(0, QueueSettings.Prefetch, false);
+						long messageCount = 0;
+						var consumer = new EventingBasicConsumer(channel);
+						consumer.Received += (model, ea) =>
+						{
+							if (ea != null)
+							{
+								try
+								{
+									HandleMessage(new RawMessage(ea));
+									channel.BasicAck(ea.DeliveryTag, false);
+									messageCount++;
+									//if (QueueSettings.MaxMessagesPerRun > 0 &&
+									//	messageCount >= QueueSettings.MaxMessagesPerRun)
+									//{
+									//	break;
+									//}
+								}
+								catch (Exception err)
+								{
+									channel.BasicNack(ea.DeliveryTag, false, true);
+									logger.Error("Error on {0} with details {1}", QueueSettings.LogInfo, err);
+									//todo: move the message out of the way!
+									//todo: make this a bit more resilient (retries etc.)
+									throw;
+								}
+							}
+							consecutiveRetryCount = 0;
+						};
+						channel.BasicConsume(queue: QueueSettings.QueueName, noAck: false, consumer: consumer);
+						while (!cancellationToken.IsCancellationRequested)
+						{
+							Thread.Sleep(1000);
+						}
+					}
+				}
+			}
+			catch (EndOfStreamException err)
+			{
+				logger.Error(err, $"Error on {QueueSettings.LogInfo}");
+				throw;
+			}
+		}
+
 
         private void InnerPoll()
         {

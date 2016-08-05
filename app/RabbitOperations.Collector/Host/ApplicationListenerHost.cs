@@ -61,7 +61,7 @@ namespace RabbitOperations.Collector.Host
                 if (application.AutoStartQueuePolling)
                 {
                     StartPollingQueue(new QueueSettings(application.AuditQueue, application));
-                    StartPollingQueue(new QueueSettings(application.ErrorQueue, application));
+                    //StartPollingQueue(new QueueSettings(application.ErrorQueue, application));
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace RabbitOperations.Collector.Host
                 try
                 {
                     var queuePoller = applicationPollerFactory.Create(queueSettings, cancellationToken);
-                    queuePoller.Poll();
+                    queuePoller.Start();
                 }
                 catch (Exception err)
                 {
