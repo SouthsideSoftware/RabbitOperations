@@ -20,25 +20,25 @@ namespace RabbitOperations.Collector.Host
     public class ApplicationListenerHost : IApplicationListenerHost
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
-        private IList<Task> queuePollers = new List<Task>();
-        private readonly IApplicationPollerFactory applicationPollerFactory;
+        private IList<Task> applicationListeners = new List<Task>();
+        private readonly IApplicationListenerFactory applicationListenerFactory;
         private readonly IDocumentStore documentStore;
         private readonly ISchemaUpdater schemaUpdater;
         private readonly ICancellationTokenSource cancellationTokenSource;
         private CancellationToken cancellationToken;
         private readonly ISettings settings;
 
-        public ApplicationListenerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IApplicationPollerFactory applicationPollerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
+        public ApplicationListenerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IApplicationListenerFactory applicationListenerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
         {
             Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");
-            Verify.RequireNotNull(applicationPollerFactory, "queuePollerFactory");
+            Verify.RequireNotNull(applicationListenerFactory, "queuePollerFactory");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(schemaUpdater, "SchemaUpdater");
 
             this.cancellationTokenSource = cancellationTokenSource;
             this.settings = settings;
-            this.applicationPollerFactory = applicationPollerFactory;
+            this.applicationListenerFactory = applicationListenerFactory;
             this.documentStore = documentStore;
             this.schemaUpdater = schemaUpdater;
 
@@ -55,20 +55,19 @@ namespace RabbitOperations.Collector.Host
 
         public void Start()
         {
-            logger.Info("Queue poller host starting...");
+            logger.Info("Application listener host starting...");
             foreach (var application in settings.Applications)
             {
                 if (application.AutoStartQueuePolling)
                 {
-                    StartPollingQueue(new QueueSettings(application.AuditQueue, application));
-                    //StartPollingQueue(new QueueSettings(application.ErrorQueue, application));
+                    StartApplicationListener(application);
                 }
                 else
                 {
                     logger.Info("Polling for application {0}({1}) is disabled. This is configured in the web application.", application.ApplicationName, application.ApplicationId);
                 }
             }
-            logger.Info("Queue poller host started");
+            logger.Info("Application listener host started");
         }
 
         private void CreateDefaultEnvirtonmentIfNoneExists()
@@ -91,21 +90,20 @@ namespace RabbitOperations.Collector.Host
 
         public void Stop()
         {
-            logger.Info("Queue poller host stopping...");
+            logger.Info("Application listener host stopping...");
             cancellationTokenSource.Cancel();
             HandleShutdown();
-            logger.Info("Queue poller host stopped");
+            logger.Info("Application listener host stopped");
         }
 
-        private void StartPollingQueue(IQueueSettings queueSettings)
+        private void StartApplicationListener(IApplicationConfiguration application)
         {
-            queuePollers.Add(Task.Factory.StartNew(() =>
+            applicationListeners.Add(Task.Factory.StartNew(() =>
             {
-                string queueLogInfo = string.Format("queue {0} in application {1}({2})", queueSettings.QueueName,
-                    queueSettings.ApplicationName, queueSettings.ApplicationId);
+                string applicationLogInfo = string.Format($"application {application.ApplicationName}({application.ApplicationId})");
                 try
                 {
-                    var queuePoller = applicationPollerFactory.Create(queueSettings, cancellationToken);
+                    var applicationListener = applicationListenerFactory.Create(application, cancellationToken);
                     queuePoller.Start();
                 }
                 catch (Exception err)
@@ -120,7 +118,7 @@ namespace RabbitOperations.Collector.Host
         {
             try
             {
-                Task.WaitAll(queuePollers.ToArray());
+                Task.WaitAll(applicationListeners.ToArray());
             }
             catch (Exception ex)
             {

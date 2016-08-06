@@ -26,7 +26,7 @@ using Raven.Json.Linq;
 
 namespace RabbitOperations.Collector.Service
 {
-    public class ApplicationPoller : IApplicationPoller
+    public class ApplicationListener : IApplicationListener
     {
         private readonly CancellationToken cancellationToken;
         private readonly IRabbitConnectionFactory rabbitConnectionFactory;
@@ -37,8 +37,9 @@ namespace RabbitOperations.Collector.Service
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Meter messageMeter;
         private int consecutiveRetryCount;
+	    private bool shutdownListener;
 
-        internal ApplicationPoller(Guid key, IQueueSettings queueSettings)
+        internal ApplicationListener(Guid key, IQueueSettings queueSettings)
         {
             Verify.RequireNotNull(key, "key");
             Verify.RequireNotNull(queueSettings, "queueSettings");
@@ -47,7 +48,7 @@ namespace RabbitOperations.Collector.Service
             Key = key;
         }
 
-        public ApplicationPoller(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
+        public ApplicationListener(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
             IHeaderParser headerParser, IDocumentStore documentStore, IActiveQueuePollers activeQueuePollers, IStoreMessagesFactory storeMessagesFactory)
         {
             Verify.RequireNotNull(queueSettings, "queueSettings");
@@ -117,6 +118,7 @@ namespace RabbitOperations.Collector.Service
 
 	    private void Listen()
 	    {
+			if (cancellationToken.IsCancellationRequested) return;
 			logger.Info("Started application listener for {0} with audit expiration of {1} hours and error expiration of {2} hours", QueueSettings.LogInfo,
 				QueueSettings.DocumentExpirationInHours, QueueSettings.ErrorDocumentExpirationInHours);
 			try
@@ -140,11 +142,11 @@ namespace RabbitOperations.Collector.Service
 									HandleMessage(new RawMessage(ea));
 									channel.BasicAck(ea.DeliveryTag, false);
 									messageCount++;
-									//if (QueueSettings.MaxMessagesPerRun > 0 &&
-									//	messageCount >= QueueSettings.MaxMessagesPerRun)
-									//{
-									//	break;
-									//}
+									if (QueueSettings.MaxMessagesPerRun > 0 &&
+										messageCount >= QueueSettings.MaxMessagesPerRun)
+									{
+										shutdownListener = true;
+									}
 								}
 								catch (Exception err)
 								{
@@ -158,7 +160,7 @@ namespace RabbitOperations.Collector.Service
 							consecutiveRetryCount = 0;
 						};
 						channel.BasicConsume(queue: QueueSettings.QueueName, noAck: false, consumer: consumer);
-						while (!cancellationToken.IsCancellationRequested)
+						while (!cancellationToken.IsCancellationRequested && !shutdownListener)
 						{
 							Thread.Sleep(1000);
 						}

@@ -245,13 +245,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RavenDB\DocumentStoreExtensions.cs" />
     <Compile Include="Host\Interfaces\IHost.cs" />
-    <Compile Include="Service\Interfaces\IApplicationPoller.cs" />
-    <Compile Include="Service\Interfaces\IApplicationPollerFactory.cs" />
+    <Compile Include="Service\Interfaces\IApplicationListener.cs" />
+    <Compile Include="Service\Interfaces\IApplicationListenerFactory.cs" />
     <Compile Include="Service\Interfaces\IRabbitConnectionFactory.cs" />
     <Compile Include="Service\RabbitConnectionFactory.cs" />
     <Compile Include="Service\QueueSettings.cs" />
     <Compile Include="Host\Host.cs" />
-    <Compile Include="Service\ApplicationPoller.cs" />
+    <Compile Include="Service\ApplicationListener.cs" />
     <Compile Include="Web\Startup\NancyBootstrapper.cs" />
     <Compile Include="Web\SignalR\SingalrMetricsReport.cs" />
     <Compile Include="Web\Startup\Startup.cs" />

@@ -7,7 +7,7 @@ using Topshelf.Builders;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
-    public interface IApplicationPoller
+    public interface IApplicationListener
     {
 		IApplicationConfiguration Application { get; }
 	    void Start();

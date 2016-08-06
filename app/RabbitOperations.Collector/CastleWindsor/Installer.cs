@@ -57,9 +57,9 @@ namespace RabbitOperations.Collector.CastleWindsor
 #pragma warning restore 618
             container.Kernel.AddFacility<TypedFactoryFacility>();
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
-            container.Register(Component.For<IApplicationPoller>().ImplementedBy<ApplicationPoller>().LifestyleTransient(),
+            container.Register(Component.For<IApplicationListener>().ImplementedBy<ApplicationListener>().LifestyleTransient(),
 				Component.For<JsonSerializer>().ImplementedBy<CamelCaseSerializer>().LifestyleTransient(),
-				Component.For<IApplicationPollerFactory>().AsFactory(),
+				Component.For<IApplicationListenerFactory>().AsFactory(),
                 Component.For<IRabbitConnectionFactory>().ImplementedBy<RabbitConnectionFactory>().LifestyleSingleton(),
                 Component.For<IRawMessage>().ImplementedBy<RawMessage>().LifestyleTransient(),
                 Component.For<IHost>().ImplementedBy<Host.Host>().LifestyleSingleton(),

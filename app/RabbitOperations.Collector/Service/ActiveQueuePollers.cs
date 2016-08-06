@@ -9,25 +9,25 @@ namespace RabbitOperations.Collector.Service
 {
     public class ActiveQueuePollers : IActiveQueuePollers
     {
-        private readonly ConcurrentDictionary<Guid, IApplicationPoller> activeQueuePollers = new ConcurrentDictionary<Guid, IApplicationPoller>(); 
+        private readonly ConcurrentDictionary<Guid, IApplicationListener> activeQueuePollers = new ConcurrentDictionary<Guid, IApplicationListener>(); 
 
-        public IReadOnlyCollection<IApplicationPoller> ActivePollers
+        public IReadOnlyCollection<IApplicationListener> ActivePollers
         {
             get { return activeQueuePollers.Values.OrderBy(x => x.QueueSettings.ApplicationId).ThenBy(x => x.QueueSettings.IsErrorQueue).ToList().AsReadOnly(); }
         }
 
-        public void Add(IApplicationPoller applicationPoller)
+        public void Add(IApplicationListener applicationListener)
         {
-            Verify.RequireNotNull(applicationPoller, "queuePoller");
+            Verify.RequireNotNull(applicationListener, "queuePoller");
 
-            activeQueuePollers.TryAdd(applicationPoller.Key, applicationPoller);
+            activeQueuePollers.TryAdd(applicationListener.Key, applicationListener);
         }
 
-        public void Remove(IApplicationPoller applicationPoller)
+        public void Remove(IApplicationListener applicationListener)
         {
-            Verify.RequireNotNull(applicationPoller, "queuePoller");
+            Verify.RequireNotNull(applicationListener, "queuePoller");
 
-            activeQueuePollers.TryRemove(applicationPoller.Key, out applicationPoller);
+            activeQueuePollers.TryRemove(applicationListener.Key, out applicationListener);
         }
     }
 }
