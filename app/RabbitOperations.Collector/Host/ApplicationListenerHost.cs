@@ -100,15 +100,14 @@ namespace RabbitOperations.Collector.Host
         {
             applicationListeners.Add(Task.Factory.StartNew(() =>
             {
-                string applicationLogInfo = string.Format($"application {application.ApplicationName}({application.ApplicationId})");
                 try
                 {
                     var applicationListener = applicationListenerFactory.Create(application, cancellationToken);
-                    queuePoller.Start();
+                    applicationListener.Start();
                 }
                 catch (Exception err)
                 {
-                    logger.Error("Failed in queue poller for {0} with error {1}", queueLogInfo, err);
+                    logger.Error(err, $"application {application.ApplicationName}({application.ApplicationId}) failed");
                     throw;
                 }
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));
@@ -122,7 +121,7 @@ namespace RabbitOperations.Collector.Host
             }
             catch (Exception ex)
             {
-                logger.Error("QueuePollerHost encountered exception while shutting down");
+                logger.Error("Application listener host encountered exception while shutting down");
 
                 var aggregateException = ex as AggregateException;
                 if (aggregateException != null)

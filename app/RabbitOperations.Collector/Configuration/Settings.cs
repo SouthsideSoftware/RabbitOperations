@@ -115,10 +115,10 @@ namespace RabbitOperations.Collector.Configuration
 			get { return StaticSuppressPolling; }
 		}
 
-		public IList<IApplicationConfiguration> Applications
+		public IList<ApplicationConfiguration> Applications
 		{
-			get { return configurationDocument.Applications.Select(x => x as IApplicationConfiguration).ToList(); }
-			set { configurationDocument.Applications = value.Select(x => x as ApplicationConfiguration).ToList(); }
+			get { return configurationDocument.Applications; }
+			set { configurationDocument.Applications = value; }
 		}
 
 

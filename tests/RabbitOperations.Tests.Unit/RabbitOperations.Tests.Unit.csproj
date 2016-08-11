@@ -122,7 +122,6 @@
     </Compile>
     <Compile Include="Domain\Configuration\JsonPathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuickTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

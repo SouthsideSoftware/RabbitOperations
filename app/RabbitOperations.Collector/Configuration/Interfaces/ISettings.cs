@@ -8,7 +8,7 @@ namespace RabbitOperations.Collector.Configuration.Interfaces
         int EmbeddedRavenDBManagementPort { get; }
        
 
-        IList<IApplicationConfiguration> Applications { get; set; } 
+        IList<ApplicationConfiguration> Applications { get; set; } 
 
         void Load();
         void Save();
