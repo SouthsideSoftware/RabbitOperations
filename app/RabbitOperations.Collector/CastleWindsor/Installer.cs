@@ -80,7 +80,7 @@ namespace RabbitOperations.Collector.CastleWindsor
                 Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0018>().LifestyleTransient(),
                 Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0019>().LifestyleTransient(),
 				Component.For<IUpdateSchemaVersion>().ImplementedBy<ToVersion0023>().LifestyleTransient(),
-				Component.For<IActiveQueuePollers>().ImplementedBy<ActiveQueuePollers>().LifestyleSingleton(),
+				Component.For<IActiveApplicationListeners>().ImplementedBy<ActiveApplicationListeners>().LifestyleSingleton(),
                 Component.For<IBasicSearch>().ImplementedBy<BasicSearch>().LifestyleSingleton(),
                 Component.For<ICancellationTokenSource>()
                     .ImplementedBy<CancellationTokenSourceWrapper>()

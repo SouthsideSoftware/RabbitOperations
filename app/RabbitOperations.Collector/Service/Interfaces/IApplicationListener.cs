@@ -9,20 +9,12 @@ namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IApplicationListener
     {
-		IApplicationConfiguration Application { get; }
+		IApplicationConfiguration ApplicationConfiguration { get; }
 	    void Start();
 	    void Stop();
-        /// <summary>
-        /// Gets the queue name for this poller
-        /// </summary>
-        IQueueSettings QueueSettings { get; }
 
         Guid Key { get; }
 
-        /// <summary>
-        /// Start polling the indicated queue
-        /// </summary>
-        void Poll();
         /// <summary>
         /// Handle a message
         /// </summary>

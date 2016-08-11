@@ -7,19 +7,19 @@ namespace RabbitOperations.Collector.Web.Modules.Api.V1
 {
     public class QueuePollersModule : NancyModule
     {
-        private readonly IActiveQueuePollers activeQueuePollers;
+        private readonly IActiveApplicationListeners activeApplicationListeners;
 
-        public QueuePollersModule(IActiveQueuePollers activeQueuePollers) : base("Api/V1/QueuePollers")
+        public QueuePollersModule(IActiveApplicationListeners activeApplicationListeners) : base("Api/V1/QueuePollers")
         {
-            this.activeQueuePollers = activeQueuePollers;
-            Verify.RequireNotNull(activeQueuePollers, "activeQueuePollers");
+            this.activeApplicationListeners = activeApplicationListeners;
+            Verify.RequireNotNull(activeApplicationListeners, "activeQueuePollers");
 
-            this.activeQueuePollers = activeQueuePollers;
+            this.activeApplicationListeners = activeApplicationListeners;
             
             Get["/"] = parameters =>
             {
 
-                return activeQueuePollers;
+                return activeApplicationListeners;
             };
         }
     }

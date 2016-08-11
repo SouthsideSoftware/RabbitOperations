@@ -215,8 +215,8 @@
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0018.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0019.cs" />
     <Compile Include="RavenDB\SchemaUpdates\ToVersion0023.cs" />
-    <Compile Include="Service\ActiveQueuePollers.cs" />
-    <Compile Include="Service\Interfaces\IActiveQueuePollers.cs" />
+    <Compile Include="Service\ActiveApplicationListeners.cs" />
+    <Compile Include="Service\Interfaces\IActiveApplicationListeners.cs" />
     <Compile Include="Service\Interfaces\IStoreMessages.cs" />
     <Compile Include="Service\Interfaces\IStoreMessagesFactory.cs" />
     <Compile Include="Service\StoreMessagesFactory.cs" />

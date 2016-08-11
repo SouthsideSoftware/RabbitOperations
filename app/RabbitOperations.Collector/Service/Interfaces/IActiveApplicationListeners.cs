@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RabbitOperations.Collector.Service.Interfaces
 {
-    public interface IActiveQueuePollers
+    public interface IActiveApplicationListeners
     {
         IReadOnlyCollection<IApplicationListener> ActivePollers { get; }
         void Add(IApplicationListener applicationListener);

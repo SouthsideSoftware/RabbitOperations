@@ -16,7 +16,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         public void ShouldBeAbleToAdd()
         {
             //arrange
-            var activeQueuePollers = new ActiveQueuePollers();
+            var activeQueuePollers = new ActiveApplicationListeners();
 
             var key1 = Guid.NewGuid();
             var queuePoller = new ApplicationListener(key1, new QueueSettings("audit", new ApplicationConfiguration
@@ -35,7 +35,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         public void ShouldBeAbleToRemove()
         {
             //arrange
-            var activeQueuePollers = new ActiveQueuePollers();
+            var activeQueuePollers = new ActiveApplicationListeners();
 
             var key1 = Guid.NewGuid();
             var queuePoller = new ApplicationListener(key1, new QueueSettings("audit", new ApplicationConfiguration
@@ -55,7 +55,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         public void ShouldNotDoAnythingWhenTryingToRemoveAPollerThatDoesNotExist()
         {
             //arrange
-            var activeQueuePollers = new ActiveQueuePollers();
+            var activeQueuePollers = new ActiveApplicationListeners();
 
             var key1 = Guid.NewGuid();
             var queuePoller = new ApplicationListener(key1, new QueueSettings("audit", new ApplicationConfiguration
@@ -82,7 +82,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         public void ShouldNotDoAnythingWhenAddingADuplicate()
         {
             //arrange
-            var activeQueuePollers = new ActiveQueuePollers();
+            var activeQueuePollers = new ActiveApplicationListeners();
 
             var key1 = Guid.NewGuid();
             var queuePoller = new ApplicationListener(key1, new QueueSettings("audit", new ApplicationConfiguration
@@ -103,7 +103,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         public void ShouldBeAbleToAddMultiples()
         {
             //arrange
-            var activeQueuePollers = new ActiveQueuePollers();
+            var activeQueuePollers = new ActiveApplicationListeners();
 
             var key1 = Guid.NewGuid();
             var queuePoller1 = new ApplicationListener(key1, new QueueSettings("audit", new ApplicationConfiguration
@@ -128,7 +128,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
         public void ShouldBeAbleToRemoveOneFromListOfMany()
         {
             //arrange
-            var activeQueuePollers = new ActiveQueuePollers();
+            var activeQueuePollers = new ActiveApplicationListeners();
 
             var key1 = Guid.NewGuid();
             var queuePoller1 = new ApplicationListener(key1, new QueueSettings("audit", new ApplicationConfiguration

@@ -32,7 +32,7 @@ namespace RabbitOperations.Collector.Service
         private readonly IRabbitConnectionFactory rabbitConnectionFactory;
         private readonly IHeaderParser headerParser;
         private readonly IDocumentStore documentStore;
-        private readonly IActiveQueuePollers activeQueuePollers;
+        private readonly IActiveApplicationListeners activeApplicationListeners;
         private readonly IStoreMessagesFactory storeMessagesFactory;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Meter messageMeter;
@@ -49,14 +49,14 @@ namespace RabbitOperations.Collector.Service
         }
 
         public ApplicationListener(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
-            IHeaderParser headerParser, IDocumentStore documentStore, IActiveQueuePollers activeQueuePollers, IStoreMessagesFactory storeMessagesFactory)
+            IHeaderParser headerParser, IDocumentStore documentStore, IActiveApplicationListeners activeApplicationListeners, IStoreMessagesFactory storeMessagesFactory)
         {
             Verify.RequireNotNull(queueSettings, "queueSettings");
             Verify.RequireNotNull(cancellationToken, "cancellationToken");
             Verify.RequireNotNull(headerParser, "headerParser");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(rabbitConnectionFactory, "rabbitConnectionFactory");
-            Verify.RequireNotNull(activeQueuePollers, "activeQueuePollers");
+            Verify.RequireNotNull(activeApplicationListeners, "activeQueuePollers");
             Verify.RequireNotNull(storeMessagesFactory, "storeMessagesFactory");
 
             QueueSettings = queueSettings;
@@ -64,14 +64,15 @@ namespace RabbitOperations.Collector.Service
             this.rabbitConnectionFactory = rabbitConnectionFactory;
             this.headerParser = headerParser;
             this.documentStore = documentStore;
-            this.activeQueuePollers = activeQueuePollers;
+            this.activeApplicationListeners = activeApplicationListeners;
             this.storeMessagesFactory = storeMessagesFactory;
             Key = Guid.NewGuid();
 
             messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, TimeUnit.Seconds, tags:new MetricTags("QueuePoller"));
         }
 
-	    public IApplicationConfiguration Application { get; }
+	    public IApplicationConfiguration ApplicationConfiguration { get; }
+
 	    public void Start()
 	    {
 			Listen();
@@ -88,7 +89,7 @@ namespace RabbitOperations.Collector.Service
 
         public void Poll()
         {
-            activeQueuePollers.Add(this);
+            activeApplicationListeners.Add(this);
             //will retry for a little less than 7 days
             var retryPolicy = Policy
                 .Handle<Exception>()
@@ -98,7 +99,7 @@ namespace RabbitOperations.Collector.Service
                 });
             retryPolicy.Execute(InnerPoll);
             logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
-            activeQueuePollers.Remove(this);
+            activeApplicationListeners.Remove(this);
         }
 
         /// <summary>

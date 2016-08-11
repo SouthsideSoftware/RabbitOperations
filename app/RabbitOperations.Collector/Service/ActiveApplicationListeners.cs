@@ -7,25 +7,25 @@ using SouthsideUtility.Core.DesignByContract;
 
 namespace RabbitOperations.Collector.Service
 {
-    public class ActiveQueuePollers : IActiveQueuePollers
+    public class ActiveApplicationListeners : IActiveApplicationListeners
     {
         private readonly ConcurrentDictionary<Guid, IApplicationListener> activeQueuePollers = new ConcurrentDictionary<Guid, IApplicationListener>(); 
 
         public IReadOnlyCollection<IApplicationListener> ActivePollers
         {
-            get { return activeQueuePollers.Values.OrderBy(x => x.QueueSettings.ApplicationId).ThenBy(x => x.QueueSettings.IsErrorQueue).ToList().AsReadOnly(); }
+            get { return activeQueuePollers.Values.OrderBy(x => x.ApplicationConfiguration.ApplicationId).ToList().AsReadOnly(); }
         }
 
         public void Add(IApplicationListener applicationListener)
         {
-            Verify.RequireNotNull(applicationListener, "queuePoller");
+            Verify.RequireNotNull(applicationListener, "applicationListener");
 
             activeQueuePollers.TryAdd(applicationListener.Key, applicationListener);
         }
 
         public void Remove(IApplicationListener applicationListener)
         {
-            Verify.RequireNotNull(applicationListener, "queuePoller");
+            Verify.RequireNotNull(applicationListener, "applicationListener");
 
             activeQueuePollers.TryRemove(applicationListener.Key, out applicationListener);
         }
