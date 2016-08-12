@@ -2,6 +2,7 @@
 {
 	public interface IApplicationConfiguration
 	{
+		string ApplicationLogInfo { get; }
 		string ApplicationId { get; set; }
 		string ApplicationName { get; set; }
 		string AuditQueue { get; set; }

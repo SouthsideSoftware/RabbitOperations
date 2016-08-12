@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.SqlServer.Server;
+﻿using Newtonsoft.Json;
 
 namespace RabbitOperations.Domain.Configuration
 {
@@ -50,5 +49,14 @@ namespace RabbitOperations.Domain.Configuration
 
         public int RabbitManagementPort { get; set; }
         public ushort Prefetch { get; set; }
+
+		[JsonIgnore]
+		public string ApplicationLogInfo
+		{
+			get
+			{
+				return $"{ApplicationName} ({ApplicationId})";
+			}
+		}
     }
 }

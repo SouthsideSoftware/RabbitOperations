@@ -35,31 +35,32 @@ namespace RabbitOperations.Collector.Service
         private readonly IActiveApplicationListeners activeApplicationListeners;
         private readonly IStoreMessagesFactory storeMessagesFactory;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly Meter messageMeter;
+        private readonly Meter auditMeeter;
+		private readonly Meter errorMeter;
         private int consecutiveRetryCount;
 	    private bool shutdownListener;
 
-        internal ApplicationListener(Guid key, IQueueSettings queueSettings)
+        internal ApplicationListener(Guid key, IApplicationConfiguration applicationConfiguration)
         {
             Verify.RequireNotNull(key, "key");
-            Verify.RequireNotNull(queueSettings, "queueSettings");
+            Verify.RequireNotNull(applicationConfiguration, "applicationConfiguration");
 
-            QueueSettings = queueSettings;
+            ApplicationConfiguration = applicationConfiguration;
             Key = key;
         }
 
-        public ApplicationListener(IQueueSettings queueSettings, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
+        public ApplicationListener(IApplicationConfiguration applicationConfiguration, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
             IHeaderParser headerParser, IDocumentStore documentStore, IActiveApplicationListeners activeApplicationListeners, IStoreMessagesFactory storeMessagesFactory)
         {
-            Verify.RequireNotNull(queueSettings, "queueSettings");
+            Verify.RequireNotNull(applicationConfiguration, "applicationConfiguration");
             Verify.RequireNotNull(cancellationToken, "cancellationToken");
             Verify.RequireNotNull(headerParser, "headerParser");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(rabbitConnectionFactory, "rabbitConnectionFactory");
-            Verify.RequireNotNull(activeApplicationListeners, "activeQueuePollers");
+            Verify.RequireNotNull(activeApplicationListeners, "activeApplicationListeners");
             Verify.RequireNotNull(storeMessagesFactory, "storeMessagesFactory");
 
-            QueueSettings = queueSettings;
+			ApplicationConfiguration = applicationConfiguration;
             this.cancellationToken = cancellationToken;
             this.rabbitConnectionFactory = rabbitConnectionFactory;
             this.headerParser = headerParser;
@@ -68,8 +69,9 @@ namespace RabbitOperations.Collector.Service
             this.storeMessagesFactory = storeMessagesFactory;
             Key = Guid.NewGuid();
 
-            messageMeter = Metric.Meter(string.Format("RabbitOperations.QueuePoller.Messages.{0}.{1}", QueueSettings.ApplicationId, QueueSettings.QueueName), Unit.Items, TimeUnit.Seconds, tags:new MetricTags("QueuePoller"));
-        }
+            auditMeeter = Metric.Meter(string.Format("RabbitOperations.ApplicationPoller.Messages.{0}.{1}", ApplicationConfiguration.ApplicationId, ApplicationConfiguration.AuditQueue), Unit.Items, TimeUnit.Seconds, tags:new MetricTags("ApplicationPoller"));
+			errorMeter = Metric.Meter(string.Format("RabbitOperations.ApplicationPoller.Messages.{0}.{1}", ApplicationConfiguration.ApplicationId, ApplicationConfiguration.ErrorQueue), Unit.Items, TimeUnit.Seconds, tags: new MetricTags("ApplicationPoller"));
+		}
 
 	    public IApplicationConfiguration ApplicationConfiguration { get; }
 
@@ -83,24 +85,7 @@ namespace RabbitOperations.Collector.Service
 		    throw new NotImplementedException();
 	    }
 
-	    public IQueueSettings QueueSettings { get; protected set; }
-
         public Guid Key { get; protected set; }
-
-        public void Poll()
-        {
-            activeApplicationListeners.Add(this);
-            //will retry for a little less than 7 days
-            var retryPolicy = Policy
-                .Handle<Exception>()
-                .WaitAndRetry(10000, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>
-                {
-                    logger.Error(exception, $"Retry #{consecutiveRetryCount} with delay {retryDelay} on {QueueSettings.LogInfo} after exception");
-                });
-            retryPolicy.Execute(InnerPoll);
-            logger.Info("Shutting down queue poller for {0} because of cancellation request", QueueSettings.LogInfo);
-            activeApplicationListeners.Remove(this);
-        }
 
         /// <summary>
         /// Exponetial backoff of timeout until we hit the sixth retry.

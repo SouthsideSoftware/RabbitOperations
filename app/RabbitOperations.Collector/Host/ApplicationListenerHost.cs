@@ -64,7 +64,7 @@ namespace RabbitOperations.Collector.Host
                 }
                 else
                 {
-                    logger.Info("Polling for application {0}({1}) is disabled. This is configured in the web application.", application.ApplicationName, application.ApplicationId);
+                    logger.Info($"Polling for application {application.ApplicationLogInfo} is disabled. This is configured in the web application.");
                 }
             }
             logger.Info("Application listener host started");
@@ -74,7 +74,7 @@ namespace RabbitOperations.Collector.Host
         {
             if (settings.Applications.Count == 0)
             {
-                logger.Info("Creating default application.  Open RavenDB management studio and edit the configuraiton document to setup queue polling");
+                logger.Info("Creating default application.  Open RavenDB management studio and edit the configuration document to setup queue polling");
                 settings.Applications.Add(new ApplicationConfiguration
                 {
                     ApplicationId = "default",
@@ -107,7 +107,7 @@ namespace RabbitOperations.Collector.Host
                 }
                 catch (Exception err)
                 {
-                    logger.Error(err, $"application {application.ApplicationName}({application.ApplicationId}) failed");
+                    logger.Error(err, $"Application {application.ApplicationLogInfo} failed");
                     throw;
                 }
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));
