@@ -11,6 +11,7 @@ using RabbitOperations.Domain;
 using Raven.Client;
 using Raven.Json.Linq;
 using SouthsideUtility.Core.DesignByContract;
+using RabbitOperations.Domain.Configuration;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -29,7 +30,7 @@ namespace RabbitOperations.Collector.Service
             this.documentStore = documentStore;
         }
 
-        public long Store(IRawMessage message, IQueueSettings queueSettings)
+        public long Store(IRawMessage message, IApplicationConfiguration queueSettings)
         {
             var retry = new MessageDocument
             {
@@ -56,7 +57,7 @@ namespace RabbitOperations.Collector.Service
             return documentIdToReturn;
         }
 
-        private long SaveDocument(IQueueSettings queueSettings, long originalId, MessageDocument retry, DateTime expiry)
+        private long SaveDocument(IApplicationConfiguration applicationConfiguration, long originalId, MessageDocument retry, DateTime expiry)
         {
             long documentIdToReturn = -1;
             using (var session = documentStore.OpenSessionForDefaultTenant())
@@ -85,14 +86,14 @@ namespace RabbitOperations.Collector.Service
                     documentIdToReturn = originalMessage.Id;
                     logger.Trace(
                         "Added retry information with additional error status {0} to existing document with id {1} from {2}",
-                        retry.AdditionalErrorStatus, originalMessage.Id, queueSettings.LogInfo);
+                        retry.AdditionalErrorStatus, originalMessage.Id, applicationConfiguration.ApplicationLogInfo);
                 }
                 else
                 {
                     session.Store(retry);
                     session.Advanced.GetMetadataFor(retry)["Raven-Expiration-Date"] = new RavenJValue(expiry);
                     documentIdToReturn = retry.Id;
-                    logger.Trace("Saved new document for retry message with id {0} from {1}", retry.Id, queueSettings.LogInfo);
+                    logger.Trace("Saved new document for retry message with id {0} from {1}", retry.Id, applicationConfiguration.ApplicationLogInfo);
                 }
                 session.SaveChanges();
             }

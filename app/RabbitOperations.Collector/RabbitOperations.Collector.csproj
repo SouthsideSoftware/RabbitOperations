@@ -231,7 +231,6 @@
     <Compile Include="Web\Startup\CamelCaseSerializer.cs" />
     <Compile Include="Web\Startup\CustomRootPathProvider.cs" />
     <Compile Include="Web\Modules\DashboardModule.cs" />
-    <Compile Include="Service\Interfaces\IQueueSettings.cs" />
     <Compile Include="RavenDB\Interfaces\IRavenTenantInitializer.cs" />
     <Compile Include="RavenDB\RavenTenantInitializer.cs" />
     <Compile Include="Configuration\Interfaces\ISettings.cs" />
@@ -249,7 +248,6 @@
     <Compile Include="Service\Interfaces\IApplicationListenerFactory.cs" />
     <Compile Include="Service\Interfaces\IRabbitConnectionFactory.cs" />
     <Compile Include="Service\RabbitConnectionFactory.cs" />
-    <Compile Include="Service\QueueSettings.cs" />
     <Compile Include="Host\Host.cs" />
     <Compile Include="Service\ApplicationListener.cs" />
     <Compile Include="Web\Startup\NancyBootstrapper.cs" />
