@@ -38,8 +38,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
 
             //act
-            var id = service.Store(rawMessage,
-                new QueueSettings("test", new ApplicationConfiguration {ApplicationId = "test"}));
+            var id = service.Store(rawMessage, new ApplicationConfiguration {ApplicationId = "test"});
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -65,8 +64,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
 
             //act
-            var id = service.Store(rawMessage,
-                new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" }));
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -88,16 +86,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             fixture.Register<IHeaderParser>(() => new HeaderParser());
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
             var originalMessageStorageService = fixture.Create<StoreMessagesThatAreNotRetriesService>();
-            var queueSettings = new QueueSettings("test", new ApplicationConfiguration {ApplicationId = "test"});
 
             var originalMessage = MessageTestHelpers.GetErrorMessage();
-            var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
+            var originalId = originalMessageStorageService.Store(originalMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
-            var id = service.Store(rawMessage, queueSettings);
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -117,16 +114,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             fixture.Register<IHeaderParser>(() => new HeaderParser());
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
             var originalMessageStorageService = fixture.Create<StoreMessagesThatAreNotRetriesService>();
-            var queueSettings = new QueueSettings("test", new ApplicationConfiguration {ApplicationId = "test"});
 
             var originalMessage = MessageTestHelpers.GetErrorMessage();
-            var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
+            var originalId = originalMessageStorageService.Store(originalMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             var rawMessage = MessageTestHelpers.GetAuditMessage();
             rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
-            var id = service.Store(rawMessage, queueSettings);
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -146,16 +142,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             fixture.Register<IHeaderParser>(() => new HeaderParser());
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
             var originalMessageStorageService = fixture.Create<StoreMessagesThatAreNotRetriesService>();
-            var queueSettings = new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" });
 
             var originalMessage = MessageTestHelpers.GetErrorMessage();
-            var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
+            var originalId = originalMessageStorageService.Store(originalMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
-            var id = service.Store(rawMessage, queueSettings);
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -177,16 +172,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             fixture.Register<IHeaderParser>(() => new HeaderParser());
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
             var originalMessageStorageService = fixture.Create<StoreMessagesThatAreNotRetriesService>();
-            var queueSettings = new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" });
 
             var originalMessage = MessageTestHelpers.GetErrorMessage();
-            var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
+            var originalId = originalMessageStorageService.Store(originalMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             var rawMessage = MessageTestHelpers.GetAuditMessage();
             rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
-            var id = service.Store(rawMessage, queueSettings);
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -208,16 +202,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             fixture.Register<IHeaderParser>(() => new HeaderParser());
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
             var originalMessageStorageService = fixture.Create<StoreMessagesThatAreNotRetriesService>();
-            var queueSettings = new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" });
 
             var originalMessage = MessageTestHelpers.GetErrorMessage();
-            var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
+            var originalId = originalMessageStorageService.Store(originalMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             var rawMessage = MessageTestHelpers.GetErrorMessage();
             rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
-            var id = service.Store(rawMessage, queueSettings);
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -237,16 +230,15 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             fixture.Register<IHeaderParser>(() => new HeaderParser());
             var service = fixture.Create<StoreMessagesThatAreRetriesService>();
             var originalMessageStorageService = fixture.Create<StoreMessagesThatAreNotRetriesService>();
-            var queueSettings = new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" });
 
             var originalMessage = MessageTestHelpers.GetErrorMessage();
-            var originalId = originalMessageStorageService.Store(originalMessage, queueSettings);
+            var originalId = originalMessageStorageService.Store(originalMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             var rawMessage = MessageTestHelpers.GetAuditMessage();
             rawMessage.Headers.Add(Headers.Retry, originalId.ToString());
 
             //act
-            var id = service.Store(rawMessage, queueSettings);
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())

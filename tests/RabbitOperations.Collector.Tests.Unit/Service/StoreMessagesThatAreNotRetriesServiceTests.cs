@@ -39,8 +39,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var service = fixture.Create<StoreMessagesThatAreNotRetriesService>();
 
             //act
-            var id = service.Store(rawMessage,
-                new QueueSettings("test", new ApplicationConfiguration {ApplicationId = "test"}));
+            var id = service.Store(rawMessage,new ApplicationConfiguration {ApplicationId = "test"});
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -71,8 +70,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             DateTime expiresBefore = DateTime.UtcNow.AddHours(errorExpirationHours).AddMinutes(15);
 
             //act
-            var id = service.Store(rawMessage,
-                new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" , DocumentExpirationInHours = auditExpirationHours, ErrorDocumentExpirationInHours = errorExpirationHours}));
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" , DocumentExpirationInHours = auditExpirationHours, ErrorDocumentExpirationInHours = errorExpirationHours});
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -96,8 +94,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             var service = fixture.Create<StoreMessagesThatAreNotRetriesService>();
 
             //act
-            var id = service.Store(rawMessage,
-                new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test" }));
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test" });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
@@ -128,8 +125,7 @@ namespace RabbitOperations.Collector.Tests.Unit.Service
             DateTime expiresBefore = DateTime.UtcNow.AddHours(auditExpirationHours).AddMinutes(15);
 
             //act
-            var id = service.Store(rawMessage,
-                new QueueSettings("test", new ApplicationConfiguration { ApplicationId = "test", DocumentExpirationInHours = auditExpirationHours, ErrorDocumentExpirationInHours = errorExpirationHours }));
+            var id = service.Store(rawMessage, new ApplicationConfiguration { ApplicationId = "test", DocumentExpirationInHours = auditExpirationHours, ErrorDocumentExpirationInHours = errorExpirationHours });
 
             //assert
             using (var session = Store.OpenSessionForDefaultTenant())
