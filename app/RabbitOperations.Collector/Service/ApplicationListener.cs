@@ -12,6 +12,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Polly;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -87,6 +88,18 @@ namespace RabbitOperations.Collector.Service
 
 		private void Listen()
 		{
+			//will retry for a little less than 7 days
+			var retryPolicy = Policy
+				.Handle<Exception>()
+				.WaitAndRetry(10000, retryCount => GetRetryDelay(), (exception, retryDelay, context) =>
+				{
+					logger.Error(exception, $"Retry #{consecutiveRetryCount} with delay {retryDelay} on {ApplicationConfiguration.ApplicationLogInfo} after exception");
+				});
+			retryPolicy.Execute(InnerListen);
+		}
+
+		private void InnerListen()
+		{
 			messageCount = 0;
 			if (cancellationToken.IsCancellationRequested) return;
 			logger.Info($"Started application listener for {ApplicationConfiguration.ApplicationLogInfo} with audit expiration of {ApplicationConfiguration.DocumentExpirationInHours} hours " + 
@@ -123,6 +136,13 @@ namespace RabbitOperations.Collector.Service
 							}
 						consecutiveRetryCount = 0;
 					};
+					consumer.Shutdown += (sender, e) =>
+					{
+						if (!cancellationToken.IsCancellationRequested && !shutdownListener)
+						{
+							throw new Exception("Connection closed");
+						}
+					};
 					channel.BasicConsume(queue: ApplicationConfiguration.AuditQueue, noAck: false, consumer: consumer);
 					channel.BasicConsume(queue: ApplicationConfiguration.ErrorQueue, noAck: false, consumer: consumer);
 					while (!cancellationToken.IsCancellationRequested && !shutdownListener)
@@ -134,6 +154,11 @@ namespace RabbitOperations.Collector.Service
 				logger.Error(err, $"Error on application listener for {ApplicationConfiguration.ApplicationLogInfo}");
 				throw;
 			}
+		}
+
+		private void Consumer_Shutdown(object sender, ShutdownEventArgs e)
+		{
+			throw new NotImplementedException();
 		}
 
 		public void HandleMessage(IRawMessage message)
