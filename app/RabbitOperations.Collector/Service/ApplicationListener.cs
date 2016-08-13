@@ -28,6 +28,7 @@ namespace RabbitOperations.Collector.Service
 		private int consecutiveRetryCount;
 		private bool shutdownListener;
 		private long messageCount = 0;
+		private Exception rabbitException;
 
 		internal ApplicationListener(Guid key, IApplicationConfiguration applicationConfiguration)
 		{
@@ -101,6 +102,7 @@ namespace RabbitOperations.Collector.Service
 		private void InnerListen()
 		{
 			messageCount = 0;
+			rabbitException = null;
 			if (cancellationToken.IsCancellationRequested) return;
 			logger.Info($"Started application listener for {ApplicationConfiguration.ApplicationLogInfo} with audit expiration of {ApplicationConfiguration.DocumentExpirationInHours} hours " + 
 				"and error expiration of {ApplicationConfiguration.ErrorDocumentExpirationInHours} hours");
@@ -140,13 +142,20 @@ namespace RabbitOperations.Collector.Service
 					{
 						if (!cancellationToken.IsCancellationRequested && !shutdownListener)
 						{
-							throw new Exception("Connection closed");
+							logger.Error($"Experienced shutdown on basic consumer for application {ApplicationConfiguration.ApplicationLogInfo}. Retrying.");
+							rabbitException = new Exception("Unexpected shutdown of Rabbit basic consumer");
 						}
 					};
 					channel.BasicConsume(queue: ApplicationConfiguration.AuditQueue, noAck: false, consumer: consumer);
 					channel.BasicConsume(queue: ApplicationConfiguration.ErrorQueue, noAck: false, consumer: consumer);
-					while (!cancellationToken.IsCancellationRequested && !shutdownListener)
+					while (!cancellationToken.IsCancellationRequested && !shutdownListener && rabbitException == null)
+					{
 						Thread.Sleep(5000);
+					}
+					if (rabbitException != null)
+					{
+						throw rabbitException;
+					}
 				}
 			}
 			catch (EndOfStreamException err)
@@ -154,11 +163,6 @@ namespace RabbitOperations.Collector.Service
 				logger.Error(err, $"Error on application listener for {ApplicationConfiguration.ApplicationLogInfo}");
 				throw;
 			}
-		}
-
-		private void Consumer_Shutdown(object sender, ShutdownEventArgs e)
-		{
-			throw new NotImplementedException();
 		}
 
 		public void HandleMessage(IRawMessage message)
