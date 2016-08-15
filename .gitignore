@@ -70,3 +70,4 @@ UpgradeLo*
 *.css.map
 *customLocalAddress.txt
 _NCrunch_*
+.cr

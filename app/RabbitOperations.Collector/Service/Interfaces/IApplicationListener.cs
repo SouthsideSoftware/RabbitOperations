@@ -14,11 +14,5 @@ namespace RabbitOperations.Collector.Service.Interfaces
 	    void Stop();
 
         Guid Key { get; }
-
-        /// <summary>
-        /// Handle a message
-        /// </summary>
-        /// <param name="message"></param>
-        void HandleMessage(IRawMessage message);
     }
 }

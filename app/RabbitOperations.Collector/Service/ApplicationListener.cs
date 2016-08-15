@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Polly;
+using RabbitOperations.Collector.RavenDB;
 
 namespace RabbitOperations.Collector.Service
 {
@@ -121,7 +122,13 @@ namespace RabbitOperations.Collector.Service
 						if (ea != null)
 							try
 							{
-								HandleMessage(new RawMessage(ea));
+								using (var session = documentStore.OpenSessionForDefaultTenant())
+								{
+									logger.Trace($"store message for {ApplicationConfiguration.ApplicationLogInfo}");
+									session.Store(new RawMessage(ea));
+									session.SaveChanges();
+									//todo: publish message for further processing
+								}
 								channel.BasicAck(ea.DeliveryTag, false);
 								var localMessageCount = Interlocked.Increment(ref messageCount);
 								if (ApplicationConfiguration.MaxMessagesPerRun > 0 &&
@@ -163,12 +170,6 @@ namespace RabbitOperations.Collector.Service
 				logger.Error(err, $"Error on application listener for {ApplicationConfiguration.ApplicationLogInfo}");
 				throw;
 			}
-		}
-
-		public void HandleMessage(IRawMessage message)
-		{
-			logger.Trace($"handling message for {ApplicationConfiguration.ApplicationLogInfo}");
-			storeMessagesFactory.MessageStorageServiceFor(message).Store(message, ApplicationConfiguration);
 		}
 	}
 }

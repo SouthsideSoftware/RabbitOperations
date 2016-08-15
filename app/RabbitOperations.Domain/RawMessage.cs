@@ -13,13 +13,10 @@ namespace RabbitOperations.Domain
     public class RawMessage : IRawMessage
     {
         private static readonly UTF8Encoding utf8EncodingNoByteOrderMark = new UTF8Encoding(true);
+		public long Id { get; set; }
         public RawMessage()
         {
             Headers = new Dictionary<string, string>();
-            BasicProperties = new BasicProperties
-            {
-                DeliveryMode = 2
-            };
         }
 
         public RawMessage(BasicDeliverEventArgs deliveryEventArgs) : this()
@@ -79,8 +76,6 @@ namespace RabbitOperations.Domain
             return new Tuple<byte[], Dictionary<string, object>>(GetBytesFromString(Body),
                 headers);
         }
-
-        public IBasicProperties BasicProperties { get; set; }
 
         private byte [] GetBytesFromString(string s)
         {
