@@ -10,6 +10,6 @@ namespace RabbitOperations.Collector.Service.Interfaces
 {
     public interface IApplicationListenerFactory
     {
-        IApplicationListener Create(IApplicationConfiguration applicationConfiguration, CancellationToken cancellationToken);
+        IApplicationListener Create(IApplicationConfiguration applicationConfiguration);
     }
 }

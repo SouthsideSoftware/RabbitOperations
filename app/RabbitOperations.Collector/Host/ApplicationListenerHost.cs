@@ -20,30 +20,24 @@ namespace RabbitOperations.Collector.Host
     public class ApplicationListenerHost : IApplicationListenerHost
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
-        private IList<Task> applicationListeners = new List<Task>();
+        private IList<IApplicationListener> applicationListeners = new List<IApplicationListener>();
         private readonly IApplicationListenerFactory applicationListenerFactory;
         private readonly IDocumentStore documentStore;
         private readonly ISchemaUpdater schemaUpdater;
-        private readonly ICancellationTokenSource cancellationTokenSource;
-        private CancellationToken cancellationToken;
         private readonly ISettings settings;
 
-        public ApplicationListenerHost(ICancellationTokenSource cancellationTokenSource, ISettings settings, IApplicationListenerFactory applicationListenerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
+        public ApplicationListenerHost(ISettings settings, IApplicationListenerFactory applicationListenerFactory, IDocumentStore documentStore, ISchemaUpdater schemaUpdater)
         {
-            Verify.RequireNotNull(cancellationTokenSource, "cancellationTokenSource");
             Verify.RequireNotNull(settings, "settings");
             Verify.RequireNotNull(applicationListenerFactory, "queuePollerFactory");
             Verify.RequireNotNull(documentStore, "documentStore");
             Verify.RequireNotNull(schemaUpdater, "SchemaUpdater");
 
-            this.cancellationTokenSource = cancellationTokenSource;
             this.settings = settings;
             this.applicationListenerFactory = applicationListenerFactory;
             this.documentStore = documentStore;
             this.schemaUpdater = schemaUpdater;
 
-            
-            cancellationToken = cancellationTokenSource.Token;
             CreateDefaultEnvirtonmentIfNoneExists();
             UpdateSchemaIfNeeded();
         }
@@ -91,50 +85,18 @@ namespace RabbitOperations.Collector.Host
         public void Stop()
         {
             logger.Info("Application listener host stopping...");
-            cancellationTokenSource.Cancel();
-            HandleShutdown();
+            foreach (var applicationListener in applicationListeners)
+            {
+                applicationListener.Stop();
+            }
             logger.Info("Application listener host stopped");
         }
 
         private void StartApplicationListener(IApplicationConfiguration application)
         {
-            applicationListeners.Add(Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    var applicationListener = applicationListenerFactory.Create(application, cancellationToken);
-                    applicationListener.Start();
-                }
-                catch (Exception err)
-                {
-                    logger.Error(err, $"Application {application.ApplicationLogInfo} failed");
-                    throw;
-                }
-            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));
-        }
-
-        private void HandleShutdown()
-        {
-            try
-            {
-                Task.WaitAll(applicationListeners.ToArray());
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Application listener host encountered exception while shutting down");
-
-                var aggregateException = ex as AggregateException;
-                if (aggregateException != null)
-                {
-                    logger.Error(aggregateException.Flatten());
-                }
-                else
-                {
-                    logger.Error(ex.Message);
-                }
-
-                logger.Error(ex.StackTrace);
-            }
+            var applicationListener = applicationListenerFactory.Create(application);
+            applicationListeners.Add(applicationListener);
+            applicationListener.Start();
         }
     }
 }

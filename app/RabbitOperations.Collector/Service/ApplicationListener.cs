@@ -14,12 +14,12 @@ using System.Linq;
 using System.Threading;
 using Polly;
 using RabbitOperations.Collector.RavenDB;
+using System.Threading.Tasks;
 
 namespace RabbitOperations.Collector.Service
 {
 	public class ApplicationListener : IApplicationListener
 	{
-		private readonly CancellationToken cancellationToken;
 		private readonly IRabbitConnectionFactory rabbitConnectionFactory;
 		private readonly IHeaderParser headerParser;
 		private readonly IDocumentStore documentStore;
@@ -30,6 +30,7 @@ namespace RabbitOperations.Collector.Service
 		private bool shutdownListener;
 		private long messageCount = 0;
 		private Exception rabbitException;
+        private Task task;
 
 		internal ApplicationListener(Guid key, IApplicationConfiguration applicationConfiguration)
 		{
@@ -40,11 +41,10 @@ namespace RabbitOperations.Collector.Service
 			Key = key;
 		}
 
-		public ApplicationListener(IApplicationConfiguration applicationConfiguration, CancellationToken cancellationToken, IRabbitConnectionFactory rabbitConnectionFactory,
+		public ApplicationListener(IApplicationConfiguration applicationConfiguration, IRabbitConnectionFactory rabbitConnectionFactory,
 			IHeaderParser headerParser, IDocumentStore documentStore, IActiveApplicationListeners activeApplicationListeners, IStoreMessagesFactory storeMessagesFactory)
 		{
 			Verify.RequireNotNull(applicationConfiguration, "applicationConfiguration");
-			Verify.RequireNotNull(cancellationToken, "cancellationToken");
 			Verify.RequireNotNull(headerParser, "headerParser");
 			Verify.RequireNotNull(documentStore, "documentStore");
 			Verify.RequireNotNull(rabbitConnectionFactory, "rabbitConnectionFactory");
@@ -52,7 +52,6 @@ namespace RabbitOperations.Collector.Service
 			Verify.RequireNotNull(storeMessagesFactory, "storeMessagesFactory");
 
 			ApplicationConfiguration = applicationConfiguration;
-			this.cancellationToken = cancellationToken;
 			this.rabbitConnectionFactory = rabbitConnectionFactory;
 			this.headerParser = headerParser;
 			this.documentStore = documentStore;
@@ -65,13 +64,46 @@ namespace RabbitOperations.Collector.Service
 
 		public void Start()
 		{
-			Listen();
+            logger.Info($"Starting listener for {ApplicationConfiguration.ApplicationLogInfo}");
+            task = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    Listen();
+                }
+                catch (Exception err)
+                {
+                    logger.Error(err, $"Application {ApplicationConfiguration.ApplicationLogInfo} failed");
+                    throw;
+                }
+            }, TaskCreationOptions.LongRunning);
 		}
-
 		public void Stop()
 		{
-			throw new NotImplementedException();
-		}
+            logger.Info($"Stopping listener for {ApplicationConfiguration.ApplicationLogInfo}");
+            shutdownListener = true;
+            try
+            {
+                task.Wait();
+                logger.Info($"Stopped listener for {ApplicationConfiguration.ApplicationLogInfo}");
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Application listener for {ApplicationConfiguration.ApplicationLogInfo} encountered exception while shutting down");
+
+                var aggregateException = ex as AggregateException;
+                if (aggregateException != null)
+                {
+                    logger.Error(aggregateException.Flatten());
+                }
+                else
+                {
+                    logger.Error(ex.Message);
+                }
+
+                logger.Error(ex.StackTrace);
+            }
+        }
 
 		public Guid Key { get; protected set; }
 
@@ -104,7 +136,7 @@ namespace RabbitOperations.Collector.Service
 		{
 			messageCount = 0;
 			rabbitException = null;
-			if (cancellationToken.IsCancellationRequested) return;
+			if (shutdownListener) return;
 			logger.Info($"Started application listener for {ApplicationConfiguration.ApplicationLogInfo} with audit expiration of {ApplicationConfiguration.DocumentExpirationInHours} hours " + 
 				"and error expiration of {ApplicationConfiguration.ErrorDocumentExpirationInHours} hours");
 			try
@@ -147,7 +179,7 @@ namespace RabbitOperations.Collector.Service
 					};
 					consumer.Shutdown += (sender, e) =>
 					{
-						if (!cancellationToken.IsCancellationRequested && !shutdownListener)
+						if (!shutdownListener)
 						{
 							logger.Error($"Experienced shutdown on basic consumer for application {ApplicationConfiguration.ApplicationLogInfo}. Retrying.");
 							rabbitException = new Exception("Unexpected shutdown of Rabbit basic consumer");
@@ -155,7 +187,7 @@ namespace RabbitOperations.Collector.Service
 					};
 					channel.BasicConsume(queue: ApplicationConfiguration.AuditQueue, noAck: false, consumer: consumer);
 					channel.BasicConsume(queue: ApplicationConfiguration.ErrorQueue, noAck: false, consumer: consumer);
-					while (!cancellationToken.IsCancellationRequested && !shutdownListener && rabbitException == null)
+					while (!shutdownListener && rabbitException == null)
 					{
 						Thread.Sleep(5000);
 					}
