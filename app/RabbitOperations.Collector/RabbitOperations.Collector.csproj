@@ -225,6 +225,7 @@
     <Compile Include="Web\Helpers\LinkHelper.cs" />
     <Compile Include="Web\Helpers\SerializationHelper.cs" />
     <Compile Include="Web\Modules\Api\V1\MessagesModule.cs" />
+    <Compile Include="Web\Modules\Api\V1\ApplicationsModule.cs" />
     <Compile Include="Web\Modules\Api\V1\QueuePollersModule.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Web\SignalR\MessagePulseHub.cs" />
