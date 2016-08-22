@@ -20,7 +20,7 @@ namespace RabbitOperations.Collector.Host
     public class ApplicationListenerHost : IApplicationListenerHost
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
-        private IList<IApplicationListener> applicationListeners = new List<IApplicationListener>();
+        private IDictionary<string, IApplicationListener> applicationListeners = new Dictionary<string, IApplicationListener>();
         private readonly IApplicationListenerFactory applicationListenerFactory;
         private readonly IDocumentStore documentStore;
         private readonly ISchemaUpdater schemaUpdater;
@@ -85,7 +85,7 @@ namespace RabbitOperations.Collector.Host
         public void Stop()
         {
             logger.Info("Application listener host stopping...");
-            foreach (var applicationListener in applicationListeners)
+            foreach (var applicationListener in applicationListeners.Values)
             {
                 applicationListener.Stop();
             }
@@ -95,7 +95,7 @@ namespace RabbitOperations.Collector.Host
         private void StartApplicationListener(IApplicationConfiguration application)
         {
             var applicationListener = applicationListenerFactory.Create(application);
-            applicationListeners.Add(applicationListener);
+            applicationListeners.Add(application.ApplicationId, applicationListener);
             applicationListener.Start();
         }
     }
