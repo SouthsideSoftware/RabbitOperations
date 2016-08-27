@@ -71,3 +71,6 @@ UpgradeLo*
 *customLocalAddress.txt
 _NCrunch_*
 .cr
+
+# CodeRush
+.cr
