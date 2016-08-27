@@ -96,7 +96,7 @@ namespace RabbitOperations.Collector.MessageRetry
                     createRetryMessagesFromOriginalService.PrepareMessageForRetry(rawMessage);
                     addRetryTrackingHeadersService.AddTrackingHeaders(rawMessage, retryId);
                     IBasicProperties basicProperties = createBasicPropertiesService.Create(rawMessage);
-                    var errorMessage = sendMessagesService.Send(rawMessage, destination, originalMessage.ApplicationId,
+                    var errorMessage = sendMessagesService.Send(rawMessage, destination, retryMessageModel.ReplayToExchange, originalMessage.ApplicationId,
                         basicProperties);
                     if (errorMessage == null)
                     {
