@@ -3,24 +3,22 @@
     <span>Press ESC to close</span>
 </div>
 <div class="modal-body">
-  <h2>0.14.0 (August 5, 2016)</h2>
-  <ul>
-    <li>Upgrade to RavenDB 3.5.0-rc-35166</li>
-    <li>BUG FIX: when the are two many destination queues for a retry, text extends beyond edge of dialog.</li>
-  </ul>
-  <h2>0.12.0 (August 1, 2016)</h2>
-  <ul>
-    <li>User can override default replay destination for message(s)</li>
-    <li>Select/unselect all messages on page</li>
-    <li>BUG FIX: Javascript is cached even after update</li>
-  </ul>
-  <h2>0.11.0 (July 31, 2016)</h2>
-  <ul>
-    <li>Upgrade to RavenDB 3.5.0-rc-35165</li>
-    <li>Can replay any message by checking an option to turn off safety checks</li>
-    <li>BUG FIX: When viewing headers of message details, the first letter of the key gets lowercased.</li>
-  </ul>
+	<h2>0.15.0 (August 27, 2016)</h2>
+	<ul>
+		<li>Replay goes to queue by default. Can override and send to exchange.</li>
+	</ul>
+	<h2>0.14.0 (August 5, 2016)</h2>
+		<ul>
+			<li>Upgrade to RavenDB 3.5.0-rc-35166</li>
+			<li>BUG FIX: when the are two many destination queues for a retry, text extends beyond edge of dialog.</li>
+		</ul>
+	<h2>0.12.0 (August 1, 2016)</h2>
+		<ul>
+			<li>User can override default replay destination for message(s)</li>
+			<li>Select/unselect all messages on page</li>
+			<li>BUG FIX: Javascript is cached even after update</li>
+		</ul>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+	<button class="btn btn-primary" ng-click="ok()">OK</button>
 </div>

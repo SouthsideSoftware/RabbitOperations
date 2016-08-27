@@ -5,11 +5,12 @@
     $scope.numberOfMessages = item.data.retryIds.length;
     $scope.callback = item.callback;
     $scope.overrideDestination = undefined;
+    $scope.replayToExchange = false;
 
     $scope.retry = function () {
       self.modalNoty = notificationService.modal("Retrying...");
       var updatedItems = [];
-      $http.put('/api/v1/messages/retry', { retryIds: item.data.retryIds, forceRetry: item.data.forceRetry, userSuppliedRetryDestination : $scope.overrideDestination }).success(function (data, status, headers, config) {
+      $http.put('/api/v1/messages/retry', { retryIds: item.data.retryIds, forceRetry: item.data.forceRetry, userSuppliedRetryDestination : $scope.overrideDestination, replayToExchange: $scope.replayToExchange }).success(function (data, status, headers, config) {
         var failures = _.filter(data.retryMessageItems, function (retryMessageItem) {
           return retryMessageItem.additionalInfo !== undefined &&
             retryMessageItem.additionalInfo !== null &&
