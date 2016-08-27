@@ -73,3 +73,6 @@ _NCrunch_*
 .idea
 typings
 ts-build
+
+# CodeRush
+.cr
