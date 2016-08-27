@@ -86,7 +86,7 @@
         $http.get(url)
           .success(function(data, status, headers, config) {
             var modalInstance = $modal.open({
-              templateUrl: "/Content/App/Dashboard/Popups/searchDetails.html?version=0.14.0",
+              templateUrl: "/Content/App/Dashboard/Popups/searchDetails.html?version=0.15.0",
               controller: "searchDetailController",
               size: "lg",
               resolve: {

@@ -17,7 +17,7 @@
       $http.post(url, { retryIds: retryIds, forceRetry: forceRetry })
         .success(function (data, status, headers, config) {
           var modalInstance = $modal.open({
-            templateUrl: "/Content/App/Dashboard/Popups/setRetryDestination.html?version=0.14.0",
+            templateUrl: "/Content/App/Dashboard/Popups/setRetryDestination.html?version=0.15.0",
             controller: "retryController",
             size: "lg",
             resolve: {
