@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using NLog;
+﻿using NLog;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Framing;
 using RabbitOperations.Collector.Configuration.Interfaces;
-using RabbitOperations.Collector.MessageParser.Interfaces;
 using RabbitOperations.Collector.MessageRetry.Interfaces;
 using RabbitOperations.Collector.Service.Interfaces;
 using RabbitOperations.Domain;
 using SouthsideUtility.Core.DesignByContract;
+using System;
+using System.Linq;
 
 namespace RabbitOperations.Collector.MessageRetry
 {
@@ -27,15 +25,7 @@ namespace RabbitOperations.Collector.MessageRetry
             this.settings = settings;
         }
 
-        /// <summary>
-        ///     Sends a message
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="queueName"></param>
-        /// <param name="applicationId"></param>
-        /// <param name="basicProperties"></param>
-        /// <returns>Null on success or the text of an error message</returns>
-        public string Send(IRawMessage message, string queueName, string applicationId, IBasicProperties basicProperties)
+        public string Send(IRawMessage message, string queueName, bool replayToExchange, string applicationId, IBasicProperties basicProperties)
         {
             Verify.RequireNotNull(message, "message");
             Verify.RequireStringNotNullOrWhitespace(queueName, "queueName");
@@ -46,7 +36,7 @@ namespace RabbitOperations.Collector.MessageRetry
                 var application = settings.Applications.FirstOrDefault(x => x.ApplicationId == applicationId);
                 if (application == null)
                 {
-                    return string.Format("Could not find configuration for application id {0}", applicationId);
+                    return $"Could not find configuration for application id {applicationId}";
                 }
 
                 using (
@@ -55,10 +45,24 @@ namespace RabbitOperations.Collector.MessageRetry
                 {
                     using (var channel = connection.CreateModel())
                     {
-						channel.ExchangeDeclarePassive(queueName);
+                        if (replayToExchange)
+                        {
+                            channel.ExchangeDeclarePassive(queueName);
+                        }
+                        else
+                        {
+                            channel.QueueDeclarePassive(queueName);
+                        }
                         var sendData = message.GetEelementsForRabbitPublish();
                         basicProperties.Headers = sendData.Item2;
-                        channel.BasicPublish(queueName, "", basicProperties, sendData.Item1);
+                        if (replayToExchange)
+                        {
+                            channel.BasicPublish(queueName, string.Empty, basicProperties, sendData.Item1);
+                        }
+                        else
+                        {
+                            channel.BasicPublish(string.Empty, queueName, basicProperties, sendData.Item1);
+                        }
                         return null;
                     }
                 }
@@ -66,8 +70,7 @@ namespace RabbitOperations.Collector.MessageRetry
             catch (Exception err)
             {
                 logger.Error(err, "Failed to send message for retry");
-                return string.Format("Failed to send message for retry.  Error is {0}.  See error log for details",
-                    err.Message);
+                return $"Failed to send message for retry.  Error is {err.Message}.  See error log for details";
             }
         }
     }

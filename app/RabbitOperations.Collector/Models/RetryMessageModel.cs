@@ -13,5 +13,6 @@ namespace RabbitOperations.Collector.Models
 
         public IList<long> RetryIds { get; set; } 
 		public bool ForceRetry { get; set; }
+        public bool ReplayToExchange { get; set; }
     }
 }
