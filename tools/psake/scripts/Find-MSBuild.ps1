@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Find the Latest version of MSBuild
 
@@ -13,14 +13,20 @@ $MSBuildExe = Find-MsBuild
 
 Function Find-MsBuild
 {
-    $MSBuildHighestVersion = 
-		(Get-ChildItem HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions).GetSubkeyNames() | 
-		Sort-Object -Descending  | 
-		Select-Object -First 1
-    
-	$MSBuildFolder = 
-		(Get-Item HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions\$MSBuildHighestVersion).GetValue('MSBuildToolsPath')
+   $MSBuildHighestVersion =
+        (Get-ChildItem HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions) |
+        Split-Path -Leaf |
+        % {$_ -as [double]} |
+        Sort-Object  -Descending  |
+        Select-Object -First 1 |
+        % {$_ -as [string]}
 
-    return "$MSBuildFolder\MsBuild.exe"
+    if (!($MSBuildHighestVersion -contains ".")) {
+        $MSBuildHighestVersion = "$MSBuildHighestVersion.0"
+    }
+
+    $MSBuildFolder =
+        (Get-Item "HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions\$MSBuildHighestVersion").GetValue('MSBuildToolsPath')
+
+   return "$MSBuildFolder\MsBuild.exe"
 }
-
