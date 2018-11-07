@@ -40,6 +40,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -189,31 +192,34 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core">
-      <Version>3.3.3</Version>
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Castle.Windsor">
+      <Version>4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Razor">
-      <Version>3.2.3</Version>
+      <Version>3.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.SignalR">
-      <Version>2.2.0</Version>
+      <Version>2.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Owin.Host.HttpListener">
-      <Version>3.0.1</Version>
+      <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb">
-      <Version>3.0.1</Version>
+      <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Owin.Hosting">
-      <Version>3.0.1</Version>
+      <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Owin.Security">
-      <Version>3.0.1</Version>
+      <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Nancy.Bootstrappers.Windsor">
       <Version>1.4.1</Version>
     </PackageReference>
     <PackageReference Include="Nancy.Metrics">
-      <Version>0.3.7</Version>
+      <Version>0.4.7</Version>
     </PackageReference>
     <PackageReference Include="Nancy.Owin">
       <Version>1.4.1</Version>
@@ -225,31 +231,32 @@
       <Version>1.4.3</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>9.0.1</Version>
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.3.6</Version>
+      <Version>4.5.11</Version>
     </PackageReference>
     <PackageReference Include="Polly">
-      <Version>4.3.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="RabbitMQ.Client">
-      <Version>3.6.1</Version>
+      <Version>5.1.0</Version>
     </PackageReference>
     <PackageReference Include="RavenDB.Database">
-      <Version>3.5.0-rc-35166</Version>
-    </PackageReference>
-    <PackageReference Include="SouthsideUtility.Core">
-      <Version>0.26.0</Version>
+      <Version>3.5.7</Version>
     </PackageReference>
     <PackageReference Include="Topshelf.NLog">
-      <Version>4.0.1</Version>
+      <Version>4.1.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RabbitOperations.Domain\RabbitOperations.Domain.csproj">
       <Project>{c578c1da-f710-4e0f-83fc-04fb6905ae92}</Project>
       <Name>RabbitOperations.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SouthsideUtility.Core\SouthsideUtility.Core.csproj">
+      <Project>{0556575c-fda5-426d-956c-039fe7da82aa}</Project>
+      <Name>SouthsideUtility.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

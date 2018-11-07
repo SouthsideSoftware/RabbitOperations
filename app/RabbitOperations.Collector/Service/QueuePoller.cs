@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -119,8 +119,10 @@ namespace RabbitOperations.Collector.Service
                     using (var channel = connection.CreateModel())
                     {
                         channel.BasicQos(0, QueueSettings.Prefetch, false);
-                        var consumer = new QueueingBasicConsumer(channel);
-                        channel.BasicConsume(QueueSettings.QueueName, false, consumer);
+#pragma warning disable 0618
+						var consumer = new QueueingBasicConsumer(channel);
+#pragma warning restore 0618
+						channel.BasicConsume(QueueSettings.QueueName, false, consumer);
                         logger.Info("Begin polling {0}{1}", QueueSettings.LogInfo,
                             QueueSettings.MaxMessagesPerRun > 0
                                 ? string.Format(" to read a maximum of {0} messages", QueueSettings.MaxMessagesPerRun)

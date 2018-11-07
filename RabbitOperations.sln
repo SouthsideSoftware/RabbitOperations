@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{958671CC-CF77-40AA-9812-E17153577876}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,6 +23,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFixtures", "TestFixtures", "{E7EC9A1C-D554-49E6-8E48-8645C2D4BEDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendTestMessages", "TestFixtures\SendTestMessages\SendTestMessages.csproj", "{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SouthsideUtility", "SouthsideUtility", "{84F4682E-1146-4A0D-9A6C-4E2BDD474851}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SouthsideUtility.Core", "app\SouthsideUtility.Core\SouthsideUtility.Core.csproj", "{0556575C-FDA5-426D-956C-039FE7DA82AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SouthsideUtility.RavenDB", "app\SouthsideUtility.RavenDB\SouthsideUtility.RavenDB.csproj", "{61D0B95A-CD31-43A3-B235-5198A2BFA726}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SouthsideUtility.Testing", "app\SouthsideUtility.Testing\SouthsideUtility.Testing.csproj", "{A2840D27-85A0-489F-BD61-9E44AD80FFC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +58,18 @@ Global
 		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0556575C-FDA5-426D-956C-039FE7DA82AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0556575C-FDA5-426D-956C-039FE7DA82AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0556575C-FDA5-426D-956C-039FE7DA82AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0556575C-FDA5-426D-956C-039FE7DA82AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61D0B95A-CD31-43A3-B235-5198A2BFA726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D0B95A-CD31-43A3-B235-5198A2BFA726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61D0B95A-CD31-43A3-B235-5198A2BFA726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61D0B95A-CD31-43A3-B235-5198A2BFA726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2840D27-85A0-489F-BD61-9E44AD80FFC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2840D27-85A0-489F-BD61-9E44AD80FFC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2840D27-85A0-489F-BD61-9E44AD80FFC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2840D27-85A0-489F-BD61-9E44AD80FFC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +78,11 @@ Global
 		{FC619F88-1320-4CB8-9E25-B5FAC9DE0137} = {368C301C-99E1-4C51-BA5E-303E8D25A1C7}
 		{031F03FA-0193-49F0-8B9B-7D282675CE9A} = {368C301C-99E1-4C51-BA5E-303E8D25A1C7}
 		{4B7FA327-361F-4F62-8EAD-0869F24A3DE9} = {E7EC9A1C-D554-49E6-8E48-8645C2D4BEDB}
+		{0556575C-FDA5-426D-956C-039FE7DA82AA} = {84F4682E-1146-4A0D-9A6C-4E2BDD474851}
+		{61D0B95A-CD31-43A3-B235-5198A2BFA726} = {84F4682E-1146-4A0D-9A6C-4E2BDD474851}
+		{A2840D27-85A0-489F-BD61-9E44AD80FFC8} = {84F4682E-1146-4A0D-9A6C-4E2BDD474851}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {252096B8-3ADC-46CC-A7F5-50733D700AC0}
 	EndGlobalSection
 EndGlobal

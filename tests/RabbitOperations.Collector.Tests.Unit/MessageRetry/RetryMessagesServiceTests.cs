@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,8 @@ using RabbitOperations.Collector.MessageRetry;
 using Raven.Abstractions.Data;
 using SouthsideUtility.RavenDB.Testing;
 using Moq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;

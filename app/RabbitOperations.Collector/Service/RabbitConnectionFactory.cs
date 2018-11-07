@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using RabbitMQ.Client;
 using RabbitOperations.Collector.Service.Interfaces;
@@ -21,7 +21,7 @@ namespace RabbitOperations.Collector.Service
 
             return connectionFactories.GetOrAdd(connectionString, x => new ConnectionFactory
             {
-                Uri = connectionString,
+                Uri = new Uri(connectionString),
                 RequestedHeartbeat = heartbeatIntervalSeconds
             });
         }
