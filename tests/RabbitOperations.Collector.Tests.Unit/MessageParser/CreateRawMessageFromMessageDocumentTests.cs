@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 using RabbitMQ.Client.Framing;
@@ -44,7 +44,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             var rawMessage = new RawMessage(messageDocument);
 
             //assert
-            rawMessage.Headers.ShouldBeEquivalentTo(messageDocument.Headers);
+            rawMessage.Headers.Should().BeEquivalentTo(messageDocument.Headers);
         }
     }
 }

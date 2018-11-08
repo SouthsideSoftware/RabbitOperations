@@ -49,7 +49,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             var keys = keyExtractor.GetBusinessKeys(rawMessage.Body, messageType);
 
             //assert
-            keys.ShouldBeEquivalentTo(new Dictionary<string, string>
+            keys.Should().BeEquivalentTo(new Dictionary<string, string>
             {
                 {keyJsonPath, "f349702d-1be6-4c65-8f74-de8457ed4ccf"}
             });
@@ -84,7 +84,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             var keys = keyExtraxtor.GetBusinessKeys(rawMessage.Body, messageType);
 
             //assert
-            keys.ShouldBeEquivalentTo(new Dictionary<string, string>
+            keys.Should().BeEquivalentTo(new Dictionary<string, string>
             {
                 {keyJsonPath, "afecc831-34d4-47ca-b43b-56eb90d4e3b6"}
             });

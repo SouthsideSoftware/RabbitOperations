@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -32,7 +32,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             headerParser.AddHeaderInformation(rawMessage, doc);
 
             //assert
-            doc.Headers.ShouldBeEquivalentTo(new Dictionary<string, string>
+            doc.Headers.Should().BeEquivalentTo(new Dictionary<string, string>
             {
                 {"NServiceBus.MessageId", "33db72af-be36-4773-8c95-a41200279462"},
                 {"NServiceBus.CorrelationId", "33db72af-be36-4773-8c95-a41200279462"},
@@ -110,7 +110,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             headerParser.AddHeaderInformation(rawMessage, doc);
 
             //assert
-            doc.MessageTypes.ShouldBeEquivalentTo(new List<TypeName>
+            doc.MessageTypes.Should().BeEquivalentTo(new List<TypeName>
             {
                 new TypeName("Autobahn.Fulfillment.Contracts.Ordering.NotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
                  new TypeName("Autobahn.Fulfillment.Contracts.Ordering.INotifyOrderHasBeenCanceled, Autobahn.Fulfillment.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
@@ -130,7 +130,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             headerParser.AddHeaderInformation(rawMessage, doc);
 
             //assert
-            doc.MessageTypes.ShouldBeEquivalentTo(new List<TypeName>
+            doc.MessageTypes.Should().BeEquivalentTo(new List<TypeName>
             {
                  new TypeName("Autobahn.Configurations.Contracts.Commands.ValidateConfigurations, Autobahn.Configurations.Contracts, Version=1.1.12.0, Culture=neutral, PublicKeyToken=null")
             });
@@ -148,7 +148,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser.NServiceBus
             headerParser.AddHeaderInformation(rawMessage, doc);
 
             //assert
-            doc.Headers.ShouldBeEquivalentTo(new Dictionary<string, string>
+            doc.Headers.Should().BeEquivalentTo(new Dictionary<string, string>
             {
                 {"NServiceBus.MessageId", "695742b4-58d0-4e3a-83a9-a4120116c48d"},
                 {"NServiceBus.CorrelationId", "695742b4-58d0-4e3a-83a9-a4120116c48d"},

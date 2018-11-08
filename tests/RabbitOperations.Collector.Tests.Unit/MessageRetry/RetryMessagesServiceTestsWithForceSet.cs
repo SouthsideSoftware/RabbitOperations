@@ -273,7 +273,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 			MessageDocument originalMessge)
 		{
 			message.Headers.Remove(Headers.Retry);
-			message.Headers.ShouldBeEquivalentTo(originalMessge.Headers);
+			message.Headers.Should().BeEquivalentTo(originalMessge.Headers);
 		}
 
 		[Test]

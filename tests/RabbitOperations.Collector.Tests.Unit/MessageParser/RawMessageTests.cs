@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -79,7 +79,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageParser
             var newRawMessage = new RawMessage(new BasicDeliverEventArgs("tag", 1, false, "exchange", "", new BasicProperties { Headers = publishData.Item2 }, publishData.Item1));
 
             //assert
-            newRawMessage.Headers.ShouldBeEquivalentTo(rawMessage.Headers);
+            newRawMessage.Headers.Should().BeEquivalentTo(rawMessage.Headers);
         }
 
         [Test]
