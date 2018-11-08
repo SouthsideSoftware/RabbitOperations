@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace RabbitOperations.Tests.Unit
         [Ignore("Spike")]
         public void ReadOne()
         {
-            var factory = new ConnectionFactory() { uri = new Uri("amqp://test:test@internal-test-rabbit-1582700312.us-east-1.elb.amazonaws.com/qa1"), };
+            var factory = new ConnectionFactory() { Uri = new Uri("amqp://test:test@internal-test-rabbit-1582700312.us-east-1.elb.amazonaws.com/qa1"), };
             uint openingCount;
             using (var connection = factory.CreateConnection())
             {
@@ -67,8 +67,10 @@ namespace RabbitOperations.Tests.Unit
                     openingCount = channel.QueueDeclare("audit", true, false, false, null).MessageCount;
 
                     channel.BasicQos(0, 1, false);
-                    var consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume("audit", false, consumer);
+#pragma warning disable 0618
+					var consumer = new QueueingBasicConsumer(channel);
+#pragma warning restore 0618
+					channel.BasicConsume("audit", false, consumer);
 
                     Console.WriteLine(" [*] Waiting for messages. " +
                                       "To exit press CTRL+C");
@@ -115,8 +117,10 @@ namespace RabbitOperations.Tests.Unit
                     openingCount = channel.QueueDeclare("audit", true, false, false, null).MessageCount;
 
                     channel.BasicQos(0, 1, false);
-                    var consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume("audit", false, consumer);
+#pragma warning disable 0618
+					var consumer = new QueueingBasicConsumer(channel);
+#pragma warning restore 0618
+					channel.BasicConsume("audit", false, consumer);
 
                     Console.WriteLine(" [*] Waiting for messages. " +
                                       "To exit press CTRL+C");
