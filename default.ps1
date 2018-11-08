@@ -1,7 +1,5 @@
-. .\tools\psake\scripts\Find-MSBuild.ps1
 . .\tools\psake\scripts\Find-Tool.ps1
 . .\tools\psake\scripts\MSSQLDB-Helper.ps1
-. .\tools\psake\scripts\Find-NugetTool.ps1
 . .\tools\psake\scripts\Invoke-Migrations.ps1
 . .\tools\psake\scripts\Test-InTeamCity.ps1
 
@@ -57,6 +55,7 @@ Task compile -Description "Build application only" {
     # programFilesDir = ProgramFiles(x86) ?? ProgramFiles
     $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
     # exec {.nuget\nuget restore}
+    Get-VSSetupInstance
     & msbuild $sln_file /t:rebuild /m:1 /p:VisualStudioVersion=15.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
 }
 
