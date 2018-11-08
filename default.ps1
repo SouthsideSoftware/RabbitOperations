@@ -56,10 +56,8 @@ task test -Description "Runs tests" {
 Task compile -Description "Build application only" {
     # programFilesDir = ProgramFiles(x86) ?? ProgramFiles
     $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
-    $msbuild = Join-Path -Path $programFilesDir -ChildPath "MSBuild\14.0\Bin\msbuild.exe"
-    Write-Host "MSBUild " $msbuild
-    exec {.nuget\nuget restore}
-    & $msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=14.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
+    # exec {.nuget\nuget restore}
+    & msbuild $sln_file /t:rebuild /m:1 /p:VisualStudioVersion=15.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build
