@@ -149,10 +149,6 @@
       <Project>{C578C1DA-F710-4E0F-83FC-04FB6905AE92}</Project>
       <Name>RabbitOperations.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\app\SouthsideUtility.Core\SouthsideUtility.Core.csproj">
-      <Project>{0556575c-fda5-426d-956c-039fe7da82aa}</Project>
-      <Name>SouthsideUtility.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\app\SouthsideUtility.RavenDB\SouthsideUtility.RavenDB.csproj">
       <Project>{61d0b95a-cd31-43a3-b235-5198a2bfa726}</Project>
       <Name>SouthsideUtility.RavenDB</Name>

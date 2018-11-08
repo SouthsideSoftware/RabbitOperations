@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Raven.Abstractions, Version=3.5.7.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.Database.3.5.7\lib\net45\Raven.Abstractions.dll</HintPath>
@@ -60,12 +63,10 @@
     <Compile Include="Testing\RavenTestDocumentStore.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SouthsideUtility.Core\SouthsideUtility.Core.csproj">
-      <Project>{0556575c-fda5-426d-956c-039fe7da82aa}</Project>
-      <Name>SouthsideUtility.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="..\..\packages\RavenDB.Database.3.5.7\tools\Raven.Studio.Html5.zip">
+      <Link>Raven.Studio.Html5.zip</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
