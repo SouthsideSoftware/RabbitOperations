@@ -1,7 +1,7 @@
 using FluentAssertions;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.MessageBusTechnologies.Common;
 using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;

@@ -1,7 +1,5 @@
-. .\tools\psake\scripts\Find-MSBuild.ps1
-. .\tools\psake\scripts\Find-Tool.ps1
+
 . .\tools\psake\scripts\MSSQLDB-Helper.ps1
-. .\tools\psake\scripts\Find-NugetTool.ps1
 . .\tools\psake\scripts\Invoke-Migrations.ps1
 . .\tools\psake\scripts\Test-InTeamCity.ps1
 
@@ -17,7 +15,6 @@ properties {
     $platform = "Any CPU"
     $buildOutputDir = "./BuildOutput"
     $nugetOutputDir = Join-Path $buildOutputDir "nuget"
-    $NugetPackagesDirectory = Join-Path $BuildRoot "packages"
     $testAssemblies = @("tests\RabbitOperations.Tests.Unit/bin/$configuration/RabbitOperations.Tests.Unit.dll",
     "tests\RabbitOperations.Collector.Tests.Unit/bin/$configuration/RabbitOperations.Collector.Tests.Unit.dll")
 }
@@ -39,27 +36,22 @@ task quickBuild -Description "Build application no tests" -depends cleanBuildOut
 }
 
 task test -Description "Runs tests" {
-    $NUnitConsoleExe = Find-Tool -ToolName nunit3-console.exe -PackagesFolder $NugetPackagesDirectory
+  $nUnitConsoleExe = GetNunitConsolePath($TestAssemblies[0])
 
-   	if ($NUnitConsoleExe -eq $null) {
-   		throw "Nunit test runner (nunit3-console.exe) cannot be found in packages folder. "
-   	}
+  if ($nUnitConsoleExe -eq $null) {
+    throw "Nunit test runner (nunit3-console.exe) cannot be found in packages folder. "
+  }
 
-    ForEach($testAssembly in $TestAssemblies)
-    {
-    	Exec {
-    		&  $NUnitConsoleExe $testAssembly --noresult --labels=On $(if (Test-InTeamcity -eq $True) { "--teamcity" } else { "" })
-    	}
+  ForEach($testAssembly in $TestAssemblies)
+  {
+    Exec {
+      &  $nUnitConsoleExe $testAssembly --noresult --labels=On $(if (Test-InTeamcity -eq $True) { "--teamcity" } else { "" })
     }
+  }
 }
 
 Task compile -Description "Build application only" {
-    # programFilesDir = ProgramFiles(x86) ?? ProgramFiles
-    $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
-    $msbuild = Join-Path -Path $programFilesDir -ChildPath "MSBuild\14.0\Bin\msbuild.exe"
-    Write-Host "MSBUild " $msbuild
-    exec {.nuget\nuget restore}
-    & $msbuild $sln_file /t:rebuild /m:4 /p:VisualStudioVersion=14.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
+    & msbuild $sln_file /t:rebuild /m:1 /p:VisualStudioVersion=15.0 "/p:Configuration=$configuration" "/p:Platform=$platform"
 }
 
 task pullCurrentAndBuild -Description "Does a git pull of the current branch followed by build" -depends pullCurrent, build
@@ -102,6 +94,35 @@ task startCollector -Description "Starts the collector host" {
 
 task ? -Description "Helper to display task info" {
   WriteDocumentation
+}
+
+function GetPackagesFolder($assemblyPath) {
+  $assemblyFolder = Split-Path -Path $assemblyPath
+  $assemblyNameNoExtension = Split-Path -Path $assemblyPath -LeafBase
+  $propsFilePath = "$assemblyFolder\..\..\obj\$assemblyNameNoExtension.csproj.nuget.g.props"
+  $packageFolderXPath = "//e:NuGetPackageFolders"
+  $ns = @{e="http://schemas.microsoft.com/developer/msbuild/2003"}
+  $packageFolderNode = Select-Xml -Path $propsFilePath -XPath $packageFolderXPath -Namespace $ns | Select-Object -ExpandProperty Node
+  
+  return $packageFolderNode.'#text'
+}
+
+function GetNunitRunnerVersion($assemblyPath){
+  $assemblyFolder = Split-Path -Path $assemblyPath
+  $assemblyNameNoExtension = Split-Path -Path $assemblyPath -LeafBase
+  $csProjectPath = "$assemblyFolder\..\..\$assemblyNameNoExtension.csproj"
+  $xPath = "//e:PackageReference[@Include='NUnit.ConsoleRunner']"
+  $ns = @{e="http://schemas.microsoft.com/developer/msbuild/2003"}
+  $node = Select-Xml -Path $csProjectPath -XPath $xPath -Namespace $ns | Select-Object -ExpandProperty Node
+  
+  return $node.version
+}
+
+function GetNunitConsolePath($assemblyFolder) {
+  $packagesFolder = GetPackagesFolder($assemblyFolder)
+  $consoleRunnerVerision = GetNunitRunnerVersion($assemblyFolder)
+
+  return Join-Path -Path $packagesFolder -ChildPath "nunit.consolerunner" | Join-Path -ChildPath $consoleRunnerVerision | Join-Path -ChildPath "\tools\nunit3-console.exe"
 }
 
 function StartApp($appPath, $appName) {
@@ -215,10 +236,6 @@ function Start-Raven {
     Write-Host "RavenDB already running"
     Exit 0
   }
-}
-
-function Get-NunitPath {
-    return Find-Tool -ToolName nunit3-console.exe -PackagesFolder $NugetPackagesDirectory
 }
 
 function Generate-ReleaseNotes([string]$version) {

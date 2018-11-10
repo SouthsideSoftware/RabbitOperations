@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +19,8 @@ namespace RabbitOperations.Tests.Unit.Domain.Configuration
             //arrange
             Action act = () => new JsonPath("");
 
-            //act and assert
-            act.ShouldThrow<PreconditionException>();
+			//act and assert
+			act.Should().Throw<PreconditionException>();
         }
 
         [Test]

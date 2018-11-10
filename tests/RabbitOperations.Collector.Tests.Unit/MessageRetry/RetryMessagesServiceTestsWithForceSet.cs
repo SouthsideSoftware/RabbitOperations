@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using RabbitOperations.Collector.Configuration;
 using RabbitOperations.Collector.MessageBusTechnologies.NServiceBus;
 using RabbitOperations.Collector.MessageRetry;
@@ -273,7 +273,7 @@ namespace RabbitOperations.Collector.Tests.Unit.MessageRetry
 			MessageDocument originalMessge)
 		{
 			message.Headers.Remove(Headers.Retry);
-			message.Headers.ShouldBeEquivalentTo(originalMessge.Headers);
+			message.Headers.Should().BeEquivalentTo(originalMessge.Headers);
 		}
 
 		[Test]

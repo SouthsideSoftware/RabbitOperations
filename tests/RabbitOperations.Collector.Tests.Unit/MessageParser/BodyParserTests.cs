@@ -1,9 +1,9 @@
-﻿using System.IO;
+using System.IO;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using RabbitOperations.Collector.MessageParser;
 using RabbitOperations.Domain;
 using SouthsideUtility.Testing;

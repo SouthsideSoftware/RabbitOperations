@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -148,7 +148,7 @@ namespace SendTestMessages.CommandLine
                     Console.WriteLine("Sending HelloWorld!");
                 }
 
-                var factory = new ConnectionFactory() {Uri = connectionString};
+                var factory = new ConnectionFactory() {Uri = new Uri(connectionString)};
                 using (var connection = factory.CreateConnection())
                 {
                     long messageCount = 0;
